@@ -1,0 +1,22 @@
+
+language: php
+
+git:
+    depth: 5
+
+php:
+    - 5.5
+    - 5.6
+    - 7.0
+    - 7.1
+    - hhvm
+
+install:
+    - travis_retry composer self-update
+    - travis_retry composer install
+
+script:
+    - vendor/bin/phug-dev check --report
+
+notifications:
+    slack: phug:nzXFnxhU14RWK2EQSDL0u08z
