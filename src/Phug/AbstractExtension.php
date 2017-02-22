@@ -6,7 +6,7 @@ abstract class AbstractExtension implements ExtensionInterface
 {
     public function __construct(Phug $phug)
     {
-        
+
     }
 
     /**
@@ -85,6 +85,22 @@ abstract class AbstractExtension implements ExtensionInterface
      * @return array
      */
     public function getFormats()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getAssignmentHandlers()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getPatterns()
     {
         return [];
     }
