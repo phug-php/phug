@@ -1,5 +1,5 @@
 {
-    "name": "phug/compiler",
+    "name": "phug/phug",
     "type": "library",
     "keywords": ["phug", "compiler", "template", "dialect", "html", "views", "render", "presentation", "jade", "pug", "html", "php", "phtml"],
     "description": "",
