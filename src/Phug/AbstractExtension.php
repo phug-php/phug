@@ -108,6 +108,14 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
+    public function getAttributeHandlers()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
     public function getPathResolvers()
     {
         return [];

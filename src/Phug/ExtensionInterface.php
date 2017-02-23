@@ -21,6 +21,7 @@ interface ExtensionInterface
     public function getFormats();
     public function getAssignmentHandlers();
     public function getPatterns();
+    public function getAttributeHandlers();
     // Compiler
     public function getPathResolvers();
     public function getTranslators();
