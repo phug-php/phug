@@ -33,7 +33,6 @@ class Phug
      */
     public static function render($path, array $parameters = [], array $options = [])
     {
-
     }
 
     /**
@@ -45,7 +44,6 @@ class Phug
      */
     public static function renderString($input, array $parameters = [], array $options = [])
     {
-
     }
 
     /**
@@ -137,7 +135,6 @@ class Phug
             self::$extensions[] = $extensionClassName;
         }
     }
-
 
     /**
      * @return array
