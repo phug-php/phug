@@ -28,4 +28,4 @@ notifications:
 
 addons:
     code_climate:
-        repo_token: a2adfbf99ea6d5f8e89d5b2a2ab3e58dd6b52ccf32c047bdead69da2970fc5ab
+        repo_token: cd1a1fbecb6b26000bcdc53d59b592735acb420dd96ce7151cd9424c39c95cf3
