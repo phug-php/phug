@@ -16,12 +16,31 @@ class Phug
 
     private static function normalizeFilterName($name)
     {
-        return str_replace('-', strtolower($name));
+        return str_replace('-', '', strtolower($name));
     }
 
     private static function normalizeExtensionClassName($name)
     {
         return ltrim('\\', strtolower($name));
+    }
+
+    /**
+     * Get a renderer with global options and argument options merged.
+     *
+     * @param array $options
+     *
+     * @return Renderer
+     */
+    public static function getRenderer(array $options = [])
+    {
+        return new Renderer(array_merge_recursive(
+            [
+                'compiler_options' => [
+                    'filters' => static::getFilters(),
+                ],
+            ],
+            $options
+        ));
     }
 
     /**
@@ -33,6 +52,7 @@ class Phug
      */
     public static function render($path, array $parameters = [], array $options = [])
     {
+        return static::getRenderer($options)->render($path, $parameters);
     }
 
     /**
@@ -44,6 +64,7 @@ class Phug
      */
     public static function renderString($input, array $parameters = [], array $options = [])
     {
+        return static::getRenderer($options)->renderString($input, $parameters);
     }
 
     /**
@@ -53,7 +74,7 @@ class Phug
      */
     public static function display($path, array $parameters = [], array $options = [])
     {
-        echo static::render($path, $parameters, $options);
+        return static::getRenderer($options)->display($path, $parameters);
     }
 
     /**
@@ -63,7 +84,7 @@ class Phug
      */
     public static function displayString($input, array $parameters = [], array $options = [])
     {
-        echo static::renderString($input, $parameters, $options);
+        return static::getRenderer($options)->displayString($input, $parameters);
     }
 
     /**
@@ -84,7 +105,11 @@ class Phug
      */
     public static function addFilter($name, $filter)
     {
-        if (!is_callable($filter) && !class_exists($filter)) {
+        if (!(
+            is_callable($filter) ||
+            class_exists($filter) ||
+            method_exists($filter, 'parse')
+        )) {
             throw new PhugException(
                 'Invalid '.$name.' filter given: '.
                 'it must be a callable or a class name.'
