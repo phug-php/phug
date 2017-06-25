@@ -25,3 +25,7 @@ script:
 
 notifications:
     slack: phug:nzXFnxhU14RWK2EQSDL0u08z
+
+addons:
+    code_climate:
+        repo_token: a2adfbf99ea6d5f8e89d5b2a2ab3e58dd6b52ccf32c047bdead69da2970fc5ab
