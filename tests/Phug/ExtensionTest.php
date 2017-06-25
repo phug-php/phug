@@ -2,12 +2,10 @@
 
 namespace Phug\Test;
 
-include_once __DIR__.'/AbstractPhugTest.php';
-
 /**
  * @coversDefaultClass \Phug\AbstractExtension
  */
-class AbstractExtensionTest extends AbstractPhugTest
+class ExtensionTest extends AbstractPhugTest
 {
     /**
      * @covers ::<public>

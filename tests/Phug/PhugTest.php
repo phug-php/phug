@@ -4,8 +4,6 @@ namespace Phug\Test;
 
 use Phug\Phug;
 
-include_once __DIR__.'/AbstractPhugTest.php';
-
 /**
  * @coversDefaultClass \Phug\Phug
  */
@@ -117,7 +115,7 @@ class PhugTest extends AbstractPhugTest
     /**
      * @covers                   ::addExtension
      * @expectedException        \Phug\PhugException
-     * @expectedExceptionMessage Invalid foo extension given:
+     * @expectedExceptionMessage Invalid not-an-extension extension given:
      */
     public function testWrongExtension()
     {
