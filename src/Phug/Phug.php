@@ -35,9 +35,7 @@ class Phug
     {
         return new Renderer(array_merge_recursive(
             [
-                'compiler_options' => [
-                    'filters' => static::getFilters(),
-                ],
+                'filters' => static::getFilters(),
             ],
             $options
         ));
