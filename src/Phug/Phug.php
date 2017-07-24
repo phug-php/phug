@@ -14,6 +14,11 @@ class Phug
      */
     private static $extensions = [];
 
+    /**
+     * @var Renderer
+     */
+    private static $renderer = null;
+
     private static function normalizeFilterName($name)
     {
         return str_replace('-', '', strtolower($name));
@@ -33,24 +38,18 @@ class Phug
      */
     public static function getRenderer(array $options = [])
     {
-        return new Renderer(array_merge_recursive(
-            [
-                'filters' => static::getFilters(),
-            ],
-            $options
-        ));
-    }
+        if (!static::$renderer) {
+            static::$renderer = new Renderer(array_merge_recursive(
+                [
+                    'filters' => static::getFilters(),
+                ],
+                $options
+            ));
+        } else if (!empty($options)) {
+            static::$renderer->setOptions($options);
+        }
 
-    /**
-     * @param string $path       path to template
-     * @param array  $parameters variables values
-     * @param array  $options    custom options
-     *
-     * @return string
-     */
-    public static function render($path, array $parameters = [], array $options = [])
-    {
-        return static::getRenderer($options)->render($path, $parameters);
+        return static::$renderer;
     }
 
     /**
@@ -60,9 +59,31 @@ class Phug
      *
      * @return string
      */
-    public static function renderString($input, array $parameters = [], array $options = [])
+    public static function render($input, array $parameters = [], array $options = [])
     {
-        return static::getRenderer($options)->renderString($input, $parameters);
+        return static::getRenderer($options)->render($input, $parameters);
+    }
+
+    /**
+     * @param string $path       path to template
+     * @param array  $parameters variables values
+     * @param array  $options    custom options
+     *
+     * @return string
+     */
+    public static function renderFile($path, array $parameters = [], array $options = [])
+    {
+        return static::getRenderer($options)->renderFile($path, $parameters);
+    }
+
+    /**
+     * @param string $input      pug source
+     * @param array  $parameters variables values
+     * @param array  $options    custom options
+     */
+    public static function display($input, array $parameters = [], array $options = [])
+    {
+        return static::getRenderer($options)->display($input, $parameters);
     }
 
     /**
@@ -70,19 +91,9 @@ class Phug
      * @param array  $parameters variables values
      * @param array  $options    custom options
      */
-    public static function display($path, array $parameters = [], array $options = [])
+    public static function displayFile($path, array $parameters = [], array $options = [])
     {
         return static::getRenderer($options)->display($path, $parameters);
-    }
-
-    /**
-     * @param string $input      pug source
-     * @param array  $parameters variables values
-     * @param array  $options    custom options
-     */
-    public static function displayString($input, array $parameters = [], array $options = [])
-    {
-        return static::getRenderer($options)->displayString($input, $parameters);
     }
 
     /**
@@ -165,5 +176,10 @@ class Phug
     public static function getExtensions()
     {
         return self::$extensions;
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        return call_user_func_array([static::getRenderer(), $name], $arguments);
     }
 }
