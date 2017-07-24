@@ -45,7 +45,7 @@ class Phug
                 ],
                 $options
             ));
-        } else if (!empty($options)) {
+        } elseif (!empty($options)) {
             static::$renderer->setOptions($options);
         }
 
