@@ -13,22 +13,38 @@ class PhugTest extends AbstractPhugTest
      * @covers ::getRenderer
      * @covers ::render
      */
-    public function testRender()
+    public function testRenderFile()
     {
         static::assertSame(
             '<p>Hello world!</p>',
-            Phug::render(__DIR__.'/../templates/test.pug')
+            Phug::renderFile(__DIR__.'/../templates/test.pug')
         );
     }
 
     /**
-     * @covers ::renderString
+     * @covers ::render
      */
-    public function testRenderString()
+    public function testRender()
     {
         static::assertSame(
             '<section><div></div></section>',
-            Phug::renderString('section: div')
+            Phug::render('section: div')
+        );
+    }
+
+    /**
+     * @covers ::display
+     */
+    public function testDisplayFile()
+    {
+        ob_start();
+        Phug::displayFile(__DIR__.'/../templates/test.pug');
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        static::assertSame(
+            '<p>Hello world!</p>',
+            $actual
         );
     }
 
@@ -38,23 +54,7 @@ class PhugTest extends AbstractPhugTest
     public function testDisplay()
     {
         ob_start();
-        Phug::display(__DIR__.'/../templates/test.pug');
-        $actual = ob_get_contents();
-        ob_end_clean();
-
-        static::assertSame(
-            '<p>Hello world!</p>',
-            $actual
-        );
-    }
-
-    /**
-     * @covers ::displayString
-     */
-    public function testDisplayString()
-    {
-        ob_start();
-        Phug::displayString('section: div');
+        Phug::display('section: div');
         $actual = ob_get_contents();
         ob_end_clean();
 
@@ -65,6 +65,7 @@ class PhugTest extends AbstractPhugTest
     }
 
     /**
+     * @covers ::reset
      * @covers ::normalizeFilterName
      * @covers ::hasFilter
      * @covers ::addFilter
@@ -81,8 +82,11 @@ class PhugTest extends AbstractPhugTest
         self::assertTrue(Phug::hasFilter('up-per'));
         static::assertSame(
             'WORD',
-            Phug::renderString(':upper word')
+            Phug::render(':upper word')
         );
+        Phug::reset();
+        self::assertFalse(Phug::hasFilter('upper'));
+        self::assertFalse(Phug::hasFilter('up-per'));
     }
 
     /**

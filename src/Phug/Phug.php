@@ -14,6 +14,11 @@ class Phug
      */
     private static $extensions = [];
 
+    /**
+     * @var Renderer
+     */
+    private static $renderer = null;
+
     private static function normalizeFilterName($name)
     {
         return str_replace('-', '', strtolower($name));
@@ -25,6 +30,16 @@ class Phug
     }
 
     /**
+     * Reset all static options, filters and extensions.
+     */
+    public static function reset()
+    {
+        static::$renderer = null;
+        static::$extensions = [];
+        static::$filters = [];
+    }
+
+    /**
      * Get a renderer with global options and argument options merged.
      *
      * @param array $options
@@ -33,26 +48,18 @@ class Phug
      */
     public static function getRenderer(array $options = [])
     {
-        return new Renderer(array_merge_recursive(
-            [
-                'compiler_options' => [
+        if (!static::$renderer) {
+            static::$renderer = new Renderer(array_merge_recursive(
+                [
                     'filters' => static::getFilters(),
                 ],
-            ],
-            $options
-        ));
-    }
+                $options
+            ));
+        } elseif (!empty($options)) {
+            static::$renderer->setOptions($options);
+        }
 
-    /**
-     * @param string $path       path to template
-     * @param array  $parameters variables values
-     * @param array  $options    custom options
-     *
-     * @return string
-     */
-    public static function render($path, array $parameters = [], array $options = [])
-    {
-        return static::getRenderer($options)->render($path, $parameters);
+        return static::$renderer;
     }
 
     /**
@@ -62,19 +69,21 @@ class Phug
      *
      * @return string
      */
-    public static function renderString($input, array $parameters = [], array $options = [])
+    public static function render($input, array $parameters = [], array $options = [])
     {
-        return static::getRenderer($options)->renderString($input, $parameters);
+        return static::getRenderer($options)->render($input, $parameters);
     }
 
     /**
      * @param string $path       path to template
      * @param array  $parameters variables values
      * @param array  $options    custom options
+     *
+     * @return string
      */
-    public static function display($path, array $parameters = [], array $options = [])
+    public static function renderFile($path, array $parameters = [], array $options = [])
     {
-        return static::getRenderer($options)->display($path, $parameters);
+        return static::getRenderer($options)->renderFile($path, $parameters);
     }
 
     /**
@@ -82,9 +91,19 @@ class Phug
      * @param array  $parameters variables values
      * @param array  $options    custom options
      */
-    public static function displayString($input, array $parameters = [], array $options = [])
+    public static function display($input, array $parameters = [], array $options = [])
     {
-        return static::getRenderer($options)->displayString($input, $parameters);
+        return static::getRenderer($options)->display($input, $parameters);
+    }
+
+    /**
+     * @param string $path       path to template
+     * @param array  $parameters variables values
+     * @param array  $options    custom options
+     */
+    public static function displayFile($path, array $parameters = [], array $options = [])
+    {
+        return static::getRenderer($options)->displayFile($path, $parameters);
     }
 
     /**
@@ -117,6 +136,12 @@ class Phug
         }
 
         self::$filters[$name] = $filter;
+
+        if (static::$renderer) {
+            static::$renderer->setOptionsRecursive([
+                'filters' => self::$filters,
+            ]);
+        }
     }
 
     /**
@@ -167,5 +192,10 @@ class Phug
     public static function getExtensions()
     {
         return self::$extensions;
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        return call_user_func_array([static::getRenderer(), $name], $arguments);
     }
 }
