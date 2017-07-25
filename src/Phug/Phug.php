@@ -30,6 +30,16 @@ class Phug
     }
 
     /**
+     * Reset all static options, filters and extensions.
+     */
+    public static function reset()
+    {
+        static::$renderer = null;
+        static::$extensions = [];
+        static::$filters = [];
+    }
+
+    /**
      * Get a renderer with global options and argument options merged.
      *
      * @param array $options
@@ -93,7 +103,7 @@ class Phug
      */
     public static function displayFile($path, array $parameters = [], array $options = [])
     {
-        return static::getRenderer($options)->display($path, $parameters);
+        return static::getRenderer($options)->displayFile($path, $parameters);
     }
 
     /**
@@ -126,6 +136,12 @@ class Phug
         }
 
         self::$filters[$name] = $filter;
+
+        if (static::$renderer) {
+            static::$renderer->setOptionsRecursive([
+                'filters' => self::$filters,
+            ]);
+        }
     }
 
     /**

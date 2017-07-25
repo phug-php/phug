@@ -35,10 +35,10 @@ class PhugTest extends AbstractPhugTest
     /**
      * @covers ::display
      */
-    public function testDisplay()
+    public function testDisplayFile()
     {
         ob_start();
-        Phug::display(__DIR__.'/../templates/test.pug');
+        Phug::displayFile(__DIR__.'/../templates/test.pug');
         $actual = ob_get_contents();
         ob_end_clean();
 
@@ -51,7 +51,7 @@ class PhugTest extends AbstractPhugTest
     /**
      * @covers ::display
      */
-    public function testDisplayString()
+    public function testDisplay()
     {
         ob_start();
         Phug::display('section: div');
@@ -65,6 +65,7 @@ class PhugTest extends AbstractPhugTest
     }
 
     /**
+     * @covers ::reset
      * @covers ::normalizeFilterName
      * @covers ::hasFilter
      * @covers ::addFilter
@@ -83,6 +84,9 @@ class PhugTest extends AbstractPhugTest
             'WORD',
             Phug::render(':upper word')
         );
+        Phug::reset();
+        self::assertFalse(Phug::hasFilter('upper'));
+        self::assertFalse(Phug::hasFilter('up-per'));
     }
 
     /**
