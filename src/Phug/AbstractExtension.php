@@ -4,10 +4,6 @@ namespace Phug;
 
 abstract class AbstractExtension implements ExtensionInterface
 {
-    public function __construct(Phug $phug)
-    {
-    }
-
     /**
      * @return array
      */

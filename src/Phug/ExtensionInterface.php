@@ -4,8 +4,6 @@ namespace Phug;
 
 interface ExtensionInterface
 {
-    public function __construct(Phug $phug);
-
     // Contents
     public function getParameters();
 

@@ -34,9 +34,9 @@ class Phug
      */
     public static function reset()
     {
-        static::$renderer = null;
-        static::$extensions = [];
-        static::$filters = [];
+        self::$renderer = null;
+        self::$extensions = [];
+        self::$filters = [];
     }
 
     /**
@@ -48,18 +48,18 @@ class Phug
      */
     public static function getRenderer(array $options = [])
     {
-        if (!static::$renderer) {
-            static::$renderer = new Renderer(array_merge_recursive(
+        if (!self::$renderer) {
+            self::$renderer = new Renderer(array_merge_recursive(
                 [
-                    'filters' => static::getFilters(),
+                    'filters' => self::getFilters(),
                 ],
                 $options
             ));
         } elseif (!empty($options)) {
-            static::$renderer->setOptions($options);
+            self::$renderer->setOptions($options);
         }
 
-        return static::$renderer;
+        return self::$renderer;
     }
 
     /**
@@ -137,8 +137,8 @@ class Phug
 
         self::$filters[$name] = $filter;
 
-        if (static::$renderer) {
-            static::$renderer->setOptionsRecursive([
+        if (self::$renderer) {
+            self::$renderer->setOptionsRecursive([
                 'filters' => self::$filters,
             ]);
         }

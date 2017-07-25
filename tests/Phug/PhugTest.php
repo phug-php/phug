@@ -11,7 +11,7 @@ class PhugTest extends AbstractPhugTest
 {
     /**
      * @covers ::getRenderer
-     * @covers ::render
+     * @covers ::renderFile
      */
     public function testRenderFile()
     {
@@ -33,7 +33,51 @@ class PhugTest extends AbstractPhugTest
     }
 
     /**
-     * @covers ::display
+     * @covers ::__callStatic
+     */
+    public function testCallStatic()
+    {
+        Phug::share('foo', 'bar');
+        static::assertSame(
+            'bar',
+            Phug::render('=$foo')
+        );
+    }
+
+    /**
+     * @covers ::getRenderer
+     */
+    public function testRenderWithOptions()
+    {
+        static::assertSame(
+            '<p>Hello</p>',
+            Phug::render('p=message', [
+                'message' => 'Hello',
+            ], [
+                'patterns' => [
+                    'transform_expression' => function ($expression) {
+                        return '$'.$expression;
+                    },
+                ],
+            ])
+        );
+        static::assertSame(
+            '<p>haha</p>',
+            Phug::render('p=message', [
+                'message' => 'Hello',
+                'hidden' => 'haha',
+            ], [
+                'patterns' => [
+                    'transform_expression' => function () {
+                        return '$hidden';
+                    },
+                ],
+            ])
+        );
+    }
+
+    /**
+     * @covers ::displayFile
      */
     public function testDisplayFile()
     {
@@ -66,6 +110,7 @@ class PhugTest extends AbstractPhugTest
 
     /**
      * @covers ::reset
+     * @covers ::getRenderer
      * @covers ::normalizeFilterName
      * @covers ::hasFilter
      * @covers ::addFilter
@@ -80,6 +125,7 @@ class PhugTest extends AbstractPhugTest
         });
         self::assertTrue(Phug::hasFilter('upper'));
         self::assertTrue(Phug::hasFilter('up-per'));
+        self::assertTrue(array_key_exists('upper', Phug::getFilters()));
         static::assertSame(
             'WORD',
             Phug::render(':upper word')
@@ -87,6 +133,7 @@ class PhugTest extends AbstractPhugTest
         Phug::reset();
         self::assertFalse(Phug::hasFilter('upper'));
         self::assertFalse(Phug::hasFilter('up-per'));
+        self::assertFalse(array_key_exists('upper', Phug::getFilters()));
     }
 
     /**
