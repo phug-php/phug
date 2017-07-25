@@ -51,7 +51,7 @@ class Phug
         if (!self::$renderer) {
             self::$renderer = new Renderer(array_merge_recursive(
                 [
-                    'filters' => self::getFilters(),
+                    'filters' => static::getFilters(),
                 ],
                 $options
             ));

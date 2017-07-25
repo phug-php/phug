@@ -65,7 +65,7 @@ class PhugTest extends AbstractPhugTest
             '<p>haha</p>',
             Phug::render('p=message', [
                 'message' => 'Hello',
-                'hidden' => 'haha',
+                'hidden'  => 'haha',
             ], [
                 'patterns' => [
                     'transform_expression' => function () {
