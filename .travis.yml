@@ -22,7 +22,7 @@ install:
     - travis_retry composer install
 
 script:
-    - vendor/bin/phug-dev check --report
+    - vendor/bin/phug-dev check --report --coverage-php-version=5.6
 
 notifications:
     slack: phug:nzXFnxhU14RWK2EQSDL0u08z
