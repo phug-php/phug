@@ -57,6 +57,7 @@ class Phug
             ));
         } elseif (!empty($options)) {
             self::$renderer->setOptions($options);
+            self::$renderer->getCompiler()->getFormatter()->initFormats();
         }
 
         return self::$renderer;
