@@ -143,6 +143,7 @@ class PhugTest extends AbstractPhugTest
         self::assertFalse(Phug::hasFilter('Upper'));
         self::assertFalse(array_key_exists('upper', Phug::getFilters()));
         $message = null;
+
         try {
             Phug::setFilter('foo', 'bar');
         } catch (PhugException $exception) {
@@ -150,16 +151,21 @@ class PhugTest extends AbstractPhugTest
         }
         self::assertSame($message, 'Invalid foo filter given: it must be a callable or a class name.');
         $message = null;
+
         try {
-            Phug::replaceFilter('foo', function () {});
+            Phug::replaceFilter('foo', function () {
+            });
         } catch (PhugException $exception) {
             $message = $exception->getMessage();
         }
         self::assertSame($message, 'Filter foo is not set.');
-        Phug::addFilter('foo', function () {});
+        Phug::addFilter('foo', function () {
+        });
         $message = null;
+
         try {
-            Phug::addFilter('foo', function () {});
+            Phug::addFilter('foo', function () {
+            });
         } catch (PhugException $exception) {
             $message = $exception->getMessage();
         }
@@ -208,6 +214,7 @@ class PhugTest extends AbstractPhugTest
             Phug::render('foo')
         );
         $message = null;
+
         try {
             Phug::setKeyword('foo', 'bar');
         } catch (PhugException $exception) {
@@ -215,16 +222,21 @@ class PhugTest extends AbstractPhugTest
         }
         self::assertSame($message, 'Invalid foo keyword given: it must be a callable or a class name.');
         $message = null;
+
         try {
-            Phug::replaceKeyword('foo', function () {});
+            Phug::replaceKeyword('foo', function () {
+            });
         } catch (PhugException $exception) {
             $message = $exception->getMessage();
         }
         self::assertSame($message, 'Keyword foo is not set.');
-        Phug::addKeyword('foo', function () {});
+        Phug::addKeyword('foo', function () {
+        });
         $message = null;
+
         try {
-            Phug::addKeyword('foo', function () {});
+            Phug::addKeyword('foo', function () {
+            });
         } catch (PhugException $exception) {
             $message = $exception->getMessage();
         }
