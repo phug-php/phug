@@ -4,41 +4,29 @@ namespace Phug;
 
 interface ExtensionInterface
 {
-    // Contents
-    public function getParameters();
+    public function getOptions();
 
-    public function getMixins();
+    public function getEvents();
 
-    public function getBlocks();
-
-    // Lexer
-    public function getTokens();
+    public function getIncludes();
 
     public function getScanners();
 
-    // Parser
-    public function getNodes();
-
     public function getFilters();
 
-    public function getHandlers();
+    public function getKeywords();
 
-    // Formatter
-    public function getElements();
+    public function getTokenHandlers();
+
+    public function getElementHandlers();
+
+    public function getPhpTokenHandlers();
+
+    public function getCompilers();
 
     public function getFormats();
 
     public function getAssignmentHandlers();
 
     public function getPatterns();
-
-    public function getAttributeHandlers();
-
-    // Compiler
-    public function getPathResolvers();
-
-    public function getTranslators();
-
-    // Renderer
-    public function getAdapters();
 }

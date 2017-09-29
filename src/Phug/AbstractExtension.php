@@ -7,7 +7,7 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
-    public function getParameters()
+    public function getOptions()
     {
         return [];
     }
@@ -15,7 +15,7 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
-    public function getMixins()
+    public function getEvents()
     {
         return [];
     }
@@ -23,15 +23,7 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
-    public function getBlocks()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getTokens()
+    public function getIncludes()
     {
         return [];
     }
@@ -47,14 +39,6 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
-    public function getNodes()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
     public function getFilters()
     {
         return [];
@@ -63,7 +47,7 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
-    public function getHandlers()
+    public function getKeywords()
     {
         return [];
     }
@@ -71,7 +55,31 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * @return array
      */
-    public function getElements()
+    public function getTokenHandlers()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getElementHandlers()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhpTokenHandlers()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getCompilers()
     {
         return [];
     }
@@ -96,38 +104,6 @@ abstract class AbstractExtension implements ExtensionInterface
      * @return array
      */
     public function getPatterns()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getAttributeHandlers()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getPathResolvers()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getTranslators()
-    {
-        return [];
-    }
-
-    /**
-     * @return array
-     */
-    public function getAdapters()
     {
         return [];
     }

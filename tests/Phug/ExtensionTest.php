@@ -2,6 +2,8 @@
 
 namespace Phug\Test;
 
+use Phug\Phug;
+
 /**
  * @coversDefaultClass \Phug\AbstractExtension
  */
@@ -12,21 +14,54 @@ class ExtensionTest extends AbstractPhugTest
      */
     public function testGetters()
     {
-        static::assertTrue(is_array($this->verbatim->getParameters()));
-        static::assertTrue(is_array($this->verbatim->getMixins()));
-        static::assertTrue(is_array($this->verbatim->getBlocks()));
-        static::assertTrue(is_array($this->verbatim->getTokens()));
-        static::assertTrue(is_array($this->verbatim->getScanners()));
-        static::assertTrue(is_array($this->verbatim->getNodes()));
-        static::assertTrue(is_array($this->verbatim->getFilters()));
-        static::assertTrue(is_array($this->verbatim->getHandlers()));
-        static::assertTrue(is_array($this->verbatim->getElements()));
-        static::assertTrue(is_array($this->verbatim->getFormats()));
-        static::assertTrue(is_array($this->verbatim->getAssignmentHandlers()));
-        static::assertTrue(is_array($this->verbatim->getPatterns()));
-        static::assertTrue(is_array($this->verbatim->getAttributeHandlers()));
-        static::assertTrue(is_array($this->verbatim->getPathResolvers()));
-        static::assertTrue(is_array($this->verbatim->getTranslators()));
-        static::assertTrue(is_array($this->verbatim->getAdapters()));
+        self::assertTrue(is_array($this->verbatim->getOptions()));
+        self::assertTrue(is_array($this->verbatim->getEvents()));
+        self::assertTrue(is_array($this->verbatim->getIncludes()));
+        self::assertTrue(is_array($this->verbatim->getScanners()));
+        self::assertTrue(is_array($this->verbatim->getFilters()));
+        self::assertTrue(is_array($this->verbatim->getKeywords()));
+        self::assertTrue(is_array($this->verbatim->getTokenHandlers()));
+        self::assertTrue(is_array($this->verbatim->getElementHandlers()));
+        self::assertTrue(is_array($this->verbatim->getPhpTokenHandlers()));
+        self::assertTrue(is_array($this->verbatim->getCompilers()));
+        self::assertTrue(is_array($this->verbatim->getFormats()));
+        self::assertTrue(is_array($this->verbatim->getAssignmentHandlers()));
+        self::assertTrue(is_array($this->verbatim->getPatterns()));
+    }
+
+    /**
+     * @covers ::<public>
+     * @covers \Phug\Phug::getExtensionsGetters
+     * @covers \Phug\Phug::removeOptions
+     * @covers \Phug\Phug::hasExtension
+     * @covers \Phug\Phug::addExtension
+     * @covers \Phug\Phug::removeExtension
+     * @covers \Phug\Phug::getOptions
+     */
+    public function testImplement()
+    {
+        include_once __DIR__.'/TwigExtension.php';
+        $code = implode("\n", [
+            '//Comment',
+            '- $foo = 1',
+            'p=$foo',
+        ]);
+        $html = '<!-- Comment --><p>1</p>';
+        $twig = '{# Comment #}{% $foo = 1 %}<p>{{ $foo|e }}</p>';
+        $render1 = Phug::render($code);
+        $has1 = Phug::hasExtension(TwigExtension::class);
+        Phug::addExtension(TwigExtension::class);
+        $render2 = Phug::render($code);
+        $has2 = Phug::hasExtension(TwigExtension::class);
+        Phug::removeExtension(TwigExtension::class);
+        $render3 = Phug::render($code);
+        $has3 = Phug::hasExtension(TwigExtension::class);
+
+        self::assertFalse($has1);
+        self::assertSame($html, $render1);
+        self::assertTrue($has2);
+        self::assertSame($twig, $render2);
+        self::assertFalse($has3);
+        self::assertSame($html, $render3);
     }
 }

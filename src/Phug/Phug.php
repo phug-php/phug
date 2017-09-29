@@ -12,6 +12,11 @@ class Phug
     /**
      * @var array
      */
+    private static $keywords = [];
+
+    /**
+     * @var array
+     */
     private static $extensions = [];
 
     /**
@@ -21,12 +26,76 @@ class Phug
 
     private static function normalizeFilterName($name)
     {
-        return str_replace('-', '', strtolower($name));
+        return str_replace(' ', '-', strtolower($name));
+    }
+
+    private static function normalizeKeywordName($name)
+    {
+        return str_replace(' ', '-', strtolower($name));
     }
 
     private static function normalizeExtensionClassName($name)
     {
         return ltrim('\\', strtolower($name));
+    }
+
+    private static function getExtensionsGetters()
+    {
+        return [
+            'includes'            => 'getIncludes',
+            'scanners'            => 'getScanners',
+            'token_handlers'      => 'getTokenHandlers',
+            'node_compilers'      => 'getCompilers',
+            'formats'             => 'getFormats',
+            'patterns'            => 'getPatterns',
+            'filters'             => 'getFilters',
+            'keywords'            => 'getKeywords',
+            'element_handlers'    => 'getElementHandlers',
+            'php_token_handlers'  => 'getPhpTokenHandlers',
+            'assignment_handlers' => 'getAssignmentHandlers',
+        ];
+    }
+
+    private static function getOptions(array $options = [])
+    {
+        $extras = [];
+        foreach (['filters', 'keywords'] as $option) {
+            $method = 'get'.ucfirst($option);
+            $extras[$option] = static::$method();
+        }
+        $methods = static::getExtensionsGetters();
+        foreach (self::$extensions as $extensionClassName) {
+            $extension = new $extensionClassName();
+            foreach (['getOptions', 'getEvents'] as $method) {
+                $value = $extension->$method();
+                if (!empty($value)) {
+                    $extras = array_merge_recursive($extras, $value);
+                }
+            }
+            foreach ($methods as $option => $method) {
+                $value = $extension->$method();
+                if (!empty($value)) {
+                    $extras = array_merge_recursive($extras, [$option => $value]);
+                }
+            }
+        }
+
+        return array_merge_recursive($extras, $options);
+    }
+
+    public static function removeOptions($path, $options)
+    {
+        if (self::$renderer && (empty($path) || self::$renderer->hasOption($path))) {
+            if (is_array($options)) {
+                foreach ($options as $key => $value) {
+                    static::removeOptions(array_merge($path, [$key]), $value);
+                }
+
+                return;
+            }
+
+            self::$renderer->unsetOption($path);
+        }
     }
 
     /**
@@ -37,6 +106,7 @@ class Phug
         self::$renderer = null;
         self::$extensions = [];
         self::$filters = [];
+        self::$keywords = [];
     }
 
     /**
@@ -48,13 +118,10 @@ class Phug
      */
     public static function getRenderer(array $options = [])
     {
+        $options = static::getOptions($options);
+
         if (!self::$renderer) {
-            self::$renderer = new Renderer(array_merge_recursive(
-                [
-                    'filters' => static::getFilters(),
-                ],
-                $options
-            ));
+            self::$renderer = new Renderer($options);
         } elseif (!empty($options)) {
             self::$renderer->setOptions($options);
             self::$renderer->getCompiler()->getFormatter()->initFormats();
@@ -114,16 +181,24 @@ class Phug
      */
     public static function hasFilter($name)
     {
-        $name = self::normalizeFilterName($name);
+        return isset(self::$filters[self::normalizeFilterName($name)]);
+    }
 
-        return isset(self::$filters[$name]);
+    /**
+     * @param string $name
+     *
+     * @return callable
+     */
+    public static function getFilter($name)
+    {
+        return self::$filters[self::normalizeFilterName($name)];
     }
 
     /**
      * @param string          $name
      * @param callable|string $filter
      */
-    public static function addFilter($name, $filter)
+    public static function setFilter($name, $filter)
     {
         if (!(
             is_callable($filter) ||
@@ -136,12 +211,60 @@ class Phug
             );
         }
 
-        self::$filters[$name] = $filter;
+        self::$filters[self::normalizeFilterName($name)] = $filter;
 
         if (self::$renderer) {
-            self::$renderer->setOptionsRecursive([
-                'filters' => self::$filters,
-            ]);
+            self::$renderer->setOptionsRecursive(static::getOptions());
+        }
+    }
+
+    /**
+     * @param string          $name
+     * @param callable|string $filter
+     */
+    public static function addFilter($name, $filter)
+    {
+        $key = self::normalizeFilterName($name);
+
+        if (isset(self::$filters[$key])) {
+            throw new PhugException(
+                'Filter '.$name.' is already set.'
+            );
+        }
+
+        self::setFilter($name, $filter);
+    }
+
+    /**
+     * @param string          $name
+     * @param callable|string $filter
+     */
+    public static function replaceFilter($name, $filter)
+    {
+        $key = self::normalizeFilterName($name);
+
+        if (!isset(self::$filters[$key])) {
+            throw new PhugException(
+                'Filter '.$name.' is not set.'
+            );
+        }
+
+        self::setFilter($name, $filter);
+    }
+
+    /**
+     * @param string $name
+     */
+    public static function removeFilter($name)
+    {
+        $key = self::normalizeFilterName($name);
+
+        if (isset(self::$filters[$key])) {
+            unset(self::$filters[$key]);
+
+            if (self::$renderer) {
+                self::$renderer->unsetOption(['filters', $key]);
+            }
         }
     }
 
@@ -158,6 +281,104 @@ class Phug
      *
      * @return bool
      */
+    public static function hasKeyword($name)
+    {
+        return isset(self::$keywords[self::normalizeKeywordName($name)]);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return callable
+     */
+    public static function getKeyword($name)
+    {
+        return self::$keywords[self::normalizeKeywordName($name)];
+    }
+
+    /**
+     * @param string          $name
+     * @param callable|string $keyword
+     */
+    public static function setKeyword($name, $keyword)
+    {
+        if (!is_callable($keyword)) {
+            throw new PhugException(
+                'Invalid '.$name.' keyword given: '.
+                'it must be a callable or a class name.'
+            );
+        }
+
+        self::$keywords[self::normalizeKeywordName($name)] = $keyword;
+
+        if (self::$renderer) {
+            self::$renderer->setOptionsRecursive(static::getOptions());
+        }
+    }
+
+    /**
+     * @param string          $name
+     * @param callable|string $keyword
+     */
+    public static function addKeyword($name, $keyword)
+    {
+        $key = self::normalizeKeywordName($name);
+
+        if (isset(self::$keywords[$key])) {
+            throw new PhugException(
+                'Keyword '.$name.' is already set.'
+            );
+        }
+
+        self::setKeyword($name, $keyword);
+    }
+
+    /**
+     * @param string          $name
+     * @param callable|string $keyword
+     */
+    public static function replaceKeyword($name, $keyword)
+    {
+        $key = self::normalizeKeywordName($name);
+
+        if (!isset(self::$keywords[$key])) {
+            throw new PhugException(
+                'Keyword '.$name.' is not set.'
+            );
+        }
+
+        self::setKeyword($name, $keyword);
+    }
+
+    /**
+     * @param string $name
+     */
+    public static function removeKeyword($name)
+    {
+        $key = self::normalizeKeywordName($name);
+
+        if (isset(self::$keywords[$key])) {
+            unset(self::$keywords[$key]);
+
+            if (self::$renderer) {
+                self::$renderer->unsetOption(['keywords', $key]);
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getKeywords()
+    {
+        return self::$keywords;
+    }
+
+    /**
+     * @param string $extensionClassName
+     *
+     * @return bool
+     */
     public static function hasExtension($extensionClassName)
     {
         return in_array(
@@ -170,7 +391,6 @@ class Phug
     }
 
     /**
-     * @param string $name
      * @param string $extensionClassName
      */
     public static function addExtension($extensionClassName)
@@ -184,6 +404,31 @@ class Phug
 
         if (!static::hasExtension($extensionClassName)) {
             self::$extensions[] = $extensionClassName;
+
+            if (self::$renderer) {
+                self::$renderer->setOptionsRecursive(static::getOptions());
+            }
+        }
+    }
+
+    /**
+     * @param string $extensionClassName
+     */
+    public static function removeExtension($extensionClassName)
+    {
+        if (static::hasExtension($extensionClassName)) {
+            if (self::$renderer) {
+                $extension = new $extensionClassName();
+                foreach (['getOptions', 'getEvents'] as $method) {
+                    static::removeOptions([], $extension->$method());
+                }
+                foreach (static::getExtensionsGetters() as $option => $method) {
+                    static::removeOptions([$option], $extension->$method());
+                }
+                self::$renderer->setOptionsDefaults((new Renderer())->getOptions());
+            }
+
+            self::$extensions = array_diff(self::$extensions, [$extensionClassName]);
         }
     }
 
