@@ -37,6 +37,7 @@ class ExtensionTest extends AbstractPhugTest
      * @covers \Phug\Phug::addExtension
      * @covers \Phug\Phug::removeExtension
      * @covers \Phug\Phug::getOptions
+     * @covers \Phug\Phug::getExtensionsOptions
      */
     public function testImplement()
     {

@@ -68,26 +68,45 @@ class Phug
             $method = 'get'.ucfirst($option);
             $extras[$option] = static::$method();
         }
+
+        return array_merge_recursive(self::getExtensionsOptions(self::$extensions, $extras), $options);
+    }
+
+    /**
+     * Get options from extensions list and default options.
+     *
+     * @param array $extensions
+     * @param array $options
+     *
+     * @return array
+     */
+    public static function getExtensionsOptions(array $extensions, array $options = [])
+    {
         $methods = static::getExtensionsGetters();
-        foreach (self::$extensions as $extensionClassName) {
+        foreach ($extensions as $extensionClassName) {
             $extension = new $extensionClassName();
             foreach (['getOptions', 'getEvents'] as $method) {
                 $value = $extension->$method();
                 if (!empty($value)) {
-                    $extras = array_merge_recursive($extras, $value);
+                    $options = array_merge_recursive($options, $value);
                 }
             }
             foreach ($methods as $option => $method) {
                 $value = $extension->$method();
                 if (!empty($value)) {
-                    $extras = array_merge_recursive($extras, [$option => $value]);
+                    $options = array_merge_recursive($options, [$option => $value]);
                 }
             }
         }
 
-        return array_merge_recursive($extras, $options);
+        return $options;
     }
 
+    /**
+     * Set the engine class used to render templates.
+     *
+     * @param $rendererClassName
+     */
     public static function setRendererClassName($rendererClassName)
     {
         self::$rendererClassName = $rendererClassName;
