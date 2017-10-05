@@ -24,6 +24,11 @@ class Phug
      */
     private static $renderer = null;
 
+    /**
+     * @var Renderer
+     */
+    private static $rendererClassName = Renderer::class;
+
     private static function normalizeFilterName($name)
     {
         return str_replace(' ', '-', strtolower($name));
@@ -83,6 +88,17 @@ class Phug
         return array_merge_recursive($extras, $options);
     }
 
+    public static function setRendererClassName($rendererClassName)
+    {
+        self::$rendererClassName = $rendererClassName;
+    }
+
+    /**
+     * Cleanup previously set options.
+     *
+     * @param $path
+     * @param $options
+     */
     public static function removeOptions($path, $options)
     {
         if (self::$renderer && (empty($path) || self::$renderer->hasOption($path))) {
@@ -121,7 +137,7 @@ class Phug
         $options = static::getOptions($options);
 
         if (!self::$renderer) {
-            self::$renderer = new Renderer($options);
+            self::$renderer = new self::$rendererClassName($options);
         } elseif (!empty($options)) {
             self::$renderer->setOptions($options);
             self::$renderer->getCompiler()->getFormatter()->initFormats();
@@ -425,7 +441,7 @@ class Phug
                 foreach (static::getExtensionsGetters() as $option => $method) {
                     static::removeOptions([$option], $extension->$method());
                 }
-                self::$renderer->setOptionsDefaults((new Renderer())->getOptions());
+                self::$renderer->setOptionsDefaults((new self::$rendererClassName())->getOptions());
             }
 
             self::$extensions = array_diff(self::$extensions, [$extensionClassName]);

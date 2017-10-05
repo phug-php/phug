@@ -2,8 +2,10 @@
 
 namespace Phug\Test;
 
+use Phug\Compiler;
 use Phug\Phug;
 use Phug\PhugException;
+use Phug\Renderer;
 
 /**
  * @coversDefaultClass \Phug\Phug
@@ -290,5 +292,18 @@ class PhugTest extends AbstractPhugTest
     public function testWrongExtension()
     {
         Phug::addExtension('not-an-extension');
+    }
+
+    /**
+     * @covers ::setRendererClassName
+     */
+    public function testSetRendererClassName()
+    {
+        Phug::reset();
+        Phug::setRendererClassName(Compiler::class);
+        self::assertInstanceOf(Compiler::class, Phug::getRenderer());
+        Phug::reset();
+        Phug::setRendererClassName(Renderer::class);
+        self::assertInstanceOf(Renderer::class, Phug::getRenderer());
     }
 }
