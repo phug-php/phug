@@ -84,7 +84,9 @@ class Phug
     {
         $methods = static::getExtensionsGetters();
         foreach ($extensions as $extensionClassName) {
-            $extension = new $extensionClassName();
+            $extension = is_string($extensionClassName)
+                ? new $extensionClassName()
+                : $extensionClassName;
             foreach (['getOptions', 'getEvents'] as $method) {
                 $value = $extension->$method();
                 if (!empty($value)) {

@@ -285,6 +285,15 @@ class PhugTest extends AbstractPhugTest
     }
 
     /**
+     * @covers ::getExtensionsOptions
+     */
+    public function testGetExtensionsOptions()
+    {
+        self::assertSame([], Phug::getExtensionsOptions([new VerbatimExtension()]));
+        self::assertSame([], Phug::getExtensionsOptions([VerbatimExtension::class]));
+    }
+
+    /**
      * @covers                   ::addExtension
      * @expectedException        \Phug\PhugException
      * @expectedExceptionMessage Invalid not-an-extension extension given:
