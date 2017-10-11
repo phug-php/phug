@@ -100,7 +100,7 @@ class DefaultOptionsTest extends AbstractPhugTest
 
     private static function assertOptionValue($expected, $actual, $name)
     {
-        $message = "$name option should be ".var_export($expected, true)." by default.";
+        $message = "$name option should be ".var_export($expected, true).' by default.';
         if (self::isCallable($actual) && self::isCallable($expected)) {
             self::assertTrue(true, $message);
 
@@ -144,7 +144,8 @@ class DefaultOptionsTest extends AbstractPhugTest
             'on_render'           => null,
             'on_html'             => null,
             'filters'             => [
-                'cdata' => function () {},
+                'cdata' => function () {
+                },
             ],
         ], Phug::getRenderer(['debug' => false]));
 
@@ -173,7 +174,8 @@ class DefaultOptionsTest extends AbstractPhugTest
             'on_render'           => null,
             'on_html'             => null,
             'filters'             => [
-                'cdata' => function () {},
+                'cdata' => function () {
+                },
             ],
         ], Phug::getRenderer());
 
@@ -266,7 +268,8 @@ class DefaultOptionsTest extends AbstractPhugTest
         ], Phug::getRenderer()->getCompiler()->getFormatter());
 
         self::assertOptions([
-            'pattern'            => function () {},
+            'pattern'            => function () {
+            },
             'patterns'           => [
                 'class_attribute'        => XhtmlFormat::CLASS_ATTRIBUTE,
                 'string_attribute'       => XhtmlFormat::STRING_ATTRIBUTE,
@@ -284,27 +287,43 @@ class DefaultOptionsTest extends AbstractPhugTest
                 'display_comment'        => XhtmlFormat::DISPLAY_COMMENT,
                 'doctype'                => XhtmlFormat::DOCTYPE,
                 'custom_doctype'         => XhtmlFormat::CUSTOM_DOCTYPE,
-                'debug_comment'          => function () {}, // XhtmlFormat::DEBUG_COMMENT overridden
-                'debug'                  => function () {},
+                'debug_comment'          => function () {
+                }, // XhtmlFormat::DEBUG_COMMENT overridden
+                'debug'                  => function () {
+                },
             ],
             'pretty'             => false,
             'element_handlers'   => [
-                AssignmentElement::class => function () {},
-                AttributeElement::class  => function () {},
-                CodeElement::class       => function () {},
-                CommentElement::class    => function () {},
-                ExpressionElement::class => function () {},
-                DoctypeElement::class    => function () {},
-                DocumentElement::class   => function () {},
-                KeywordElement::class    => function () {},
-                MarkupElement::class     => function () {},
-                MixinCallElement::class  => function () {},
-                MixinElement::class      => function () {},
-                TextElement::class       => function () {},
-                VariableElement::class   => function () {},
+                AssignmentElement::class => function () {
+                },
+                AttributeElement::class  => function () {
+                },
+                CodeElement::class       => function () {
+                },
+                CommentElement::class    => function () {
+                },
+                ExpressionElement::class => function () {
+                },
+                DoctypeElement::class    => function () {
+                },
+                DocumentElement::class   => function () {
+                },
+                KeywordElement::class    => function () {
+                },
+                MarkupElement::class     => function () {
+                },
+                MixinCallElement::class  => function () {
+                },
+                MixinElement::class      => function () {
+                },
+                TextElement::class       => function () {
+                },
+                VariableElement::class   => function () {
+                },
             ],
             'php_token_handlers' => [
-                T_VARIABLE => function () {},
+                T_VARIABLE => function () {
+                },
             ],
             'mixin_merge_mode'   => 'replace',
         ], Phug::getRenderer()->getCompiler()->getFormatter()->getFormatInstance());
