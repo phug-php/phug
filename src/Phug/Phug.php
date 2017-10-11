@@ -75,8 +75,8 @@ class Phug
     /**
      * Get options from extensions list and default options.
      *
-     * @param array $extensions
-     * @param array $options
+     * @param array $extensions list of extensions instances of class names
+     * @param array $options    optional default options to merge with
      *
      * @return array
      */
@@ -107,7 +107,10 @@ class Phug
     /**
      * Set the engine class used to render templates.
      *
-     * @param $rendererClassName
+     * @example Phug::setRendererClassName(\Tale\Pug\Renderer::class)
+     * @example Phug::setRendererClassName(\Pug\Pug::class)
+     *
+     * @param string $rendererClassName class name of the custom renderer engine
      */
     public static function setRendererClassName($rendererClassName)
     {
@@ -117,8 +120,10 @@ class Phug
     /**
      * Cleanup previously set options.
      *
-     * @param $path
-     * @param $options
+     * @example Phug::removeOptions(['filters'], ['coffee' => null]])
+     *
+     * @param array $path    option base path
+     * @param mixed $options options to remove
      */
     public static function removeOptions($path, $options)
     {
@@ -149,6 +154,8 @@ class Phug
     /**
      * Get a renderer with global options and argument options merged.
      *
+     * @example Phug::getRenderer([])
+     *
      * @param array $options
      *
      * @return Renderer
@@ -168,6 +175,8 @@ class Phug
     }
 
     /**
+     * Return a rendered Pug template string.
+     *
      * @param string $input      pug source
      * @param array  $parameters variables values
      * @param array  $options    custom options
@@ -180,6 +189,8 @@ class Phug
     }
 
     /**
+     * Return a rendered Pug file.
+     *
      * @param string $path       path to template
      * @param array  $parameters variables values
      * @param array  $options    custom options
@@ -192,6 +203,8 @@ class Phug
     }
 
     /**
+     * Display a rendered Pug template string. By default, it means HTML output to the buffer.
+     *
      * @param string $input      pug source
      * @param array  $parameters variables values
      * @param array  $options    custom options
@@ -202,6 +215,8 @@ class Phug
     }
 
     /**
+     * Display a rendered Pug file. By default, it means HTML output to the buffer.
+     *
      * @param string $path       path to template
      * @param array  $parameters variables values
      * @param array  $options    custom options
@@ -212,6 +227,8 @@ class Phug
     }
 
     /**
+     * Check if a filter is available globally.
+     *
      * @param string $name
      *
      * @return bool
@@ -222,6 +239,8 @@ class Phug
     }
 
     /**
+     * Get a global filter by name.
+     *
      * @param string $name
      *
      * @return callable
@@ -232,8 +251,13 @@ class Phug
     }
 
     /**
+     * Set a filter to the Phug facade (will be available in the current renderer instance and next static calls).
+     * Throws an exception if the filter is not callable and do not have a parse method.
+     *
      * @param string          $name
      * @param callable|string $filter
+     *
+     * @throws PhugException
      */
     public static function setFilter($name, $filter)
     {
@@ -256,8 +280,12 @@ class Phug
     }
 
     /**
+     * Add a filter. Throws an exception if the name is already taken.
+     *
      * @param string          $name
      * @param callable|string $filter
+     *
+     * @throws PhugException
      */
     public static function addFilter($name, $filter)
     {
@@ -273,8 +301,12 @@ class Phug
     }
 
     /**
+     * Replace a filter. Throws an exception if the name is set.
+     *
      * @param string          $name
      * @param callable|string $filter
+     *
+     * @throws PhugException
      */
     public static function replaceFilter($name, $filter)
     {
@@ -290,6 +322,8 @@ class Phug
     }
 
     /**
+     * Remove a filter from the Phug facade (remove from current renderer instance).
+     *
      * @param string $name
      */
     public static function removeFilter($name)
@@ -306,6 +340,8 @@ class Phug
     }
 
     /**
+     * Get filters list added through the Phug facade.
+     *
      * @return array
      */
     public static function getFilters()
@@ -314,6 +350,8 @@ class Phug
     }
 
     /**
+     * Check if a keyword is available globally.
+     *
      * @param string $name
      *
      * @return bool
@@ -324,6 +362,8 @@ class Phug
     }
 
     /**
+     * Get a global custom keyword by name.
+     *
      * @param string $name
      *
      * @return callable
@@ -334,8 +374,13 @@ class Phug
     }
 
     /**
+     * Set a keyword to the Phug facade (will be available in the current renderer instance and next static calls).
+     * Throws an exception if the keyword is not callable.
+     *
      * @param string          $name
      * @param callable|string $keyword
+     *
+     * @throws PhugException
      */
     public static function setKeyword($name, $keyword)
     {
@@ -354,8 +399,12 @@ class Phug
     }
 
     /**
+     * Add a keyword. Throws an exception if the name is already taken.
+     *
      * @param string          $name
      * @param callable|string $keyword
+     *
+     * @throws PhugException
      */
     public static function addKeyword($name, $keyword)
     {
@@ -371,8 +420,12 @@ class Phug
     }
 
     /**
+     * Replace a keyword. Throws an exception if the name is set.
+     *
      * @param string          $name
      * @param callable|string $keyword
+     *
+     * @throws PhugException
      */
     public static function replaceKeyword($name, $keyword)
     {
@@ -388,6 +441,8 @@ class Phug
     }
 
     /**
+     * Remove a keyword from the Phug facade (remove from current renderer instance).
+     *
      * @param string $name
      */
     public static function removeKeyword($name)
@@ -404,6 +459,8 @@ class Phug
     }
 
     /**
+     * Get keywords list added through the Phug facade.
+     *
      * @return array
      */
     public static function getKeywords()
@@ -412,6 +469,8 @@ class Phug
     }
 
     /**
+     * Check if an extension is available globally.
+     *
      * @param string $extensionClassName
      *
      * @return bool
@@ -428,7 +487,12 @@ class Phug
     }
 
     /**
+     * Add an extension to the Phug facade (will be available in the current renderer instance and next static calls).
+     * Throws an exception if the extension is not a valid class name.
+     *
      * @param string $extensionClassName
+     *
+     * @throws PhugException
      */
     public static function addExtension($extensionClassName)
     {
@@ -449,6 +513,8 @@ class Phug
     }
 
     /**
+     * Remove an extension from the Phug facade (remove from current renderer instance).
+     *
      * @param string $extensionClassName
      */
     public static function removeExtension($extensionClassName)
@@ -470,6 +536,8 @@ class Phug
     }
 
     /**
+     * Get extensions list added through the Phug facade.
+     *
      * @return array
      */
     public static function getExtensions()
@@ -477,6 +545,14 @@ class Phug
         return self::$extensions;
     }
 
+    /**
+     * All dynamic methods from the renderer can be called statically with Phug facade.
+     *
+     * @param $name
+     * @param $arguments
+     *
+     * @return mixed
+     */
     public static function __callStatic($name, $arguments)
     {
         return call_user_func_array([static::getRenderer(), $name], $arguments);
