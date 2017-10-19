@@ -6,6 +6,7 @@
 /.codeclimate.yml   export-ignore
 /.styleci.yml       export-ignore
 /.editorconfig      export-ignore
+/ruleset.xml        export-ignore
 /*.md               export-ignore
 
 # Auto detect text files and perform LF normalization

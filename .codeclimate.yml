@@ -12,11 +12,8 @@ engines:
     enabled: true
   phpmd:
     enabled: true
-    checks:
-      Design/TooManyPublicMethods:
-        maxmethods: 20
-      Design/WeightedMethodCount:
-        maximum: 80
+    config:
+      rulesets: rulesets.xml
 ratings:
   paths:
   - "**.inc"
