@@ -94,7 +94,8 @@ class Phug
         foreach (static::getExtensionsGetters() as $option => $method) {
             static::removeOptions([$option], $extension->$method());
         }
-        self::$renderer->setOptionsDefaults((new self::$rendererClassName())->getOptions());
+        $rendererClassName = self::getRendererClassName();
+        self::$renderer->setOptionsDefaults((new $rendererClassName())->getOptions());
     }
 
     /**
@@ -152,6 +153,16 @@ class Phug
     }
 
     /**
+     * Get the current engine class used to render templates.
+     *
+     * @return string $rendererClassName class name of the custom renderer engine
+     */
+    public static function getRendererClassName()
+    {
+        return self::$rendererClassName;
+    }
+
+    /**
      * Cleanup previously set options.
      *
      * @example Phug::removeOptions(['filters'], ['coffee' => null]])
@@ -199,7 +210,8 @@ class Phug
         $options = static::getOptions($options);
 
         if (!self::$renderer) {
-            self::$renderer = new self::$rendererClassName($options);
+            $rendererClassName = self::getRendererClassName();
+            self::$renderer = new $rendererClassName($options);
         } elseif (!empty($options)) {
             self::$renderer->setOptions($options);
             self::$renderer->getCompiler()->getFormatter()->initFormats();
