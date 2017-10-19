@@ -2,6 +2,8 @@
 
 namespace Phug;
 
+use Phug\Util\ModuleInterface;
+
 class Phug
 {
     /**
@@ -72,6 +74,29 @@ class Phug
         return array_merge_recursive(self::getExtensionsOptions(self::$extensions, $extras), $options);
     }
 
+    private static function removeExtensionFromCurrentRenderer($extensionClassName)
+    {
+        if (is_a($extensionClassName, ModuleInterface::class, true)) {
+            self::$renderer->setOption(
+                'modules',
+                array_filter(self::$renderer->getOption('modules'), function ($module) use ($extensionClassName) {
+                    return $module !== $extensionClassName;
+                })
+            );
+
+            return;
+        }
+
+        $extension = new $extensionClassName();
+        foreach (['getOptions', 'getEvents'] as $method) {
+            static::removeOptions([], $extension->$method());
+        }
+        foreach (static::getExtensionsGetters() as $option => $method) {
+            static::removeOptions([$option], $extension->$method());
+        }
+        self::$renderer->setOptionsDefaults((new self::$rendererClassName())->getOptions());
+    }
+
     /**
      * Get options from extensions list and default options.
      *
@@ -84,6 +109,15 @@ class Phug
     {
         $methods = static::getExtensionsGetters();
         foreach ($extensions as $extensionClassName) {
+            if (is_a($extensionClassName, ModuleInterface::class, true)) {
+                if (!isset($options['modules'])) {
+                    $options['modules'] = [];
+                }
+                $options['modules'][] = $extensionClassName;
+
+                continue;
+            }
+
             $extension = is_string($extensionClassName)
                 ? new $extensionClassName()
                 : $extensionClassName;
@@ -521,14 +555,7 @@ class Phug
     {
         if (static::hasExtension($extensionClassName)) {
             if (self::$renderer) {
-                $extension = new $extensionClassName();
-                foreach (['getOptions', 'getEvents'] as $method) {
-                    static::removeOptions([], $extension->$method());
-                }
-                foreach (static::getExtensionsGetters() as $option => $method) {
-                    static::removeOptions([$option], $extension->$method());
-                }
-                self::$renderer->setOptionsDefaults((new self::$rendererClassName())->getOptions());
+                self::removeExtensionFromCurrentRenderer($extensionClassName);
             }
 
             self::$extensions = array_diff(self::$extensions, [$extensionClassName]);

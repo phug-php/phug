@@ -38,6 +38,7 @@ class ExtensionTest extends AbstractPhugTest
      * @covers \Phug\Phug::removeExtension
      * @covers \Phug\Phug::getOptions
      * @covers \Phug\Phug::getExtensionsOptions
+     * @covers \Phug\Phug::removeExtensionFromCurrentRenderer
      */
     public function testImplement()
     {
@@ -64,5 +65,29 @@ class ExtensionTest extends AbstractPhugTest
         self::assertSame($twig, $render2);
         self::assertFalse($has3);
         self::assertSame($html, $render3);
+    }
+
+    /**
+     * @covers \Phug\Phug::getExtensionsOptions
+     * @covers \Phug\Phug::removeExtensionFromCurrentRenderer
+     */
+    public function testAddModuleAsExtension()
+    {
+        include_once __DIR__.'/CompilerModule.php';
+        $compilerHas1 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
+        $has1 = Phug::hasExtension(CompilerModule::class);
+        Phug::addExtension(CompilerModule::class);
+        $compilerHas2 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
+        $has2 = Phug::hasExtension(CompilerModule::class);
+        Phug::removeExtension(CompilerModule::class);
+        $compilerHas3 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
+        $has3 = Phug::hasExtension(CompilerModule::class);
+
+        self::assertFalse($has1);
+        self::assertFalse($compilerHas1);
+        self::assertTrue($has2);
+        self::assertTrue($compilerHas2);
+        self::assertFalse($has3);
+        self::assertFalse($compilerHas3);
     }
 }
