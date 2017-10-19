@@ -305,14 +305,17 @@ class PhugTest extends AbstractPhugTest
 
     /**
      * @covers ::setRendererClassName
+     * @covers ::getRendererClassName
      */
     public function testSetRendererClassName()
     {
         Phug::reset();
         Phug::setRendererClassName(Compiler::class);
+        self::assertSame(Compiler::class, Phug::getRendererClassName());
         self::assertInstanceOf(Compiler::class, Phug::getRenderer());
         Phug::reset();
         Phug::setRendererClassName(Renderer::class);
+        self::assertSame(Renderer::class, Phug::getRendererClassName());
         self::assertInstanceOf(Renderer::class, Phug::getRenderer());
     }
 }

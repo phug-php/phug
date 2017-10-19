@@ -12,6 +12,11 @@ engines:
     enabled: true
   phpmd:
     enabled: true
+    config:
+      TooManyPublicMethods:
+        maxmethods: 20
+      ExcessiveClassComplexity:
+        maximum: 80
 ratings:
   paths:
   - "**.inc"
