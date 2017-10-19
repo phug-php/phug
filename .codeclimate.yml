@@ -12,10 +12,10 @@ engines:
     enabled: true
   phpmd:
     enabled: true
-    config:
-      TooManyPublicMethods:
+    checks:
+      Design/TooManyPublicMethods:
         maxmethods: 20
-      ExcessiveClassComplexity:
+      Design/WeightedMethodCount:
         maximum: 80
 ratings:
   paths:
