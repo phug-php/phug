@@ -15,14 +15,8 @@ What is Phug?
 
 Phug is PHP port of Pugjs
 
-Installation
+Documentation
 ------------
 
-Install via Composer
-
-```bash
-composer require phug/phug
-```
-
-Usage
------
+The work-in-progress documentation:
+https://phug.selfbuild.fr/
