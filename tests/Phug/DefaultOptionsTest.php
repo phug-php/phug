@@ -257,11 +257,11 @@ class DefaultOptionsTest extends AbstractPhugTest
         Phug::reset();
 
         self::assertOptions([
-            'debug'               => true,
-            'enable_profiler'     => true,
-            'memory_limit'        => 0x3200000,
-            'execution_max_time'  => 30000,
-            'profiler'            => [
+            'debug'              => true,
+            'enable_profiler'    => true,
+            'memory_limit'       => 0x3200000,
+            'execution_max_time' => 30000,
+            'profiler'           => [
                 'display' => false,
                 'log'     => false,
             ],
@@ -376,7 +376,7 @@ class DefaultOptionsTest extends AbstractPhugTest
             'short_open_tag_fix' => 'auto',
             'pattern'            => function () {
             },
-            'patterns'           => [
+            'patterns' => [
                 'class_attribute'        => XhtmlFormat::CLASS_ATTRIBUTE,
                 'string_attribute'       => XhtmlFormat::STRING_ATTRIBUTE,
                 'expression_in_text'     => XhtmlFormat::EXPRESSION_IN_TEXT,
@@ -395,43 +395,43 @@ class DefaultOptionsTest extends AbstractPhugTest
                 'custom_doctype'         => XhtmlFormat::CUSTOM_DOCTYPE,
                 'debug_comment'          => function () {
                 }, // XhtmlFormat::DEBUG_COMMENT overridden
-                'debug'                  => function () {
+                'debug' => function () {
                 },
             ],
-            'pretty'             => false,
-            'element_handlers'   => [
+            'pretty'           => false,
+            'element_handlers' => [
                 AssignmentElement::class => function () {
                 },
-                AttributeElement::class  => function () {
+                AttributeElement::class => function () {
                 },
-                CodeElement::class       => function () {
+                CodeElement::class => function () {
                 },
-                CommentElement::class    => function () {
+                CommentElement::class => function () {
                 },
                 ExpressionElement::class => function () {
                 },
-                DoctypeElement::class    => function () {
+                DoctypeElement::class => function () {
                 },
-                DocumentElement::class   => function () {
+                DocumentElement::class => function () {
                 },
-                KeywordElement::class    => function () {
+                KeywordElement::class => function () {
                 },
-                MarkupElement::class     => function () {
+                MarkupElement::class => function () {
                 },
-                MixinCallElement::class  => function () {
+                MixinCallElement::class => function () {
                 },
-                MixinElement::class      => function () {
+                MixinElement::class => function () {
                 },
-                TextElement::class       => function () {
+                TextElement::class => function () {
                 },
-                VariableElement::class   => function () {
+                VariableElement::class => function () {
                 },
             ],
             'php_token_handlers' => [
                 T_VARIABLE => function () {
                 },
             ],
-            'mixin_merge_mode'   => 'replace',
+            'mixin_merge_mode' => 'replace',
         ], Phug::getRenderer()->getCompiler()->getFormatter()->getFormatInstance());
     }
 
@@ -444,42 +444,42 @@ class DefaultOptionsTest extends AbstractPhugTest
             'keywords'                => [],
             'detailed_dump'           => false,
             'token_handlers'          => [
-                AssignmentToken::class             => AssignmentTokenHandler::class,
-                AttributeEndToken::class           => AttributeEndTokenHandler::class,
-                AttributeStartToken::class         => AttributeStartTokenHandler::class,
-                AttributeToken::class              => AttributeTokenHandler::class,
-                AutoCloseToken::class              => AutoCloseTokenHandler::class,
-                BlockToken::class                  => BlockTokenHandler::class,
-                YieldToken::class                  => YieldTokenHandler::class,
-                CaseToken::class                   => CaseTokenHandler::class,
-                ClassToken::class                  => ClassTokenHandler::class,
-                CodeToken::class                   => CodeTokenHandler::class,
-                CommentToken::class                => CommentTokenHandler::class,
-                ConditionalToken::class            => ConditionalTokenHandler::class,
-                DoToken::class                     => DoTokenHandler::class,
-                DoctypeToken::class                => DoctypeTokenHandler::class,
-                EachToken::class                   => EachTokenHandler::class,
-                ExpansionToken::class              => ExpansionTokenHandler::class,
-                ExpressionToken::class             => ExpressionTokenHandler::class,
-                FilterToken::class                 => FilterTokenHandler::class,
-                ForToken::class                    => ForTokenHandler::class,
-                IdToken::class                     => IdTokenHandler::class,
-                InterpolationStartToken::class     => InterpolationStartTokenHandler::class,
-                InterpolationEndToken::class       => InterpolationEndTokenHandler::class,
-                ImportToken::class                 => ImportTokenHandler::class,
-                IndentToken::class                 => IndentTokenHandler::class,
-                MixinCallToken::class              => MixinCallTokenHandler::class,
-                MixinToken::class                  => MixinTokenHandler::class,
-                NewLineToken::class                => NewLineTokenHandler::class,
-                OutdentToken::class                => OutdentTokenHandler::class,
-                TagInterpolationStartToken::class  => TagInterpolationStartTokenHandler::class,
-                TagInterpolationEndToken::class    => TagInterpolationEndTokenHandler::class,
-                KeywordToken::class                => KeywordTokenHandler::class,
-                TagToken::class                    => TagTokenHandler::class,
-                TextToken::class                   => TextTokenHandler::class,
-                VariableToken::class               => VariableTokenHandler::class,
-                WhenToken::class                   => WhenTokenHandler::class,
-                WhileToken::class                  => WhileTokenHandler::class,
+                AssignmentToken::class            => AssignmentTokenHandler::class,
+                AttributeEndToken::class          => AttributeEndTokenHandler::class,
+                AttributeStartToken::class        => AttributeStartTokenHandler::class,
+                AttributeToken::class             => AttributeTokenHandler::class,
+                AutoCloseToken::class             => AutoCloseTokenHandler::class,
+                BlockToken::class                 => BlockTokenHandler::class,
+                YieldToken::class                 => YieldTokenHandler::class,
+                CaseToken::class                  => CaseTokenHandler::class,
+                ClassToken::class                 => ClassTokenHandler::class,
+                CodeToken::class                  => CodeTokenHandler::class,
+                CommentToken::class               => CommentTokenHandler::class,
+                ConditionalToken::class           => ConditionalTokenHandler::class,
+                DoToken::class                    => DoTokenHandler::class,
+                DoctypeToken::class               => DoctypeTokenHandler::class,
+                EachToken::class                  => EachTokenHandler::class,
+                ExpansionToken::class             => ExpansionTokenHandler::class,
+                ExpressionToken::class            => ExpressionTokenHandler::class,
+                FilterToken::class                => FilterTokenHandler::class,
+                ForToken::class                   => ForTokenHandler::class,
+                IdToken::class                    => IdTokenHandler::class,
+                InterpolationStartToken::class    => InterpolationStartTokenHandler::class,
+                InterpolationEndToken::class      => InterpolationEndTokenHandler::class,
+                ImportToken::class                => ImportTokenHandler::class,
+                IndentToken::class                => IndentTokenHandler::class,
+                MixinCallToken::class             => MixinCallTokenHandler::class,
+                MixinToken::class                 => MixinTokenHandler::class,
+                NewLineToken::class               => NewLineTokenHandler::class,
+                OutdentToken::class               => OutdentTokenHandler::class,
+                TagInterpolationStartToken::class => TagInterpolationStartTokenHandler::class,
+                TagInterpolationEndToken::class   => TagInterpolationEndTokenHandler::class,
+                KeywordToken::class               => KeywordTokenHandler::class,
+                TagToken::class                   => TagTokenHandler::class,
+                TextToken::class                  => TextTokenHandler::class,
+                VariableToken::class              => VariableTokenHandler::class,
+                WhenToken::class                  => WhenTokenHandler::class,
+                WhileToken::class                 => WhileTokenHandler::class,
             ],
             'on_parse'       => null,
             'on_document'    => null,
