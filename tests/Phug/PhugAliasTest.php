@@ -15,7 +15,7 @@ class PhugAliasTest extends AbstractPhugTest
     {
         self::assertSame(
             '<p>Hello world!</p>',
-            \Phug::renderFile(__DIR__ . '/../templates/test.pug')
+            \Phug::renderFile(__DIR__.'/../templates/test.pug')
         );
     }
 }
