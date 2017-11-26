@@ -2,9 +2,10 @@
 
 namespace Phug\Test;
 
+use PHPUnit\Framework\TestCase;
 use Phug\Phug;
 
-abstract class AbstractPhugTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractPhugTest extends TestCase
 {
     /**
      * @var VerbatimExtension
