@@ -584,6 +584,22 @@ class Phug
         return self::$extensions;
     }
 
+
+    public static function cacheDirectory($source, $destination = null, $options = null)
+    {
+        if ($destination && !is_array($destination)) {
+            $destination = [
+                'cache_dir' => $destination,
+            ];
+        }
+
+        return static::getRenderer(array_merge(
+            $options ?: [],
+            $destination ?: []
+        ))->cacheDirectory($source);
+
+    }
+
     /**
      * All dynamic methods from the renderer can be called statically with Phug facade.
      *
