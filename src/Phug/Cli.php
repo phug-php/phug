@@ -33,14 +33,14 @@ class Cli
             echo "You must provide a method.\n";
             $this->listAvailableMethods();
 
-            exit(1);
+            return false;
         }
 
         if (!in_array($method, iterator_to_array($this->getAvailableMethods()))) {
             echo "The method $action is not available as CLI command in the $facade facade.\n";
             $this->listAvailableMethods();
 
-            exit(1);
+            return false;
         }
 
         $callable = [$facade, $method];
@@ -59,7 +59,7 @@ class Cli
 
         echo call_user_func_array($callable, $arguments);
 
-        exit(0);
+        return true;
     }
 
     public function getAvailableMethods()

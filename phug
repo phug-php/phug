@@ -26,4 +26,4 @@ $cli = new Cli('Phug', [
     },
 ]);
 
-$cli->run($argv);
+exit($cli->run($argv) ? 0 : 1);
