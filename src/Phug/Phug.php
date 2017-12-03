@@ -584,7 +584,16 @@ class Phug
         return self::$extensions;
     }
 
-
+    /**
+     * Cache a whole directory and return an array with [$successCount, $errorCount, $errorDetails].
+     *
+     * @param string      $source      input directories containing pug files
+     * @param string|null $destination output for compiled PHP files
+     *                                 (if array given, will be used as options array)
+     * @param array|null  $options     optional options
+     *
+     * @return array
+     */
     public static function cacheDirectory($source, $destination = null, $options = null)
     {
         if ($destination && !is_array($destination)) {
@@ -597,7 +606,30 @@ class Phug
             $options ?: [],
             $destination ?: []
         ))->cacheDirectory($source);
+    }
 
+    /**
+     * Same method as cacheDirectory but with textual human-friendly output.
+     *
+     * @param string      $source      input directories containing pug files
+     * @param string|null $destination output for compiled PHP files
+     *                                 (if array given, will be used as options array)
+     * @param array|null  $options     optional options
+     *
+     * @return string
+     */
+    public static function textualCacheDirectory($source, $destination = null, $options = null)
+    {
+        list($success, $errors, $errorDetails) = static::cacheDirectory($source, $destination, $options);
+
+        return
+            "$success templates cached.\n".
+            "$errors templates failed to be cached.\n".
+            implode('', array_map(function ($detail) {
+                return $detail['inputFile']."\n".
+                    $detail['error']->getMessage()."\n".
+                    $detail['error']->getTraceAsString();
+            }, $errorDetails));
     }
 
     /**

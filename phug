@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 
 use Phug\Cli;
@@ -8,22 +8,14 @@ include 'vendor/autoload.php';
 $cli = new Cli('Phug', [
     'render',
     'renderFile',
+    'renderDirectory',
     'compile',
     'compileFile',
+    'compileDirectory' => 'textualCacheDirectory',
     'display' => 'render',
     'displayFile' => 'renderFile',
-    'cacheDirectory' => function ($facade, $arguments) {
-        list($success, $errors, $errorDetails) = call_user_func_array([$facade, 'cacheDirectory'], $arguments);
-
-        return
-            "$success templates cached.\n".
-            "$errors templates failed to be cached.\n".
-            implode('', array_map(function ($detail) {
-                return $detail['inputFile']."\n".
-                    $detail['error']->getMessage()."\n".
-                    $detail['error']->getTraceAsString();
-            }, $errorDetails));
-    },
+    'displayDirectory' => 'renderDirectory',
+    'cacheDirectory' => 'textualCacheDirectory',
 ]);
 
 exit($cli->run($argv) ? 0 : 1);

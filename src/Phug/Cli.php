@@ -20,14 +20,26 @@ class Cli
         $this->methods = $methods;
     }
 
+    protected function convertToKebabCase($string)
+    {
+        return preg_replace_callback('/[A-Z]/', function ($match) {
+            return '-'.strtolower($match[0]);
+        }, $string);
+    }
+
+    protected function convertToCamelCase($string)
+    {
+        return preg_replace_callback('/-([a-z])/', function ($match) {
+            return strtoupper($match[1]);
+        }, $string);
+    }
+
     public function run($arguments)
     {
         list(, $action) = array_pad($arguments, 2, null);
         $arguments = array_slice($arguments, 2);
         $facade = $this->facade;
-        $method = preg_replace_callback('/-([a-z])/', function ($match) {
-            return strtoupper($match[1]);
-        }, $action);
+        $method = $this->convertToCamelCase($action);
 
         if (!$action) {
             echo "You must provide a method.\n";
@@ -74,9 +86,14 @@ class Cli
         echo "Available methods are:\n";
         foreach ($this->getAvailableMethods() as $method) {
             if (substr($method, 0, 2) !== '__') {
-                echo ' - ' . preg_replace_callback('/[A-Z]/', function ($match) {
-                        return '-' . strtolower($match[0]);
-                    }, $method) . "\n";
+                $action = $this->convertToKebabCase($method);
+                $target = isset($this->methods[$method]) ? $this->methods[$method] : $method;
+                $key = array_search($target, $this->methods);
+                if (is_int($key)) {
+                    $key = $this->methods[$key];
+                }
+
+                echo ' - '.$action.($key && $key !== $method ? ' ('.$this->convertToKebabCase($key).' alias)' : '')."\n";
             }
         }
     }
