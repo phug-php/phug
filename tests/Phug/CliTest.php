@@ -25,11 +25,11 @@ class CliTest extends TestCase
             'compile',
             'compileFile',
             'compileDirectory' => 'textualCacheDirectory',
-            'display' => 'render',
-            'displayFile' => 'renderFile',
+            'display'          => 'render',
+            'displayFile'      => 'renderFile',
             'displayDirectory' => 'renderDirectory',
-            'cacheDirectory' => 'textualCacheDirectory',
-            'testFacade' => function ($facade, $arguments) {
+            'cacheDirectory'   => 'textualCacheDirectory',
+            'testFacade'       => function ($facade, $arguments) {
                 return $facade.' - '.$arguments[0];
             },
         ]);

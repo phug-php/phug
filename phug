@@ -12,10 +12,10 @@ $cli = new Cli('Phug', [
     'compile',
     'compileFile',
     'compileDirectory' => 'textualCacheDirectory',
-    'display' => 'render',
-    'displayFile' => 'renderFile',
+    'display'          => 'render',
+    'displayFile'      => 'renderFile',
     'displayDirectory' => 'renderDirectory',
-    'cacheDirectory' => 'textualCacheDirectory',
+    'cacheDirectory'   => 'textualCacheDirectory',
 ]);
 
 exit($cli->run($argv) ? 0 : 1);
