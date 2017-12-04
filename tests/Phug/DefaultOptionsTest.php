@@ -211,6 +211,11 @@ class DefaultOptionsTest extends AbstractPhugTest
 
             return;
         }
+        if (is_string($expected) && is_string($actual)) {
+            foreach (['expected', 'actual'] as $varName) {
+                $$varName = trim(preg_replace('/\s+/', ' ', $$varName));
+            }
+        }
 
         self::assertSame($expected, $actual, $message);
     }

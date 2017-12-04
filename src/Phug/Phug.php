@@ -223,7 +223,7 @@ class Phug
             $rendererClassName = self::getRendererClassName();
             self::$renderer = new $rendererClassName($options);
         } elseif (!empty($options)) {
-            self::$renderer->setOptions($options);
+            self::$renderer->reInitOptions($options);
             self::$renderer->getCompiler()->getFormatter()->initFormats();
         }
 
