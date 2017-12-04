@@ -7,26 +7,36 @@ use Phug\Util\ModuleInterface;
 class Phug
 {
     /**
+     * List of global filters stored as array where keys are filter names, and values the action callback.
+     *
      * @var array
      */
     private static $filters = [];
 
     /**
+     * List of global custom keywords stored as array where keys are keyword names, and values the action callback.
+     *
      * @var array
      */
     private static $keywords = [];
 
     /**
+     * List of global extensions. Class names that add custom behaviors to the engine.
+     *
      * @var array
      */
     private static $extensions = [];
 
     /**
+     * The current rendering instance used for ::compile(File,Directory), ::render(File,Directory), ::display(File).
+     *
      * @var Renderer
      */
     private static $renderer = null;
 
     /**
+     * Rendering class to be used to create the renderer engine.
+     *
      * @var Renderer
      */
     private static $rendererClassName = Renderer::class;
