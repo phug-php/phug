@@ -138,8 +138,9 @@ class CliTest extends TestCase
      */
     public function testOptions()
     {
+        $options = '{"attributes_mapping": {"link": "href"}}';
         ob_start();
-        $this->cli->run(['_', 'render', 'a(link=$link)', '{"link": "abc"}', '{"attributes_mapping": {"link": "href"}}']);
+        $this->cli->run(['_', 'render', 'a(link=$link)', '{"link": "abc"}', $options]);
         $html = ob_get_contents();
         ob_end_clean();
 

@@ -143,7 +143,10 @@ class Cli
                     $key = $this->methods[$key];
                 }
 
-                echo ' - '.$action.($key && $key !== $method ? ' ('.$this->convertToKebabCase($key).' alias)' : '')."\n";
+                echo ' - '.$action.($key && $key !== $method
+                    ? ' ('.$this->convertToKebabCase($key).' alias)'
+                    : ''
+                )."\n";
             }
         }
     }
