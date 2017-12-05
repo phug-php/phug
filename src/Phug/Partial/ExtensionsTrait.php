@@ -2,6 +2,7 @@
 
 namespace Phug\Partial;
 
+use Phug\PhugException;
 use Phug\Renderer;
 use Phug\Util\ModuleInterface;
 
@@ -107,5 +108,76 @@ trait ExtensionsTrait
         }
 
         return $options;
+    }
+
+    /**
+     * Check if an extension is available globally.
+     *
+     * @param string $extensionClassName
+     *
+     * @return bool
+     */
+    public static function hasExtension($extensionClassName)
+    {
+        return in_array(
+            self::normalizeExtensionClassName($extensionClassName),
+            array_map(
+                [self::class, 'normalizeExtensionClassName'],
+                self::$extensions
+            )
+        );
+    }
+
+    /**
+     * Add an extension to the Phug facade (will be available in the current renderer instance and next static calls).
+     * Throws an exception if the extension is not a valid class name.
+     *
+     * @param string $extensionClassName
+     *
+     * @throws PhugException
+     */
+    public static function addExtension($extensionClassName)
+    {
+        if (!class_exists($extensionClassName)) {
+            throw new PhugException(
+                'Invalid '.$extensionClassName.' extension given: '.
+                'it must be a class name.'
+            );
+        }
+
+        if (!static::hasExtension($extensionClassName)) {
+            self::$extensions[] = $extensionClassName;
+
+            /* @var Renderer $renderer */
+            if ($renderer = self::$renderer) {
+                $renderer->setOptionsRecursive(static::getOptions());
+            }
+        }
+    }
+
+    /**
+     * Remove an extension from the Phug facade (remove from current renderer instance).
+     *
+     * @param string $extensionClassName
+     */
+    public static function removeExtension($extensionClassName)
+    {
+        if (static::hasExtension($extensionClassName)) {
+            if (self::$renderer) {
+                self::removeExtensionFromCurrentRenderer($extensionClassName);
+            }
+
+            self::$extensions = array_diff(self::$extensions, [$extensionClassName]);
+        }
+    }
+
+    /**
+     * Get extensions list added through the Phug facade.
+     *
+     * @return array
+     */
+    public static function getExtensions()
+    {
+        return self::$extensions;
     }
 }
