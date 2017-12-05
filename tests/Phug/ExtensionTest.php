@@ -37,6 +37,7 @@ class ExtensionTest extends AbstractPhugTest
      * @covers \Phug\Phug::addExtension
      * @covers \Phug\Phug::removeExtension
      * @covers \Phug\Phug::getOptions
+     * @covers \Phug\Phug::extractExtensionOptions
      * @covers \Phug\Phug::getExtensionsOptions
      * @covers \Phug\Phug::removeExtensionFromCurrentRenderer
      */
@@ -68,6 +69,7 @@ class ExtensionTest extends AbstractPhugTest
     }
 
     /**
+     * @covers \Phug\Phug::extractExtensionOptions
      * @covers \Phug\Phug::getExtensionsOptions
      * @covers \Phug\Phug::removeExtensionFromCurrentRenderer
      */

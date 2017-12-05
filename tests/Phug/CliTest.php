@@ -21,14 +21,17 @@ class CliTest extends TestCase
         if (!is_dir($dir)) {
             return;
         }
+
         foreach (scandir($dir) as $file) {
             if ($file !== '.' && $file !== '..') {
                 $path = $dir.'/'.$file;
                 if (is_dir($path)) {
                     $this->emptyDirectory($path);
-                } else {
-                    unlink($path);
+
+                    continue;
                 }
+
+                unlink($path);
             }
         }
     }
@@ -62,6 +65,8 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::getNamedArgumentBySpaceDelimiter
+     * @covers ::getNamedArgumentByEqualOperator
      * @covers ::getNamedArgument
      * @covers ::execute
      * @covers ::<public>
@@ -161,6 +166,8 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::getNamedArgumentBySpaceDelimiter
+     * @covers ::getNamedArgumentByEqualOperator
      * @covers ::getNamedArgument
      * @covers ::execute
      * @covers ::<public>
@@ -180,6 +187,8 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::getNamedArgumentBySpaceDelimiter
+     * @covers ::getNamedArgumentByEqualOperator
      * @covers ::getNamedArgument
      * @covers ::execute
      * @covers ::<public>
@@ -225,6 +234,8 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::getNamedArgumentBySpaceDelimiter
+     * @covers ::getNamedArgumentByEqualOperator
      * @covers ::getNamedArgument
      * @covers ::execute
      * @covers ::<public>

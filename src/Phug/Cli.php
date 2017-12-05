@@ -82,23 +82,40 @@ class Cli
         return true;
     }
 
+    protected function getNamedArgumentBySpaceDelimiter(array &$arguments, $index, $name)
+    {
+        if ($arguments[$index] === $name) {
+            array_splice($arguments, $index, 1);
+            if (isset($arguments[$index])) {
+                $value = $arguments[$index];
+                array_splice($arguments, $index, 1);
+
+                return $value;
+            }
+        }
+
+        return false;
+    }
+
+    protected function getNamedArgumentByEqualOperator(array &$arguments, $index, $name)
+    {
+        if (preg_match('/^'.preg_quote($name).'=(.*)$/', $arguments[$index], $match)) {
+            array_splice($arguments, $index, 1);
+
+            return $match[1];
+        }
+
+        return false;
+    }
+
     protected function getNamedArgument(array &$arguments, array $names)
     {
         foreach ($names as $name) {
             foreach ($arguments as $index => $argument) {
-                if ($argument === $name) {
-                    array_splice($arguments, $index, 1);
-                    if (isset($arguments[$index])) {
-                        $value = $arguments[$index];
-                        array_splice($arguments, $index, 1);
-
-                        return $value;
-                    }
-                }
-                if (preg_match('/^'.preg_quote($name).'=(.*)$/', $argument, $match)) {
-                    array_splice($arguments, $index, 1);
-
-                    return $match[1];
+                $value = $this->getNamedArgumentBySpaceDelimiter($arguments, $index, $name) ?:
+                    $this->getNamedArgumentByEqualOperator($arguments, $index, $name);
+                if ($value) {
+                    return $value;
                 }
             }
         }
