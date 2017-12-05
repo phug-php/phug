@@ -2,8 +2,6 @@
 
 namespace Phug;
 
-use Phug\Renderer\Adapter\EvalAdapter;
-use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Util\ModuleInterface;
 
 class Phug
