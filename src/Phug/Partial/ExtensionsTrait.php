@@ -15,11 +15,6 @@ trait ExtensionsTrait
      */
     private static $extensions = [];
 
-    private static function normalizeExtensionClassName($name)
-    {
-        return ltrim('\\', strtolower($name));
-    }
-
     private static function getExtensionsGetters()
     {
         return [
@@ -83,6 +78,11 @@ trait ExtensionsTrait
         }
     }
 
+    protected static function normalizeExtensionClassName($name)
+    {
+        return ltrim('\\', strtolower($name));
+    }
+
     /**
      * Get options from extensions list and default options.
      *
@@ -120,9 +120,9 @@ trait ExtensionsTrait
     public static function hasExtension($extensionClassName)
     {
         return in_array(
-            self::normalizeExtensionClassName($extensionClassName),
+            static::normalizeExtensionClassName($extensionClassName),
             array_map(
-                [self::class, 'normalizeExtensionClassName'],
+                [static::class, 'normalizeExtensionClassName'],
                 self::$extensions
             )
         );
