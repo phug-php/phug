@@ -2,6 +2,8 @@
 
 namespace Phug;
 
+use Phug\Renderer\Adapter\EvalAdapter;
+use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Util\ModuleInterface;
 
 class Phug
@@ -601,6 +603,8 @@ class Phug
      * @param string|null $destination output for compiled PHP files
      *                                 (if array given, will be used as options array)
      * @param array|null  $options     optional options
+     *
+     * @throws RendererException
      *
      * @return array
      */

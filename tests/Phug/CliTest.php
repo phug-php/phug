@@ -16,8 +16,26 @@ class CliTest extends TestCase
      */
     protected $cli;
 
+    protected function emptyDirectory($dir)
+    {
+        if (!is_dir($dir)) {
+            return;
+        }
+        foreach (scandir($dir) as $file) {
+            if ($file !== '.' && $file !== '..') {
+                $path = $dir . '/' . $file;
+                if (is_dir($path)) {
+                    $this->emptyDirectory($path);
+                } else {
+                    unlink($path);
+                }
+            }
+        }
+    }
+
     public function setUp()
     {
+        Phug::reset();
         $this->cli = new Cli(Phug::class, [
             'render',
             'renderFile',
@@ -35,10 +53,17 @@ class CliTest extends TestCase
         ]);
     }
 
+    public function tearDown()
+    {
+        Phug::reset();
+    }
+
     /**
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::getNamedArgument
+     * @covers ::execute
      * @covers ::<public>
      */
     public function testRun()
@@ -65,6 +90,7 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::execute
      * @covers ::<public>
      */
     public function testListAvailableMethods()
@@ -118,6 +144,7 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::execute
      * @covers ::<public>
      */
     public function testCallableActions()
@@ -134,6 +161,8 @@ class CliTest extends TestCase
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
+     * @covers ::getNamedArgument
+     * @covers ::execute
      * @covers ::<public>
      */
     public function testOptions()
@@ -145,5 +174,71 @@ class CliTest extends TestCase
         ob_end_clean();
 
         self::assertSame('<a href="abc"></a>', $html);
+    }
+
+    /**
+     * @group cli
+     * @covers ::convertToKebabCase
+     * @covers ::convertToCamelCase
+     * @covers ::getNamedArgument
+     * @covers ::execute
+     * @covers ::<public>
+     * @covers \Phug\Phug::cacheDirectory
+     * @covers \Phug\Phug::textualCacheDirectory
+     */
+    public function testCacheDirectory()
+    {
+        $expected = __DIR__.'/../templates/cache';
+        if (file_exists($expected)) {
+            static::emptyDirectory($expected);
+            rmdir($expected);
+        }
+        ob_start();
+        $this->cli->run(['_', 'compile-directory', __DIR__.'/../templates', $expected]);
+        $text = ob_get_contents();
+        ob_end_clean();
+
+        self::assertFileExists($expected);
+
+        if (file_exists($expected)) {
+            static::emptyDirectory($expected);
+            rmdir($expected);
+        }
+
+        self::assertSame("1 templates cached.\n0 templates failed to be cached.\n", $text);
+
+        $expected = __DIR__.'/../errorTemplates/cache';
+        ob_start();
+        $this->cli->run(['_', 'compile-directory', __DIR__.'/../errorTemplates', $expected]);
+        $text = ob_get_contents();
+        ob_end_clean();
+
+        if (file_exists($expected)) {
+            static::emptyDirectory($expected);
+            rmdir($expected);
+        }
+
+        self::assertRegExp('/Inconsistent indentation./', $text);
+    }
+
+    /**
+     * @group cli
+     * @covers ::convertToKebabCase
+     * @covers ::convertToCamelCase
+     * @covers ::getNamedArgument
+     * @covers ::execute
+     * @covers ::<public>
+     * @covers \Phug\Phug::cacheDirectory
+     * @covers \Phug\Phug::textualCacheDirectory
+     */
+    public function testBootstrap()
+    {
+        $bootstrap = __DIR__.'/cliBootstrap.php';
+        ob_start();
+        $this->cli->run(['_', 'render', '-b='.$bootstrap, 'p(dad="Charlie")']);
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        self::assertSame('<p mum="Charlie"></p>', $html);
     }
 }

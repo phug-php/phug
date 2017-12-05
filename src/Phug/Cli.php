@@ -55,6 +55,57 @@ class Cli
         }, $string);
     }
 
+    protected function execute($facade, $method, $arguments, $outputFile)
+    {
+        $callable = [$facade, $method];
+        $arguments = array_map(function ($argument) {
+            return in_array(substr($argument, 0, 1), ['[', '{'])
+                ? json_decode($argument, true)
+                : $argument;
+        }, $arguments);
+        if (isset($this->methods[$method])) {
+            $method = $this->methods[$method];
+            $callable = [$facade, $method];
+            if (!is_string($method)) {
+                $callable = $method;
+                $arguments = [$facade, $arguments];
+            }
+        }
+
+        $text = call_user_func_array($callable, $arguments);
+        if ($outputFile) {
+            return file_put_contents($outputFile, $text);
+        }
+
+        echo $text;
+
+        return true;
+    }
+
+    protected function getNamedArgument(array &$arguments, array $names)
+    {
+        foreach ($names as $name) {
+            foreach ($arguments as $index => $argument) {
+                if ($argument === $name) {
+                    array_splice($arguments, $index, 1);
+                    if (isset($arguments[$index])) {
+                        $value = $arguments[$index];
+                        array_splice($arguments, $index, 1);
+
+                        return $value;
+                    }
+                }
+                if (preg_match('/^'.preg_quote($name).'=(.*)$/', $argument, $match)) {
+                    array_splice($arguments, $index, 1);
+
+                    return $match[1];
+                }
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Run the CLI applications with arguments list, return true for a success status, false for an error status.
      *
@@ -64,14 +115,10 @@ class Cli
      */
     public function run($arguments)
     {
-        $outputFileKey = array_search('--output-file', $arguments) ?: array_search('-o', $arguments);
-        $outputFile = null;
-        if ($outputFileKey !== false) {
-            array_splice($arguments, $outputFileKey, 1);
-            if (isset($arguments[$outputFileKey])) {
-                $outputFile = $arguments[$outputFileKey];
-                array_splice($arguments, $outputFileKey, 1);
-            }
+        $outputFile = $this->getNamedArgument($arguments, ['--output-file', '-o']);
+        $bootstrapFile = $this->getNamedArgument($arguments, ['--bootstrap', '-b']);
+        if ($bootstrapFile) {
+            include $bootstrapFile;
         }
         list(, $action) = array_pad($arguments, 2, null);
         $arguments = array_slice($arguments, 2);
@@ -92,28 +139,7 @@ class Cli
             return false;
         }
 
-        $callable = [$facade, $method];
-        $arguments = array_map(function ($argument) {
-            return in_array(substr($argument, 0, 1), ['[', '{'])
-                ? json_decode($argument, true)
-                : $argument;
-        }, $arguments);
-        if (isset($this->methods[$method])) {
-            $method = $this->methods[$method];
-            if (!is_string($method)) {
-                $callable = $method;
-                $arguments = [$facade, $arguments];
-            }
-        }
-
-        $text = call_user_func_array($callable, $arguments);
-        if ($outputFile) {
-            return file_put_contents($outputFile, $text);
-        }
-
-        echo $text;
-
-        return true;
+        return $this->execute($facade, $method, $arguments, $outputFile);
     }
 
     /**
@@ -124,7 +150,10 @@ class Cli
     public function getAvailableMethods()
     {
         foreach ($this->methods as $method => $action) {
-            yield is_int($method) ? $action : $method;
+            $method = is_int($method) ? $action : $method;
+            if (substr($method, 0, 2) !== '__') {
+                yield $method;
+            }
         }
     }
 
@@ -135,19 +164,17 @@ class Cli
     {
         echo "Available methods are:\n";
         foreach ($this->getAvailableMethods() as $method) {
-            if (substr($method, 0, 2) !== '__') {
-                $action = $this->convertToKebabCase($method);
-                $target = isset($this->methods[$method]) ? $this->methods[$method] : $method;
-                $key = array_search($target, $this->methods);
-                if (is_int($key)) {
-                    $key = $this->methods[$key];
-                }
-
-                echo ' - '.$action.($key && $key !== $method
-                    ? ' ('.$this->convertToKebabCase($key).' alias)'
-                    : ''
-                )."\n";
+            $action = $this->convertToKebabCase($method);
+            $target = isset($this->methods[$method]) ? $this->methods[$method] : $method;
+            $key = array_search($target, $this->methods);
+            if (is_int($key)) {
+                $key = $this->methods[$key];
             }
+
+            echo ' - '.$action.($key && $key !== $method
+                ? ' ('.$this->convertToKebabCase($key).' alias)'
+                : ''
+            )."\n";
         }
     }
 }
