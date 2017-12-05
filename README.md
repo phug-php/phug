@@ -21,5 +21,4 @@ Phug is PHP port of Pugjs
 Documentation
 ------------
 
-The work-in-progress documentation:
-https://phug.selfbuild.fr/
+https://www.phug-lang.com/
