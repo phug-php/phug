@@ -539,7 +539,7 @@ class DefaultOptionsTest extends AbstractPhugTest
                 'text_line'   => TextLineScanner::class,
             ],
             'on_lex'     => null,
-            'on_end_lex' => null,
+            'on_lex_end' => null,
             'on_token'   => null,
         ], Phug::getRenderer()->getCompiler()->getParser()->getLexer());
     }
