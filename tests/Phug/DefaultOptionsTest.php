@@ -357,10 +357,9 @@ class DefaultOptionsTest extends AbstractPhugTest
     public function testFormatterOptions()
     {
         self::assertOptions([
-            'dependencies_storage'        => 'pugModule',
-            'dependencies_storage_getter' => null,
-            'default_format'              => BasicFormat::class,
-            'formats'                     => [
+            'dependencies_storage' => 'pugModule',
+            'default_format'       => BasicFormat::class,
+            'formats'              => [
                 'basic'        => BasicFormat::class,
                 'frameset'     => FramesetFormat::class,
                 'html'         => HtmlFormat::class,
