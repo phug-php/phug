@@ -191,7 +191,6 @@ use Phug\Phug;
 use Phug\Renderer\Adapter\EvalAdapter;
 use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
-use Phug\Util\AssociativeStorage;
 use Phug\Util\OptionInterface;
 
 class DefaultOptionsTest extends AbstractPhugTest
@@ -321,7 +320,6 @@ class DefaultOptionsTest extends AbstractPhugTest
             'parser_class_name'    => Parser::class,
             'formatter_class_name' => Formatter::class,
             'locator_class_name'   => FileLocator::class,
-            'mixins_storage_mode'  => AssociativeStorage::REPLACE,
             'compiler_modules'     => [],
             'node_compilers'       => [
                 AssignmentListNode::class => AssignmentListNodeCompiler::class,
