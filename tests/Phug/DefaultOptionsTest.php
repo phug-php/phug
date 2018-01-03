@@ -193,6 +193,9 @@ use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Util\OptionInterface;
 
+/**
+ * @coversDefaultClass \Phug\Partial\FacadeOptionsTrait
+ */
 class DefaultOptionsTest extends AbstractPhugTest
 {
     private static function isCallable($expected)
@@ -539,5 +542,23 @@ class DefaultOptionsTest extends AbstractPhugTest
             'on_lex_end' => null,
             'on_token'   => null,
         ], Phug::getRenderer()->getCompiler()->getParser()->getLexer());
+    }
+
+    /**
+     * @covers \Phug\Phug::__callStatic
+     * @covers ::resetFacadeOptions
+     * @covers ::callOption
+     * @covers ::isOptionMethod
+     * @covers ::getFacadeOptions
+     */
+    public function testInitialOption()
+    {
+        include_once __DIR__.'/Util/TCompiler.php';
+        include_once __DIR__.'/Util/TParser.php';
+        Phug::reset();
+        Phug::setOption('parser_class_name', \TParser::class);
+        Phug::setOption('compiler_class_name', \TCompiler::class);
+        self::assertInstanceOf(\TCompiler::class, Phug::getRenderer()->getCompiler());
+        self::assertInstanceOf(\TParser::class, Phug::getRenderer()->getCompiler()->getParser());
     }
 }
