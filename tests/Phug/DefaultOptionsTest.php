@@ -191,6 +191,8 @@ use Phug\Phug;
 use Phug\Renderer\Adapter\EvalAdapter;
 use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
+use Phug\Test\Util\TCompiler;
+use Phug\Test\Util\TParser;
 use Phug\Util\OptionInterface;
 
 /**
@@ -556,9 +558,9 @@ class DefaultOptionsTest extends AbstractPhugTest
         include_once __DIR__.'/Util/TCompiler.php';
         include_once __DIR__.'/Util/TParser.php';
         Phug::reset();
-        Phug::setOption('parser_class_name', \TParser::class);
-        Phug::setOption('compiler_class_name', \TCompiler::class);
-        self::assertInstanceOf(\TCompiler::class, Phug::getRenderer()->getCompiler());
-        self::assertInstanceOf(\TParser::class, Phug::getRenderer()->getCompiler()->getParser());
+        Phug::setOption('parser_class_name', TParser::class);
+        Phug::setOption('compiler_class_name', TCompiler::class);
+        self::assertInstanceOf(TCompiler::class, Phug::getRenderer()->getCompiler());
+        self::assertInstanceOf(TParser::class, Phug::getRenderer()->getCompiler()->getParser());
     }
 }
