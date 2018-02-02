@@ -6,6 +6,8 @@ use Phug\Compiler\Locator\FileLocator;
 
 class Optimizer
 {
+    const FACADE = Phug::class;
+
     /**
      * @var array
      */
@@ -92,19 +94,23 @@ class Optimizer
 
     public function __construct(array $options = [])
     {
-        $this->options = $options;
         $this->locator = new FileLocator();
         $this->paths = isset($options['paths']) ? $options['paths'] : [];
         if (isset($options['base_dir'])) {
             $this->paths[] = $options['base_dir'];
+            unset($options['base_dir']);
+            $options['paths'] = $this->paths;
         }
         if (isset($options['basedir'])) {
             $this->paths[] = $options['basedir'];
+            unset($options['basedir']);
+            $options['paths'] = $this->paths;
         }
-        $this->cacheDirectory = isset($options['cache_dir'])
-            ? $options['cache_dir']
-            : (isset($options['cache']) ? $options['cache'] : '')
-        ;
+        if (isset($options['cache']) && !isset($options['cache_dir'])) {
+            $options['cache_dir'] = $options['cache'];
+        }
+        $this->options = $options;
+        $this->cacheDirectory = isset($options['cache_dir']) ? $options['cache_dir'] : '';
     }
 
     public function resolve($file)
@@ -132,7 +138,7 @@ class Optimizer
         $cachePath = rtrim($this->cacheDirectory, '\\/').DIRECTORY_SEPARATOR.$this->hashPrint($sourcePath).'.php';
 
         if (!file_exists($cachePath)) {
-            return false;
+            return true;
         }
 
         return $this->hasExpiredImport($sourcePath, $cachePath);
@@ -141,10 +147,33 @@ class Optimizer
     public function displayFile($__pug_file, array $__pug_parameters = [])
     {
         if ($this->isExpired($__pug_file, $__pug_cache_file)) {
-            exit('ici');
-            Phug::displayFile($__pug_file, $__pug_parameters, $this->options);
+            if (isset($this->options['render'])) {
+                call_user_func($this->options['render'], $__pug_file, $__pug_parameters, $this->options);
 
-            return;
+                return;
+            }
+            if (isset($this->options['renderer'])) {
+                $this->options['renderer']->displayFile($__pug_file, $__pug_parameters);
+
+                return;
+            }
+            if (isset($this->options['renderer_class'])) {
+                $className = $this->options['renderer_class'];
+                $renderer = new $className($this->options);
+                $renderer->displayFile($__pug_file, $__pug_parameters);
+
+                return;
+            }
+            $facade = isset($this->options['facade']) ? $this->options['facade'] : static::FACADE;
+            if (method_exists($facade, 'displayFile')) {
+                (static::FACADE)::displayFile($__pug_file, $__pug_parameters, $this->options);
+
+                return;
+            }
+
+            throw new \RuntimeException(
+                'No valid render method, renderer engine, renderer class or facade provided.'
+            );
         }
 
         extract($__pug_parameters);
