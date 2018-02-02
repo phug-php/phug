@@ -6,24 +6,37 @@ use Phug\Compiler\Locator\FileLocator;
 
 class Optimizer
 {
+    /**
+     * Facade for rendering fallback.
+     *
+     * @const string
+     */
     const FACADE = Phug::class;
 
     /**
+     * Rendering options.
+     *
      * @var array
      */
     private $options;
 
     /**
+     * Templates directories.
+     *
      * @var array
      */
     private $paths;
 
     /**
+     * Cache directory.
+     *
      * @var string
      */
     private $cacheDirectory;
 
     /**
+     * Locator to resolve template file paths.
+     *
      * @var FileLocator
      */
     private $locator;
@@ -113,6 +126,13 @@ class Optimizer
         $this->cacheDirectory = isset($options['cache_dir']) ? $options['cache_dir'] : '';
     }
 
+    /**
+     * Resolve a template file path.
+     *
+     * @param string $file
+     *
+     * @return bool|null|string
+     */
     public function resolve($file)
     {
         return $this->locator->locate(
@@ -124,6 +144,15 @@ class Optimizer
         );
     }
 
+    /**
+     * Returns true is a template file is expired, false else.
+     * $cachePath will be set with the template cache file path.
+     *
+     * @param string $file
+     * @param string &$cachePath
+     *
+     * @return bool
+     */
     public function isExpired($file, &$cachePath)
     {
         if (isset($this->options['up_to_date_check']) && !$this->options['up_to_date_check']) {
@@ -144,6 +173,12 @@ class Optimizer
         return $this->hasExpiredImport($sourcePath, $cachePath);
     }
 
+    /**
+     * Display a template.
+     *
+     * @param string $__pug_file
+     * @param array  $__pug_parameters
+     */
     public function displayFile($__pug_file, array $__pug_parameters = [])
     {
         if ($this->isExpired($__pug_file, $__pug_cache_file)) {
@@ -166,7 +201,7 @@ class Optimizer
             }
             $facade = isset($this->options['facade']) ? $this->options['facade'] : static::FACADE;
             if (method_exists($facade, 'displayFile')) {
-                (static::FACADE)::displayFile($__pug_file, $__pug_parameters, $this->options);
+                $facade::displayFile($__pug_file, $__pug_parameters, $this->options);
 
                 return;
             }
@@ -180,6 +215,14 @@ class Optimizer
         include $__pug_cache_file;
     }
 
+    /**
+     * Returns a rendered template file.
+     *
+     * @param string $file
+     * @param array  $parameters
+     *
+     * @return string
+     */
     public function renderFile($file, array $parameters = [])
     {
         ob_start();
