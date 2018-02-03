@@ -55,21 +55,15 @@ class Optimizer
         $algorithm = $algorithms[0];
         $number = 0;
         foreach ($algorithms as $hashAlgorithm) {
-            if (strpos($hashAlgorithm, 'md') === 0) {
-                $hashNumber = substr($hashAlgorithm, 2);
-                if ($hashNumber > $number) {
-                    $number = $hashNumber;
-                    $algorithm = $hashAlgorithm;
+            foreach (['md', 'sha'] as $type) {
+                if (strpos($hashAlgorithm, $type) === 0) {
+                    $hashNumber = substr($hashAlgorithm, strlen($type));
+                    if ($hashNumber > $number) {
+                        $number = $hashNumber;
+                        $algorithm = $hashAlgorithm;
+                    }
+                    continue 2;
                 }
-                continue;
-            }
-            if (strpos($hashAlgorithm, 'sha') === 0) {
-                $hashNumber = substr($hashAlgorithm, 3);
-                if ($hashNumber > $number) {
-                    $number = $hashNumber;
-                    $algorithm = $hashAlgorithm;
-                }
-                continue;
             }
         }
 
@@ -153,7 +147,7 @@ class Optimizer
      *
      * @return bool
      */
-    public function isExpired($file, &$cachePath)
+    public function isExpired($file, &$cachePath = null)
     {
         if (isset($this->options['up_to_date_check']) && !$this->options['up_to_date_check']) {
             return false;
@@ -199,8 +193,10 @@ class Optimizer
 
                 return;
             }
-            $facade = isset($this->options['facade']) ? $this->options['facade'] : static::FACADE;
-            if (method_exists($facade, 'displayFile')) {
+            $facade = isset($this->options['facade'])
+                ? $this->options['facade']
+                : static::FACADE;
+            if (is_callable([$facade, 'displayFile'])) {
                 $facade::displayFile($__pug_file, $__pug_parameters, $this->options);
 
                 return;
