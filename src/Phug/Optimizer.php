@@ -224,6 +224,6 @@ class Optimizer
         ob_start();
         $this->displayFile($file, $parameters);
 
-        return ob_get_flush();
+        return ob_get_clean();
     }
 }

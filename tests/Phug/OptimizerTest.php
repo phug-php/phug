@@ -3,12 +3,18 @@
 namespace Phug\Test;
 
 use Phug\Optimizer;
+use Phug\Phug;
 
 /**
  * @coversDefaultClass \Phug\Optimizer
  */
 class OptimizerTest extends AbstractPhugTest
 {
+    public function tearDown()
+    {
+        Phug::reset();
+    }
+
     /**
      * @group i
      * @covers ::__construct
@@ -17,8 +23,8 @@ class OptimizerTest extends AbstractPhugTest
     public function testOptions()
     {
         $optimizer = new Optimizer([
-            'debug' => false,
-            'basedir' => __DIR__ .'/../templates/dir1',
+            'debug'    => false,
+            'basedir'  => __DIR__.'/../templates/dir1',
             'base_dir' => __DIR__.'/../templates/dir2',
         ]);
 
@@ -44,8 +50,8 @@ class OptimizerTest extends AbstractPhugTest
     public function testUpToDateCheck()
     {
         $optimizer = new Optimizer([
-            'debug' => false,
-            'base_dir' => __DIR__.'/../templates/dir2',
+            'debug'            => false,
+            'base_dir'         => __DIR__.'/../templates/dir2',
             'up_to_date_check' => false,
         ]);
 
@@ -71,10 +77,10 @@ class OptimizerTest extends AbstractPhugTest
             ? static::emptyDirectory($cache)
             : mkdir($cache);
         $optimizer = new Optimizer([
-            'debug' => false,
-            'basedir' => __DIR__ .'/../templates/dir1',
+            'debug'    => false,
+            'basedir'  => __DIR__.'/../templates/dir1',
             'base_dir' => __DIR__.'/../templates/dir2',
-            'cache' => $cache,
+            'cache'    => $cache,
         ]);
 
         self::assertSame(
