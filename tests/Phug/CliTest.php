@@ -214,7 +214,7 @@ class CliTest extends TestCase
             rmdir($expected);
         }
 
-        self::assertSame("1 templates cached.\n0 templates failed to be cached.\n", $text);
+        self::assertSame("3 templates cached.\n0 templates failed to be cached.\n", $text);
 
         $expected = __DIR__.'/../errorTemplates/cache';
         ob_start();
