@@ -227,11 +227,13 @@ class OptimizerTest extends AbstractPhugTest
 
         $error = null;
         ob_start();
+
         try {
             $optimizer->displayFile('foo');
         } catch (\Exception $exception) {
             $error = $exception->getMessage();
         }
+
         ob_end_clean();
 
         self::assertSame(
