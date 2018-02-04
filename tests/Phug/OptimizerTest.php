@@ -4,6 +4,9 @@ namespace Phug\Test;
 
 use Phug\Optimizer;
 use Phug\Phug;
+use Phug\Reader;
+use Phug\Test\Util\CustomFacade;
+use Phug\Test\Util\CustomRenderer;
 
 /**
  * @coversDefaultClass \Phug\Optimizer
@@ -167,5 +170,73 @@ class OptimizerTest extends AbstractPhugTest
         rmdir($cache);
         static::emptyDirectory($templates);
         rmdir($templates);
+    }
+
+    /**
+     * @group i
+     * @covers ::displayFile
+     */
+    public function testCustomRender()
+    {
+        include_once __DIR__.'/Util/CustomRenderer.php';
+        include_once __DIR__.'/Util/CustomFacade.php';
+        $optimizer = new Optimizer([
+            'facade' => CustomFacade::class,
+        ]);
+        CustomFacade::setOutput('abc');
+
+        self::assertSame(
+            'abc',
+            $optimizer->renderFile('foo')
+        );
+
+        $renderer = new CustomRenderer('def');
+        $optimizer = new Optimizer([
+            'renderer' => $renderer,
+        ]);
+
+        self::assertSame(
+            'def',
+            $optimizer->renderFile('foo')
+        );
+
+        $renderer = new CustomRenderer('ghi');
+        $optimizer = new Optimizer([
+            'render' => function ($path, $parameters) use ($renderer) {
+                $renderer->displayFile($path, $parameters);
+            },
+        ]);
+
+        self::assertSame(
+            'ghi',
+            $optimizer->renderFile('foo')
+        );
+
+        $optimizer = new Optimizer([
+            'renderer_class' => CustomRenderer::class,
+        ]);
+
+        self::assertSame(
+            'array',
+            $optimizer->renderFile('foo')
+        );
+
+        $optimizer = new Optimizer([
+            'facade' => Reader::class,
+        ]);
+
+        $error = null;
+        ob_start();
+        try {
+            $optimizer->displayFile('foo');
+        } catch (\Exception $exception) {
+            $error = $exception->getMessage();
+        }
+        ob_end_clean();
+
+        self::assertSame(
+            'No valid render method, renderer engine, renderer class or facade provided.',
+            $error
+        );
     }
 }
