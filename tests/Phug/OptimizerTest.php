@@ -18,6 +18,7 @@ class OptimizerTest extends AbstractPhugTest
     /**
      * @group i
      * @covers ::__construct
+     * @covers ::isExpired
      * @covers ::resolve
      */
     public function testOptions()
@@ -45,6 +46,7 @@ class OptimizerTest extends AbstractPhugTest
     /**
      * @group i
      * @covers ::__construct
+     * @covers ::isExpired
      * @covers ::resolve
      */
     public function testUpToDateCheck()
@@ -102,5 +104,68 @@ class OptimizerTest extends AbstractPhugTest
 
         static::emptyDirectory($cache);
         rmdir($cache);
+    }
+
+    /**
+     * @group i
+     * @covers ::resolve
+     * @covers ::hasExpiredImport
+     * @covers ::isExpired
+     * @covers ::displayFile
+     */
+    public function testImports()
+    {
+        $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
+        $templates = sys_get_temp_dir().'/templates'.mt_rand(0, 999999);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
+        file_exists($templates)
+            ? static::emptyDirectory($templates)
+            : mkdir($templates);
+        file_put_contents($templates.'/foo.txt', 'include bar');
+        touch($templates.'/foo.txt', time() - 3600);
+        file_put_contents($templates.'/bar.txt', 'div bar');
+        touch($templates.'/bar.txt', time() - 3600);
+        $optimizer = new Optimizer([
+            'debug'      => false,
+            'extensions' => ['', '.txt'],
+            'paths'      => [$templates],
+            'cache'      => $cache,
+        ]);
+
+        self::assertSame(
+            '<div>bar</div>',
+            $optimizer->renderFile('foo')
+        );
+
+        file_put_contents($templates.'/bar.txt', 'div biz');
+        touch($templates.'/bar.txt', time() - 3600);
+
+        self::assertSame(
+            '<div>bar</div>',
+            $optimizer->renderFile('foo')
+        );
+
+        touch($templates.'/bar.txt', time() + 3600);
+
+        self::assertSame(
+            '<div>biz</div>',
+            $optimizer->renderFile('foo')
+        );
+
+        file_put_contents($templates.'/bar.txt', 'p biz');
+        touch($templates.'/bar.txt', time() - 3600);
+        array_map('unlink', glob($cache.'/*.imports.serialize.txt'));
+
+        self::assertSame(
+            '<p>biz</p>',
+            $optimizer->renderFile('foo')
+        );
+
+        static::emptyDirectory($cache);
+        rmdir($cache);
+        static::emptyDirectory($templates);
+        rmdir($templates);
     }
 }
