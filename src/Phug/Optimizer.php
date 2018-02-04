@@ -186,8 +186,8 @@ class Optimizer
 
                 return;
             }
-            if (isset($this->options['renderer_class'])) {
-                $className = $this->options['renderer_class'];
+            if (isset($this->options['renderer_class_name'])) {
+                $className = $this->options['renderer_class_name'];
                 $renderer = new $className($this->options);
                 $renderer->displayFile($__pug_file, $__pug_parameters);
 

@@ -213,7 +213,7 @@ class OptimizerTest extends AbstractPhugTest
         );
 
         $optimizer = new Optimizer([
-            'renderer_class' => CustomRenderer::class,
+            'renderer_class_name' => CustomRenderer::class,
         ]);
 
         self::assertSame(
