@@ -19,7 +19,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::__construct
      * @covers ::isExpired
      * @covers ::resolve
@@ -47,7 +46,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::__construct
      * @covers ::isExpired
      * @covers ::resolve
@@ -67,7 +65,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::__construct
      * @covers ::hashPrint
      * @covers ::hasExpiredImport
@@ -110,7 +107,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::resolve
      * @covers ::hasExpiredImport
      * @covers ::isExpired
@@ -173,7 +169,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::displayFile
      */
     public function testCustomRender()
@@ -243,7 +238,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::displayFile
      */
     public function testStaticCall()
@@ -277,7 +271,7 @@ class OptimizerTest extends AbstractPhugTest
         );
         self::assertSame(
             '6',
-            Optimizer::renderFile('foo', ['c' => 3], $options)
+            Optimizer::call('renderFile', ['foo', ['c' => 3]], $options)
         );
 
         static::emptyDirectory($cache);

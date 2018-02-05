@@ -214,7 +214,7 @@ class Optimizer
             $__pug_parameters = array_merge($this->options['globals'], $__pug_parameters);
         }
         if (isset($this->options['self']) && $this->options['self']) {
-            $self = $this->options['self'] === true ? 'self' : $this->options['self'];
+            $self = $this->options['self'] === true ? 'self' : strval($this->options['self']);
             $__pug_parameters = [$self => $__pug_parameters];
         }
 
@@ -238,16 +238,17 @@ class Optimizer
         return ob_get_clean();
     }
 
-    public static function __callStatic($name, $arguments)
+    /**
+     * Call an optimizer method statically.
+     *
+     * @param string $name      method name
+     * @param array  $arguments method argument to be passed
+     * @param array  $options   options the optimizer will be created with
+     *
+     * @return mixed
+     */
+    public static function call($name, array $arguments = [], array $options = [])
     {
-        $optionsIndex = $name == 'resolve' ? 1 : 2;
-        $options = [];
-        if (isset($arguments[$optionsIndex])) {
-            $options = $arguments[$optionsIndex];
-            array_pop($arguments);
-        }
-        $optimizer = new static($options);
-
-        return call_user_func_array([$optimizer, $name], $arguments);
+        return call_user_func_array([new static($options), $name], $arguments);
     }
 }
