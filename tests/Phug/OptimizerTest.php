@@ -239,6 +239,7 @@ class OptimizerTest extends AbstractPhugTest
 
     /**
      * @covers ::call
+     * @covers ::displayFile
      */
     public function testStaticCall()
     {
