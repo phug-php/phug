@@ -266,10 +266,14 @@ class OptimizerTest extends AbstractPhugTest
             '6',
             $optimizer->renderFile('foo', ['c' => 3])
         );
+
+        touch($templates.'/foo.pug', time() - 3600);
+
         self::assertSame(
             '6',
             $optimizer->renderFile('foo', ['c' => 3])
         );
+
         self::assertSame(
             '6',
             Optimizer::call('renderFile', ['foo', ['c' => 3]], $options)
