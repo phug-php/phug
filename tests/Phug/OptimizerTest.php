@@ -241,4 +241,48 @@ class OptimizerTest extends AbstractPhugTest
             $error
         );
     }
+
+    /**
+     * @group i
+     * @covers ::displayFile
+     */
+    public function testStaticCall()
+    {
+        $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
+        $templates = sys_get_temp_dir().'/templates'.mt_rand(0, 999999);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
+        file_exists($templates)
+            ? static::emptyDirectory($templates)
+            : mkdir($templates);
+        file_put_contents($templates.'/foo.pug', '=$self["a"] + $self["b"] + $self["c"]');
+        $options = [
+            'shared_variables' => ['a' => 1],
+            'globals'          => ['b' => 2],
+            'self'             => true,
+            'debug'            => false,
+            'paths'            => [$templates],
+            'cache'            => $cache,
+        ];
+        $optimizer = new Optimizer($options);
+
+        self::assertSame(
+            '6',
+            $optimizer->renderFile('foo', ['c' => 3])
+        );
+        self::assertSame(
+            '6',
+            $optimizer->renderFile('foo', ['c' => 3])
+        );
+        self::assertSame(
+            '6',
+            Optimizer::renderFile('foo', ['c' => 3], $options)
+        );
+
+        static::emptyDirectory($cache);
+        rmdir($cache);
+        static::emptyDirectory($templates);
+        rmdir($templates);
+    }
 }

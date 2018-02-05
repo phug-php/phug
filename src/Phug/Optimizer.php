@@ -207,6 +207,17 @@ class Optimizer
             );
         }
 
+        if (isset($this->options['shared_variables'])) {
+            $__pug_parameters = array_merge($this->options['shared_variables'], $__pug_parameters);
+        }
+        if (isset($this->options['globals'])) {
+            $__pug_parameters = array_merge($this->options['globals'], $__pug_parameters);
+        }
+        if (isset($this->options['self']) && $this->options['self']) {
+            $self = $this->options['self'] === true ? 'self' : $this->options['self'];
+            $__pug_parameters = [$self => $__pug_parameters];
+        }
+
         extract($__pug_parameters);
         include $__pug_cache_file;
     }
@@ -225,5 +236,18 @@ class Optimizer
         $this->displayFile($file, $parameters);
 
         return ob_get_clean();
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        $optionsIndex = $name == 'resolve' ? 1 : 2;
+        $options = [];
+        if (isset($arguments[$optionsIndex])) {
+            $options = $arguments[$optionsIndex];
+            array_pop($arguments);
+        }
+        $optimizer = new static($options);
+
+        return call_user_func_array([$optimizer, $name], $arguments);
     }
 }
