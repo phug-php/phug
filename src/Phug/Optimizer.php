@@ -207,6 +207,17 @@ class Optimizer
             );
         }
 
+        if (isset($this->options['shared_variables'])) {
+            $__pug_parameters = array_merge($this->options['shared_variables'], $__pug_parameters);
+        }
+        if (isset($this->options['globals'])) {
+            $__pug_parameters = array_merge($this->options['globals'], $__pug_parameters);
+        }
+        if (isset($this->options['self']) && $this->options['self']) {
+            $self = $this->options['self'] === true ? 'self' : strval($this->options['self']);
+            $__pug_parameters = [$self => $__pug_parameters];
+        }
+
         extract($__pug_parameters);
         include $__pug_cache_file;
     }
@@ -225,5 +236,19 @@ class Optimizer
         $this->displayFile($file, $parameters);
 
         return ob_get_clean();
+    }
+
+    /**
+     * Call an optimizer method statically.
+     *
+     * @param string $name      method name
+     * @param array  $arguments method argument to be passed
+     * @param array  $options   options the optimizer will be created with
+     *
+     * @return mixed
+     */
+    public static function call($name, array $arguments = [], array $options = [])
+    {
+        return call_user_func_array([new static($options), $name], $arguments);
     }
 }

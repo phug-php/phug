@@ -19,7 +19,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::__construct
      * @covers ::isExpired
      * @covers ::resolve
@@ -47,7 +46,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::__construct
      * @covers ::isExpired
      * @covers ::resolve
@@ -67,7 +65,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::__construct
      * @covers ::hashPrint
      * @covers ::hasExpiredImport
@@ -110,7 +107,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::resolve
      * @covers ::hasExpiredImport
      * @covers ::isExpired
@@ -173,7 +169,6 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers ::displayFile
      */
     public function testCustomRender()
@@ -240,5 +235,53 @@ class OptimizerTest extends AbstractPhugTest
             'No valid render method, renderer engine, renderer class or facade provided.',
             $error
         );
+    }
+
+    /**
+     * @covers ::call
+     * @covers ::displayFile
+     */
+    public function testStaticCall()
+    {
+        $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
+        $templates = sys_get_temp_dir().'/templates'.mt_rand(0, 999999);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
+        file_exists($templates)
+            ? static::emptyDirectory($templates)
+            : mkdir($templates);
+        file_put_contents($templates.'/foo.pug', '=$self["a"] + $self["b"] + $self["c"]');
+        $options = [
+            'shared_variables' => ['a' => 1],
+            'globals'          => ['b' => 2],
+            'self'             => true,
+            'debug'            => false,
+            'paths'            => [$templates],
+            'cache'            => $cache,
+        ];
+        $optimizer = new Optimizer($options);
+
+        self::assertSame(
+            '6',
+            $optimizer->renderFile('foo', ['c' => 3])
+        );
+
+        touch($templates.'/foo.pug', time() - 3600);
+
+        self::assertSame(
+            '6',
+            $optimizer->renderFile('foo', ['c' => 3])
+        );
+
+        self::assertSame(
+            '6',
+            Optimizer::call('renderFile', ['foo', ['c' => 3]], $options)
+        );
+
+        static::emptyDirectory($cache);
+        rmdir($cache);
+        static::emptyDirectory($templates);
+        rmdir($templates);
     }
 }
