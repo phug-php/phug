@@ -14,8 +14,8 @@
     ],
     "support": {
         "email": "support@phug-lang.com",
-        "issues": "https://github.com/phug-php/compiler/issues",
-        "source": "https://github.com/phug-php/compiler",
+        "issues": "https://github.com/phug-php/phug/issues",
+        "source": "https://github.com/phug-php/phug",
         "docs": "http://phug-lang.com/docs"
     },
     "minimum-stability": "stable",
