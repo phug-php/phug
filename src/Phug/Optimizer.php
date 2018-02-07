@@ -55,15 +55,20 @@ class Optimizer
         $algorithm = $algorithms[0];
         $number = 0;
         foreach ($algorithms as $hashAlgorithm) {
-            foreach (['md', 'sha'] as $type) {
-                if (strpos($hashAlgorithm, $type) === 0) {
-                    $hashNumber = substr($hashAlgorithm, strlen($type));
-                    if ($hashNumber > $number) {
-                        $number = $hashNumber;
-                        $algorithm = $hashAlgorithm;
-                    }
-                    continue 2;
+            $lettersLength = substr($hashAlgorithm, 0, 2) === 'md'
+                ? 2
+                : (substr($hashAlgorithm, 0, 3) === 'sha'
+                    ? 3
+                    : 0
+                );
+            if ($lettersLength) {
+                $hashNumber = substr($hashAlgorithm, $lettersLength);
+                if ($hashNumber > $number) {
+                    $number = $hashNumber;
+                    $algorithm = $hashAlgorithm;
                 }
+
+                continue;
             }
         }
 
