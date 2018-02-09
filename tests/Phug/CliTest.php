@@ -69,6 +69,7 @@ class CliTest extends TestCase
      * @covers ::getNamedArgumentByEqualOperator
      * @covers ::getNamedArgument
      * @covers ::execute
+     * @covers ::getCustomMethods
      * @covers ::<public>
      */
     public function testRun()
@@ -244,6 +245,10 @@ class CliTest extends TestCase
      */
     public function testBootstrap()
     {
+        if (file_exists('phugBootstrap.php')) {
+            rename('phugBootstrap.php', '__phugBootstrap.php');
+        }
+
         $bootstrap = __DIR__.'/cliBootstrap.php';
         ob_start();
         $this->cli->run(['_', 'render', '-b='.$bootstrap, 'p(dad="Charlie")']);
@@ -251,5 +256,18 @@ class CliTest extends TestCase
         ob_end_clean();
 
         self::assertSame('<p mum="Charlie"></p>', $html);
+
+        chdir(sys_get_temp_dir());
+        copy($bootstrap, 'phugBootstrap.php');
+        ob_start();
+        $this->cli->run(['_', 'render', 'p(dad="Fred")']);
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        self::assertSame('<p mum="Fred"></p>', $html);
+
+        if (file_exists('__phugBootstrap.php')) {
+            rename('__phugBootstrap.php', 'phugBootstrap.php');
+        }
     }
 }

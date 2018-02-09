@@ -456,8 +456,8 @@ class Phug
         }
 
         return static::getRenderer(array_merge(
-            $options ?: [],
-            $destination ?: []
+            $options ?: [], // @codeCoverageIgnore
+            $destination ?: [] // @codeCoverageIgnore
         ))->cacheDirectory($source);
     }
 
