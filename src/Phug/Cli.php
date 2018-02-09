@@ -126,6 +126,12 @@ class Cli
     protected function getCustomMethods()
     {
         $facade = $this->facade;
+        $options = is_callable([$facade, 'getOptions']) ? call_user_func([$facade, 'getOptions']) : [];
+
+        if (isset($options['commands'])) {
+            return $options['commands'];
+        }
+
         if (!is_callable([$facade, 'hasOption']) ||
             !call_user_func([$facade, 'hasOption'], 'commands') ||
             !is_callable([$facade, 'getOption'])
