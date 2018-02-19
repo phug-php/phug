@@ -59,6 +59,22 @@ trait ExtensionsTrait
         $renderer->setOptionsDefaults((new $rendererClassName())->getOptions());
     }
 
+    private static function mergeOptions($options, $values)
+    {
+        foreach ($values as $key => &$value) {
+            if (substr($key, 0, 3) === 'on_') {
+                if (!is_array($value) || !is_callable($value)) {
+                    $value = [$value];
+                }
+                if (isset($options[$key]) && (!is_array($options[$key]) || !is_callable($options[$key]))) {
+                    $options[$key] = [$options[$key]];
+                }
+            }
+        }
+
+        return array_merge_recursive($options, $values);
+    }
+
     private static function extractExtensionOptions(&$options, $extensionClassName, $methods)
     {
         $extension = is_string($extensionClassName)
@@ -67,13 +83,13 @@ trait ExtensionsTrait
         foreach (['getOptions', 'getEvents'] as $method) {
             $value = $extension->$method();
             if (!empty($value)) {
-                $options = array_merge_recursive($options, $value);
+                $options = static::mergeOptions($options, $value);
             }
         }
         foreach ($methods as $option => $method) {
             $value = $extension->$method();
             if (!empty($value)) {
-                $options = array_merge_recursive($options, [$option => $value]);
+                $options = static::mergeOptions($options, [$option => $value]);
             }
         }
     }

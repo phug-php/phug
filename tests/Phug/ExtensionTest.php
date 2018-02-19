@@ -3,6 +3,9 @@
 namespace Phug\Test;
 
 use Phug\Phug;
+use Phug\Test\Extension\Ev1Extension;
+use Phug\Test\Extension\Ev2Extension;
+use Phug\Test\Extension\TwigExtension;
 
 /**
  * @coversDefaultClass \Phug\AbstractExtension
@@ -43,7 +46,6 @@ class ExtensionTest extends AbstractPhugTest
      */
     public function testImplement()
     {
-        include_once __DIR__.'/TwigExtension.php';
         $code = implode("\n", [
             '//Comment',
             '- $foo = 1',
@@ -75,7 +77,6 @@ class ExtensionTest extends AbstractPhugTest
      */
     public function testAddModuleAsExtension()
     {
-        include_once __DIR__.'/CompilerModule.php';
         $compilerHas1 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
         $has1 = Phug::hasExtension(CompilerModule::class);
         Phug::addExtension(CompilerModule::class);
@@ -91,5 +92,21 @@ class ExtensionTest extends AbstractPhugTest
         self::assertTrue($compilerHas2);
         self::assertFalse($has3);
         self::assertFalse($compilerHas3);
+    }
+
+    /**
+     * @covers \Phug\Partial\ExtensionsTrait::mergeOptions
+     */
+    public function testEventsMerge()
+    {
+        Phug::addExtension(Ev1Extension::class);
+        Phug::addExtension(Ev2Extension::class);
+        $enabled = Phug::render('div');
+        Phug::removeExtension(Ev1Extension::class);
+        Phug::removeExtension(Ev2Extension::class);
+        $disabled = Phug::render('div');
+
+        self::assertSame('<div></div>', $enabled);
+        self::assertSame('<div></div>', $disabled);
     }
 }
