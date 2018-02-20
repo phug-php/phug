@@ -95,6 +95,17 @@ class Phug
         if (self::$renderer && (empty($path) || self::$renderer->hasOption($path))) {
             if (is_array($options)) {
                 foreach ($options as $key => $value) {
+                    if (is_int($key)) {
+                        self::$renderer->setOption($path, array_filter(
+                            self::$renderer->getOption($path),
+                            function ($item) use ($value) {
+                                return $item != $value;
+                            }
+                        ));
+
+                        continue;
+                    }
+
                     static::removeOptions(array_merge($path, [$key]), $value);
                 }
 

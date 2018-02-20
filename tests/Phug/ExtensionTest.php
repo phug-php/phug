@@ -95,6 +95,7 @@ class ExtensionTest extends AbstractPhugTest
     }
 
     /**
+     * @group i
      * @covers \Phug\Partial\ExtensionsTrait::mergeOptions
      */
     public function testEventsMerge()
@@ -106,7 +107,7 @@ class ExtensionTest extends AbstractPhugTest
         Phug::removeExtension(Ev2Extension::class);
         $disabled = Phug::render('div');
 
-        self::assertSame('<div></div>', $enabled);
+        self::assertSame('<div foo="42" biz="1" bar="9" a="a"></div>', $enabled);
         self::assertSame('<div></div>', $disabled);
     }
 }

@@ -7,7 +7,7 @@ class Ev1Extension extends AbstractEventExtension
     public function getOptions()
     {
         return [
-            'on_node'   => static::getStaticNodeEvent('foo', 42),
+            'on_node'   => static::getStaticNodeEvent('foo', '42'),
             'on_format' => [
                 static::getStaticFormatEvent('a', 'a'),
             ],
@@ -18,8 +18,8 @@ class Ev1Extension extends AbstractEventExtension
     {
         return [
             'on_node' => [
-                static::getStaticNodeEvent('bar', 9),
-                static::getStaticNodeEvent('biz', 1),
+                static::getStaticNodeEvent('bar', '9'),
+                static::getStaticNodeEvent('biz', '1'),
             ],
         ];
     }

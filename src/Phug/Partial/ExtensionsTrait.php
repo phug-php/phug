@@ -63,10 +63,10 @@ trait ExtensionsTrait
     {
         foreach ($values as $key => &$value) {
             if (substr($key, 0, 3) === 'on_') {
-                if (!is_array($value) || !is_callable($value)) {
+                if (!is_array($value) || is_callable($value)) {
                     $value = [$value];
                 }
-                if (isset($options[$key]) && (!is_array($options[$key]) || !is_callable($options[$key]))) {
+                if (isset($options[$key]) && (!is_array($options[$key]) || is_callable($options[$key]))) {
                     $options[$key] = [$options[$key]];
                 }
             }
