@@ -95,11 +95,11 @@ class ExtensionTest extends AbstractPhugTest
     }
 
     /**
-     * @group i
      * @covers \Phug\Partial\ExtensionsTrait::mergeOptions
      */
     public function testEventsMerge()
     {
+        Phug::reset();
         Phug::addExtension(Ev1Extension::class);
         Phug::addExtension(Ev2Extension::class);
         $enabled = Phug::render('div');

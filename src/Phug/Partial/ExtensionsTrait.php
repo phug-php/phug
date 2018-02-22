@@ -5,6 +5,7 @@ namespace Phug\Partial;
 use Phug\PhugException;
 use Phug\Renderer;
 use Phug\Util\ModuleInterface;
+use SplObjectStorage;
 
 trait ExtensionsTrait
 {
@@ -32,6 +33,45 @@ trait ExtensionsTrait
         ];
     }
 
+    private static function resolveExtension($extensionClassName)
+    {
+        if (!is_string($extensionClassName)) {
+            return $extensionClassName;
+        }
+
+        static $cache = [];
+
+        if (!isset($cache[$extensionClassName])) {
+            $cache[$extensionClassName] = new $extensionClassName();
+        }
+
+        return $cache[$extensionClassName];
+    }
+
+    private static function getExtensionMethodResult($extensionClassName, $method)
+    {
+        static $cache = null;
+
+        $extension = static::resolveExtension($extensionClassName);
+
+        if (is_null($cache)) {
+            $cache = new SplObjectStorage();
+        }
+
+        if (!isset($cache[$extension])) {
+            $cache[$extension] = [];
+        }
+
+        $methods = $cache[$extension];
+
+        if (!isset($methods[$method])) {
+            $methods[$method] = $extension->$method();
+            $cache[$extension] = $methods;
+        }
+
+        return $methods[$method];
+    }
+
     private static function removeExtensionFromCurrentRenderer($extensionClassName)
     {
         /* @var Renderer $renderer */
@@ -48,12 +88,11 @@ trait ExtensionsTrait
             return;
         }
 
-        $extension = new $extensionClassName();
         foreach (['getOptions', 'getEvents'] as $method) {
-            static::removeOptions([], $extension->$method());
+            static::removeOptions([], static::getExtensionMethodResult($extensionClassName, $method));
         }
         foreach (static::getExtensionsGetters() as $option => $method) {
-            static::removeOptions([$option], $extension->$method());
+            static::removeOptions([$option], static::getExtensionMethodResult($extensionClassName, $method));
         }
         $rendererClassName = self::getRendererClassName();
         $renderer->setOptionsDefaults((new $rendererClassName())->getOptions());
@@ -77,17 +116,14 @@ trait ExtensionsTrait
 
     private static function extractExtensionOptions(&$options, $extensionClassName, $methods)
     {
-        $extension = is_string($extensionClassName)
-            ? new $extensionClassName()
-            : $extensionClassName;
         foreach (['getOptions', 'getEvents'] as $method) {
-            $value = $extension->$method();
+            $value = static::getExtensionMethodResult($extensionClassName, $method);
             if (!empty($value)) {
                 $options = static::mergeOptions($options, $value);
             }
         }
         foreach ($methods as $option => $method) {
-            $value = $extension->$method();
+            $value = static::getExtensionMethodResult($extensionClassName, $method);
             if (!empty($value)) {
                 $options = static::mergeOptions($options, [$option => $value]);
             }
@@ -181,6 +217,7 @@ trait ExtensionsTrait
         if (static::hasExtension($extensionClassName)) {
             if (self::$renderer) {
                 self::removeExtensionFromCurrentRenderer($extensionClassName);
+                self::$renderer->initCompiler();
             }
 
             self::$extensions = array_diff(self::$extensions, [$extensionClassName]);
