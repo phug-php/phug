@@ -43,6 +43,7 @@ class ExtensionTest extends AbstractPhugTest
      * @covers \Phug\Phug::extractExtensionOptions
      * @covers \Phug\Phug::getExtensionsOptions
      * @covers \Phug\Phug::removeExtensionFromCurrentRenderer
+     * @covers \Phug\Partial\ExtensionsTrait::getExtensionMethodResult
      */
     public function testImplement()
     {
@@ -95,6 +96,9 @@ class ExtensionTest extends AbstractPhugTest
     }
 
     /**
+     * @covers \Phug\Phug::removeOptions
+     * @covers \Phug\Partial\ExtensionsTrait::resolveExtension
+     * @covers \Phug\Partial\ExtensionsTrait::getExtensionMethodResult
      * @covers \Phug\Partial\ExtensionsTrait::mergeOptions
      */
     public function testEventsMerge()
@@ -109,5 +113,11 @@ class ExtensionTest extends AbstractPhugTest
 
         self::assertSame('<div foo="42" biz="1" bar="9" a="a"></div>', $enabled);
         self::assertSame('<div></div>', $disabled);
+
+        $closure = function () {};
+        Phug::setOption('on_node', $closure);
+        Phug::removeOptions('on_node', [$closure]);
+
+        self::assertSame([], Phug::getOption('on_node'));
     }
 }
