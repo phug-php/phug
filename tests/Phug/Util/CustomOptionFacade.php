@@ -25,7 +25,7 @@ class CustomOptionFacade extends Phug
         return isset(static::$options1[$name]) ? static::$options1[$name] : null;
     }
 
-    public static function getOptions()
+    public static function getOptions(array $options = [])
     {
         return static::$options2;
     }

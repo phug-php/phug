@@ -114,7 +114,8 @@ class ExtensionTest extends AbstractPhugTest
         self::assertSame('<div foo="42" biz="1" bar="9" a="a"></div>', $enabled);
         self::assertSame('<div></div>', $disabled);
 
-        $closure = function () {};
+        $closure = function () {
+        };
         Phug::setOption('on_node', $closure);
         Phug::removeOptions('on_node', [$closure]);
 
