@@ -6,6 +6,7 @@ use Phug\Compiler;
 use Phug\Phug;
 use Phug\PhugException;
 use Phug\Renderer;
+use Phug\Test\Extension\VerbatimExtension;
 
 /**
  * @coversDefaultClass \Phug\Phug

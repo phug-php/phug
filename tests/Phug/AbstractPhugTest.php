@@ -3,7 +3,7 @@
 namespace Phug\Test;
 
 use PHPUnit\Framework\TestCase;
-use Phug\Phug;
+use Phug\Test\Extension\VerbatimExtension;
 
 abstract class AbstractPhugTest extends TestCase
 {
@@ -31,7 +31,6 @@ abstract class AbstractPhugTest extends TestCase
 
     public function setUp()
     {
-        include_once __DIR__.'/VerbatimExtension.php';
-        $this->verbatim = new VerbatimExtension(new Phug());
+        $this->verbatim = new VerbatimExtension();
     }
 }

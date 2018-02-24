@@ -1,6 +1,6 @@
 <?php
 
-namespace Phug\Test;
+namespace Phug\Test\Extension;
 
 use Phug\AbstractExtension;
 

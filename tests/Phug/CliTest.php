@@ -5,6 +5,7 @@ namespace Phug\Test;
 use PHPUnit\Framework\TestCase;
 use Phug\Cli;
 use Phug\Phug;
+use Phug\Test\Util\CustomOptionFacade;
 
 /**
  * @coversDefaultClass \Phug\Cli
@@ -59,6 +60,35 @@ class CliTest extends TestCase
     public function tearDown()
     {
         Phug::reset();
+    }
+
+    /**
+     * @group cli
+     * @covers ::getCustomMethods
+     */
+    public function testGetCustomMethods()
+    {
+        $cli = new Cli(CustomOptionFacade::class, []);
+
+        CustomOptionFacade::setOptions1([
+            'commands' => [
+                'b' => 13,
+            ],
+        ]);
+
+        self::assertSame([
+            'b' => 13,
+        ], $cli->getCustomMethods());
+
+        CustomOptionFacade::setOptions2([
+            'commands' => [
+                'a' => 42,
+            ],
+        ]);
+
+        self::assertSame([
+            'a' => 42,
+        ], $cli->getCustomMethods());
     }
 
     /**
