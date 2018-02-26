@@ -286,6 +286,7 @@ class PhugTest extends AbstractPhugTest
     }
 
     /**
+     * @covers \Phug\Partial\ExtensionsTrait::resolveExtension
      * @covers ::getExtensionsOptions
      */
     public function testGetExtensionsOptions()
