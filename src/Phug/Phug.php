@@ -484,6 +484,8 @@ class Phug
      *                                 (if array given, will be used as options array)
      * @param array|null  $options     optional options
      *
+     * @throws RendererException
+     *
      * @return string
      */
     public static function textualCacheDirectory($source, $destination = null, $options = null)
