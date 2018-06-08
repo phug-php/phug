@@ -16,7 +16,9 @@ Phug
 What is Phug?
 -----------------
 
-Phug is PHP port of Pugjs
+Phug is the PugJS Template Engine for PHP.
+
+Not just a port. It's written from scratch as a native PHP template engine.
 
 Documentation
 ------------
