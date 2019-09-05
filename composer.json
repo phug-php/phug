@@ -1,0 +1,56 @@
+{
+    "name": "phug/phug",
+    "type": "library",
+    "keywords": ["phug", "compiler", "template", "dialect", "html", "views", "render", "presentation", "jade", "pug", "html", "php", "phtml"],
+    "description": "Pug (ex-Jade) facade engine for PHP, HTML template engine structured by indentation",
+    "license": "MIT",
+    "homepage": "http://phug-lang.com",
+    "authors": [
+        {
+            "name": "KyleKatarn",
+            "email": "jade-php@selfbuild.fr",
+            "homepage": "http://github.com/kylekatarnls"
+        }
+    ],
+    "support": {
+        "email": "support@phug-lang.com",
+        "issues": "https://github.com/phug-php/phug/issues",
+        "source": "https://github.com/phug-php/phug",
+        "docs": "http://phug-lang.com/docs"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.5.0",
+        "phug/renderer": "^0.4.0"
+    },
+    "require-dev": {
+        "phug/dev-tool": "^0.1.0"
+    },
+    "replace": {
+        "phug/ast": "self.version",
+        "phug/compiler": "self.version",
+        "phug/dependency-injection": "self.version",
+        "phug/event": "self.version",
+        "phug/formatter": "self.version",
+        "phug/lexer": "self.version",
+        "phug/parser": "self.version",
+        "phug/reader": "self.version",
+        "phug/renderer": "self.version",
+        "phug/util": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "./src"
+        },
+        "psr-0": {
+            "Phug": "./src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Phug\\Test\\": "./tests/Phug/"
+        }
+    },
+    "bin": ["phug"],
+    "suggest": {}
+}

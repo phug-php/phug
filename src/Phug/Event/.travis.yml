@@ -1,0 +1,26 @@
+language: php
+
+git:
+  depth: 5
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+
+install:
+  - composer self-update
+  - composer install
+
+script:
+  - vendor/bin/phug-dev check --report --coverage-php-version=5.6
+
+notifications:
+  slack: phug:nzXFnxhU14RWK2EQSDL0u08z
+
+addons:
+  code_climate:
+    repo_token: 602a8a0b82958fea9a62c990e1e73446096cacef7d194e46de0a94144b1d66f2

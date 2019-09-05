@@ -1,0 +1,14 @@
+html
+    head
+        title=$title
+        link(href="foo.css")
+    body
+        header
+            h1=$title
+        section
+            article
+                h2(foo=$title bar=$helper() baz=12)
+                p Hello
+        footer
+            | Bye
+        script(src="foo.js")

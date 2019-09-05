@@ -1,0 +1,7 @@
+composer.lock
+/.idea
+/vendor
+/docs
+/coverage
+coverage.xml
+/temp.php

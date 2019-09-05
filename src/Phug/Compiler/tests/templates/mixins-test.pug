@@ -1,0 +1,17 @@
+extends base
+
+include mixins
+
+append article
+  article append
+  +foo("a", "b")
+    h1 1
+
+prepend footer
+  mixin foo()
+    p footer-foo
+  article prepend
+  +foo()(do="not care")
+    h2 2
+  +bar().biz
+    h3 3

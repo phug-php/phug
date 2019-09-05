@@ -1,0 +1,15 @@
+mixin yop(isYup)
+    if $isYup
+        header
+            block
+            block
+    else
+        footer
+            block
+            block
+
++yop(true)
+    | Hello
+
++yop(false)
+    | Bye

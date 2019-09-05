@@ -1,0 +1,28 @@
+language: php
+
+git:
+  depth: 5
+
+matrix:
+  include:
+    - php: 5.5
+      dist: precise
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+
+install:
+  - travis_retry composer self-update
+  - travis_retry composer install
+
+script:
+  - vendor/bin/phug-dev check --report --coverage-php-version=5.6
+
+notifications:
+  slack: phug:nzXFnxhU14RWK2EQSDL0u08z
+
+addons:
+  code_climate:
+    repo_token: 394a4fc15473b47102c62fdda8fb12179fc89321742e2527b22f432d76e7355f

@@ -1,0 +1,31 @@
+language: php
+
+git:
+  depth: 5
+
+matrix:
+  include:
+    - php: 5.5
+      dist: precise
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+    - php: 7.3
+      env: MULTITEST='on'
+
+install:
+  - travis_retry composer self-update
+  - travis_retry composer install
+
+script:
+  - if [ "$MULTITEST" != "on" ]; then vendor/bin/phug-dev check --report --coverage-php-version=5.6; fi;
+  - if [ "$MULTITEST" = "on" ]; then vendor/bin/multi-tester --verbose; fi;
+
+notifications:
+  slack: phug:nzXFnxhU14RWK2EQSDL0u08z
+
+addons:
+  code_climate:
+    repo_token: ddafe0fb2d6dfa8e21b4b8591f3949261e460f1aef71388ca29716f57bd3a750
