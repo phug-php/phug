@@ -25,19 +25,9 @@
         "phug/util": "^0.4.15",
         "symfony/var-dumper": "^3.4 || ^4.0"
     },
-    "require-dev": {
-        "phug/dev-tool": "^0.1.0",
-        "js-phpize/js-phpize-phug": "^1.1.2",
-        "nodejs-php-fallback/coffeescript": "^1.0",
-        "nodejs-php-fallback/less": "^1.0",
-        "nodejs-php-fallback/uglify": "^1.0",
-        "nodejs-php-fallback/stylus": "^1.0",
-        "cebe/markdown": "^1.1",
-        "kylekatarnls/multi-tester": "^1.1"
-    },
     "autoload": {
         "psr-4": {
-            "": "./src"
+            "Phug\\": ""
         }
     },
     "bin": [],

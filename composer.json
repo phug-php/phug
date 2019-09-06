@@ -18,19 +18,28 @@
         "source": "https://github.com/phug-php/phug",
         "docs": "http://phug-lang.com/docs"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": ">=5.5.0",
-        "phug/renderer": "^0.4.0"
+        "php": ">=5.5.0"
     },
     "require-dev": {
-        "phug/dev-tool": "^0.1.0"
+        "phug/dev-tool": "^0.1.0",
+        "js-phpize/js-phpize-phug": "^1.1.2 || dev-allow-master",
+        "pug-php/pug-filter-coffee-script": "^1.2",
+        "nodejs-php-fallback/coffeescript": "^1.0",
+        "nodejs-php-fallback/less": "^1.0",
+        "nodejs-php-fallback/uglify": "^1.0",
+        "nodejs-php-fallback/stylus": "^1.0",
+        "cebe/markdown": "^1.1",
+        "kylekatarnls/multi-tester": "^1.1"
     },
     "replace": {
         "phug/ast": "self.version",
         "phug/compiler": "self.version",
         "phug/dependency-injection": "self.version",
         "phug/event": "self.version",
+        "phug/facade": "self.version",
         "phug/formatter": "self.version",
         "phug/lexer": "self.version",
         "phug/parser": "self.version",
@@ -39,11 +48,22 @@
         "phug/util": "self.version"
     },
     "autoload": {
-        "psr-4": {
-            "": "./src"
-        },
         "psr-0": {
-            "Phug": "./src"
+            "": "./src/Phug/Phug/"
+        },
+        "psr-4": {
+            "Phug\\": [
+                "./src/Phug/Ast/",
+                "./src/Phug/Compiler/",
+                "./src/Phug/DependencyInjection/",
+                "./src/Phug/Event/",
+                "./src/Phug/Formatter/",
+                "./src/Phug/Lexer/",
+                "./src/Phug/Parser/",
+                "./src/Phug/Reader/",
+                "./src/Phug/Renderer/",
+                "./src/Phug/Util/"
+            ]
         }
     },
     "autoload-dev": {
@@ -52,5 +72,9 @@
         }
     },
     "bin": ["phug"],
-    "suggest": {}
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }

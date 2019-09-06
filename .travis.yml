@@ -4,25 +4,27 @@ language: php
 git:
     depth: 5
 
-php:
-    - 5.5
-    - 5.6
-    - 7.0
-    - 7.1
-    - 7.2
-
 matrix:
     include:
-        - php: hhvm-3.18
-          dist: trusty
-          sudo: required
+        - php: 5.5
+          dist: precise
+        - php: 5.6
+        - php: 7.0
+        - php: 7.1
+        - php: 7.2
+        - php: 7.3
+        - php: 7.3
+          env: MULTITEST='on'
 
 install:
+    - travis_retry composer clear-cache
+    - if [ "$MULTITEST" = "on" ]; then composer require --no-update kylekatarnls/multi-tester; fi;
     - travis_retry composer self-update
     - travis_retry composer install
 
 script:
-    - vendor/bin/phug-dev check --report --coverage-php-version=5.6
+    - if [ "$MULTITEST" != "on" ]; then vendor/bin/phug-dev check --report --coverage-php-version=5.6; fi;
+    - if [ "$MULTITEST" = "on" ]; then vendor/bin/multi-tester --verbose; fi;
 
 notifications:
     slack: phug:nzXFnxhU14RWK2EQSDL0u08z

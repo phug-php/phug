@@ -26,14 +26,9 @@
         "phug/dependency-injection": "^1.1.2",
         "phug/parser": "^0.5.0"
     },
-    "require-dev": {
-        "phug/dev-tool": "^0.1.0",
-        "js-phpize/js-phpize": "^1.4",
-        "pug-php/pug-filter-coffee-script": "^1.2"
-    },
     "autoload": {
         "psr-4": {
-            "": "./src"
+            "Phug\\": ""
         }
     },
     "bin": [],

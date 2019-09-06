@@ -28,13 +28,9 @@
         "phug/reader": "^0.2.0",
         "phug/util": "^0.4.0"
     },
-    "require-dev": {
-        "phug/dev-tool": "^0.1.0",
-        "kylekatarnls/multi-tester": "^1.1"
-    },
     "autoload": {
         "psr-4": {
-            "": "./src"
+            "Phug\\": ""
         }
     },
     "bin": [],

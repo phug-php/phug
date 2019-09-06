@@ -23,13 +23,9 @@
         "symfony/polyfill-mbstring": "*",
         "psr/http-message": "^1.0"
     },
-    "require-dev": {
-        "phug/dev-tool": "^0.1.0",
-        "phug/util": "^0.3.5"
-    },
     "autoload": {
         "psr-4": {
-            "": "./src"
+            "Phug\\": ""
         }
     },
     "bin": [],
