@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "phug/dev-tool": "^0.1.0",
-        "js-phpize/js-phpize-phug": "^1.1.2 || dev-allow-master",
+        "js-phpize/js-phpize-phug": "^1.2 || ^2.2",
         "pug-php/pug-filter-coffee-script": "^1.2",
         "nodejs-php-fallback/coffeescript": "^1.0",
         "nodejs-php-fallback/less": "^1.0",
