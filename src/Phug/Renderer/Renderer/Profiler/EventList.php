@@ -38,4 +38,14 @@ class EventList extends ArrayObject
 
         return $this;
     }
+
+    /**
+     * @return $this
+     */
+    public function reset()
+    {
+        $this->exchangeArray([]);
+
+        return $this->unlock();
+    }
 }

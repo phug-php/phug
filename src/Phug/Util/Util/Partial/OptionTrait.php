@@ -2,6 +2,7 @@
 
 namespace Phug\Util\Partial;
 
+use ArrayAccess;
 use ArrayObject;
 use Traversable;
 
@@ -143,7 +144,9 @@ trait OptionTrait
         $keys = $this->handleOptionName($name);
         if (is_array($keys)) {
             foreach (array_slice($keys, 0, -1) as $key) {
-                if (!array_key_exists($key, $variable)) {
+                if (is_array($variable) && !array_key_exists($key, $variable) ||
+                    $variable instanceof ArrayAccess && !$variable->offsetExists($key)
+                ) {
                     $variable[$key] = [];
                 }
                 $variable = &$variable[$key];
@@ -175,7 +178,15 @@ trait OptionTrait
     public function hasOption($name)
     {
         return $this->withOptionReference($name, function (&$options, $name) {
-            return $this->isTraversable($options) && array_key_exists($name, $options);
+            if ($options instanceof ArrayAccess) {
+                return $options->offsetExists($name);
+            }
+
+            if (is_array($options)) {
+                return array_key_exists($name, $options);
+            }
+
+            return is_object($options) && property_exists($options, $name);
         });
     }
 
@@ -185,7 +196,9 @@ trait OptionTrait
     public function getOption($name)
     {
         return $this->withOptionReference($name, function (&$options, $name) {
-            return $options[$name];
+            return is_array($options) || $options instanceof ArrayAccess
+                ? $options[$name]
+                : $options->$name;
         });
     }
 

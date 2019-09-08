@@ -96,10 +96,7 @@ class ProfilerModule extends AbstractModule
     public function reset()
     {
         $this->initialize();
-        while (count($this->events)) {
-            $this->events->offsetUnset(key($this->events));
-        }
-        $this->events->unlock();
+        $this->events->reset();
     }
 
     public function kill()
