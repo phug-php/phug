@@ -2,33 +2,33 @@
 language: php
 
 git:
-    depth: 5
+  depth: 5
 
 matrix:
-    include:
-        - php: 5.5
-          dist: precise
-        - php: 5.6
-        - php: 7.0
-        - php: 7.1
-        - php: 7.2
-        - php: 7.3
-        - php: 7.3
-          env: MULTITEST='on'
+  include:
+    - php: 5.5
+      dist: precise
+    - php: 5.6
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+    - php: 7.3
+    - php: 7.3
+      env: MULTITEST='on'
 
 install:
-    - travis_retry composer clear-cache
-    - if [ "$MULTITEST" = "on" ]; then composer require --no-update kylekatarnls/multi-tester; fi;
-    - travis_retry composer self-update
-    - travis_retry composer install
+  - travis_retry composer clear-cache
+  - if [ "$MULTITEST" = "on" ]; then composer require --no-update kylekatarnls/multi-tester; fi;
+  - travis_retry composer self-update
+  - travis_retry composer install
 
 script:
-    - if [ "$MULTITEST" != "on" ]; then vendor/bin/phug-dev check --report --coverage-php-version=5.6; fi;
-    - if [ "$MULTITEST" = "on" ]; then vendor/bin/multi-tester --verbose; fi;
+  - if [ "$MULTITEST" != "on" ]; then vendor/bin/phug-dev check --report --coverage-php-version=5.6; fi;
+  - if [ "$MULTITEST" = "on" ]; then vendor/bin/multi-tester --verbose; fi;
 
 notifications:
-    slack: phug:nzXFnxhU14RWK2EQSDL0u08z
+  slack: phug:nzXFnxhU14RWK2EQSDL0u08z
 
 addons:
-    code_climate:
-        repo_token: cd1a1fbecb6b26000bcdc53d59b592735acb420dd96ce7151cd9424c39c95cf3
+  code_climate:
+    repo_token: cd1a1fbecb6b26000bcdc53d59b592735acb420dd96ce7151cd9424c39c95cf3
