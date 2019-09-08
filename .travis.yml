@@ -18,6 +18,7 @@ matrix:
       env: MULTITEST='on'
 
 install:
+  - travis_retry composer clear-cache
   - travis_retry composer self-update
   - travis_retry composer install
 
