@@ -101,6 +101,7 @@ class DumpTest extends TestCase
             '        ]',
             '      }',
             '      1 => \'handleOutputEvent\'',
+            '    ]',
             '  ]',
             '}',
         ]), $jsPhpizeDump);

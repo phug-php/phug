@@ -4,32 +4,62 @@ language: php
 git:
   depth: 5
 
+env:
+  global:
+    - CODACY_PROJECT_TOKEN=eb1f0554c46a4ae486c35d40f75b6d4e
+    - CC_TEST_REPORTER_ID=cd1a1fbecb6b26000bcdc53d59b592735acb420dd96ce7151cd9424c39c95cf3
+    - MULTITEST=off
+    - COVERAGE=off
+    - STYLECHECK=off
+
 matrix:
   include:
-    - php: 5.5
-      dist: trusty
-    - php: 5.6
-    - php: 7.0
-    - php: 7.1
-    - php: 7.2
-    - php: 7.3
     - php: 7.4snapshot
     - php: 7.3
-      env: MULTITEST='on'
+      env: COVERAGE=on
+    - php: 7.2
+    - php: 7.1
+    - php: 7.0
+    - php: 5.6
+    - php: 5.5
+      dist: trusty
+    - php: 7.3
+      env: STYLECHECK=on
+    - php: 7.3
+      env: MULTITEST=on
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.composer/cache
+
+sudo: false
 
 install:
+  - if [[ "$COVERAGE" != "on" ]]; then phpenv config-rm xdebug.ini || echo 'XDebug already disabled'; fi;
   - travis_retry composer self-update
   - composer config version 1.0.x-dev
   - travis_retry composer install
 
+before_script:
+  - if [ "$COVERAGE" = "on" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi;
+  - if [ "$COVERAGE" = "on" ]; then chmod +x ./cc-test-reporter; fi;
+  - if [ "$COVERAGE" = "on" ]; then ./cc-test-reporter before-build; fi;
+
 script:
-  - vendor/bin/phug-dev check --report --coverage-php-version=5.6
-  - if [ "$MULTITEST" != "on" ]; then vendor/bin/phug-dev check --report --coverage-php-version=5.6; fi;
+  - if [ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" ]; then vendor/bin/phpunit; fi;
+  - if [ "$COVERAGE" = "on" ]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml; fi;
   - if [ "$MULTITEST" = "on" ]; then vendor/bin/multi-tester --verbose --quiet-install; fi;
+  - if [ "$STYLECHECK" = "on" ]; then vendor/bin/phpcs --ignore=*.js; fi;
+
+after_success:
+  - if [ "$COVERAGE" = "on" ]; then bash <(curl -s https://codecov.io/bash); fi;
+
+after_script:
+  - if [ "$COVERAGE" = "on" ]; then cp coverage.xml clover.xml; fi;
+  - if [ "$COVERAGE" = "on" ]; then ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT; fi;
+  - if [ "$COVERAGE" = "on" ]; then composer require codacy/coverage; fi;
+  - if [ "$COVERAGE" = "on" ]; then vendor/bin/codacycoverage clover coverage.xml; fi;
 
 notifications:
   slack: phug:nzXFnxhU14RWK2EQSDL0u08z
-
-addons:
-  code_climate:
-    repo_token: cd1a1fbecb6b26000bcdc53d59b592735acb420dd96ce7151cd9424c39c95cf3
