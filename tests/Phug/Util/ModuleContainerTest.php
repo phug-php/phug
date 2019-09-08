@@ -100,7 +100,7 @@ class ModuleContainerTest extends TestCase
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Passed module class name needs to be a class extending Phug\Util\ModuleInterface and/or Phug\Util\ModuleInterface
+     * @expectedExceptionMessage Passed module class name stdClass needs to be a class extending Phug\Util\ModuleInterface and/or Phug\Util\ModuleInterface
      */
     public function testInvalidModuleClassName()
     {

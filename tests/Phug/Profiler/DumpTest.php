@@ -91,8 +91,16 @@ class DumpTest extends TestCase
         self::assertSame(implode("\n", [
             'JsPhpize\JsPhpizePhug {',
             '  EventListeners => array (1) [',
-            '    \'compiler.output\' => Closure {',
-            '    }',
+            '    \'compiler.output\' => array (2) [',
+            '      0 => JsPhpize\JsPhpizePhug {',
+            '        EventListeners => array (1) [',
+            '          \'compiler.output\' => array (2) [',
+            '            0 => JsPhpize\JsPhpizePhug {...}',
+            '            1 => \'handleOutputEvent\'',
+            '          ]',
+            '        ]',
+            '      }',
+            '      1 => \'handleOutputEvent\'',
             '  ]',
             '}',
         ]), $jsPhpizeDump);

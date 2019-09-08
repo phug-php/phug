@@ -18,8 +18,8 @@ matrix:
       env: MULTITEST='on'
 
 install:
-  - rm composer.lock || echo "No composer.lock to remove"
   - travis_retry composer self-update
+  - composer config version 1.0.x-dev
   - travis_retry composer install
 
 script:
