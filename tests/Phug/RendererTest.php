@@ -67,7 +67,7 @@ class RendererTest extends AbstractRendererTest
         list($success, $errors) = $this->renderer->renderDirectory(__DIR__.'/../utils', $directory);
 
         self::assertSame(2, $errors);
-        self::assertSame(3, $success);
+        self::assertSame(5, $success);
         self::assertFileExists($directory.'/subdirectory/scripts.html');
         self::assertFileExists($directory.'/subdirectory/subsubdirectory/basic.html');
         self::assertFileExists($directory.'/subdirectory/subsubdirectory/blanks.html');
