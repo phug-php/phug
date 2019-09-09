@@ -41,8 +41,18 @@ abstract class AbstractCompilerTest extends TestCase
         $compiler = $this->compiler;
 
         $compiler = new Compiler([
-            'paths'    => [__DIR__.'/../templates'],
-            'patterns' => [
+            'paths'                       => [__DIR__.'/../templates'],
+            'checked_variable_exceptions' => [
+                'js-phpize' => function ($variable, $index, $tokens) {
+                    return $index > 2 &&
+                        $tokens[$index - 1] === '(' &&
+                        $tokens[$index - 2] === ']' &&
+                        is_array($tokens[$index - 3]) &&
+                        $tokens[$index - 3][0] === T_CONSTANT_ENCAPSED_STRING &&
+                        preg_match('/_with_ref\'$/', $tokens[$index - 3][1]);
+                },
+            ],
+            'patterns'                    => [
                 'expression_in_text'   => '%s',
                 'transform_expression' => function ($jsCode) use (&$compiler) {
                     /** @var JsPhpize $jsPhpize */

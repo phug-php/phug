@@ -78,10 +78,9 @@ class DumpTest extends TestCase
 
         $jsPhpizeDump = $dump(new JsPhpizePhug(new Renderer()));
 
-        self::assertSame(implode("\n", [
-            'JsPhpize\JsPhpizePhug {',
-            '  EventListeners => array (1) [',
-            '    \'compiler.output\' => array (2) [',
+        $jsPhpizeDump = str_replace(implode("\n", [
+            // jsphpize-phug v2.x
+            'array (2) [',
             '      0 => JsPhpize\JsPhpizePhug {',
             '        EventListeners => array (1) [',
             '          \'compiler.output\' => array (2) [',
@@ -92,6 +91,17 @@ class DumpTest extends TestCase
             '      }',
             '      1 => \'handleOutputEvent\'',
             '    ]',
+        ]), implode("\n", [
+            // jsphpize-phug v1.x
+            'Closure {',
+            '    }',
+        ]), $jsPhpizeDump);
+
+        self::assertSame(implode("\n", [
+            'JsPhpize\JsPhpizePhug {',
+            '  EventListeners => array (1) [',
+            '    \'compiler.output\' => Closure {',
+            '    }',
             '  ]',
             '}',
         ]), $jsPhpizeDump);
