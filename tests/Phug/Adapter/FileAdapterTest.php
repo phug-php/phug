@@ -594,8 +594,9 @@ class FileAdapterTest extends AbstractRendererTest
         }
         $templatesDirectory = __DIR__.'/../../utils';
         $renderer = new Renderer([
-            'basedir'   => $templatesDirectory,
-            'cache_dir' => $cacheDirectory,
+            'exit_on_error' => false,
+            'basedir'       => $templatesDirectory,
+            'cache_dir'     => $cacheDirectory,
         ]);
         list($success, $errors, $errorDetails) = $renderer->cacheDirectory($templatesDirectory);
         $filesCount = count(array_filter(scandir($cacheDirectory), function ($file) {

@@ -73,8 +73,9 @@ trait DebuggerTrait
             /* @var \Throwable $error */
             $trace = '## '.$error->getFile().'('.$error->getLine().")\n".$error->getTraceAsString();
             (new Renderer([
-                'debug'   => false,
-                'filters' => [
+                'exit_on_error' => false,
+                'debug'         => false,
+                'filters'       => [
                     'no-php' => function ($text) {
                         return str_replace('<?', '<<?= "?" ?>', $text);
                     },

@@ -63,6 +63,7 @@ abstract class AbstractRendererTest extends TestCase
             return $contents;
         };
         $this->renderer = new Renderer([
+            'exit_on_error'      => false,
             'debug'              => false,
             'execution_max_time' => 60000,
             'basedir'            => __DIR__.'/../cases',

@@ -184,6 +184,7 @@ class Profile
     public function render()
     {
         return (new Renderer([
+            'exit_on_error'   => false,
             'debug'           => false,
             'enable_profiler' => false,
             'default_format'  => HtmlFormat::class,
