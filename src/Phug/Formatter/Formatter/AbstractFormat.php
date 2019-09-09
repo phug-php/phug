@@ -175,8 +175,8 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
 
                             $storage = $$dependenciesStorage;
 
-                            if (!array_key_exists($prefix.$name, $storage) &&
-                                !isset($storage[$prefix.$name])
+                            if (!isset($storage[$prefix.$name]) &&
+                                !(is_array($storage) && array_key_exists($prefix.$name, $storage))
                             ) {
                                 throw new \Exception(
                                     var_export($name, true).
