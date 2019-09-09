@@ -201,12 +201,6 @@ class ProfilerModuleTest extends TestCase
      */
     public function testMemoryLimit()
     {
-        if (defined('HHVM_VERSION')) {
-            self::markTestSkipped('Memory limit test skipped on HHVM.');
-
-            return;
-        }
-
         $GLOBALS['LAkjdJHSmlakSJHGdjAJGdjGAHgsjHDAD'] = null;
         $limit = 500000;
         $factor = 1;
@@ -400,8 +394,8 @@ class ProfilerModuleTest extends TestCase
      */
     public function testEventVarDump()
     {
-        if (defined('HHVM_VERSION')) {
-            self::markTestSkipped('var_dump test disabled for HHVM.');
+        if (!function_exists('xdebug_is_enabled') || !xdebug_is_enabled()) {
+            self::markTestSkipped('var_dump test needs XDebug to be enabled.');
 
             return;
         }

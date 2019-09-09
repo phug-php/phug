@@ -78,16 +78,6 @@ class DumpTest extends TestCase
 
         $jsPhpizeDump = $dump(new JsPhpizePhug(new Renderer()));
 
-        if (defined('HHVM_VERSION')) {
-            self::assertContains('$JsPhpize\\JsPhpizePhug::getEventListeners', $jsPhpizeDump);
-
-            $jsPhpizeDump = preg_replace(
-                '/Closure\$.+?\d+\s*\{/',
-                'Closure {',
-                $jsPhpizeDump
-            );
-        }
-
         self::assertSame(implode("\n", [
             'JsPhpize\JsPhpizePhug {',
             '  EventListeners => array (1) [',

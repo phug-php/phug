@@ -44,11 +44,6 @@ class CasesTest extends AbstractRendererTest
      */
     public function testIfCasesAreUpToDate()
     {
-        if (defined('HHVM_VERSION')) {
-            self::markTestSkipped('Test case update disabled for HHVM.');
-
-            return;
-        }
         $context = stream_context_create([
             'http' => [
                 'method' => 'GET',
