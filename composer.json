@@ -35,7 +35,7 @@
         "nodejs-php-fallback/uglify": "^1.0",
         "nodejs-php-fallback/stylus": "^1.0",
         "cebe/markdown": "^1.1",
-        "kylekatarnls/multi-tester": "dev-master"
+        "kylekatarnls/multi-tester": "^1.4"
     },
     "replace": {
         "phug/ast": "self.version",
