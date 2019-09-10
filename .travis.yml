@@ -49,7 +49,7 @@ before_script:
 script:
   - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" ]]; then vendor/bin/phpunit; fi;
   - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml; fi;
-  - if [[ "$MULTITEST" = "on" ]]; then vendor/bin/multi-tester --verbose; fi;
+  - if [[ "$MULTITEST" = "on" ]]; then vendor/bin/multi-tester --verbose --quiet-install; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs --ignore=*.js; fi;
 
 after_success:
