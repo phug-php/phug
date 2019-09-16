@@ -22,7 +22,7 @@ install:
   - if [[ "$STYLECHECK" != "on" ]]; then composer require phpunit/phpunit phug/split --no-update; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then composer require squizlabs/php_codesniffer --no-update; fi;
   - composer install
-  - if [[ "$STYLECHECK" != "on" ]]; then vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/Ast --filters=tests/Phug/Ast/*; fi;
+  - if [[ "$STYLECHECK" != "on" ]]; then mkdir -p tests/Phug/Ast && vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/Ast --filters=tests/Phug/Ast/*; fi;
 
 script:
   - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" ]]; then vendor/bin/phpunit; fi;
