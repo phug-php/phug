@@ -35,7 +35,5 @@
         "psr-4": {
             "Phug\\Test\\": "./tests/Phug/"
         }
-    },
-    "bin": [],
-    "suggest": {}
+    }
 }
