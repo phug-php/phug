@@ -26,7 +26,7 @@ install:
 script:
   - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" ]]; then vendor/bin/phpunit; fi;
   - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml; fi;
-  - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs --ignore=*.js Ast AstException.php; fi;
+  - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs --ignore=*.js .; fi;
 
 notifications:
   slack: phug:nzXFnxhU14RWK2EQSDL0u08z
