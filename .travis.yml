@@ -54,7 +54,7 @@ script:
   - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml; fi;
   - if [[ "$MULTITEST" = "on" ]]; then vendor/bin/multi-tester --verbose --quiet-install; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs --ignore=*.js src; fi;
-  - if [[ "$SPLIT" = "on" ]]; then composer require phug/split:dev-master && vendor/bin/split update --git-credentials=$GH_CREDENTIALS; fi;
+  - if [[ "$SPLIT" = "on" ]]; then composer require phug/split && vendor/bin/split update --git-credentials=$GH_CREDENTIALS; fi;
 
 after_success:
   - if [[ "$COVERAGE" = "on" ]]; then bash <(curl -s https://codecov.io/bash); fi;
