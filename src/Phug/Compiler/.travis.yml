@@ -19,8 +19,10 @@ install:
   - composer install
   - |
     if [[ "$STYLECHECK" != "on" ]]; then
-      mkdir -p tests/Phug/ && \
-      vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Compiler,tests/Phug/Compiler/templates;
+      mkdir -p tests/Phug && \
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Compiler,tests/Phug/Node,tests/Phug/AbstractCompilerTest.php,tests/Phug/CompilerModuleTest.php,tests/Phug/CompilerTest.php,tests/Phug/TestCompiler.php;
+      mkdir -p tests/templates && \
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/ --filters=tests/templates;
     fi;
 
 script:
