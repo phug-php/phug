@@ -1,0 +1,36 @@
+language: php
+
+git:
+  depth: 5
+
+matrix:
+  include:
+    - php: 7.4snapshot
+    - php: 7.3
+      env: COVERAGE=on
+      dist: trusty
+    - php: 7.3
+      env: STYLECHECK=on
+
+install:
+  - composer self-update
+  - if [[ "$STYLECHECK" != "on" ]]; then composer require phpunit/phpunit phug/split --no-update; fi;
+  - if [[ "$STYLECHECK" = "on" ]]; then composer require squizlabs/php_codesniffer --no-update; fi;
+  - composer install
+  - |
+    if [[ "$STYLECHECK" != "on" ]]; then
+      mkdir -p tests/Phug && \
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Lexer*,tests/Phug/AbstractLexerTest.php,tests/Phug/MockScanner.php;
+    fi;
+
+script:
+  - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" ]]; then vendor/bin/phpunit; fi;
+  - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml; fi;
+  - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs; fi;
+
+notifications:
+  slack: phug:nzXFnxhU14RWK2EQSDL0u08z
+
+addons:
+  code_climate:
+    repo_token: 4c27d7efe84c820a751151e32eb3850b5238eadf335953720f2e1da7a5633144

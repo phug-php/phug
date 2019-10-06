@@ -6,6 +6,7 @@ use Closure;
 use Phug\DependencyInjection\Dependency;
 use Phug\DependencyInjection\FunctionWrapper;
 use Phug\DependencyInjection\Requirement;
+use ReflectionException;
 use ReflectionParameter;
 
 class DependencyInjection implements DependencyInjectionInterface
@@ -28,6 +29,9 @@ class DependencyInjection implements DependencyInjectionInterface
     /**
      * @param $name
      *
+     * @throws ReflectionException
+     * @throws DependencyException
+     *
      * @return mixed
      */
     public function import($name)
@@ -38,6 +42,8 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param $name
+     *
+     * @throws DependencyException
      *
      * @return Dependency
      */
@@ -50,6 +56,8 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param string $name
+     *
+     * @throws DependencyException
      *
      * @return bool
      */
@@ -90,7 +98,8 @@ class DependencyInjection implements DependencyInjectionInterface
     }
 
     /**
-     * @param string $dependency dependency name
+     * @param string $name
+     * @param string $storageVariable
      *
      * @return string
      */
@@ -100,7 +109,11 @@ class DependencyInjection implements DependencyInjectionInterface
     }
 
     /**
+     * @param $name
      * @param string $storageVariable
+     *
+     * @throws DependencyException
+     * @throws ReflectionException
      *
      * @return string
      */
@@ -205,7 +218,9 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
+     *
+     * @throws DependencyException
      *
      * @return DependencyInjection
      */
@@ -261,7 +276,10 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param string $name
-     * @param array  $exclude
+     * @param array $exclude
+     *
+     * @throws DependencyException
+     * @throws ReflectionException
      *
      * @return mixed
      */
@@ -269,6 +287,7 @@ class DependencyInjection implements DependencyInjectionInterface
     {
         $dependency = $this->getProvider($name)->getDependency();
         $value = $dependency->getValue();
+
         if (!($value instanceof Closure)) {
             return $value;
         }
@@ -299,6 +318,9 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param string $name
+     *
+     * @throws DependencyException
+     * @throws ReflectionException
      *
      * @return mixed
      */
