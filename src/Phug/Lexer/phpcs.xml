@@ -2,6 +2,8 @@
 <ruleset name="PSR-2">
     <rule ref="PSR2">
         <include-pattern>*.php</include-pattern>
+        <exclude-pattern type="relative-root">^/tests/*</exclude-pattern>
+        <exclude-pattern type="relative-root">^/vendor/*</exclude-pattern>
     </rule>
     <file>.</file>
 </ruleset>

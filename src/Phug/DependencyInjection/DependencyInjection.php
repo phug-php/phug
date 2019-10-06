@@ -109,7 +109,7 @@ class DependencyInjection implements DependencyInjectionInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param string $storageVariable
      *
      * @throws DependencyException
@@ -168,7 +168,7 @@ class DependencyInjection implements DependencyInjectionInterface
     }
 
     /**
-     * @param $storageVariable
+     * @param string $storageVariable
      *
      * @return string
      */
@@ -218,7 +218,7 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @throws DependencyException
      *
@@ -276,7 +276,7 @@ class DependencyInjection implements DependencyInjectionInterface
 
     /**
      * @param string $name
-     * @param array $exclude
+     * @param array  $exclude
      *
      * @throws DependencyException
      * @throws ReflectionException
