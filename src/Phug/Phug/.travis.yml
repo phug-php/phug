@@ -20,7 +20,7 @@ install:
   - |
     if [[ "$STYLECHECK" != "on" ]]; then
       mkdir -p tests/Phug && \
-      vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Extension,tests/Phug/Util,tests/Phug/AbstractPhugTest.php,tests/Phug/CliTest.php,tests/Phug/CompilerModule.php,tests/Phug/DefaultOptionsTest.php,tests/Phug/ExtensionTest.php,tests/Phug/OptimizerTest.php,tests/Phug/PhugAliasTest.php,tests/Phug/PhugTest.php,tests/Phug/cliBootstrap.php;
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Extension,tests/Phug/Util,tests/Phug/AbstractPhugTest.php,tests/Phug/CliTest.php,tests/Phug/CompilerModule.php,tests/Phug/DefaultOptionsTest.php,tests/Phug/ExtensionTest.php,tests/Phug/OptimizerTest.php,tests/Phug/PhugAliasTest.php,tests/Phug/PhugTest.php,tests/Phug/cliBootstrap.php,tests/errorTemplates,tests/templates;
     fi;
 
 script:
