@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Util;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Phug\Util\UnorderedArguments;
 
@@ -47,13 +46,12 @@ class UnorderedArgumentsTest extends TestCase
     }
 
     /**
-     * @covers ::required
+     * @covers                   ::required
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Arguments miss one of the boolean type
      */
     public function testRequiredException()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Arguments miss one of the boolean type');
-
         $argument = new UnorderedArguments(['test']);
         $arguments = new UnorderedArguments(['foo', 42, $argument, []]);
 
@@ -72,14 +70,13 @@ class UnorderedArgumentsTest extends TestCase
     }
 
     /**
-     * @covers ::noMoreArguments
-     * @covers ::noMoreDefinedArguments
+     * @covers                   ::noMoreArguments
+     * @covers                   ::noMoreDefinedArguments
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage You pass 2 unexpected arguments
      */
     public function testNoMoreArgumentsException()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('You pass 2 unexpected arguments');
-
         $arguments = new UnorderedArguments(['foo', 'bar', 'biz', 42]);
 
         $arguments->optional('string');
@@ -88,14 +85,13 @@ class UnorderedArgumentsTest extends TestCase
     }
 
     /**
-     * @covers ::noMoreArguments
-     * @covers ::noMoreDefinedArguments
+     * @covers                   ::noMoreArguments
+     * @covers                   ::noMoreDefinedArguments
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage You pass 2 unexpected arguments
      */
     public function testNoMoreUndefinedArgumentsException()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('You pass 2 unexpected arguments');
-
         $arguments = new UnorderedArguments(['foo', null, 'biz', null]);
 
         $arguments->optional('string');
@@ -105,14 +101,13 @@ class UnorderedArgumentsTest extends TestCase
     }
 
     /**
-     * @covers ::noMoreArguments
-     * @covers ::noMoreDefinedArguments
+     * @covers                   ::noMoreArguments
+     * @covers                   ::noMoreDefinedArguments
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage You pass 1 unexpected not null arguments
      */
     public function testNoMoreDefinedArgumentsException()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('You pass 1 unexpected not null arguments');
-
         $arguments = new UnorderedArguments(['foo', 'biz', 1, null]);
 
         $arguments->optional('string');

@@ -2,10 +2,8 @@
 
 namespace Phug\Test\Util;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Phug\Util\ModuleInterface;
-use RuntimeException;
 use stdClass;
 
 //@codingStandardsIgnoreStart
@@ -101,12 +99,11 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Passed module class name stdClass needs to be a class extending Phug\Util\ModuleInterface and/or Phug\Util\ModuleInterface
      */
     public function testInvalidModuleClassName()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Passed module class name stdClass needs to be a class extending Phug\Util\ModuleInterface and/or Phug\Util\ModuleInterface');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -117,12 +114,11 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Module Phug\Test\Util\FirstTestModule is already registered.
      */
     public function testDoubleRegistration()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Module Phug\Test\Util\FirstTestModule is already registered.');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -134,12 +130,11 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage This occurrence of Phug\Test\Util\FirstTestModule is already registered.
      */
     public function testInstanceDoubleRegistration()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('This occurrence of Phug\Test\Util\FirstTestModule is already registered.');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -152,12 +147,11 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage This occurrence of Phug\Test\Util\FirstTestModule is already registered in another module container.
      */
     public function testInstanceDivergentRegistrations()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('This occurrence of Phug\Test\Util\FirstTestModule is already registered in another module container.');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container1 = new MockModuleContainer();
@@ -169,12 +163,11 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::removeModule
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The container doesn't contain a Phug\Test\Util\FirstTestModule module
      */
     public function testRemovalOfNonExistentModule()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('The container doesn\'t contain a Phug\Test\Util\FirstTestModule module');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -186,12 +179,11 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::removeModule
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage This occurrence of Phug\Test\Util\FirstTestModule is not registered.
      */
     public function testRemovalOfNonExistentModuleInstance()
     {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('This occurrence of Phug\Test\Util\FirstTestModule is not registered.');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -203,12 +195,11 @@ class ModuleContainerTest extends TestCase
 
     /**
      * @covers ::addModule
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Current module container uses the ModuleContainerTrait, but doesn't implement Phug\Util\ModuleContainerInterface, please implement it.
      */
     public function testNonInterfacedContainer()
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Current module container uses the ModuleContainerTrait, but doesn\'t implement Phug\Util\ModuleContainerInterface, please implement it.');
-
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainerWithoutInterface();
