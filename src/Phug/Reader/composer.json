@@ -21,7 +21,8 @@
     "require": {
         "php": ">=5.5.0",
         "symfony/polyfill-mbstring": "*",
-        "psr/http-message": "^1.0"
+        "psr/http-message": "^1.0",
+        "phug/util": "^0.3.5 || ^1.0"
     },
     "autoload": {
         "psr-4": {

@@ -21,10 +21,10 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.0",
-        "phug/util": "^0.4.0",
-        "phug/formatter": "^0.5.50",
+        "phug/util": "^0.4.0 || ^1.0",
+        "phug/formatter": "^0.5.50 || ^1.0",
         "phug/dependency-injection": "^1.1.2",
-        "phug/parser": "^0.5.0"
+        "phug/parser": "^0.5.0 || ^1.0"
     },
     "autoload": {
         "psr-4": {

@@ -41,7 +41,7 @@
     "replace": {
         "phug/ast": "self.version",
         "phug/compiler": "self.version",
-        "phug/dependency-injection": "self.version",
+        "phug/dependency-injection": "^1.3",
         "phug/event": "self.version",
         "phug/facade": "self.version",
         "phug/formatter": "self.version",
