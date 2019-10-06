@@ -6,6 +6,10 @@ use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Renderer;
 use Phug\RendererException;
+use Phug\Test\Utils\TestCompilerModule;
+use Phug\Test\Utils\TestFormatterModule;
+use Phug\Test\Utils\TestLexerModule;
+use Phug\Test\Utils\TestParserModule;
 
 /**
  * @coversDefaultClass Phug\AbstractRendererModule
@@ -134,11 +138,6 @@ class RendererModuleTest extends TestCase
      */
     public function testModulePropagation()
     {
-        include_once __DIR__.'/Utils/TestCompilerModule.php';
-        include_once __DIR__.'/Utils/TestFormatterModule.php';
-        include_once __DIR__.'/Utils/TestParserModule.php';
-        include_once __DIR__.'/Utils/TestLexerModule.php';
-
         $renderer = new Renderer([
             'modules' => [
                 TestCompilerModule::class,
@@ -156,11 +155,6 @@ class RendererModuleTest extends TestCase
 
     public function testMissingMixin()
     {
-        include_once __DIR__.'/Utils/TestCompilerModule.php';
-        include_once __DIR__.'/Utils/TestFormatterModule.php';
-        include_once __DIR__.'/Utils/TestParserModule.php';
-        include_once __DIR__.'/Utils/TestLexerModule.php';
-
         $renderer = new Renderer([
             'exit_on_error' => false,
             'debug'         => true,
