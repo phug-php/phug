@@ -14,14 +14,14 @@ matrix:
 
 install:
   - composer self-update
-  - if [[ "$STYLECHECK" != "on" ]]; then composer require phpunit/phpunit:^7 phug/split --no-update; fi;
+  - if [[ "$STYLECHECK" != "on" ]]; then composer require phpunit/phpunit:^7 js-phpize/js-phpize:^2 phug/split --no-update; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then composer require squizlabs/php_codesniffer --no-update; fi;
   - composer install
   - |
     if [[ "$STYLECHECK" != "on" ]]; then
       mkdir -p tests/Phug && \
       vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Extension,tests/Phug/Util,tests/Phug/Utils,tests/Phug/AbstractPhugTest.php,tests/Phug/CliTest.php,tests/Phug/CompilerModule.php,tests/Phug/DefaultOptionsTest.php,tests/Phug/ExtensionTest.php,tests/Phug/OptimizerTest.php,tests/Phug/PhugAliasTest.php,tests/Phug/PhugTest.php,tests/Phug/cliBootstrap.php;
-      vendor/bin/split copy https://github.com/phug-php/phug.git tests/ --filters=tests/errorTemplates,tests/templates;
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/ --filters=tests/errorTemplates,tests/templates,tests/views;
     fi;
 
 script:
