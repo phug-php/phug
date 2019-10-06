@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Util;
 
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Phug\Util\OptionInterface;
 use Phug\Util\Partial\MacroableTrait;
@@ -129,23 +130,25 @@ class MacroableTraitTest extends TestCase
     }
 
     /**
-     * @covers                   \Phug\Util\Partial\MacroableTrait::__call
-     * @expectedException        \BadMethodCallException
-     * @expectedExceptionMessage Method fooBar does not exist.
+     * @covers \Phug\Util\Partial\MacroableTrait::__call
      */
     public function testMacroCallBadMethod()
     {
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Method fooBar does not exist.');
+
         $inst = new MacroableTestClass();
         $inst->fooBar();
     }
 
     /**
-     * @covers                   \Phug\Util\Partial\MacroableTrait::__callStatic
-     * @expectedException        \BadMethodCallException
-     * @expectedExceptionMessage Method fooBar does not exist.
+     * @covers \Phug\Util\Partial\MacroableTrait::__callStatic
      */
     public function testMacroCallStaticBadMethod()
     {
+        self::expectException(BadMethodCallException::class);
+        self::expectExceptionMessage('Method fooBar does not exist.');
+
         MacroableOptionTestClass::fooBar();
     }
 }

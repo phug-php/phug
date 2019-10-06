@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Util;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Phug\Util\AssociativeStorage;
 use Phug\Util\Partial\NameTrait;
@@ -19,13 +20,14 @@ class Entity
 class AssociativeStorageTest extends TestCase
 {
     /**
-     * @covers                   ::<public>
-     * @covers                   ::attachStrictMode
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage Duplicate entity for the name foo
+     * @covers ::<public>
+     * @covers ::attachStrictMode
      */
     public function testStrictMode()
     {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Duplicate entity for the name foo');
+
         $storage = new AssociativeStorage();
         $a = new Entity();
         $a->setName('foo');
@@ -37,13 +39,14 @@ class AssociativeStorageTest extends TestCase
     }
 
     /**
-     * @covers                   ::<public>
-     * @covers                   ::attachStrictMode
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage Unknown mode: 99
+     * @covers ::<public>
+     * @covers ::attachStrictMode
      */
     public function testWrongMode()
     {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Unknown mode: 99');
+
         new AssociativeStorage('foo', 99);
     }
 
