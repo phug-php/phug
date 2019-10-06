@@ -109,7 +109,7 @@ class ModuleContainerTest extends TestCase
 
         $container = new MockModuleContainer();
         self::assertSame(ModuleInterface::class, $container->getModuleBaseClassName());
-        $container->addModule('stdClass');
+        $container->addModule(stdClass::class);
     }
 
     /**
