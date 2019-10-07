@@ -1,6 +1,5 @@
 {
     "name": "phug/phug",
-    "version": "1.0.x-dev",
     "type": "library",
     "keywords": ["phug", "compiler", "template", "dialect", "html", "views", "render", "presentation", "jade", "pug", "html", "php", "phtml"],
     "description": "Pug (ex-Jade) facade engine for PHP, HTML template engine structured by indentation",
@@ -78,8 +77,8 @@
     "bin": ["phug"],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev",
-            "dev-mono-repo": "1.0.x-dev"
+            "dev-master": "1.0.x-dev",
+            "dev-facade": "0.4.x-dev"
         }
     }
 }
