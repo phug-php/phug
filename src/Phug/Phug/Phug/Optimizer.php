@@ -155,6 +155,10 @@ class Optimizer
     public function isExpired($file, &$cachePath = null)
     {
         if (isset($this->options['up_to_date_check']) && !$this->options['up_to_date_check']) {
+            if (func_num_args() > 1) {
+                list(, $cachePath) = $this->getSourceAndCachePaths($file);
+            }
+
             return false;
         }
 
@@ -162,8 +166,7 @@ class Optimizer
             return true;
         }
 
-        $sourcePath = $this->resolve($file);
-        $cachePath = rtrim($this->cacheDirectory, '\\/').DIRECTORY_SEPARATOR.$this->hashPrint($sourcePath).'.php';
+        list($sourcePath, $cachePath) = $this->getSourceAndCachePaths($file);
 
         if (!file_exists($cachePath)) {
             return true;
@@ -255,5 +258,20 @@ class Optimizer
     public static function call($name, array $arguments = [], array $options = [])
     {
         return call_user_func_array([new static($options), $name], $arguments);
+    }
+
+    /**
+     * Returns [sourcePath, cachePath] for a given file.
+     *
+     * @param string $file
+     *
+     * @return [string, string]
+     */
+    protected function getSourceAndCachePaths($file)
+    {
+        $sourcePath = $this->resolve($file);
+        $cachePath = rtrim($this->cacheDirectory, '\\/').DIRECTORY_SEPARATOR.$this->hashPrint($sourcePath).'.php';
+
+        return [$sourcePath, $cachePath];
     }
 }
