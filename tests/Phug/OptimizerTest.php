@@ -5,6 +5,7 @@ namespace Phug\Test;
 use Phug\Optimizer;
 use Phug\Phug;
 use Phug\Reader;
+use Phug\RendererException;
 use Phug\Test\Utils\CustomFacade;
 use Phug\Test\Utils\CustomRenderer;
 
@@ -61,6 +62,43 @@ class OptimizerTest extends AbstractPhugTest
         self::assertSame(
             false,
             $optimizer->isExpired('file2.pug')
+        );
+    }
+
+    /**
+     * @covers ::isExpired
+     * @covers ::getSourceAndCachePaths
+     *
+     * @throws RendererException
+     */
+    public function testUpToDateCheckCachePath()
+    {
+        $baseDir = __DIR__.'/../views/dir2';
+        $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
+
+        $options = [
+            'debug'     => false,
+            'cache_dir' => $cache,
+            'paths'     => [$baseDir],
+        ];
+
+        Phug::renderFile('file2.pug', [], $options);
+
+        $options['up_to_date_check'] = false;
+        $optimizer = new Optimizer($options);
+        $optimizer->isExpired('file2.pug', $cachePath);
+
+        $contents = @file_get_contents($cachePath);
+
+        static::emptyDirectory($cache);
+        rmdir($cache);
+
+        self::assertSame(
+            '<p>B</p>',
+            $contents
         );
     }
 
