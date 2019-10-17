@@ -138,6 +138,11 @@ class RendererModuleTest extends TestCase
      */
     public function testModulePropagation()
     {
+        include_once __DIR__.'/Utils/TestCompilerModule.php';
+        include_once __DIR__.'/Utils/TestFormatterModule.php';
+        include_once __DIR__.'/Utils/TestParserModule.php';
+        include_once __DIR__.'/Utils/TestLexerModule.php';
+
         $renderer = new Renderer([
             'modules' => [
                 TestCompilerModule::class,
