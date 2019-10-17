@@ -19,7 +19,7 @@ function request($url, $repo = 'phug', $data = null)
 {
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, "https://api.github.com/repos/phug-php/$repo/$url");
-    curl_setopt($curl,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+    curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -28,7 +28,7 @@ function request($url, $repo = 'phug', $data = null)
         curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Authorization: token ' . env('GITHUB_TOKEN'),
+            'Authorization: token '.env('GITHUB_TOKEN'),
         ]);
     }
 
@@ -58,7 +58,7 @@ $preTypes = ['alpha', 'beta', 'RC'];
 $index = array_search(strtolower(isset($argv[1]) ? $argv[1] : ''), $numberNames);
 
 if ($index === false) {
-    echo 'Please choose one of the number to increment: ' . implode(', ', $numberNames);
+    echo 'Please choose one of the number to increment: '.implode(', ', $numberNames);
     exit(1);
 }
 
@@ -68,7 +68,7 @@ if (isset($argv[2])) {
     $preIndex = array_search(strtolower($argv[2]), array_map('strtolower', $preTypes));
 
     if ($preIndex === false) {
-        echo 'Please choose one of the following type (or none): ' . implode(', ', $preTypes);
+        echo 'Please choose one of the following type (or none): '.implode(', ', $preTypes);
         exit(1);
     }
 
@@ -129,12 +129,12 @@ foreach ($projects as $project) {
     echo "Tagging $project\n";
 
     $content = request('releases', $project, [
-        'tag_name' => $tag,
+        'tag_name'         => $tag,
         'target_commitish' => 'master',
-        'name' => $tag,
-        'body' => $description,
-        'draft' => $draft,
-        'prerelease' => !!$prerelease,
+        'name'             => $tag,
+        'body'             => $description,
+        'draft'            => $draft,
+        'prerelease'       => (bool) $prerelease,
     ]);
 
     echo "$content\n\n";
