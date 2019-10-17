@@ -15,7 +15,7 @@ matrix:
 install:
   - composer self-update
   - if [[ "$STYLECHECK" != "on" ]]; then composer require phpunit/phpunit phug/split --no-update; fi;
-  - if [[ "$STYLECHECK" = "on" ]]; then composer require squizlabs/php_codesniffer:~3.4 --no-update; fi;
+  - if [[ "$STYLECHECK" = "on" ]]; then composer require squizlabs/php_codesniffer:~3.4.2 --no-update; fi;
   - composer install
   - |
     if [[ "$STYLECHECK" != "on" ]]; then
