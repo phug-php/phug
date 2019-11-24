@@ -39,6 +39,7 @@ use Phug\Compiler\NodeCompiler\WhileNodeCompiler;
 // Nodes
 use Phug\Compiler\NodeCompiler\YieldNodeCompiler;
 use Phug\Compiler\NodeCompilerInterface;
+use Phug\Compiler\NormalizerInterface;
 use Phug\Compiler\Util\YieldHandlerTrait;
 use Phug\Formatter\AbstractElement;
 use Phug\Formatter\Element\TextElement;
@@ -339,6 +340,22 @@ class Compiler implements ModuleContainerInterface, CompilerInterface
         );
 
         return $resolvePath;
+    }
+
+    /**
+     * Normalize the string of a relative or absolute path.
+     *
+     * @param string $path the path to normalize.
+     *
+     * @return string
+     */
+    public function normalizePath($path)
+    {
+        if ($this->locator instanceof NormalizerInterface) {
+            return $this->locator->normalize($path);
+        }
+
+        return $path;
     }
 
     /**

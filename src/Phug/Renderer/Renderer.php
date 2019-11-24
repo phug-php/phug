@@ -181,18 +181,22 @@ class Renderer implements ModuleContainerInterface
             $parameters = $extension;
             $extension = '.html';
         }
+
         if (!$destination) {
             $destination = $path;
         }
+
         $path = realpath($path);
         $destination = realpath($destination);
 
         $success = 0;
         $errors = 0;
+
         if ($path && $destination) {
             $path = rtrim($path, '/\\');
             $destination = rtrim($destination, '/\\');
             $length = mb_strlen($path);
+
             foreach ($this->scanDirectory($path) as $file) {
                 $relativeDirectory = trim(mb_substr(dirname($file), $length), '//\\');
                 $filename = pathinfo($file, PATHINFO_FILENAME);

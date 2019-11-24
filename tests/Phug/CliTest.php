@@ -215,6 +215,7 @@ class CliTest extends TestCase
     }
 
     /**
+     * @group i
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
@@ -229,16 +230,41 @@ class CliTest extends TestCase
     public function testCacheDirectory()
     {
         $expected = __DIR__.'/../views/cache';
+
         if (file_exists($expected)) {
             static::emptyDirectory($expected);
             rmdir($expected);
         }
+
+        mkdir($expected, 0777, true);
+        file_put_contents("$expected/junk", 'junk');
         ob_start();
         $this->cli->run(['_', 'compile-directory', __DIR__.'/../views', $expected]);
         $text = ob_get_contents();
         ob_end_clean();
 
         self::assertFileExists($expected);
+        self::assertFileNotExists("$expected/junk");
+
+        $registryFile = "$expected/registry.php";
+
+        self::assertFileExists($registryFile);
+
+        $registry = include $registryFile;
+
+        self::assertArrayHasKey('dir1', $registry);
+        self::assertArrayHasKey('file1.pug', $registry['dir1']);
+
+        $file = $expected.'/'.$registry['dir1']['file1.pug'];
+
+        self::assertFileExists($file);
+
+        ob_start();
+        include $file;
+        $html = trim(ob_get_contents());
+        ob_end_clean();
+
+        self::assertSame('<p>A</p>', $html);
 
         if (file_exists($expected)) {
             static::emptyDirectory($expected);

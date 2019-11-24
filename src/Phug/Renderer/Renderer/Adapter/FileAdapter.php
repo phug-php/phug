@@ -32,16 +32,16 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
         ) ?: 0;
         $template = file_put_contents($destination, $output);
 
-        return $template === false ? false : $template + $imports;
+        return $template && $imports;
     }
 
     /**
      * Return the cached file path after cache optional process.
      *
-     * @param $path
-     * @param string   $input    pug input
+     * @param string   $path     pug file
+     * @param string   $input    pug input code
      * @param callable $rendered method to compile the source into PHP
-     * @param bool     $success
+     * @param &bool    $success  reference to a variable to be set to true/false on success/failure
      *
      * @return string
      */
@@ -73,11 +73,11 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
     /**
      * Display rendered template after optional cache process.
      *
-     * @param $path
-     * @param string   $input     pug input
+     * @param string   $path      pug file
+     * @param string   $input     pug input code
      * @param callable $rendered  method to compile the source into PHP
      * @param array    $variables local variables
-     * @param bool     $success
+     * @param &bool    $success   reference to a variable to be set to true/false on success/failure
      */
     public function displayCached($path, $input, callable $rendered, array $variables, &$success = null)
     {
@@ -95,7 +95,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
      * Returns the number of bytes written in the cache file or false if a
      * failure occurred.
      *
-     * @param string $path
+     * @param string $path pug file
      *
      * @return bool|int
      */
@@ -139,9 +139,9 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
     }
 
     /**
-     * Scan a directory recursively, compile them and save them into the cache directory.
+     * Scan a directory recursively for its views, compile them and save them into the cache directory.
      *
-     * @param string $directory the directory to search in pug
+     * @param array|string $directory the directory to search pug files in it.
      *
      * @throws \Phug\RendererException
      *
@@ -155,16 +155,32 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
 
         $renderer = $this->getRenderer();
         $events = $renderer->getCompiler()->getEventListeners();
+        $cacheDirectory = $this->getCacheDirectory();
+        $cacheTrimLength = mb_strlen($cacheDirectory) + 1;
+        $renderer->emptyDirectory($cacheDirectory);
+        $directories = array_filter(
+            preg_match('/^\[(.*)]$/', $directory, $match)
+                ? explode(',', $match[1])
+                : [$directory],
+            'strlen'
+        );
 
-        foreach ($renderer->scanDirectory($directory) as $inputFile) {
+        foreach ($renderer->scanDirectories($directories) as $inputFile) {
             $renderer->initCompiler();
             $compiler = $renderer->getCompiler();
             $compiler->mergeEventListeners($events);
             $path = $inputFile;
+            $normalizedPath = $compiler->normalizePath(substr($path, strlen($directory) + 1));
             $this->isCacheUpToDate($path);
-            $sandBox = $this->getRenderer()->getNewSandBox(function () use (&$success, $compiler, $path, $inputFile) {
-                $this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths());
-                $success++;
+            $sandBox = $renderer->getNewSandBox(function () use (&$success, &$errors, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
+                if ($this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths()) &&
+                    $this->registerCachedFile($normalizedPath, mb_substr($path, $cacheTrimLength))) {
+                    $success++;
+
+                    return;
+                }
+
+                $errors++;
             });
             $error = $sandBox->getThrowable();
 
@@ -175,6 +191,26 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
         }
 
         return [$success, $errors, $errorDetails];
+    }
+
+    protected function registerCachedFile($source, $cacheFile)
+    {
+        $cacheDirectory = $this->getCacheDirectory();
+        $registryFile = $cacheDirectory.DIRECTORY_SEPARATOR.'registry.php';
+        $registry = file_exists($registryFile) ? include $registryFile : [];
+        $base = &$registry;
+
+        foreach (explode('/', $source) as $path) {
+            if (!isset($base[$path])) {
+                $base[$path] = [];
+            }
+
+            $base = &$base[$path];
+        }
+
+        $base = $cacheFile;
+
+        return file_put_contents($registryFile, '<?php return '.var_export($registry, true).';') > 0;
     }
 
     protected function createTemporaryFile()
