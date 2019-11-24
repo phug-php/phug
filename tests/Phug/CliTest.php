@@ -2,10 +2,10 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Cli;
 use Phug\Phug;
 use Phug\Test\Utils\CustomOptionFacade;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Cli
@@ -16,26 +16,6 @@ class CliTest extends TestCase
      * @var Cli
      */
     protected $cli;
-
-    protected function emptyDirectory($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
-
-        foreach (scandir($dir) as $file) {
-            if ($file !== '.' && $file !== '..') {
-                $path = $dir.'/'.$file;
-                if (is_dir($path)) {
-                    $this->emptyDirectory($path);
-
-                    continue;
-                }
-
-                unlink($path);
-            }
-        }
-    }
 
     public function setUp()
     {
@@ -215,7 +195,6 @@ class CliTest extends TestCase
     }
 
     /**
-     * @group i
      * @group cli
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
@@ -231,12 +210,7 @@ class CliTest extends TestCase
     {
         $expected = __DIR__.'/../views/cache';
 
-        if (file_exists($expected)) {
-            static::emptyDirectory($expected);
-            rmdir($expected);
-        }
-
-        mkdir($expected, 0777, true);
+        $this->createEmptyDirectory($expected);
         file_put_contents("$expected/junk", 'junk');
         ob_start();
         $this->cli->run(['_', 'compile-directory', __DIR__.'/../views', $expected]);
@@ -252,10 +226,11 @@ class CliTest extends TestCase
 
         $registry = include $registryFile;
 
-        self::assertArrayHasKey('dir1', $registry);
-        self::assertArrayHasKey('file1.pug', $registry['dir1']);
+        self::assertArrayHasKey('d:dir1', $registry);
+        self::assertArrayHasKey('f:file1.pug', $registry['d:dir1']);
+        self::assertArrayHasKey('i:0', $registry['d:dir1']['f:file1.pug']);
 
-        $file = $expected.'/'.$registry['dir1']['file1.pug'];
+        $file = $expected.'/'.$registry['d:dir1']['f:file1.pug']['i:0'];
 
         self::assertFileExists($file);
 
@@ -266,10 +241,7 @@ class CliTest extends TestCase
 
         self::assertSame('<p>A</p>', $html);
 
-        if (file_exists($expected)) {
-            static::emptyDirectory($expected);
-            rmdir($expected);
-        }
+        $this->removeFile($expected);
 
         self::assertSame("3 templates cached.\n0 templates failed to be cached.\n", $text);
 
@@ -279,10 +251,7 @@ class CliTest extends TestCase
         $text = ob_get_contents();
         ob_end_clean();
 
-        if (file_exists($expected)) {
-            static::emptyDirectory($expected);
-            rmdir($expected);
-        }
+        $this->removeFile($expected);
 
         self::assertRegExp('/Inconsistent indentation./', $text);
     }

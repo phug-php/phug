@@ -41,6 +41,7 @@ use Phug\Compiler\NodeCompiler\YieldNodeCompiler;
 use Phug\Compiler\NodeCompilerInterface;
 use Phug\Compiler\NormalizerInterface;
 use Phug\Compiler\Util\YieldHandlerTrait;
+use Phug\Compiler\WithUpperLocatorInterface;
 use Phug\Formatter\AbstractElement;
 use Phug\Formatter\Element\TextElement;
 use Phug\Formatter\ElementInterface;
@@ -76,7 +77,7 @@ use Phug\Util\ModuleContainerInterface;
 use Phug\Util\Partial\ModuleContainerTrait;
 use Phug\Util\SourceLocation;
 
-class Compiler implements ModuleContainerInterface, CompilerInterface
+class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpperLocatorInterface
 {
     use ModuleContainerTrait;
     use YieldHandlerTrait;
@@ -95,6 +96,11 @@ class Compiler implements ModuleContainerInterface, CompilerInterface
      * @var LocatorInterface
      */
     private $locator;
+
+    /**
+     * @var LocatorInterface|null
+     */
+    private $upperLocator;
 
     /**
      * @var string
@@ -295,6 +301,16 @@ class Compiler implements ModuleContainerInterface, CompilerInterface
     }
 
     /**
+     * Set a master locator to use before the internal one.
+     *
+     * @param LocatorInterface|null $upperLocator
+     */
+    public function setUpperLocator($upperLocator)
+    {
+        $this->upperLocator = $upperLocator;
+    }
+
+    /**
      * Locate a file for a given path. Returns null if
      * not found.
      *
@@ -306,12 +322,13 @@ class Compiler implements ModuleContainerInterface, CompilerInterface
     public function locate($path, $paths = null)
     {
         $paths = $paths ?: $this->getOption('paths');
+        $extensions = $this->getOption('extensions');
 
-        return $this->locator->locate(
-            $path,
-            $paths,
-            $this->getOption('extensions')
-        );
+        $upperPath = $this->upperLocator
+            ? $this->upperLocator->locate($path, $paths, $extensions)
+            : null;
+
+        return $upperPath ?: $this->locator->locate($path, $paths, $extensions);
     }
 
     /**
@@ -529,7 +546,7 @@ class Compiler implements ModuleContainerInterface, CompilerInterface
             'No compiler found able to compile '.get_class($node),
             $node
         );
-    }
+    } // @codeCoverageIgnore
 
     /**
      * Replace a block by its nodes.

@@ -162,5 +162,6 @@ trait RendererOptionsTrait
         }
 
         $this->compiler = new $compilerClassName($this->getOptions());
+        $this->initAdapterLinkToCompiler();
     }
 }

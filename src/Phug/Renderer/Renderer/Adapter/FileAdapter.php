@@ -2,12 +2,13 @@
 
 namespace Phug\Renderer\Adapter;
 
+use Phug\Compiler\LocatorInterface;
 use Phug\Renderer;
 use Phug\Renderer\AbstractAdapter;
 use Phug\Renderer\CacheInterface;
 use RuntimeException;
 
-class FileAdapter extends AbstractAdapter implements CacheInterface
+class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInterface
 {
     private $renderingFile;
 
@@ -149,6 +150,9 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
      */
     public function cacheDirectory($directory)
     {
+        $upToDateCheck = $this->getOption('up_to_date_check');
+        $this->setOption('up_to_date_check', true);
+
         $success = 0;
         $errors = 0;
         $errorDetails = [];
@@ -165,23 +169,25 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
             'strlen'
         );
 
-        foreach ($renderer->scanDirectories($directories) as $inputFile) {
+        foreach ($renderer->scanDirectories($directories) as $index => [$directory, $inputFile]) {
             $renderer->initCompiler();
             $compiler = $renderer->getCompiler();
             $compiler->mergeEventListeners($events);
             $path = $inputFile;
             $normalizedPath = $compiler->normalizePath(substr($path, strlen($directory) + 1));
             $this->isCacheUpToDate($path);
-            $sandBox = $renderer->getNewSandBox(function () use (&$success, &$errors, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
+
+            $sandBox = $renderer->getNewSandBox(function () use (&$success, &$errors, $index, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
                 if ($this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths()) &&
-                    $this->registerCachedFile($normalizedPath, mb_substr($path, $cacheTrimLength))) {
+                    $this->registerCachedFile($index, $normalizedPath, mb_substr($path, $cacheTrimLength))) {
                     $success++;
 
                     return;
                 }
 
-                $errors++;
+                $errors++; // @codeCoverageIgnore
             });
+
             $error = $sandBox->getThrowable();
 
             if ($error) {
@@ -190,17 +196,32 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
             }
         }
 
+        $this->setOption('up_to_date_check', $upToDateCheck);
+
         return [$success, $errors, $errorDetails];
     }
 
-    protected function registerCachedFile($source, $cacheFile)
+    protected function getRegistryPathChunks($source, $directoryIndex = null)
     {
-        $cacheDirectory = $this->getCacheDirectory();
-        $registryFile = $cacheDirectory.DIRECTORY_SEPARATOR.'registry.php';
+        $paths = explode('/', $source);
+        $lastIndex = count($paths) - 1;
+
+        foreach ($paths as $index => $path) {
+            yield ($index < $lastIndex ? 'd:' : 'f:').$path;
+        }
+
+        if ($directoryIndex !== null) {
+            yield 'i:'.$directoryIndex;
+        }
+    }
+
+    protected function registerCachedFile($directoryIndex, $source, $cacheFile)
+    {
+        $registryFile = $this->getCachePath('registry');
         $registry = file_exists($registryFile) ? include $registryFile : [];
         $base = &$registry;
 
-        foreach (explode('/', $source) as $path) {
+        foreach ($this->getRegistryPathChunks($source, $directoryIndex) as $index => $path) {
             if (!isset($base[$path])) {
                 $base[$path] = [];
             }
@@ -242,7 +263,21 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
     }
 
     /**
-     * Return a file path in the cache for a given name.
+     * Return a file path in the cache for a given name (without extension added).
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    private function getRawCachePath($file)
+    {
+        $cacheDir = $this->getCacheDirectory();
+
+        return str_replace('//', '/', $cacheDir.'/'.$file);
+    }
+
+    /**
+     * Return a file path with extension added in the cache for a given name.
      *
      * @param string $name
      *
@@ -250,9 +285,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
      */
     private function getCachePath($name)
     {
-        $cacheDir = $this->getCacheDirectory();
-
-        return str_replace('//', '/', $cacheDir.'/'.$name).'.php';
+        return $this->getRawCachePath($name.'.php');
     }
 
     /**
@@ -319,6 +352,50 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
     }
 
     /**
+     * Get path from the cache registry (if up_to_date_check set to false only).
+     *
+     * @param string $path required view path.
+     *
+     * @return string|false false if no path registred, the path else.
+     */
+    private function getRegistryPath($path)
+    {
+        if ($this->getOption('up_to_date_check')) {
+            return false;
+        }
+
+        $registryFile = $this->getCachePath('registry');
+
+        if (!file_exists($registryFile)) {
+            return false;
+        }
+
+        $registry = include $registryFile;
+
+        foreach ($this->getRegistryPathChunks($this->getRenderer()->getCompiler()->normalizePath($path)) as $key) {
+            if (!isset($registry[$key])) {
+                return false;
+            }
+
+            $registry = $registry[$key];
+        }
+
+        if (is_string($registry)) {
+            return $registry;
+        }
+
+        if (is_array($registry)) {
+            foreach ($registry as $index => $value) {
+                if (substr($index, 0, 2) === 'i:') {
+                    return $this->getRawCachePath($value);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Return true if the file or content is up to date in the cache folder,
      * false else.
      *
@@ -330,6 +407,14 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
     private function isCacheUpToDate(&$path, $input = null)
     {
         if (!$input) {
+            $registryPath = $this->getRegistryPath($path);
+
+            if ($registryPath !== false) {
+                $path = $registryPath;
+
+                return true;
+            }
+
             $compiler = $this->getRenderer()->getCompiler();
             $input = $compiler->resolve($path);
             $path = $this->getCachePath(
@@ -382,5 +467,19 @@ class FileAdapter extends AbstractAdapter implements CacheInterface
         }
 
         return $cacheFolder;
+    }
+
+    /**
+     * Translates a given path by searching it in the passed locations and with the passed extensions.
+     *
+     * @param string $path the file path to translate.
+     * @param array $locations the directories to search in.
+     * @param array $extensions the file extensions to search for (e.g. ['.jd', '.pug'].
+     *
+     * @return string
+     */
+    public function locate($path, array $locations, array $extensions)
+    {
+        return $this->getRegistryPath($path);
     }
 }

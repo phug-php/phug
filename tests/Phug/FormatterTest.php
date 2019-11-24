@@ -3,7 +3,6 @@
 namespace Phug\Test;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Phug\DependencyException;
 use Phug\Formatter;
 use Phug\Formatter\Element\AttributeElement;
@@ -25,6 +24,7 @@ use Phug\Parser\Node\ExpressionNode;
 use Phug\Parser\Node\TextNode;
 use Phug\Util\Exception\LocatedException;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 use RuntimeException;
 
 /**

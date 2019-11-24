@@ -32,7 +32,7 @@ class FileLocator implements LocatorInterface, NormalizerInterface
 
     private function getFullPath($location, $path, $extension)
     {
-        $fullPath = $this->normalize($location, $path . $extension);
+        $fullPath = $this->normalize($location, $path.$extension);
 
         if (@is_file($fullPath) && is_readable($fullPath)) {
             return realpath($fullPath);

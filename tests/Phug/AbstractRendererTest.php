@@ -8,8 +8,8 @@ use NodejsPhpFallback\CoffeeScript;
 use NodejsPhpFallback\Less;
 use NodejsPhpFallback\Stylus;
 use NodejsPhpFallback\Uglify;
-use PHPUnit\Framework\TestCase;
 use Phug\Renderer;
+use Phug\Util\TestCase;
 use stdClass;
 
 abstract class AbstractRendererTest extends TestCase
@@ -89,23 +89,6 @@ abstract class AbstractRendererTest extends TestCase
                 },
             ],
         ]);
-    }
-
-    protected static function emptyDirectory($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
-        foreach (scandir($dir) as $file) {
-            if ($file !== '.' && $file !== '..') {
-                $path = $dir.'/'.$file;
-                if (is_dir($path)) {
-                    static::emptyDirectory($path);
-                } else {
-                    unlink($path);
-                }
-            }
-        }
     }
 
     public static function flatContent($content)

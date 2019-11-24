@@ -31,12 +31,12 @@ trait FileSystemTrait
             $inputFile = $directory.DIRECTORY_SEPARATOR.$object;
 
             if (is_dir($inputFile)) {
-                foreach ($this->scanDirectory($inputFile) as $file) {
+                foreach ($this->scanDirectory($inputFile, $extensions, $directoryCallback, $fileCallback) as $file) {
                     yield $file;
                 }
 
                 if ($directoryCallback) {
-                    call_user_func($directoryCallback, $file);
+                    call_user_func($directoryCallback, $inputFile);
                 }
 
                 continue;
@@ -61,9 +61,9 @@ trait FileSystemTrait
      */
     public function scanDirectories(array $directories)
     {
-        foreach ($directories as $directory) {
+        foreach (array_filter($directories, 'is_dir') as $directory) {
             foreach ($this->scanDirectory($directory) as $file) {
-                yield $file;
+                yield [$directory, $file];
             }
         }
     }
