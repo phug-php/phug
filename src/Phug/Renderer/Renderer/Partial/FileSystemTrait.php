@@ -12,7 +12,8 @@ trait FileSystemTrait
      *
      * @param string   $directory         directory to scan for files
      * @param array    $extensions        optional extensions to filter the result (use 'extensions' setting if omitted)
-     * @param callable $directoryCallback optional function/closure to call for each sub-directory scanned (after files have been yielded).
+     * @param callable $directoryCallback optional function/closure to call for each sub-directory scanned
+     *                                    (after files have been yielded).
      * @param callable $fileCallback      optional function/closure to call after each file yielded.
      *
      * @return \Generator

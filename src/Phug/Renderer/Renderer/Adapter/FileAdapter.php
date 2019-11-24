@@ -177,23 +177,26 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
             $normalizedPath = $compiler->normalizePath(substr($path, strlen($directory) + 1));
             $this->isCacheUpToDate($path);
 
-            $sandBox = $renderer->getNewSandBox(function () use (&$success, &$errors, $index, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
-                if ($this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths()) &&
-                    $this->registerCachedFile($index, $normalizedPath, mb_substr($path, $cacheTrimLength))) {
-                    $success++;
-
-                    return;
+            $sandBox = $renderer->getNewSandBox(
+                function () use ($index, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
+                    return $this->cacheFileContents(
+                        $path,
+                        $compiler->compileFile($inputFile),
+                        $compiler->getCurrentImportPaths()
+                    ) && $this->registerCachedFile($index, $normalizedPath, mb_substr($path, $cacheTrimLength));
                 }
-
-                $errors++; // @codeCoverageIgnore
-            });
+            );
 
             $error = $sandBox->getThrowable();
 
-            if ($error) {
+            if ($error || !$sandBox->getResult()) {
                 $errors++;
                 $errorDetails[] = compact(['directory', 'inputFile', 'path', 'error']);
+
+                continue;
             }
+
+            $success++;
         }
 
         $this->setOption('up_to_date_check', $upToDateCheck);
@@ -472,9 +475,9 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     /**
      * Translates a given path by searching it in the passed locations and with the passed extensions.
      *
-     * @param string $path the file path to translate.
-     * @param array $locations the directories to search in.
-     * @param array $extensions the file extensions to search for (e.g. ['.jd', '.pug'].
+     * @param string $path       the file path to translate.
+     * @param array  $locations  the directories to search in.
+     * @param array  $extensions the file extensions to search for (e.g. ['.jd', '.pug'].
      *
      * @return string
      */

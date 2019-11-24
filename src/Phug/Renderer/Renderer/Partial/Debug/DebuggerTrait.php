@@ -88,7 +88,9 @@ trait DebuggerTrait
         });
 
         if ($throwable = $sandBox->getThrowable()) {
-            return '<pre>'.$throwable->getMessage()."\n\n".$throwable->getTraceAsString().'</pre>'; // @codeCoverageIgnore
+            // @codeCoverageIgnoreStart
+            return '<pre>'.$throwable->getMessage()."\n\n".$throwable->getTraceAsString().'</pre>';
+            // @codeCoverageIgnoreEnd
         }
 
         return $sandBox->getBuffer();

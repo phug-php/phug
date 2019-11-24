@@ -64,7 +64,11 @@ trait AdapterTrait
     {
         $compiler = $this->getCompiler();
 
-        if ($compiler && $this->adapter && $this->adapter instanceof LocatorInterface && $compiler instanceof WithUpperLocatorInterface) {
+        if ($compiler &&
+            $this->adapter &&
+            $this->adapter instanceof LocatorInterface &&
+            $compiler instanceof WithUpperLocatorInterface
+        ) {
             $compiler->setUpperLocator($this->adapter);
         }
     }

@@ -3,6 +3,7 @@
 namespace Phug\Test\Adapter;
 
 use JsPhpize\JsPhpizePhug;
+use Phug\Compiler;
 use Phug\Renderer;
 use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
@@ -51,6 +52,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::isCacheUpToDate
      * @covers ::getCacheDirectory
      * @covers ::cacheFileContents
+     * @covers ::getRegistryPath
      * @covers \Phug\Renderer\AbstractAdapter::<public>
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
@@ -742,7 +744,6 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
-     * @group j
      * @covers ::registerCachedFile
      * @covers ::getRegistryPathChunks
      * @covers ::getRegistryPath
@@ -760,7 +761,7 @@ class FileAdapterTest extends AbstractRendererTest
         $this->createEmptyDirectory("$vendorViewsDirectory/lib");
 
         file_put_contents("$appViewsDirectory/foo/bar/page.pug", "h1 Page\ninclude /lib/widget");
-        file_put_contents("$vendorViewsDirectory/lib/widget.pug", "div widget");
+        file_put_contents("$vendorViewsDirectory/lib/widget.pug", 'div widget');
 
         $renderer = new Renderer([
             'up_to_date_check' => false,
@@ -774,5 +775,38 @@ class FileAdapterTest extends AbstractRendererTest
         $html = $renderer->renderFile('foo/bar/page.pug');
 
         self::assertSame('<h1>Page</h1><div>widget</div>', $html);
+    }
+
+    /**
+     * @covers ::getRegistryPath
+     * @covers ::locate
+     */
+    public function testUpperLocator()
+    {
+        $cacheDirectory = sys_get_temp_dir().'/phug-cache-'.mt_rand(0, 999999);
+        $this->createEmptyDirectory($cacheDirectory);
+        $compiler = new Compiler();
+        $compiler->setUpperLocator(new FileAdapter($this->renderer, [
+            'up_to_date_check' => false,
+            'cache_dir'        => $cacheDirectory,
+        ]));
+        $setRegistry = function ($registry) use ($cacheDirectory) {
+            file_put_contents("$cacheDirectory/registry.php", '<?php return '.var_export($registry, true).';');
+        };
+        $setRegistry([]);
+
+        self::assertNull($compiler->locate('foo'));
+
+        $setRegistry([
+            'f:foo' => 'xy',
+        ]);
+
+        self::assertSame('xy', $compiler->locate('foo'));
+
+        $setRegistry([
+            'f:foo' => [],
+        ]);
+
+        self::assertNull($compiler->locate('foo'));
     }
 }

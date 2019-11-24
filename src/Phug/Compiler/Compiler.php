@@ -546,7 +546,7 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
             'No compiler found able to compile '.get_class($node),
             $node
         );
-    } // @codeCoverageIgnore
+    }
 
     /**
      * Replace a block by its nodes.
