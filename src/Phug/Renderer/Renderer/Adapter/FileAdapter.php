@@ -169,7 +169,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
             'strlen'
         );
 
-        foreach ($renderer->scanDirectories($directories) as $index => [$directory, $inputFile]) {
+        foreach ($renderer->scanDirectories($directories) as $index => list($directory, $inputFile)) {
             $renderer->initCompiler();
             $compiler = $renderer->getCompiler();
             $compiler->mergeEventListeners($events);

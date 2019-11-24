@@ -573,6 +573,10 @@ class CompilerTest extends AbstractCompilerTest
         self::assertSame($paths, $compiler->getImportPaths()[$path]);
     }
 
+    /**
+     * @covers ::setUpperLocator
+     * @covers ::locate
+     */
     public function testUpperLocator()
     {
         $compiler = new Compiler();
