@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\MixinTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\MixinTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\MixinTokenHandler
  */
 class MixinTokenHandlerTest extends AbstractParserTest
 {

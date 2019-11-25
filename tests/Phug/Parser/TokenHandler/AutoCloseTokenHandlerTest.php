@@ -12,7 +12,7 @@ use Phug\Parser\TokenHandler\AutoCloseTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\AutoCloseTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\AutoCloseTokenHandler
  */
 class AutoCloseTokenHandlerTest extends AbstractParserTest
 {

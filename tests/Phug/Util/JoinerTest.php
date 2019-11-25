@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Phug\Util\Joiner;
 
 /**
- * @coversDefaultClass Phug\Util\Joiner
+ * @coversDefaultClass \Phug\Util\Joiner
  */
 class JoinerTest extends TestCase
 {

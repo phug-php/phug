@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Phug\Reader;
 
 /**
- * @coversDefaultClass Phug\Reader
+ * @coversDefaultClass \Phug\Reader
  */
 class ReaderTest extends TestCase
 {

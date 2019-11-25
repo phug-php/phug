@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\OutdentTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\OutdentTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\OutdentTokenHandler
  */
 class OutdentTokenHandlerTest extends AbstractParserTest
 {

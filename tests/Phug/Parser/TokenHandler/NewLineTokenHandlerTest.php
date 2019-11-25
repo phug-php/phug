@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\NewLineTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\NewLineTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\NewLineTokenHandler
  */
 class NewLineTokenHandlerTest extends AbstractParserTest
 {

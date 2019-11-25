@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\KeywordTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\KeywordTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\KeywordTokenHandler
  */
 class KeywordTokenHandlerTest extends AbstractParserTest
 {

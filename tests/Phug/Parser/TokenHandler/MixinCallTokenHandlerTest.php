@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\MixinCallTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\MixinCallTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\MixinCallTokenHandler
  */
 class MixinCallTokenHandlerTest extends AbstractParserTest
 {

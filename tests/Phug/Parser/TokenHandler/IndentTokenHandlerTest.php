@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\IndentTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\IndentTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\IndentTokenHandler
  */
 class IndentTokenHandlerTest extends AbstractParserTest
 {

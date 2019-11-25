@@ -12,7 +12,7 @@ use Phug\Parser\TokenHandler\TagTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\TagTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\TagTokenHandler
  */
 class TagTokenHandlerTest extends AbstractParserTest
 {

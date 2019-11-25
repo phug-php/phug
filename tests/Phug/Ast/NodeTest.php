@@ -21,7 +21,7 @@ class D extends Node
 }
 
 /**
- * @coversDefaultClass Phug\Ast\Node
+ * @coversDefaultClass \Phug\Ast\Node
  */
 class NodeTest extends TestCase
 {

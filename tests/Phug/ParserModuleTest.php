@@ -55,7 +55,7 @@ class StateEnterLeaveStoreTestModule extends AbstractParserModule
 }
 
 /**
- * @coversDefaultClass Phug\AbstractParserModule
+ * @coversDefaultClass \Phug\AbstractParserModule
  */
 class ParserModuleTest extends AbstractParserTest
 {

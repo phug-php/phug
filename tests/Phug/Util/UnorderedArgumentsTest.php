@@ -15,7 +15,7 @@ class Def implements Abc
 /**
  * Class UnorderedArgumentsTest.
  *
- * @coversDefaultClass Phug\Util\UnorderedArguments
+ * @coversDefaultClass \Phug\Util\UnorderedArguments
  */
 class UnorderedArgumentsTest extends TestCase
 {

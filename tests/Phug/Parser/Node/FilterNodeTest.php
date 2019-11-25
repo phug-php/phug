@@ -7,7 +7,7 @@ use Phug\Parser\Node\ImportNode;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\Node\FilterNode
+ * @coversDefaultClass \Phug\Parser\Node\FilterNode
  */
 class FilterNodeTest extends AbstractParserTest
 {

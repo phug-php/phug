@@ -41,7 +41,7 @@ class DummyTestModule extends AbstractFormatterModule
 }
 
 /**
- * @coversDefaultClass Phug\AbstractFormatterModule
+ * @coversDefaultClass \Phug\AbstractFormatterModule
  */
 class FormatterModuleTest extends TestCase
 {

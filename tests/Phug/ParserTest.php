@@ -7,7 +7,7 @@ use Phug\Parser;
 use Phug\Parser\Node\DocumentNode;
 
 /**
- * @coversDefaultClass Phug\Parser
+ * @coversDefaultClass \Phug\Parser
  */
 class ParserTest extends AbstractParserTest
 {

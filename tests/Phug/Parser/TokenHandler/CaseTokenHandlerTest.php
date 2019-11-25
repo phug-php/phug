@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\CaseTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\CaseTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\CaseTokenHandler
  */
 class CaseTokenHandlerTest extends AbstractParserTest
 {

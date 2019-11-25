@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\CommentTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\CommentTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\CommentTokenHandler
  */
 class CommentTokenHandlerTest extends AbstractParserTest
 {

@@ -6,7 +6,7 @@ use Phug\Parser\Node\TextNode;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\Node\TextNode
+ * @coversDefaultClass \Phug\Parser\Node\TextNode
  */
 class TextNodeTest extends AbstractParserTest
 {
