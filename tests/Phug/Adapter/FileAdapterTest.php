@@ -777,6 +777,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\Partial\RegistryTrait::getRegistryPathChunks
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapterLinkToCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testRemoveViewsDirectoryAfterCaching()
     {

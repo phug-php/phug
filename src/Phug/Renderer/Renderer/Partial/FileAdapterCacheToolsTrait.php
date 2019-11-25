@@ -38,6 +38,7 @@ trait FileAdapterCacheToolsTrait
      * Return directories list from a directory string as it is allowed in CLI:
      * - directory1/x/y
      * - [directory1/x/y,directory2/z]
+     * as an array of strings.
      *
      * @param string $directory
      *
