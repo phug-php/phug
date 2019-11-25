@@ -79,6 +79,12 @@ class ParserTest extends AbstractParserTest
             '        [ElementNode]',
             '          [TextNode]',
         ]);
+        $this->assertNodes('section: +gg: span i', [
+            '[DocumentNode]',
+            '  [MixinCallNode outer=ElementNode]',
+            '    [ElementNode]',
+            '      [TextNode]',
+        ]);
         $parser = new Parser([
             'detailed_dump' => true,
         ]);
