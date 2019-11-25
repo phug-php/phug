@@ -614,6 +614,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testMutedThrowException()
     {
+        include_once __DIR__.'/Utils/MutedExceptionCompiler.php';
+
         $compiler = new MutedExceptionCompiler();
         $paragraph = new ElementNode();
         $paragraph->setName('p');
