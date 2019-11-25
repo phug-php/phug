@@ -608,6 +608,8 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
      * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
      * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::normalizePath
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::compileAndCache
      * @covers \Phug\Renderer\Task\TasksGroup::<public>
      * @covers ::cacheDirectory
      */
