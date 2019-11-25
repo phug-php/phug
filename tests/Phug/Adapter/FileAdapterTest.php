@@ -456,6 +456,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
      * @covers \Phug\Renderer\Partial\FileSystemTrait::scanDirectory
      * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::compileAndCache
      */
     public function testCacheIncompatibility()
     {

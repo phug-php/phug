@@ -166,7 +166,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
 
             $tasks->runInSandBox(
                 function () use ($index, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
-                    return $this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths()) &&
+                    return $this->compileAndCache($compiler, $path, $inputFile) &&
                         $this->registerCachedFile($index, $normalizedPath, mb_substr($path, $cacheTrimLength));
                 },
                 compact(['directory', 'inputFile', 'path'])

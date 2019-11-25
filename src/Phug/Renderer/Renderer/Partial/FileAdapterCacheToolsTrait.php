@@ -2,10 +2,20 @@
 
 namespace Phug\Renderer\Partial;
 
+use Phug\CompilerInterface;
 use Phug\Renderer;
 
 trait FileAdapterCacheToolsTrait
 {
+    /**
+     * Write the cache file with the given contents and map of imports.
+     *
+     * @param string $destination
+     * @param string $output
+     * @param array  $importsMap
+     *
+     * @return bool
+     */
     protected function cacheFileContents($destination, $output, $importsMap = [])
     {
         $imports = file_put_contents(
@@ -52,5 +62,19 @@ trait FileAdapterCacheToolsTrait
                 : [$directory],
             'strlen'
         );
+    }
+
+    /**
+     * Compile a file with a given compiler and cache it.
+     *
+     * @param CompilerInterface $compiler
+     * @param string            $path
+     * @param string            $inputFile
+     *
+     * @return bool
+     */
+    protected function compileAndCache(CompilerInterface $compiler, $path, $inputFile)
+    {
+        return $this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths());
     }
 }
