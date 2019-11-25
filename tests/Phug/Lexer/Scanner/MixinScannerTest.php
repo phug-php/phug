@@ -6,9 +6,11 @@ use Phug\Lexer\Token\AttributeEndToken;
 use Phug\Lexer\Token\AttributeStartToken;
 use Phug\Lexer\Token\AttributeToken;
 use Phug\Lexer\Token\ClassToken;
+use Phug\Lexer\Token\ExpansionToken;
 use Phug\Lexer\Token\IndentToken;
 use Phug\Lexer\Token\MixinToken;
 use Phug\Lexer\Token\NewLineToken;
+use Phug\Lexer\Token\TagToken;
 use Phug\Test\AbstractLexerTest;
 
 class MixinScannerTest extends AbstractLexerTest
@@ -35,6 +37,12 @@ class MixinScannerTest extends AbstractLexerTest
             NewLineToken::class,
             IndentToken::class,
             ClassToken::class,
+        ]);
+
+        $this->assertTokens('mixin a: div', [
+            MixinToken::class,
+            ExpansionToken::class,
+            TagToken::class,
         ]);
     }
 }
