@@ -21,8 +21,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.0",
-        "phug/compiler": "^0.5.20 || ^1.0",
-        "phug/util": "^0.4.15 || ^1.0",
+        "phug/compiler": "^1.2",
+        "phug/util": "^1.2",
         "symfony/var-dumper": "^3.4 || ^4.0"
     },
     "autoload": {

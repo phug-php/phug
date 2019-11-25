@@ -21,8 +21,8 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.0",
-        "phug/renderer": "^0.4.0 || ^1.0.0",
-        "phug/util": "^0.4.0 || ^1.0.0"
+        "phug/renderer": "^1.2",
+        "phug/util": "^1.2"
     },
     "autoload": {
         "psr-4": {
