@@ -40,6 +40,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testNormalizePath()
     {
+        include_once __DIR__.'/Utils/SuffixLocator.php';
+
         $compiler = new Compiler();
 
         self::assertSame('foo/biz/uio', $compiler->normalizePath('foo\\bar/../biz/./kk/..\\uio'));
@@ -582,6 +584,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testUpperLocator()
     {
+        include_once __DIR__.'/Utils/SuffixLocator.php';
+
         $compiler = new Compiler();
         $compiler->setUpperLocator(new SuffixLocator());
 
