@@ -296,10 +296,6 @@ class Optimizer
      */
     private function getRegistryPath($path)
     {
-        if (!isset($this->options['up_to_date_check']) || $this->options['up_to_date_check']) {
-            return false;
-        }
-
         $cachePath = $this->findCachePathInRegistryFile($path, $this->getCachePath('registry'));
 
         if ($cachePath) {

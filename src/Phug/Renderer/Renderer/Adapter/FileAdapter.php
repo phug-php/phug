@@ -6,13 +6,16 @@ use Phug\Compiler\LocatorInterface;
 use Phug\Renderer;
 use Phug\Renderer\AbstractAdapter;
 use Phug\Renderer\CacheInterface;
+use Phug\Renderer\Partial\FileAdapterCacheToolsTrait;
 use Phug\Renderer\Partial\RegistryTrait;
 use Phug\Renderer\Partial\RenderingFileTrait;
+use Phug\Renderer\Task\TasksGroup;
 use Phug\Util\Partial\HashPrintTrait;
 use RuntimeException;
 
 class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInterface
 {
+    use FileAdapterCacheToolsTrait;
     use HashPrintTrait;
     use RegistryTrait;
     use RenderingFileTrait;
@@ -147,55 +150,32 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         $upToDateCheck = $this->getOption('up_to_date_check');
         $this->setOption('up_to_date_check', true);
 
-        $success = 0;
-        $errors = 0;
-        $errorDetails = [];
-
         $renderer = $this->getRenderer();
+        $tasks = new TasksGroup($renderer);
         $events = $renderer->getCompiler()->getEventListeners();
         $cacheDirectory = $this->getCacheDirectory();
         $cacheTrimLength = mb_strlen($cacheDirectory) + 1;
         $renderer->emptyDirectory($cacheDirectory);
-        $directories = array_filter(
-            preg_match('/^\[(.*)]$/', $directory, $match)
-                ? explode(',', $match[1])
-                : [$directory],
-            'strlen'
-        );
+        $directories = $this->parseCliDirectoriesInput($directory);
 
         foreach ($renderer->scanDirectories($directories) as $index => list($directory, $inputFile)) {
-            $renderer->initCompiler();
-            $compiler = $renderer->getCompiler();
-            $compiler->mergeEventListeners($events);
+            $compiler = $this->reInitCompiler($renderer, $events);
             $path = $inputFile;
             $normalizedPath = $compiler->normalizePath(substr($path, strlen($directory) + 1));
             $this->isCacheUpToDate($path);
 
-            $sandBox = $renderer->getNewSandBox(
+            $tasks->runInSandBox(
                 function () use ($index, $compiler, $path, $inputFile, $normalizedPath, $cacheTrimLength) {
-                    return $this->cacheFileContents(
-                        $path,
-                        $compiler->compileFile($inputFile),
-                        $compiler->getCurrentImportPaths()
-                    ) && $this->registerCachedFile($index, $normalizedPath, mb_substr($path, $cacheTrimLength));
-                }
+                    return $this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths()) &&
+                        $this->registerCachedFile($index, $normalizedPath, mb_substr($path, $cacheTrimLength));
+                },
+                compact(['directory', 'inputFile', 'path'])
             );
-
-            $error = $sandBox->getThrowable();
-
-            if ($error || !$sandBox->getResult()) {
-                $errors++;
-                $errorDetails[] = compact(['directory', 'inputFile', 'path', 'error']);
-
-                continue;
-            }
-
-            $success++;
         }
 
         $this->setOption('up_to_date_check', $upToDateCheck);
 
-        return [$success, $errors, $errorDetails];
+        return $tasks->getResult();
     }
 
     /**
@@ -222,17 +202,6 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     public function locate($path, array $locations, array $extensions)
     {
         return $this->getRegistryPath($path);
-    }
-
-    protected function cacheFileContents($destination, $output, $importsMap = [])
-    {
-        $imports = file_put_contents(
-            $destination.'.imports.serialize.txt',
-            serialize($importsMap)
-        ) ?: 0;
-        $template = file_put_contents($destination, $output);
-
-        return $template && $imports;
     }
 
     protected function registerCachedFile($directoryIndex, $source, $cacheFile)

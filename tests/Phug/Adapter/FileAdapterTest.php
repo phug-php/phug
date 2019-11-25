@@ -21,6 +21,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\RenderingFileTrait::getRenderingFile
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
      * @covers \Phug\Renderer\AbstractAdapter::getRenderer
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testRender()
     {
@@ -51,7 +54,6 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
-     * @covers ::cacheFileContents
      * @covers ::getRegistryPath
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
@@ -60,6 +62,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
      * @covers \Phug\Renderer\Partial\FileSystemTrait::scanDirectory
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testCache()
     {
@@ -167,11 +172,13 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
-     * @covers ::cacheFileContents
      * @covers \Phug\Renderer\AbstractAdapter::<public>
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
      * @covers \Phug\Renderer\Partial\FileSystemTrait::scanDirectory
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testSharedVariablesWithCache()
     {
@@ -270,6 +277,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Adapter\FileAdapter::isCacheUpToDate
      * @covers \Phug\Renderer\Adapter\FileAdapter::checkPathExpiration
      * @covers \Phug\Renderer\Adapter\FileAdapter::hasExpiredImport
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testCacheOnIncludeChange()
     {
@@ -325,9 +335,9 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
-     * @covers \Phug\Renderer\Adapter\FileAdapter::isCacheUpToDate
-     * @covers \Phug\Renderer\Adapter\FileAdapter::checkPathExpiration
-     * @covers \Phug\Renderer\Adapter\FileAdapter::hasExpiredImport
+     * @covers ::isCacheUpToDate
+     * @covers ::checkPathExpiration
+     * @covers ::hasExpiredImport
      */
     public function testCacheOnExtendsChange()
     {
@@ -401,13 +411,15 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
-     * @covers ::cacheFileContents
      * @covers \Phug\Renderer\AbstractAdapter::<public>
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
      * @covers \Phug\Renderer\Partial\FileSystemTrait::scanDirectory
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testCacheWithDisplay()
     {
@@ -443,6 +455,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
      * @covers \Phug\Renderer\Partial\FileSystemTrait::scanDirectory
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      */
     public function testCacheIncompatibility()
     {
@@ -474,8 +487,8 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
-     * @covers \Phug\Renderer\Adapter\FileAdapter::cache
-     * @covers \Phug\Renderer\Adapter\FileAdapter::cacheFileContents
+     * @covers ::cache
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
      */
     public function testCacheErrorTrace()
     {
@@ -520,9 +533,9 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
-     * @covers \Phug\Renderer\Adapter\FileAdapter::<public>
-     * @covers \Phug\Renderer\Adapter\FileAdapter::cache
-     * @covers \Phug\Renderer\Adapter\FileAdapter::cacheFileContents
+     * @covers ::<public>
+     * @covers ::cache
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
      */
     public function testCacheRenderString()
     {
@@ -590,8 +603,11 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\CacheTrait::cacheDirectory
      * @covers \Phug\Renderer\Partial\RendererOptionsTrait::handleOptionAliases
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
-     * @covers \Phug\Renderer\Adapter\FileAdapter::cacheFileContents
-     * @covers \Phug\Renderer\Adapter\FileAdapter::cacheDirectory
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::cacheFileContents
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::reInitCompiler
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
+     * @covers \Phug\Renderer\Task\TasksGroup::<public>
+     * @covers ::cacheDirectory
      */
     public function testCacheDirectory()
     {

@@ -69,6 +69,10 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::getLocator
      * @covers ::isExpired
      * @covers ::getSourceAndCachePaths
+     * @covers ::getCachePath
+     * @covers ::getRawCachePath
+     * @covers ::getRegistryPath
+     * @covers \Phug\Renderer\Task\TasksGroup::<public>
      *
      * @throws RendererException
      */
@@ -107,7 +111,17 @@ class OptimizerTest extends AbstractPhugTest
         $optimizer->isExpired('file2.pug', $cachePath);
 
         $contents = @file_get_contents($cachePath);
+
+        self::assertSame(
+            '<p>B</p>',
+            $contents
+        );
+
         rename(__DIR__.'/file2.pug', __DIR__.'/../views/dir2/file2.pug');
+        $options['up_to_date_check'] = true;
+        $optimizer->isExpired('file2.pug', $cachePath);
+
+        $contents = @file_get_contents($cachePath);
 
         $this->removeFile($cache);
 
