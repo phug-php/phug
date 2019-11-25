@@ -12,7 +12,9 @@ use Phug\Formatter\Element\MarkupElement;
 use Phug\Formatter\Element\TextElement;
 use Phug\Parser;
 use Phug\Parser\Node\ElementNode;
+use Phug\Test\Utils\MutedExceptionCompiler;
 use Phug\Test\Utils\SuffixLocator;
+use Phug\Test\Utils\UnknownNode;
 
 /**
  * @coversDefaultClass \Phug\Compiler
@@ -34,6 +36,7 @@ class CompilerTest extends AbstractCompilerTest
     /**
      * @covers ::normalizePath
      * @covers \Phug\Compiler\Locator\FileLocator::normalize
+     * @covers \Phug\Compiler\Locator\FileLocator::getConsistentPaths
      */
     public function testNormalizePath()
     {
@@ -583,5 +586,34 @@ class CompilerTest extends AbstractCompilerTest
         $compiler->setUpperLocator(new SuffixLocator());
 
         self::assertSame('foo-suffix', $compiler->locate('foo'));
+    }
+
+    /**
+     * @covers                   ::compileNode
+     * @expectedException        \Phug\CompilerException
+     * @expectedExceptionMessage Failed to compile: No compiler found able to compile Phug\Test\Utils\UnknownNode
+     */
+    public function testUnknownNodeThrowException()
+    {
+        $compiler = new Compiler();
+        $paragraph = new ElementNode();
+        $paragraph->setName('p');
+
+        self::assertInstanceOf(MarkupElement::class, $compiler->compileNode($paragraph));
+        self::assertNull($compiler->compileNode(new UnknownNode()));
+    }
+
+    /**
+     * @covers ::compileNode
+     * @throws \Phug\CompilerException
+     */
+    public function testMutedThrowException()
+    {
+        $compiler = new MutedExceptionCompiler();
+        $paragraph = new ElementNode();
+        $paragraph->setName('p');
+
+        self::assertInstanceOf(MarkupElement::class, $compiler->compileNode($paragraph));
+        self::assertNull($compiler->compileNode(new UnknownNode()));
     }
 }

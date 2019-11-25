@@ -179,7 +179,9 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      * @covers \Phug\Renderer\Partial\RendererOptionsTrait::getDefaultOptions
      */
     public function testFilter()
@@ -193,7 +195,9 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testInitCompiler()
     {
@@ -237,8 +241,10 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
      * @covers ::getCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      * @covers \Phug\Renderer\Partial\RendererOptionsTrait::handleOptionAliases
      */
     public function testBasedir()
@@ -577,7 +583,9 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testCompilerClassNameException()
     {
@@ -599,7 +607,9 @@ class RendererTest extends AbstractRendererTest
     /**
      * @covers ::__construct
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapter
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testAdapterClassNameException()
     {
@@ -620,7 +630,9 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter

@@ -27,11 +27,9 @@ trait RegistryTrait
      */
     protected function getFirstRegistryIndex($registry)
     {
-        if (is_array($registry)) {
-            foreach ($registry as $index => $value) {
-                if (substr($index, 0, 2) === 'i:') {
-                    return $value;
-                }
+        foreach (((array) $registry) as $index => $value) {
+            if (substr($index, 0, 2) === 'i:') {
+                return $value;
             }
         }
 

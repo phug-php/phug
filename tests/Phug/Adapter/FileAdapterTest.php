@@ -50,6 +50,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRawCachePath
      * @covers ::hashPrint
      * @covers ::isCacheUpToDate
+     * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
      * @covers ::cacheFileContents
      * @covers ::getRegistryPath
@@ -166,6 +167,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRawCachePath
      * @covers ::hashPrint
      * @covers ::isCacheUpToDate
+     * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
      * @covers ::cacheFileContents
      * @covers \Phug\Renderer\AbstractAdapter::<public>
@@ -268,6 +270,7 @@ class FileAdapterTest extends AbstractRendererTest
 
     /**
      * @covers \Phug\Renderer\Adapter\FileAdapter::isCacheUpToDate
+     * @covers \Phug\Renderer\Adapter\FileAdapter::checkPathExpiration
      * @covers \Phug\Renderer\Adapter\FileAdapter::hasExpiredImport
      */
     public function testCacheOnIncludeChange()
@@ -325,6 +328,7 @@ class FileAdapterTest extends AbstractRendererTest
 
     /**
      * @covers \Phug\Renderer\Adapter\FileAdapter::isCacheUpToDate
+     * @covers \Phug\Renderer\Adapter\FileAdapter::checkPathExpiration
      * @covers \Phug\Renderer\Adapter\FileAdapter::hasExpiredImport
      */
     public function testCacheOnExtendsChange()
@@ -398,6 +402,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRawCachePath
      * @covers ::hashPrint
      * @covers ::isCacheUpToDate
+     * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
      * @covers ::cacheFileContents
      * @covers \Phug\Renderer\AbstractAdapter::<public>
@@ -686,6 +691,8 @@ class FileAdapterTest extends AbstractRendererTest
      *
      * @covers \Phug\Renderer\Adapter\FileAdapter::cacheDirectory
      * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testCacheDirectoryPreserveRendererDependencies()
     {
@@ -751,6 +758,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRegistryPath
      * @covers ::cacheDirectory
      * @covers ::isCacheUpToDate
+     * @covers ::checkPathExpiration
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex

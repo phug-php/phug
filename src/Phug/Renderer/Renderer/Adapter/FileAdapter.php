@@ -380,6 +380,29 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         return false;
     }
 
+    private function checkPathExpiration(&$path)
+    {
+        $compiler = $this->getRenderer()->getCompiler();
+        $input = $compiler->resolve($path);
+        $path = $this->getCachePath(
+            ($this->getOption('keep_base_name') ? basename($path) : '').
+            $this->hashPrint($input)
+        );
+
+        // If up_to_date_check never refresh the cache
+        if (!$this->getOption('up_to_date_check')) {
+            return true;
+        }
+
+        // If there is no cache file, create it
+        if (!file_exists($path)) {
+            return false;
+        }
+
+        // Else check the main input path and all imported paths in the template
+        return !$this->hasExpiredImport($input, $path);
+    }
+
     /**
      * Return true if the file or content is up to date in the cache folder,
      * false else.
@@ -400,25 +423,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
                 return true;
             }
 
-            $compiler = $this->getRenderer()->getCompiler();
-            $input = $compiler->resolve($path);
-            $path = $this->getCachePath(
-                ($this->getOption('keep_base_name') ? basename($path) : '').
-                $this->hashPrint($input)
-            );
-
-            // If up_to_date_check never refresh the cache
-            if (!$this->getOption('up_to_date_check')) {
-                return true;
-            }
-
-            // If there is no cache file, create it
-            if (!file_exists($path)) {
-                return false;
-            }
-
-            // Else check the main input path and all imported paths in the template
-            return !$this->hasExpiredImport($input, $path);
+            return $this->checkPathExpiration($path);
         }
 
         $path = $this->getCachePath($this->hashPrint($input));
