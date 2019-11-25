@@ -105,6 +105,7 @@ trait ExtensionsTrait
                 if (!is_array($value) || is_callable($value)) {
                     $value = [$value];
                 }
+
                 if (isset($options[$key]) && (!is_array($options[$key]) || is_callable($options[$key]))) {
                     $options[$key] = [$options[$key]];
                 }
@@ -118,12 +119,15 @@ trait ExtensionsTrait
     {
         foreach (['getOptions', 'getEvents'] as $method) {
             $value = static::getExtensionMethodResult($extensionClassName, $method);
+
             if (!empty($value)) {
                 $options = static::mergeOptions($options, $value);
             }
         }
+
         foreach ($methods as $option => $method) {
             $value = static::getExtensionMethodResult($extensionClassName, $method);
+
             if (!empty($value)) {
                 $options = static::mergeOptions($options, [$option => $value]);
             }

@@ -2,6 +2,7 @@
 
 namespace Phug\Test;
 
+use Phug\Partial\ExtensionsTrait;
 use Phug\Phug;
 use Phug\Test\Extension\Ev1Extension;
 use Phug\Test\Extension\Ev2Extension;
@@ -120,5 +121,13 @@ class ExtensionTest extends AbstractPhugTest
         Phug::removeOptions('on_node', [$closure]);
 
         self::assertSame([], Phug::getOption('on_node'));
+
+        $options = ExtensionsTrait::getExtensionsOptions([Ev2Extension::class], [
+            'on_format' => $closure,
+        ]);
+
+        self::assertCount(1, $options['on_node']);
+        self::assertCount(3, $options['on_format']);
+        self::assertSame($closure, $options['on_format'][0]);
     }
 }
