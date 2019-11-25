@@ -24,6 +24,7 @@ class TestClass implements DocumentLocationInterface, OptionInterface, ScopeInte
     use Partial\DocumentLocationTrait;
     use Partial\EscapeTrait;
     use Partial\FilterTrait;
+    use Partial\HashPrintTrait;
     use Partial\LevelTrait;
     use Partial\ModeTrait;
     use Partial\NameTrait;
@@ -59,6 +60,11 @@ class TestClass implements DocumentLocationInterface, OptionInterface, ScopeInte
         $this->offset = $offset;
 
         return $this;
+    }
+
+    public function testHashPrint($input)
+    {
+        return $this->hashPrint($input);
     }
 }
 
@@ -605,6 +611,18 @@ class PartialTest extends TestCase
         self::assertSame(9, $exception->getLocation()->getOffsetLength());
         self::assertSame(0, $exception->getCode());
         self::assertSame('', $exception->getMessage());
+    }
+
+    /**
+     * @covers \Phug\Util\Partial\HashPrintTrait
+     * @covers \Phug\Util\Partial\HashPrintTrait::hashPrint
+     * @covers \Phug\Util\Hasher::<public>
+     */
+    public function testHashPrint()
+    {
+        $inst = new TestClass();
+
+        self::assertSame('1YBC5qpaM14DrVdsap5DtBWRv9IHf3Leyd95MOSSBV0', $inst->testHashPrint('foo'));
     }
 }
 //@codingStandardsIgnoreEnd

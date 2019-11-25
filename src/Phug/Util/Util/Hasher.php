@@ -1,0 +1,52 @@
+<?php
+
+namespace Phug\Util;
+
+class Hasher
+{
+    /**
+     * Input string to hash.
+     *
+     * @var string
+     */
+    protected $input;
+
+    public function __construct($input)
+    {
+        $this->input = $input;
+    }
+
+    /**
+     * Return a hashed print for the current input file or content.
+     *
+     * @return string
+     */
+    public function hash()
+    {
+        // Get the stronger hashing algorithm available to minimize collision risks
+        $algorithms = hash_algos();
+        $algorithm = $algorithms[0];
+        $number = 0;
+
+        foreach ($algorithms as $hashAlgorithm) {
+            $lettersLength = substr($hashAlgorithm, 0, 2) === 'md'
+                ? 2
+                : (substr($hashAlgorithm, 0, 3) === 'sha'
+                    ? 3
+                    : 0
+                );
+
+            if ($lettersLength) {
+                $hashNumber = substr($hashAlgorithm, $lettersLength);
+                if ($hashNumber > $number) {
+                    $number = $hashNumber;
+                    $algorithm = $hashAlgorithm;
+                }
+
+                continue;
+            }
+        }
+
+        return rtrim(strtr(base64_encode(hash($algorithm, $this->input, true)), '+/', '-_'), '=');
+    }
+}
