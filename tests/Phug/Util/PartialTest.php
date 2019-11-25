@@ -617,6 +617,7 @@ class PartialTest extends TestCase
      * @covers \Phug\Util\Partial\HashPrintTrait
      * @covers \Phug\Util\Partial\HashPrintTrait::hashPrint
      * @covers \Phug\Util\Hasher::<public>
+     * @covers \Phug\Util\Hasher::getPrefixLength
      */
     public function testHashPrint()
     {

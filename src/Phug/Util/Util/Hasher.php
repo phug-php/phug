@@ -29,24 +29,28 @@ class Hasher
         $number = 0;
 
         foreach ($algorithms as $hashAlgorithm) {
-            $lettersLength = substr($hashAlgorithm, 0, 2) === 'md'
-                ? 2
-                : (substr($hashAlgorithm, 0, 3) === 'sha'
-                    ? 3
-                    : 0
-                );
+            $lettersLength = $this->getPrefixLength($hashAlgorithm);
 
             if ($lettersLength) {
                 $hashNumber = substr($hashAlgorithm, $lettersLength);
+
                 if ($hashNumber > $number) {
                     $number = $hashNumber;
                     $algorithm = $hashAlgorithm;
                 }
-
-                continue;
             }
         }
 
         return rtrim(strtr(base64_encode(hash($algorithm, $this->input, true)), '+/', '-_'), '=');
+    }
+
+    private function getPrefixLength($hashAlgorithm)
+    {
+        return substr($hashAlgorithm, 0, 2) === 'md'
+            ? 2
+            : (substr($hashAlgorithm, 0, 3) === 'sha'
+                ? 3
+                : 0
+            );
     }
 }
