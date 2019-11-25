@@ -66,13 +66,8 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
-     * @covers ::getLocator
      * @covers ::isExpired
      * @covers ::getSourceAndCachePaths
-     * @covers ::getCachePath
-     * @covers ::getRawCachePath
-     * @covers ::getRegistryPath
-     * @covers \Phug\Renderer\Task\TasksGroup::<public>
      *
      * @throws RendererException
      */
@@ -80,7 +75,9 @@ class OptimizerTest extends AbstractPhugTest
     {
         $baseDir = __DIR__.'/../views/dir2';
         $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
-        $this->createEmptyDirectory($cache);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
 
         $options = [
             'debug'     => false,
@@ -96,34 +93,8 @@ class OptimizerTest extends AbstractPhugTest
 
         $contents = @file_get_contents($cachePath);
 
-        $this->emptyDirectory($cache);
-
-        self::assertSame(
-            '<p>B</p>',
-            $contents
-        );
-
-        Phug::textualCacheDirectory($baseDir, $cache, $options);
-
-        $options['up_to_date_check'] = false;
-        $optimizer = new Optimizer($options);
-        rename(__DIR__.'/../views/dir2/file2.pug', __DIR__.'/file2.pug');
-        $optimizer->isExpired('file2.pug', $cachePath);
-
-        $contents = @file_get_contents($cachePath);
-
-        self::assertSame(
-            '<p>B</p>',
-            $contents
-        );
-
-        rename(__DIR__.'/file2.pug', __DIR__.'/../views/dir2/file2.pug');
-        $options['up_to_date_check'] = true;
-        $optimizer->isExpired('file2.pug', $cachePath);
-
-        $contents = @file_get_contents($cachePath);
-
-        $this->removeFile($cache);
+        static::emptyDirectory($cache);
+        rmdir($cache);
 
         self::assertSame(
             '<p>B</p>',
@@ -133,6 +104,7 @@ class OptimizerTest extends AbstractPhugTest
 
     /**
      * @covers ::__construct
+     * @covers ::hashPrint
      * @covers ::hasExpiredImport
      * @covers ::isExpired
      * @covers ::displayFile
@@ -141,7 +113,9 @@ class OptimizerTest extends AbstractPhugTest
     public function testCache()
     {
         $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
-        $this->createEmptyDirectory($cache);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
         $optimizer = new Optimizer([
             'debug'    => false,
             'basedir'  => __DIR__.'/../views/dir1',
@@ -166,7 +140,8 @@ class OptimizerTest extends AbstractPhugTest
         self::assertContains('<p>A</p>', $contents);
         self::assertContains('<p>B</p>', $contents);
 
-        $this->removeFile($cache);
+        static::emptyDirectory($cache);
+        rmdir($cache);
     }
 
     /**
@@ -179,8 +154,12 @@ class OptimizerTest extends AbstractPhugTest
     {
         $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
         $templates = sys_get_temp_dir().'/views'.mt_rand(0, 999999);
-        $this->createEmptyDirectory($cache);
-        $this->createEmptyDirectory($templates);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
+        file_exists($templates)
+            ? static::emptyDirectory($templates)
+            : mkdir($templates);
         file_put_contents($templates.'/foo.txt', 'include bar');
         touch($templates.'/foo.txt', time() - 3600);
         file_put_contents($templates.'/bar.txt', 'div bar');
@@ -220,6 +199,11 @@ class OptimizerTest extends AbstractPhugTest
             '<p>biz</p>',
             $optimizer->renderFile('foo')
         );
+
+        static::emptyDirectory($cache);
+        rmdir($cache);
+        static::emptyDirectory($templates);
+        rmdir($templates);
     }
 
     /**
@@ -299,8 +283,12 @@ class OptimizerTest extends AbstractPhugTest
     {
         $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
         $templates = sys_get_temp_dir().'/templates'.mt_rand(0, 999999);
-        $this->createEmptyDirectory($cache);
-        $this->createEmptyDirectory($templates);
+        file_exists($cache)
+            ? static::emptyDirectory($cache)
+            : mkdir($cache);
+        file_exists($templates)
+            ? static::emptyDirectory($templates)
+            : mkdir($templates);
         file_put_contents($templates.'/foo.pug', '=$self["a"] + $self["b"] + $self["c"]');
         $options = [
             'shared_variables' => ['a' => 1],
@@ -328,5 +316,10 @@ class OptimizerTest extends AbstractPhugTest
             '6',
             Optimizer::call('renderFile', ['foo', ['c' => 3]], $options)
         );
+
+        static::emptyDirectory($cache);
+        rmdir($cache);
+        static::emptyDirectory($templates);
+        rmdir($templates);
     }
 }
