@@ -62,6 +62,16 @@ class TestClass implements DocumentLocationInterface, OptionInterface, ScopeInte
     }
 }
 
+class ObjectOptions
+{
+    use Partial\OptionTrait;
+
+    public function __construct()
+    {
+        $this->options = (object) ['a' => 'b'];
+    }
+}
+
 /**
  * Class PartialTest.
  */
@@ -536,6 +546,10 @@ class PartialTest extends TestCase
         self::assertSame('baz', $inst->getOption('bar'));
         self::assertSame('baz', $ref['foo']);
         self::assertSame('baz', $ref['bar']);
+
+        $objectOptions = new ObjectOptions();
+        self::assertTrue($objectOptions->hasOption('a'));
+        self::assertFalse($objectOptions->hasOption('b'));
     }
 
     /**
