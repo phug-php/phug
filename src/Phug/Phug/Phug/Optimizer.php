@@ -233,8 +233,8 @@ class Optimizer
     /**
      * Returns a rendered template file.
      *
-     * @param string $file
-     * @param array  $parameters
+     * @param string $file       file path
+     * @param array  $parameters local variables
      *
      * @return string
      */
