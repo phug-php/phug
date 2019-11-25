@@ -3,9 +3,14 @@
 namespace Phug;
 
 use Phug\Compiler\Locator\FileLocator;
+use Phug\Renderer\Partial\RegistryTrait;
+use Phug\Util\Partial\HashPrintTrait;
 
 class Optimizer
 {
+    use HashPrintTrait;
+    use RegistryTrait;
+
     /**
      * Facade for rendering fallback.
      *
@@ -41,72 +46,8 @@ class Optimizer
      */
     private $locator;
 
-    /**
-     * Return a hashed print from input file or content.
-     *
-     * @param string $input
-     *
-     * @return string
-     */
-    private function hashPrint($input)
-    {
-        // Get the stronger hashing algorithm available to minimize collision risks
-        $algorithms = hash_algos();
-        $algorithm = $algorithms[0];
-        $number = 0;
-        foreach ($algorithms as $hashAlgorithm) {
-            $lettersLength = substr($hashAlgorithm, 0, 2) === 'md'
-                ? 2
-                : (substr($hashAlgorithm, 0, 3) === 'sha'
-                    ? 3
-                    : 0
-                );
-            if ($lettersLength) {
-                $hashNumber = substr($hashAlgorithm, $lettersLength);
-                if ($hashNumber > $number) {
-                    $number = $hashNumber;
-                    $algorithm = $hashAlgorithm;
-                }
-
-                continue;
-            }
-        }
-
-        return rtrim(strtr(base64_encode(hash($algorithm, $input, true)), '+/', '-_'), '=');
-    }
-
-    /**
-     * Returns true if the path has an expired imports linked.
-     *
-     * @param $path
-     *
-     * @return bool
-     */
-    private function hasExpiredImport($sourcePath, $cachePath)
-    {
-        $importsMap = $cachePath.'.imports.serialize.txt';
-
-        if (!file_exists($importsMap)) {
-            return true;
-        }
-
-        $importPaths = unserialize(file_get_contents($importsMap)) ?: [];
-        $importPaths[] = $sourcePath;
-        $time = filemtime($cachePath);
-        foreach ($importPaths as $importPath) {
-            if (!file_exists($importPath) || filemtime($importPath) >= $time) {
-                // If only one file has changed, expires
-                return true;
-            }
-        }
-
-        // If only no files changed, it's up to date
-        return false;
-    }
-
     public function __construct(array $options = [])
     {
-        $this->locator = new FileLocator();
         $this->paths = isset($options['paths']) ? $options['paths'] : [];
         if (isset($options['base_dir'])) {
             $this->paths[] = $options['base_dir'];
@@ -134,7 +75,7 @@ class Optimizer
      */
     public function resolve($file)
     {
-        return $this->locator->locate(
+        return $this->getLocator()->locate(
             $file,
             $this->paths,
             isset($this->options['extensions'])
@@ -156,7 +97,11 @@ class Optimizer
     {
         if (isset($this->options['up_to_date_check']) && !$this->options['up_to_date_check']) {
             if (func_num_args() > 1) {
-                list(, $cachePath) = $this->getSourceAndCachePaths($file);
+                $cachePath = $this->getRegistryPath($file);
+
+                if (!$cachePath) {
+                    list(, $cachePath) = $this->getSourceAndCachePaths($file);
+                }
             }
 
             return false;
@@ -270,8 +215,93 @@ class Optimizer
     protected function getSourceAndCachePaths($file)
     {
         $sourcePath = $this->resolve($file);
-        $cachePath = rtrim($this->cacheDirectory, '\\/').DIRECTORY_SEPARATOR.$this->hashPrint($sourcePath).'.php';
+        $cachePath = $this->getCachePath($this->hashPrint($sourcePath));
 
         return [$sourcePath, $cachePath];
+    }
+
+    /**
+     * Lazy loaded the file locator.
+     *
+     * @return FileLocator
+     */
+    private function getLocator()
+    {
+        if (!$this->locator) {
+            $this->locator = new FileLocator();
+        }
+
+        return $this->locator;
+    }
+
+    /**
+     * Returns true if the path has an expired imports linked.
+     *
+     * @param $path
+     *
+     * @return bool
+     */
+    private function hasExpiredImport($sourcePath, $cachePath)
+    {
+        $importsMap = $cachePath.'.imports.serialize.txt';
+
+        if (!file_exists($importsMap)) {
+            return true;
+        }
+
+        $importPaths = unserialize(file_get_contents($importsMap)) ?: [];
+        $importPaths[] = $sourcePath;
+        $time = filemtime($cachePath);
+        foreach ($importPaths as $importPath) {
+            if (!file_exists($importPath) || filemtime($importPath) >= $time) {
+                // If only one file has changed, expires
+                return true;
+            }
+        }
+
+        // If only no files changed, it's up to date
+        return false;
+    }
+
+    /**
+     * Get PHP cached file for a given name.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    private function getCachePath($name)
+    {
+        return $this->getRawCachePath($name.'.php');
+    }
+
+    /**
+     * Get PHP cached file for a given file basename.
+     *
+     * @param string $file)
+     *
+     * @return string
+     */
+    private function getRawCachePath($file)
+    {
+        return rtrim($this->cacheDirectory, '\\/').DIRECTORY_SEPARATOR.$file;
+    }
+
+    /**
+     * Get path from the cache registry (if up_to_date_check set to false only).
+     *
+     * @param string $path required view path.
+     *
+     * @return string|false false if no path registred, the path else.
+     */
+    private function getRegistryPath($path)
+    {
+        $cachePath = $this->findCachePathInRegistryFile($path, $this->getCachePath('registry'));
+
+        if ($cachePath) {
+            return $this->getRawCachePath($cachePath);
+        }
+
+        return false;
     }
 }
