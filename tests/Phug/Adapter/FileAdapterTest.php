@@ -48,7 +48,6 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::<public>
      * @covers ::getCachePath
      * @covers ::getRawCachePath
-     * @covers ::hashPrint
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
@@ -165,7 +164,6 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::<public>
      * @covers ::getCachePath
      * @covers ::getRawCachePath
-     * @covers ::hashPrint
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory
@@ -400,7 +398,6 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::<public>
      * @covers ::getCachePath
      * @covers ::getRawCachePath
-     * @covers ::hashPrint
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
      * @covers ::getCacheDirectory

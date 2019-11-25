@@ -8,10 +8,12 @@ use Phug\Renderer\AbstractAdapter;
 use Phug\Renderer\CacheInterface;
 use Phug\Renderer\Partial\RegistryTrait;
 use Phug\Renderer\Partial\RenderingFileTrait;
+use Phug\Util\Partial\HashPrintTrait;
 use RuntimeException;
 
 class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInterface
 {
+    use HashPrintTrait;
     use RegistryTrait;
     use RenderingFileTrait;
 
@@ -293,40 +295,6 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     private function getCachePath($name)
     {
         return $this->getRawCachePath($name.'.php');
-    }
-
-    /**
-     * Return a hashed print from input file or content.
-     *
-     * @param string $input
-     *
-     * @return string
-     */
-    private function hashPrint($input)
-    {
-        // Get the stronger hashing algorithm available to minimize collision risks
-        $algorithms = hash_algos();
-        $algorithm = $algorithms[0];
-        $number = 0;
-        foreach ($algorithms as $hashAlgorithm) {
-            $lettersLength = substr($hashAlgorithm, 0, 2) === 'md'
-                ? 2
-                : (substr($hashAlgorithm, 0, 3) === 'sha'
-                    ? 3
-                    : 0
-                );
-            if ($lettersLength) {
-                $hashNumber = substr($hashAlgorithm, $lettersLength);
-                if ($hashNumber > $number) {
-                    $number = $hashNumber;
-                    $algorithm = $hashAlgorithm;
-                }
-
-                continue;
-            }
-        }
-
-        return rtrim(strtr(base64_encode(hash($algorithm, $input, true)), '+/', '-_'), '=');
     }
 
     /**

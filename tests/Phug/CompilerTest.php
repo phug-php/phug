@@ -605,6 +605,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers ::compileNode
+     *
      * @throws \Phug\CompilerException
      */
     public function testMutedThrowException()

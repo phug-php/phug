@@ -66,6 +66,7 @@ class OptimizerTest extends AbstractPhugTest
     }
 
     /**
+     * @covers ::getLocator
      * @covers ::isExpired
      * @covers ::getSourceAndCachePaths
      *
@@ -91,6 +92,23 @@ class OptimizerTest extends AbstractPhugTest
 
         $contents = @file_get_contents($cachePath);
 
+        $this->emptyDirectory($cache);
+
+        self::assertSame(
+            '<p>B</p>',
+            $contents
+        );
+
+        Phug::textualCacheDirectory($baseDir, $cache, $options);
+
+        $options['up_to_date_check'] = false;
+        $optimizer = new Optimizer($options);
+        rename(__DIR__.'/../views/dir2/file2.pug', __DIR__.'/file2.pug');
+        $optimizer->isExpired('file2.pug', $cachePath);
+
+        $contents = @file_get_contents($cachePath);
+        rename(__DIR__.'/file2.pug', __DIR__.'/../views/dir2/file2.pug');
+
         $this->removeFile($cache);
 
         self::assertSame(
@@ -101,7 +119,6 @@ class OptimizerTest extends AbstractPhugTest
 
     /**
      * @covers ::__construct
-     * @covers ::hashPrint
      * @covers ::hasExpiredImport
      * @covers ::isExpired
      * @covers ::displayFile
