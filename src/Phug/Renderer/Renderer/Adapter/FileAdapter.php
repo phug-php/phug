@@ -161,7 +161,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         foreach ($renderer->scanDirectories($directories) as $index => list($directory, $inputFile)) {
             $compiler = $this->reInitCompiler($renderer, $events);
             $path = $inputFile;
-            $normalizedPath = $compiler->normalizePath(substr($path, strlen($directory) + 1));
+            $normalizedPath = $this->normalizePath($compiler, $path, $directory);
             $this->isCacheUpToDate($path);
 
             $tasks->runInSandBox(

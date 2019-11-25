@@ -457,6 +457,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\FileSystemTrait::scanDirectory
      * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::parseCliDirectoriesInput
      * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::compileAndCache
+     * @covers \Phug\Renderer\Partial\FileAdapterCacheToolsTrait::normalizePath
      */
     public function testCacheIncompatibility()
     {
@@ -816,9 +817,14 @@ class FileAdapterTest extends AbstractRendererTest
      */
     public function testUpperLocator()
     {
+        $compiler = new Compiler();
+
+        if (!($compiler instanceof Compiler\WithUpperLocatorInterface)) {
+            self::markTestSkipped('Requires WithUpperLocatorInterface interface.');
+        }
+
         $cacheDirectory = sys_get_temp_dir().'/phug-cache-'.mt_rand(0, 999999);
         $this->createEmptyDirectory($cacheDirectory);
-        $compiler = new Compiler();
         $compiler->setUpperLocator(new FileAdapter($this->renderer, [
             'up_to_date_check' => false,
             'cache_dir'        => $cacheDirectory,

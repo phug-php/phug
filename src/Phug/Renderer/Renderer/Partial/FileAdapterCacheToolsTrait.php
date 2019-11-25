@@ -77,4 +77,20 @@ trait FileAdapterCacheToolsTrait
     {
         return $this->cacheFileContents($path, $compiler->compileFile($inputFile), $compiler->getCurrentImportPaths());
     }
+
+    /**
+     * Compile a file with a given compiler and cache it.
+     *
+     * @param CompilerInterface $compiler
+     * @param string            $path
+     * @param string            $directory
+     *
+     * @return string
+     */
+    protected function normalizePath(CompilerInterface $compiler, $path, $directory)
+    {
+        $path = substr($path, strlen($directory) + 1);
+
+        return method_exists($compiler, 'normalizePath') ? $compiler->normalizePath($path) : $path;
+    }
 }
