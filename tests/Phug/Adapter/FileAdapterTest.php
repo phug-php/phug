@@ -18,7 +18,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::<public>
      * @covers ::createTemporaryFile
      * @covers ::getCompiledFile
-     * @covers ::getRenderingFile
+     * @covers \Phug\Renderer\Partial\RenderingFileTrait::getRenderingFile
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
      * @covers \Phug\Renderer\AbstractAdapter::getRenderer
      */
@@ -53,6 +53,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getCacheDirectory
      * @covers ::cacheFileContents
      * @covers ::getRegistryPath
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\AbstractAdapter::<public>
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
@@ -745,10 +748,13 @@ class FileAdapterTest extends AbstractRendererTest
 
     /**
      * @covers ::registerCachedFile
-     * @covers ::getRegistryPathChunks
      * @covers ::getRegistryPath
      * @covers ::cacheDirectory
      * @covers ::isCacheUpToDate
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
+     * @covers \Phug\Renderer\Partial\RegistryTrait::getRegistryPathChunks
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapterLinkToCompiler
      */
     public function testRemoveViewsDirectoryAfterCaching()
@@ -779,6 +785,8 @@ class FileAdapterTest extends AbstractRendererTest
 
     /**
      * @covers ::getRegistryPath
+     * @covers ::findCachePathInRegistry
+     * @covers ::getFirstRegistryIndex
      * @covers ::locate
      */
     public function testUpperLocator()
@@ -801,7 +809,7 @@ class FileAdapterTest extends AbstractRendererTest
             'f:foo' => 'xy',
         ]);
 
-        self::assertSame('xy', $compiler->locate('foo'));
+        self::assertSame("$cacheDirectory/xy", $compiler->locate('foo'));
 
         $setRegistry([
             'f:foo' => [],

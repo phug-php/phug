@@ -13,11 +13,7 @@ class FileLocator implements LocatorInterface, NormalizerInterface
         $paths = explode('/', rtrim(preg_replace('`[\\\\/]+`', '/', $path), '/'));
         $chunks = [];
 
-        foreach ($paths as $path) {
-            if ($path === '.') {
-                continue;
-            }
-
+        foreach ($this->getConsistentPaths($paths) as $path) {
             if ($path === '..' && ($count = count($chunks)) && $chunks[$count - 1] !== '..') {
                 array_pop($chunks);
 
@@ -28,6 +24,17 @@ class FileLocator implements LocatorInterface, NormalizerInterface
         }
 
         return implode('/', $chunks);
+    }
+
+    private function getConsistentPaths($paths)
+    {
+        foreach ($paths as $path) {
+            if ($path === '.') {
+                continue;
+            }
+
+            yield $path;
+        }
     }
 
     private function getFullPath($location, $path, $extension)

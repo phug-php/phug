@@ -6,11 +6,14 @@ use Phug\Compiler\LocatorInterface;
 use Phug\Renderer;
 use Phug\Renderer\AbstractAdapter;
 use Phug\Renderer\CacheInterface;
+use Phug\Renderer\Partial\RegistryTrait;
+use Phug\Renderer\Partial\RenderingFileTrait;
 use RuntimeException;
 
 class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInterface
 {
-    private $renderingFile;
+    use RegistryTrait;
+    use RenderingFileTrait;
 
     public function __construct(Renderer $renderer, $options)
     {
@@ -23,17 +26,6 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         ]);
 
         $this->setOptions($options);
-    }
-
-    protected function cacheFileContents($destination, $output, $importsMap = [])
-    {
-        $imports = file_put_contents(
-            $destination.'.imports.serialize.txt',
-            serialize($importsMap)
-        ) ?: 0;
-        $template = file_put_contents($destination, $output);
-
-        return $template && $imports;
     }
 
     /**
@@ -204,18 +196,41 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         return [$success, $errors, $errorDetails];
     }
 
-    protected function getRegistryPathChunks($source, $directoryIndex = null)
+    /**
+     * Compile then render a file with given locals.
+     *
+     * @param string $__pug_php
+     * @param array  $__pug_parameters
+     */
+    public function display($__pug_php, array $__pug_parameters)
     {
-        $paths = explode('/', $source);
-        $lastIndex = count($paths) - 1;
+        extract($__pug_parameters);
+        include $this->getCompiledFile($__pug_php);
+    }
 
-        foreach ($paths as $index => $path) {
-            yield ($index < $lastIndex ? 'd:' : 'f:').$path;
-        }
+    /**
+     * Translates a given path by searching it in the passed locations and with the passed extensions.
+     *
+     * @param string $path       the file path to translate.
+     * @param array  $locations  the directories to search in.
+     * @param array  $extensions the file extensions to search for (e.g. ['.jd', '.pug'].
+     *
+     * @return string
+     */
+    public function locate($path, array $locations, array $extensions)
+    {
+        return $this->getRegistryPath($path);
+    }
 
-        if ($directoryIndex !== null) {
-            yield 'i:'.$directoryIndex;
-        }
+    protected function cacheFileContents($destination, $output, $importsMap = [])
+    {
+        $imports = file_put_contents(
+            $destination.'.imports.serialize.txt',
+            serialize($importsMap)
+        ) ?: 0;
+        $template = file_put_contents($destination, $output);
+
+        return $template && $imports;
     }
 
     protected function registerCachedFile($directoryIndex, $source, $cacheFile)
@@ -251,17 +266,6 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         $this->renderingFile = $this->createTemporaryFile();
         file_put_contents($this->renderingFile, $php);
 
-        return $this->renderingFile;
-    }
-
-    public function display($__pug_php, array $__pug_parameters)
-    {
-        extract($__pug_parameters);
-        include $this->getCompiledFile($__pug_php);
-    }
-
-    public function getRenderingFile()
-    {
         return $this->renderingFile;
     }
 
@@ -367,32 +371,10 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
             return false;
         }
 
-        $registryFile = $this->getCachePath('registry');
+        $cachePath = $this->findCachePathInRegistryFile($path, $this->getCachePath('registry'));
 
-        if (!file_exists($registryFile)) {
-            return false;
-        }
-
-        $registry = include $registryFile;
-
-        foreach ($this->getRegistryPathChunks($this->getRenderer()->getCompiler()->normalizePath($path)) as $key) {
-            if (!isset($registry[$key])) {
-                return false;
-            }
-
-            $registry = $registry[$key];
-        }
-
-        if (is_string($registry)) {
-            return $registry;
-        }
-
-        if (is_array($registry)) {
-            foreach ($registry as $index => $value) {
-                if (substr($index, 0, 2) === 'i:') {
-                    return $this->getRawCachePath($value);
-                }
-            }
+        if ($cachePath) {
+            return $this->getRawCachePath($cachePath);
         }
 
         return false;
@@ -470,19 +452,5 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
         }
 
         return $cacheFolder;
-    }
-
-    /**
-     * Translates a given path by searching it in the passed locations and with the passed extensions.
-     *
-     * @param string $path       the file path to translate.
-     * @param array  $locations  the directories to search in.
-     * @param array  $extensions the file extensions to search for (e.g. ['.jd', '.pug'].
-     *
-     * @return string
-     */
-    public function locate($path, array $locations, array $extensions)
-    {
-        return $this->getRegistryPath($path);
     }
 }
