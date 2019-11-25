@@ -28,20 +28,27 @@ class Hasher
         $algorithm = $algorithms[0];
         $number = 0;
 
+        foreach ($this->getMdAndShaAlgorithms($algorithms) as list($hashAlgorithm, $hashNumber)) {
+            if ($hashNumber > $number) {
+                $number = $hashNumber;
+                $algorithm = $hashAlgorithm;
+            }
+        }
+
+        return rtrim(strtr(base64_encode(hash($algorithm, $this->input, true)), '+/', '-_'), '=');
+    }
+
+    private function getMdAndShaAlgorithms($algorithms)
+    {
         foreach ($algorithms as $hashAlgorithm) {
             $lettersLength = $this->getPrefixLength($hashAlgorithm);
 
             if ($lettersLength) {
                 $hashNumber = substr($hashAlgorithm, $lettersLength);
 
-                if ($hashNumber > $number) {
-                    $number = $hashNumber;
-                    $algorithm = $hashAlgorithm;
-                }
+                yield [$hashAlgorithm, $hashNumber];
             }
         }
-
-        return rtrim(strtr(base64_encode(hash($algorithm, $this->input, true)), '+/', '-_'), '=');
     }
 
     private function getPrefixLength($hashAlgorithm)
