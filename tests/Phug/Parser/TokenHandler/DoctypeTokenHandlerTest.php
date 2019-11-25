@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\DoctypeTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\DoctypeTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\DoctypeTokenHandler
  */
 class DoctypeTokenHandlerTest extends AbstractParserTest
 {

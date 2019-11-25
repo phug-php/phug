@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\BlockTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\BlockTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\BlockTokenHandler
  */
 class BlockTokenHandlerTest extends AbstractParserTest
 {

@@ -9,7 +9,7 @@ use Phug\Renderer\Profiler\ProfilerModule;
 use Phug\RendererException;
 
 /**
- * @coversDefaultClass Phug\Renderer\Profiler\ProfilerModule
+ * @coversDefaultClass \Phug\Renderer\Profiler\ProfilerModule
  */
 class ProfilerModuleTest extends TestCase
 {

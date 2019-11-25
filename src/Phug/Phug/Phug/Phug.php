@@ -461,10 +461,10 @@ class Phug
     /**
      * Cache a whole directory and return an array with [$successCount, $errorCount, $errorDetails].
      *
-     * @param string      $source      input directories containing pug files
-     * @param string|null $destination output for compiled PHP files
-     *                                 (if array given, will be used as options array)
-     * @param array|null  $options     optional options
+     * @param string|array $source      input directories containing pug files
+     * @param string|null  $destination output for compiled PHP files
+     *                                  (if array given, will be used as options array)
+     * @param array|null   $options     optional options
      *
      * @throws RendererException
      *

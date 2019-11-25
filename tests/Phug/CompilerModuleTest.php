@@ -13,7 +13,7 @@ use Phug\Formatter\Element\MarkupElement;
 use Phug\Parser\Node\ElementNode;
 
 /**
- * @coversDefaultClass Phug\AbstractCompilerModule
+ * @coversDefaultClass \Phug\AbstractCompilerModule
  */
 class CompilerModuleTest extends TestCase
 {

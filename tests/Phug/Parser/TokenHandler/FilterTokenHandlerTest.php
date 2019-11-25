@@ -13,7 +13,7 @@ use Phug\Parser\TokenHandler\FilterTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\FilterTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\FilterTokenHandler
  */
 class FilterTokenHandlerTest extends AbstractParserTest
 {

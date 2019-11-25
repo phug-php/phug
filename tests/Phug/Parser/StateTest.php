@@ -17,7 +17,7 @@ use Phug\ParserException;
 use Phug\Util\SourceLocation;
 
 /**
- * @coversDefaultClass Phug\Parser\State
+ * @coversDefaultClass \Phug\Parser\State
  */
 class StateTest extends TestCase
 {

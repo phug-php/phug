@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\YieldTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\YieldTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\YieldTokenHandler
  */
 class YieldTokenHandlerTest extends AbstractParserTest
 {

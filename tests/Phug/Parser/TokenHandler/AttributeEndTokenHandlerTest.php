@@ -11,7 +11,7 @@ use Phug\Parser\State;
 use Phug\Parser\TokenHandler\AttributeEndTokenHandler;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\AttributeEndTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\AttributeEndTokenHandler
  */
 class AttributeEndTokenHandlerTest extends TestCase
 {

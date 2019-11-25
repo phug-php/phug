@@ -17,7 +17,7 @@ use Phug\Parser\TokenHandler\AttributeStartTokenHandler;
 use Phug\Parser\TokenHandler\AttributeTokenHandler;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\AssignmentTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\AssignmentTokenHandler
  */
 class AssignmentTokenHandlerTest extends TestCase
 {

@@ -11,7 +11,7 @@ use Phug\Parser\TokenHandler\CodeTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\CodeTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\CodeTokenHandler
  */
 class CodeTokenHandlerTest extends AbstractParserTest
 {
@@ -111,6 +111,7 @@ class CodeTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     * @covers                   \Phug\Parser\State::throwException
      * @expectedException        \Phug\ParserException
      * @expectedExceptionMessage Unexpected token `blockcode` expected `text`, `interpolated-code` or `code`
      */

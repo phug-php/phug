@@ -8,7 +8,7 @@ use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractCompilerTest;
 
 /**
- * @coversDefaultClass Phug\Compiler\NodeCompiler\DoNodeCompiler
+ * @coversDefaultClass \Phug\Compiler\NodeCompiler\DoNodeCompiler
  */
 class DoNodeCompilerTest extends AbstractCompilerTest
 {

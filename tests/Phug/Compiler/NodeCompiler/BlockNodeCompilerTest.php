@@ -8,6 +8,7 @@ use Phug\Parser\Node\BlockNode;
 use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractCompilerTest;
 use Phug\Test\Compiler\NodeCompiler\BlockNodeCompilerTest\TestBlockNodeCompiler;
+use ReflectionMethod;
 
 /**
  * @coversDefaultClass \Phug\Compiler\NodeCompiler\BlockNodeCompiler
@@ -67,5 +68,19 @@ class BlockNodeCompilerTest extends AbstractCompilerTest
             ],
         ]);
         $compiler->compile('block foo');
+    }
+
+    /**
+     * @covers ::hasBlockParent
+     */
+    public function testHasBlockParent()
+    {
+        $blockNodeCompiler = new BlockNodeCompiler($this->compiler);
+        $node = new BlockNode();
+        (new BlockNode())->appendChild($node);
+        $hasBlockParent = new ReflectionMethod(BlockNodeCompiler::class, 'hasBlockParent');
+        $hasBlockParent->setAccessible(true);
+
+        self::assertTrue($hasBlockParent->invoke($blockNodeCompiler, $node));
     }
 }

@@ -35,7 +35,7 @@ trait DebuggerTrait
         if ($options['html_error']) {
             return '<span class="error-line">'.
                 (is_null($offset)
-                    ? $lineText
+                    ? $lineText // @codeCoverageIgnore
                     : mb_substr($lineText, 0, $offset).
                     '<span class="error-offset">'.
                     mb_substr($lineText, $offset, 1).
@@ -51,7 +51,7 @@ trait DebuggerTrait
 
         return "\033[43;30m".
             (is_null($offset)
-                ? $lineText
+                ? $lineText // @codeCoverageIgnore
                 : mb_substr($lineText, 0, $offset + 7).
                 "\033[43;31m".
                 mb_substr($lineText, $offset + 7, 1).
@@ -88,7 +88,9 @@ trait DebuggerTrait
         });
 
         if ($throwable = $sandBox->getThrowable()) {
+            // @codeCoverageIgnoreStart
             return '<pre>'.$throwable->getMessage()."\n\n".$throwable->getTraceAsString().'</pre>';
+            // @codeCoverageIgnoreEnd
         }
 
         return $sandBox->getBuffer();
@@ -160,10 +162,12 @@ trait DebuggerTrait
         $isPugError = $error instanceof LocatedException;
         /* @var LocatedException $error */
         if ($isPugError) {
+            // @codeCoverageIgnoreStart
             $compiler = $this->getCompiler();
             if ($path = $compiler->locate($error->getLocation()->getPath())) {
                 $source = $compiler->getFileContents($path);
             }
+            // @codeCoverageIgnoreEnd
         }
 
         return new RendererException($this->getErrorMessage(
@@ -202,11 +206,11 @@ trait DebuggerTrait
         $isLocatedError = $error instanceof LocatedException;
 
         if ($isLocatedError && is_null($error->getLine())) {
-            return $error;
+            return $error; // @codeCoverageIgnore
         }
 
         $pugError = $isLocatedError
-            ? $error
+            ? $error // @codeCoverageIgnore
             : $this->getDebugFormatter()->getDebugError(
                 $error,
                 $source,
@@ -214,7 +218,7 @@ trait DebuggerTrait
             );
 
         if (!($pugError instanceof LocatedException)) {
-            return $pugError;
+            return $pugError; // @codeCoverageIgnore
         }
 
         $line = $pugError->getLocation()->getLine();
@@ -224,7 +228,7 @@ trait DebuggerTrait
         $sourceFile = $compiler->locate($sourcePath);
 
         if ($sourcePath && !$sourceFile) {
-            return $error;
+            return $error; // @codeCoverageIgnore
         }
 
         $source = $sourceFile ? $compiler->getFileContents($sourceFile) : $this->debugString;

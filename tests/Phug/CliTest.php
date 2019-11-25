@@ -2,10 +2,10 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Cli;
 use Phug\Phug;
 use Phug\Test\Utils\CustomOptionFacade;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Cli
@@ -16,26 +16,6 @@ class CliTest extends TestCase
      * @var Cli
      */
     protected $cli;
-
-    protected function emptyDirectory($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
-
-        foreach (scandir($dir) as $file) {
-            if ($file !== '.' && $file !== '..') {
-                $path = $dir.'/'.$file;
-                if (is_dir($path)) {
-                    $this->emptyDirectory($path);
-
-                    continue;
-                }
-
-                unlink($path);
-            }
-        }
-    }
 
     public function setUp()
     {
@@ -229,10 +209,9 @@ class CliTest extends TestCase
     public function testCacheDirectory()
     {
         $expected = __DIR__.'/../views/cache';
-        if (file_exists($expected)) {
-            static::emptyDirectory($expected);
-            rmdir($expected);
-        }
+
+        $this->createEmptyDirectory($expected);
+        file_put_contents("$expected/junk", 'junk');
         ob_start();
         $this->cli->run(['_', 'compile-directory', __DIR__.'/../views', $expected]);
         $text = ob_get_contents();
@@ -240,25 +219,9 @@ class CliTest extends TestCase
 
         self::assertFileExists($expected);
 
-        if (file_exists($expected)) {
-            static::emptyDirectory($expected);
-            rmdir($expected);
-        }
+        $this->removeFile($expected);
 
         self::assertSame("3 templates cached.\n0 templates failed to be cached.\n", $text);
-
-        $expected = __DIR__.'/../errorTemplates/cache';
-        ob_start();
-        $this->cli->run(['_', 'compile-directory', __DIR__.'/../errorTemplates', $expected]);
-        $text = ob_get_contents();
-        ob_end_clean();
-
-        if (file_exists($expected)) {
-            static::emptyDirectory($expected);
-            rmdir($expected);
-        }
-
-        self::assertRegExp('/Inconsistent indentation./', $text);
     }
 
     /**

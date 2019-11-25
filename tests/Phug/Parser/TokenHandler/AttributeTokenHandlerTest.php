@@ -17,7 +17,7 @@ use Phug\Parser\TokenHandler\AttributeTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\AttributeTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\AttributeTokenHandler
  */
 class AttributeTokenHandlerTest extends AbstractParserTest
 {

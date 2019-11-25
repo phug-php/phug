@@ -6,6 +6,7 @@ use Phug\Renderer\Partial\CacheTrait;
 use Phug\Renderer\Partial\Debug\DebuggerTrait;
 use Phug\Renderer\Partial\RendererOptionsTrait;
 use Phug\Renderer\Partial\SharedVariablesTrait;
+use Phug\Renderer\Task\TasksGroup;
 use Phug\Util\ModuleContainerInterface;
 use Phug\Util\Partial\MacroableTrait;
 use Phug\Util\Partial\ModuleContainerTrait;
@@ -181,32 +182,34 @@ class Renderer implements ModuleContainerInterface
             $parameters = $extension;
             $extension = '.html';
         }
+
         if (!$destination) {
             $destination = $path;
         }
+
         $path = realpath($path);
         $destination = realpath($destination);
 
-        $success = 0;
-        $errors = 0;
+        $tasks = new TasksGroup();
+
         if ($path && $destination) {
             $path = rtrim($path, '/\\');
             $destination = rtrim($destination, '/\\');
             $length = mb_strlen($path);
+
             foreach ($this->scanDirectory($path) as $file) {
                 $relativeDirectory = trim(mb_substr(dirname($file), $length), '//\\');
                 $filename = pathinfo($file, PATHINFO_FILENAME);
                 $outputDirectory = $destination.DIRECTORY_SEPARATOR.$relativeDirectory;
-                $counter = $this->renderAndWriteFile(
+                $tasks->record($this->renderAndWriteFile(
                     $file,
                     $outputDirectory.DIRECTORY_SEPARATOR.$filename.$extension,
                     $parameters
-                ) ? 'success' : 'errors';
-                $$counter++;
+                ));
             }
         }
 
-        return [$success, $errors];
+        return $tasks->getResult();
     }
 
     /**

@@ -30,5 +30,6 @@ class StreamAdapterTest extends AbstractRendererTest
         $stream = new Template();
         self::assertTrue(is_int($stream->stream_tell()));
         self::assertTrue(is_array($stream->url_stat('a', 'b')));
+        self::assertTrue($stream->stream_set_option('a', 'b', 'c'));
     }
 }

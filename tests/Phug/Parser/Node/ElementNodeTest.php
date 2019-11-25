@@ -7,7 +7,7 @@ use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\Node\ElementNode
+ * @coversDefaultClass \Phug\Parser\Node\ElementNode
  */
 class ElementNodeTest extends AbstractParserTest
 {

@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\IdTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\IdTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\IdTokenHandler
  */
 class IdTokenHandlerTest extends AbstractParserTest
 {

@@ -3,12 +3,18 @@
 namespace Phug\Test;
 
 use Phug\Compiler;
+use Phug\Compiler\Element\BlockElement;
 use Phug\CompilerModuleInterface;
 use Phug\Formatter;
 use Phug\Formatter\Element\CodeElement;
+use Phug\Formatter\Element\DocumentElement;
 use Phug\Formatter\Element\MarkupElement;
+use Phug\Formatter\Element\TextElement;
 use Phug\Parser;
 use Phug\Parser\Node\ElementNode;
+use Phug\Test\Utils\MutedExceptionCompiler;
+use Phug\Test\Utils\SuffixLocator;
+use Phug\Test\Utils\UnknownNode;
 
 /**
  * @coversDefaultClass \Phug\Compiler
@@ -25,6 +31,27 @@ class CompilerTest extends AbstractCompilerTest
 
         self::assertInstanceOf(Formatter::class, $compiler->getFormatter());
         self::assertInstanceOf(Parser::class, $compiler->getParser());
+    }
+
+    /**
+     * @covers ::normalizePath
+     * @covers \Phug\Compiler\Locator\FileLocator::normalize
+     * @covers \Phug\Compiler\Locator\FileLocator::getConsistentPaths
+     */
+    public function testNormalizePath()
+    {
+        $compiler = new Compiler();
+
+        self::assertSame('foo/biz/uio', $compiler->normalizePath('foo\\bar/../biz/./kk/..\\uio'));
+
+        $compiler = new Compiler([
+            'locator_class_name' => SuffixLocator::class,
+        ]);
+
+        self::assertSame(
+            'foo\\bar/../biz/./kk/..\\uio',
+            $compiler->normalizePath('foo\\bar/../biz/./kk/..\\uio')
+        );
     }
 
     /**
@@ -312,6 +339,7 @@ class CompilerTest extends AbstractCompilerTest
     /**
      * @covers \Phug\Compiler::dumpFile
      * @covers \Phug\Compiler::dump
+     * @covers \Phug\Compiler\NodeCompiler\ImportNodeCompiler::isPugImport
      */
     public function testDump()
     {
@@ -488,6 +516,35 @@ class CompilerTest extends AbstractCompilerTest
     /**
      * @covers ::getParentCompiler
      * @covers ::setParentCompiler
+     */
+    public function testParentCompiler()
+    {
+        $a = new Compiler();
+        $b = new Compiler();
+
+        $a->setParentCompiler($b);
+
+        self::assertSame($b, $a->getParentCompiler());
+    }
+
+    /**
+     * @covers ::replaceBlock
+     */
+    public function testReplaceBlock()
+    {
+        $compiler = new Compiler();
+        $document = new DocumentElement();
+        $text = new TextElement();
+        $block = new BlockElement($compiler);
+        $document->appendChild($text);
+        $document->appendChild($block);
+
+        $compiler->replaceBlock($block);
+
+        self::assertTrue($text->isEnd());
+    }
+
+    /**
      * @covers ::registerImportPath
      * @covers ::getImportPaths
      * @covers ::getCurrentImportPaths
@@ -517,5 +574,47 @@ class CompilerTest extends AbstractCompilerTest
             'layout.pug',
         ], $filteredPaths);
         self::assertSame($paths, $compiler->getImportPaths()[$path]);
+    }
+
+    /**
+     * @covers ::setUpperLocator
+     * @covers ::locate
+     */
+    public function testUpperLocator()
+    {
+        $compiler = new Compiler();
+        $compiler->setUpperLocator(new SuffixLocator());
+
+        self::assertSame('foo-suffix', $compiler->locate('foo'));
+    }
+
+    /**
+     * @covers                   ::compileNode
+     * @expectedException        \Phug\CompilerException
+     * @expectedExceptionMessage Failed to compile: No compiler found able to compile Phug\Test\Utils\UnknownNode
+     */
+    public function testUnknownNodeThrowException()
+    {
+        $compiler = new Compiler();
+        $paragraph = new ElementNode();
+        $paragraph->setName('p');
+
+        self::assertInstanceOf(MarkupElement::class, $compiler->compileNode($paragraph));
+        self::assertNull($compiler->compileNode(new UnknownNode()));
+    }
+
+    /**
+     * @covers ::compileNode
+     *
+     * @throws \Phug\CompilerException
+     */
+    public function testMutedThrowException()
+    {
+        $compiler = new MutedExceptionCompiler();
+        $paragraph = new ElementNode();
+        $paragraph->setName('p');
+
+        self::assertInstanceOf(MarkupElement::class, $compiler->compileNode($paragraph));
+        self::assertNull($compiler->compileNode(new UnknownNode()));
     }
 }

@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\TagInterpolationStartTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\TagInterpolationStartTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\TagInterpolationStartTokenHandler
  */
 class TagInterpolationStartTokenHandlerTest extends AbstractParserTest
 {

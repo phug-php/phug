@@ -66,7 +66,7 @@ class IteratorTestModule extends AbstractLexerModule
 }
 
 /**
- * @coversDefaultClass Phug\AbstractLexerModule
+ * @coversDefaultClass \Phug\AbstractLexerModule
  */
 class LexerModuleTest extends AbstractLexerTest
 {

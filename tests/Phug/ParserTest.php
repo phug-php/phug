@@ -7,7 +7,7 @@ use Phug\Parser;
 use Phug\Parser\Node\DocumentNode;
 
 /**
- * @coversDefaultClass Phug\Parser
+ * @coversDefaultClass \Phug\Parser
  */
 class ParserTest extends AbstractParserTest
 {
@@ -78,6 +78,12 @@ class ParserTest extends AbstractParserTest
             '      [ElementNode outer=ElementNode]',
             '        [ElementNode]',
             '          [TextNode]',
+        ]);
+        $this->assertNodes('section: +gg: span i', [
+            '[DocumentNode]',
+            '  [MixinCallNode outer=ElementNode]',
+            '    [ElementNode]',
+            '      [TextNode]',
         ]);
         $parser = new Parser([
             'detailed_dump' => true,

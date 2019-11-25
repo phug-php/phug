@@ -12,7 +12,7 @@ use Phug\Parser\TokenHandler\InterpolationStartTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\InterpolationStartTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\InterpolationStartTokenHandler
  */
 class InterpolationStartTokenHandlerTest extends AbstractParserTest
 {

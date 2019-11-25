@@ -215,6 +215,7 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
     /**
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::compileNamedBlock
+     * @covers \Phug\Compiler\NodeCompiler\ImportNodeCompiler::isPugImport
      * @covers \Phug\Compiler\Element\BlockElement::<public>
      */
     public function testIncludeNoExtension()
@@ -222,6 +223,35 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
         $this->assertCompileFile(
             '<p>Pug</p>',
             __DIR__.'/../../../templates/inc-no-extension.pug'
+        );
+    }
+
+    /**
+     * @covers \Phug\Compiler\NodeCompiler\ImportNodeCompiler::isPugImport
+     */
+    public function testAllowCompositeExtensions()
+    {
+        $compiler = new Compiler([
+            'extensions' => ['', '.blade.pug'],
+        ]);
+
+        $this->assertSame(
+            '<p>Bar</p>b Foop Just text',
+            str_replace(["\r", "\n"], '', trim(
+                $compiler->compileFile(__DIR__.'/../../../composite-extensions/bar.blade.pug')
+            ))
+        );
+
+        $compiler = new Compiler([
+            'extensions'                 => ['', '.blade.pug'],
+            'allow_composite_extensions' => true,
+        ]);
+
+        $this->assertSame(
+            '<p>Bar</p><b>Foo</b>p Just text',
+            str_replace(["\r", "\n"], '', trim(
+                $compiler->compileFile(__DIR__.'/../../../composite-extensions/bar.blade.pug')
+            ))
         );
     }
 

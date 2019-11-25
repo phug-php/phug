@@ -72,7 +72,7 @@ class RendererTest extends AbstractRendererTest
         self::assertFileExists($directory.'/subdirectory/subsubdirectory/basic.html');
         self::assertFileExists($directory.'/subdirectory/subsubdirectory/blanks.html');
 
-        self::emptyDirectory($directory);
+        $this->emptyDirectory($directory);
         file_put_contents("$directory/foo.pug", 'p=foo');
 
         list($success, $errors) = $this->renderer->renderDirectory($directory, ['foo' => 'bar']);
@@ -82,7 +82,7 @@ class RendererTest extends AbstractRendererTest
         self::assertFileExists("$directory/foo.html");
         self::assertSame('<p>bar</p>', trim(file_get_contents("$directory/foo.html")));
 
-        self::emptyDirectory($directory);
+        $this->emptyDirectory($directory);
         file_put_contents("$directory/foo.pug", 'p=foo');
 
         list($success, $errors) = $this->renderer->renderDirectory($directory, null, ['foo' => 'bar']);
@@ -92,7 +92,7 @@ class RendererTest extends AbstractRendererTest
         self::assertFileExists("$directory/foo.html");
         self::assertSame('<p>bar</p>', trim(file_get_contents("$directory/foo.html")));
 
-        self::emptyDirectory($directory);
+        $this->emptyDirectory($directory);
         @rmdir($directory);
     }
 
@@ -179,7 +179,9 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      * @covers \Phug\Renderer\Partial\RendererOptionsTrait::getDefaultOptions
      */
     public function testFilter()
@@ -193,7 +195,9 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testInitCompiler()
     {
@@ -237,8 +241,10 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
      * @covers ::getCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      * @covers \Phug\Renderer\Partial\RendererOptionsTrait::handleOptionAliases
      */
     public function testBasedir()
@@ -577,7 +583,9 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testCompilerClassNameException()
     {
@@ -599,7 +607,9 @@ class RendererTest extends AbstractRendererTest
     /**
      * @covers ::__construct
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapter
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      */
     public function testAdapterClassNameException()
     {
@@ -620,7 +630,9 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @covers ::__construct
-     * @covers ::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::initCompiler
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::synchronizeEvent
+     * @covers \Phug\Renderer\Partial\RendererOptionsTrait::createCompiler
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter

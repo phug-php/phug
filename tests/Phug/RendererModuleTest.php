@@ -12,7 +12,7 @@ use Phug\Test\Utils\TestLexerModule;
 use Phug\Test\Utils\TestParserModule;
 
 /**
- * @coversDefaultClass Phug\AbstractRendererModule
+ * @coversDefaultClass \Phug\AbstractRendererModule
  */
 class RendererModuleTest extends TestCase
 {

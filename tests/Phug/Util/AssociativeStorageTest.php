@@ -14,7 +14,7 @@ class Entity
 /**
  * Class AssociativeStorageTest.
  *
- * @coversDefaultClass Phug\Util\AssociativeStorage
+ * @coversDefaultClass \Phug\Util\AssociativeStorage
  */
 class AssociativeStorageTest extends TestCase
 {

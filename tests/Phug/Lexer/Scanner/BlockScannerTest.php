@@ -3,6 +3,8 @@
 namespace Phug\Test\Lexer\Scanner;
 
 use Phug\Lexer\Token\BlockToken;
+use Phug\Lexer\Token\ExpansionToken;
+use Phug\Lexer\Token\TagToken;
 use Phug\Test\AbstractLexerTest;
 
 class BlockScannerTest extends AbstractLexerTest
@@ -76,5 +78,17 @@ class BlockScannerTest extends AbstractLexerTest
 
         self::assertNull($tok->getName());
         self::assertSame('replace', $tok->getMode());
+
+        $this->assertTokens('block: div', [
+            BlockToken::class,
+            ExpansionToken::class,
+            TagToken::class,
+        ]);
+
+        $this->assertTokens('append foo: div', [
+            BlockToken::class,
+            ExpansionToken::class,
+            TagToken::class,
+        ]);
     }
 }

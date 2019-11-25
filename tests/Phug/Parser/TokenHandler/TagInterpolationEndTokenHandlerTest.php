@@ -10,7 +10,7 @@ use Phug\Parser\State;
 use Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler
  */
 class TagInterpolationEndTokenHandlerTest extends TestCase
 {

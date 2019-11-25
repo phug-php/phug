@@ -12,6 +12,7 @@ class FileLocatorTest extends AbstractCompilerTest
 {
     /**
      * @covers ::normalize
+     * @covers ::getConsistentPaths
      * @covers ::getFullPath
      * @covers ::<public>
      */

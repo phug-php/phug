@@ -10,7 +10,7 @@ use stdClass;
 //@codingStandardsIgnoreStart
 
 /**
- * @coversDefaultClass Phug\Util\Partial\ModuleContainerTrait
+ * @coversDefaultClass \Phug\Util\Partial\ModuleContainerTrait
  */
 class ModuleContainerTest extends TestCase
 {

@@ -10,7 +10,7 @@ use Phug\Parser\TokenHandler\WhenTokenHandler;
 use Phug\Test\AbstractParserTest;
 
 /**
- * @coversDefaultClass Phug\Parser\TokenHandler\WhenTokenHandler
+ * @coversDefaultClass \Phug\Parser\TokenHandler\WhenTokenHandler
  */
 class WhenTokenHandlerTest extends AbstractParserTest
 {

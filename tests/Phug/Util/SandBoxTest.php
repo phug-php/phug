@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Phug\Util\SandBox;
 
 /**
- * @coversDefaultClass Phug\Util\SandBox
+ * @coversDefaultClass \Phug\Util\SandBox
  */
 class SandBoxTest extends TestCase
 {

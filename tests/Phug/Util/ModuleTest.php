@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 //@codingStandardsIgnoreStart
 
 /**
- * @coversDefaultClass Phug\Util\AbstractModule
+ * @coversDefaultClass \Phug\Util\AbstractModule
  */
 class ModuleTest extends TestCase
 {

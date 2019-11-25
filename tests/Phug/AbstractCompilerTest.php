@@ -4,9 +4,9 @@ namespace Phug\Test;
 
 use Exception;
 use JsPhpize\JsPhpize;
-use PHPUnit\Framework\TestCase;
 use Phug\Compiler;
 use Phug\CompilerEvent;
+use Phug\Util\TestCase;
 
 abstract class AbstractCompilerTest extends TestCase
 {
