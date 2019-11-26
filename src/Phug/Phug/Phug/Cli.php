@@ -41,88 +41,11 @@ class Cli
         $this->methods = $methods;
     }
 
-    protected function convertToKebabCase($string)
-    {
-        return preg_replace_callback('/[A-Z]/', function ($match) {
-            return '-'.strtolower($match[0]);
-        }, $string);
-    }
-
-    protected function convertToCamelCase($string)
-    {
-        return preg_replace_callback('/-([a-z])/', function ($match) {
-            return strtoupper($match[1]);
-        }, $string);
-    }
-
-    protected function execute($facade, $method, $arguments, $outputFile)
-    {
-        $callable = [$facade, $method];
-        $arguments = array_map(function ($argument) {
-            return in_array(substr($argument, 0, 1), ['[', '{'])
-                ? json_decode($argument, true)
-                : $argument;
-        }, $arguments);
-        if (isset($this->methods[$method])) {
-            $method = $this->methods[$method];
-            $callable = [$facade, $method];
-            if (!is_string($method)) {
-                $callable = $method;
-                $arguments = [$facade, $arguments];
-            }
-        }
-
-        $text = call_user_func_array($callable, $arguments);
-        if ($outputFile) {
-            return file_put_contents($outputFile, $text);
-        }
-
-        echo $text;
-
-        return true;
-    }
-
-    protected function getNamedArgumentBySpaceDelimiter(array &$arguments, $index, $name)
-    {
-        if ($arguments[$index] === $name) {
-            array_splice($arguments, $index, 1);
-            if (isset($arguments[$index])) {
-                $value = $arguments[$index];
-                array_splice($arguments, $index, 1);
-
-                return $value;
-            }
-        }
-
-        return false;
-    }
-
-    protected function getNamedArgumentByEqualOperator(array &$arguments, $index, $name)
-    {
-        if (preg_match('/^'.preg_quote($name).'=(.*)$/', $arguments[$index], $match)) {
-            array_splice($arguments, $index, 1);
-
-            return $match[1];
-        }
-
-        return false;
-    }
-
-    protected function getNamedArgument(array &$arguments, array $names)
-    {
-        foreach ($names as $name) {
-            foreach ($arguments as $index => $argument) {
-                $value = $this->getNamedArgumentBySpaceDelimiter($arguments, $index, $name) ?:
-                    $this->getNamedArgumentByEqualOperator($arguments, $index, $name);
-                if ($value) {
-                    return $value;
-                }
-            }
-        }
-
-        return false;
-    }
-
+    /**
+     * Get list of user-defined commands.
+     *
+     * @return array
+     */
     public function getCustomMethods()
     {
         $facade = $this->facade;
@@ -221,5 +144,87 @@ class Cli
                     : ''
                 )."\n";
         }
+    }
+
+    protected function convertToKebabCase($string)
+    {
+        return preg_replace_callback('/[A-Z]/', function ($match) {
+            return '-'.strtolower($match[0]);
+        }, $string);
+    }
+
+    protected function convertToCamelCase($string)
+    {
+        return preg_replace_callback('/-([a-z])/', function ($match) {
+            return strtoupper($match[1]);
+        }, $string);
+    }
+
+    protected function execute($facade, $method, $arguments, $outputFile)
+    {
+        $callable = [$facade, $method];
+        $arguments = array_map(function ($argument) {
+            return in_array(substr($argument, 0, 1), ['[', '{'])
+                ? json_decode($argument, true)
+                : $argument;
+        }, $arguments);
+        if (isset($this->methods[$method])) {
+            $method = $this->methods[$method];
+            $callable = [$facade, $method];
+            if (!is_string($method)) {
+                $callable = $method;
+                $arguments = [$facade, $arguments];
+            }
+        }
+
+        $text = call_user_func_array($callable, $arguments);
+        if ($outputFile) {
+            return file_put_contents($outputFile, $text);
+        }
+
+        echo $text;
+
+        return true;
+    }
+
+    protected function getNamedArgumentBySpaceDelimiter(array &$arguments, $index, $name)
+    {
+        if ($arguments[$index] === $name) {
+            array_splice($arguments, $index, 1);
+            if (isset($arguments[$index])) {
+                $value = $arguments[$index];
+                array_splice($arguments, $index, 1);
+
+                return $value;
+            }
+        }
+
+        return false;
+    }
+
+    protected function getNamedArgumentByEqualOperator(array &$arguments, $index, $name)
+    {
+        if (preg_match('/^'.preg_quote($name).'=(.*)$/', $arguments[$index], $match)) {
+            array_splice($arguments, $index, 1);
+
+            return $match[1];
+        }
+
+        return false;
+    }
+
+    protected function getNamedArgument(array &$arguments, array $names)
+    {
+        foreach ($names as $name) {
+            foreach ($arguments as $index => $argument) {
+                $value = $this->getNamedArgumentBySpaceDelimiter($arguments, $index, $name) ?:
+                    $this->getNamedArgumentByEqualOperator($arguments, $index, $name);
+                if ($value) {
+                    return $value;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -13,6 +13,7 @@ matrix:
       env: STYLECHECK=on
 
 install:
+  - composer config minimum-stability beta
   - composer self-update
   - if [[ "$STYLECHECK" != "on" ]]; then composer require phpunit/phpunit:^7 js-phpize/js-phpize-phug:^2 nodejs-php-fallback/coffeescript:^1 nodejs-php-fallback/less:^1 nodejs-php-fallback/uglify:^1 nodejs-php-fallback/stylus:^1 cebe/markdown:^1.1 phug/split --no-update; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then composer require squizlabs/php_codesniffer --no-update; fi;

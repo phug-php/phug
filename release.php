@@ -126,6 +126,7 @@ $projects = [
     'compiler',
     'dependency-injection',
     'event',
+    'facade',
     'formatter',
     'lexer',
     'parser',
