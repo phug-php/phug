@@ -250,23 +250,6 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         $this->addModules($this->getOption('compiler_modules'));
     }
 
-    private function initializeFormatter()
-    {
-        $formatterClassName = $this->getOption('formatter_class_name');
-
-        if (!is_a($formatterClassName, Formatter::class, true)) {
-            throw new \InvalidArgumentException(
-                "Passed formatter class $formatterClassName is ".
-                'not a valid '.Formatter::class
-            );
-        }
-
-        $debug = $this->getOption('debug');
-        $this->formatters[$debug] = new $formatterClassName($this->getOptions());
-
-        return $this->formatters[$debug];
-    }
-
     /**
      * Reset layout and compilers cache on clone.
      */
@@ -288,11 +271,25 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         $this->reset();
     }
 
+    /**
+     * Get parent compiler (compiler of the file that included/extended the current file)
+     * or null if the file is not compiled via an import.
+     *
+     * @return CompilerInterface|null
+     */
     public function getParentCompiler()
     {
         return $this->parentCompiler;
     }
 
+    /**
+     * Set the parent compiler (should be used to declare an import relation such as
+     * include/extend).
+     *
+     * @param CompilerInterface $compiler
+     *
+     * @return $this
+     */
     public function setParentCompiler(CompilerInterface $compiler)
     {
         $this->parentCompiler = $compiler;
@@ -464,23 +461,6 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
     }
 
     /**
-     * Create a new compiler instance by name or return the previous
-     * instance with the same name.
-     *
-     * @param string $compiler name
-     *
-     * @return NodeCompilerInterface
-     */
-    private function getNamedCompiler($compiler)
-    {
-        if (!isset($this->namedCompilers[$compiler])) {
-            $this->namedCompilers[$compiler] = new $compiler($this);
-        }
-
-        return $this->namedCompilers[$compiler];
-    }
-
-    /**
      * Return list of blocks for a given name.
      *
      * @param $name
@@ -640,6 +620,8 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
     }
 
     /**
+     * The the paths imported (stored in local memory) by a given path.
+     *
      * @param string|null $path
      *
      * @return array
@@ -656,6 +638,8 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
     }
 
     /**
+     * The the paths imported (stored in local memory) for the current path.
+     *
      * @return array
      */
     public function getCurrentImportPaths()
@@ -815,6 +799,8 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
     }
 
     /**
+     * Get the current file path compiling.
+     *
      * @return string
      */
     public function getPath()
@@ -822,16 +808,39 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         return $this->path ?: $this->getOption('filename');
     }
 
+    /**
+     * Get the class the compiler expects for its modules.
+     *
+     * @return string
+     */
     public function getModuleBaseClassName()
     {
         return CompilerModuleInterface::class;
     }
 
+    /**
+     * Check if a filter is in use in the compiler.
+     *
+     * @see https://en.phug-lang.com/#filters
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
     public function hasFilter($name)
     {
         return $this->getFilter($name) !== null;
     }
 
+    /**
+     * Get a filter by name.
+     *
+     * @see https://en.phug-lang.com/#filters
+     *
+     * @param string $name
+     *
+     * @return callable|mixed|null
+     */
     public function getFilter($name)
     {
         $filters = $this->getOption('filters');
@@ -850,11 +859,30 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         return null;
     }
 
+    /**
+     * Set a filter for the current compiler.
+     *
+     * @see https://en.phug-lang.com/#filters
+     *
+     * @param string   $name
+     * @param callable $filter
+     *
+     * @return Compiler|CompilerInterface
+     */
     public function setFilter($name, $filter)
     {
         return $this->setOption(['filters', $name], $filter);
     }
 
+    /**
+     * Remove a filter from the compiler.
+     *
+     * @see https://en.phug-lang.com/#filters
+     *
+     * @param string $name
+     *
+     * @return Compiler|CompilerInterface
+     */
     public function unsetFilter($name)
     {
         return $this->unsetOption(['filters', $name]);
@@ -900,10 +928,60 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         );
     }
 
+    /**
+     * Throw an exception if given condition is false.
+     *
+     * @param bool   $condition condition to validate
+     * @param string $message   message to throw if condition isn't validated
+     * @param null   $node      optional node to get code position in error details
+     * @param int    $code      optional error code
+     * @param null   $previous  optional link to previous exception
+     *
+     * @throws CompilerException
+     */
     public function assert($condition, $message, $node = null, $code = 0, $previous = null)
     {
         if (!$condition) {
             $this->throwException($message, $node, $code, $previous);
         } // @codeCoverageIgnore
+    }
+
+    /**
+     * Create a new compiler instance by name or return the previous
+     * instance with the same name.
+     *
+     * @param string $compiler name
+     *
+     * @return NodeCompilerInterface
+     */
+    private function getNamedCompiler($compiler)
+    {
+        if (!isset($this->namedCompilers[$compiler])) {
+            $this->namedCompilers[$compiler] = new $compiler($this);
+        }
+
+        return $this->namedCompilers[$compiler];
+    }
+
+    /**
+     * Create the instance of formatter.
+     *
+     * @return Formatter
+     */
+    private function initializeFormatter()
+    {
+        $formatterClassName = $this->getOption('formatter_class_name');
+
+        if (!is_a($formatterClassName, Formatter::class, true)) {
+            throw new \InvalidArgumentException(
+                "Passed formatter class $formatterClassName is ".
+                'not a valid '.Formatter::class
+            );
+        }
+
+        $debug = $this->getOption('debug');
+        $this->formatters[$debug] = new $formatterClassName($this->getOptions());
+
+        return $this->formatters[$debug];
     }
 }

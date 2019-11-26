@@ -599,6 +599,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testUnknownNodeThrowException()
     {
+        include_once __DIR__.'/Utils/UnknownNode.php';
+
         $compiler = new Compiler();
         $paragraph = new ElementNode();
         $paragraph->setName('p');
@@ -615,6 +617,7 @@ class CompilerTest extends AbstractCompilerTest
     public function testMutedThrowException()
     {
         include_once __DIR__.'/Utils/MutedExceptionCompiler.php';
+        include_once __DIR__.'/Utils/UnknownNode.php';
 
         $compiler = new MutedExceptionCompiler();
         $paragraph = new ElementNode();
