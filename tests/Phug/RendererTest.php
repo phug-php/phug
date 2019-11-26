@@ -758,7 +758,7 @@ class RendererTest extends AbstractRendererTest
      */
     public function testHandleParseError()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+        if (version_compare(PHP_VERSION, '7.0.0-dev') < 0) {
             self::markTestSkipped('Parse error can only be caught since PHP 7.');
 
             return;
@@ -1024,7 +1024,7 @@ class RendererTest extends AbstractRendererTest
      */
     public function testExtendsUndefinedCall()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+        if (version_compare(PHP_VERSION, '7.0.0-dev') < 0) {
             self::markTestSkipped('Parse error can only be caught since PHP 7.');
 
             return;
@@ -1045,7 +1045,7 @@ class RendererTest extends AbstractRendererTest
      */
     public function testUndefinedCallInBlock()
     {
-        if (version_compare(PHP_VERSION, '7.0.0') < 0) {
+        if (version_compare(PHP_VERSION, '7.0.0-dev') < 0) {
             self::markTestSkipped('Parse error can only be caught since PHP 7.');
 
             return;
