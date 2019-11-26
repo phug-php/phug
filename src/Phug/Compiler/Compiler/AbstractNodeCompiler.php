@@ -70,7 +70,6 @@ abstract class AbstractNodeCompiler implements NodeCompilerInterface
      *
      * @param NodeInterface         $node
      * @param ElementInterface|null $element
-     * @return void
      */
     public function compileNodeChildren(NodeInterface $node, ElementInterface $element = null)
     {
