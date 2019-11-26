@@ -92,13 +92,28 @@ trait RegistryTrait
      *
      * @return bool|mixed
      */
+    private function tryExtensionsOnFileKey($registry, $key, $extensions)
+    {
+        return substr($key, 0, 2) === 'f:'
+            ? $this->tryExtensions($registry, $key, $extensions)
+            : false;
+    }
+
+    /**
+     * Try to append extension to find a key in a given array assuming it's
+     * file registry key.
+     *
+     * @param array    $registry
+     * @param string   $key
+     * @param string[] $extensions
+     *
+     * @return bool|mixed
+     */
     private function tryExtensions($registry, $key, $extensions)
     {
-        if (substr($key, 0, 2) === 'f:') {
-            foreach ($extensions as $extension) {
-                if (isset($registry[$key.$extension])) {
-                    return $registry[$key.$extension];
-                }
+        foreach ($extensions as $extension) {
+            if (isset($registry[$key.$extension])) {
+                return $registry[$key.$extension];
             }
         }
 
@@ -118,7 +133,7 @@ trait RegistryTrait
     {
         foreach ($this->getRegistryPathChunks($path) as $key) {
             if (!isset($registry[$key])) {
-                return $this->tryExtensions($registry, $key, $extensions);
+                return $this->tryExtensionsOnFileKey($registry, $key, $extensions);
             }
 
             $registry = $registry[$key];

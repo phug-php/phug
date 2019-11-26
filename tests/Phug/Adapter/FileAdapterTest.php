@@ -58,6 +58,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensionsOnFileKey
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\AbstractAdapter::<public>
@@ -783,6 +784,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensionsOnFileKey
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\Partial\RegistryTrait::getRegistryPathChunks
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapterLinkToCompiler
@@ -821,6 +823,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::locate
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensionsOnFileKey
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      */
