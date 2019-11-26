@@ -14,7 +14,7 @@ interface WithUpperLocatorInterface
     /**
      * Set a master locator to use before the internal one.
      *
-     * @param LocatorInterface|null $upperLocator
+     * @param LocatorInterface|null $upperLocator locator strategy
      */
     public function setUpperLocator($upperLocator);
 }

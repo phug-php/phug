@@ -21,8 +21,8 @@ install:
     if [[ "$STYLECHECK" != "on" ]]; then
       mkdir -p tests/Phug && \
       vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Compiler,tests/Phug/Node,tests/Phug/AbstractCompilerTest.php,tests/Phug/CompilerModuleTest.php,tests/Phug/CompilerTest.php,tests/Phug/TestCompiler.php && \
-      mkdir -p tests/templates && \
-      vendor/bin/Phug/Utils copy https://github.com/phug-php/phug.git tests/Phug/Utils/ --filters=tests/Phug/Utils/SuffixLocator.php,tests/Phug/Utils/MutedExceptionCompiler.php && \
+      mkdir -p tests/Phug/Utils && \
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/Utils/ --filters=tests/Phug/Utils/SuffixLocator.php,tests/Phug/Utils/MutedExceptionCompiler.php && \
       mkdir -p tests/templates && \
       vendor/bin/split copy https://github.com/phug-php/phug.git tests/ --filters=tests/templates;
       mkdir -p tests/composite-extensions && \
