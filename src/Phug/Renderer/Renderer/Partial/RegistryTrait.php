@@ -4,6 +4,14 @@ namespace Phug\Renderer\Partial;
 
 trait RegistryTrait
 {
+    /**
+     * Yield list of path chunks for registry for a given path.
+     *
+     * @param string   $source
+     * @param int|null $directoryIndex
+     *
+     * @return \Generator
+     */
     protected function getRegistryPathChunks($source, $directoryIndex = null)
     {
         $paths = explode('/', $source);
@@ -39,42 +47,68 @@ trait RegistryTrait
     /**
      * Find the path of a cached file for a given path in a given registry.
      *
-     * @param string $path
-     * @param array  $registry
+     * @param string   $path       path to find in the registry
+     * @param array    $registry   registry data array
+     * @param string[] $extensions extensions to try to add to the file path if not found
      *
      * @return string|false
      */
-    protected function findCachePathInRegistry($path, $registry)
+    protected function findCachePathInRegistry($path, $registry, $extensions = [])
+    {
+        $entry = $this->findInRegistry($path, $registry, $extensions);
+
+        if ($entry === false || is_string($entry)) {
+            return $entry;
+        }
+
+        return $this->getFirstRegistryIndex($entry);
+    }
+
+    /**
+     * Find the path of a cached file for a given path in a given registry file (that may not exist).
+     *
+     * @param string   $path         path to find in the registry
+     * @param string   $registryFile registry file path
+     * @param string[] $extensions   extensions to try to add to the file path if not found
+     *
+     * @return string|false
+     */
+    protected function findCachePathInRegistryFile($path, $registryFile, $extensions = [])
+    {
+        if (!file_exists($registryFile)) {
+            return false;
+        }
+
+        return $this->findCachePathInRegistry($path, include $registryFile, $extensions);
+    }
+
+    /**
+     * Find raw entry of a cached file for a given path in a given registry.
+     *
+     * @param string   $path       path to find in the registry
+     * @param array    $registry   registry data array
+     * @param string[] $extensions extensions to try to add to the file path if not found
+     *
+     * @return string|array|false
+     */
+    private function findInRegistry($path, $registry, $extensions)
     {
         foreach ($this->getRegistryPathChunks($path) as $key) {
             if (!isset($registry[$key])) {
+                if (substr($key, 0, 2) === 'f:') {
+                    foreach ($extensions as $extension) {
+                        if (isset($registry[$key.$extension])) {
+                            return $registry[$key.$extension];
+                        }
+                    }
+                }
+
                 return false;
             }
 
             $registry = $registry[$key];
         }
 
-        if (is_string($registry)) {
-            return $registry;
-        }
-
-        return $this->getFirstRegistryIndex($registry);
-    }
-
-    /**
-     * Find the path of a cached file for a given path in a given registry file (that may not exist).
-     *
-     * @param string $path
-     * @param string $registryFile
-     *
-     * @return string|false
-     */
-    protected function findCachePathInRegistryFile($path, $registryFile)
-    {
-        if (!file_exists($registryFile)) {
-            return false;
-        }
-
-        return $this->findCachePathInRegistry($path, include $registryFile);
+        return $registry;
     }
 }

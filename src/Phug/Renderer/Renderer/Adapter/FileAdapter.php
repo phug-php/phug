@@ -201,7 +201,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
      */
     public function locate($path, array $locations, array $extensions)
     {
-        return $this->getRegistryPath($path);
+        return $this->getRegistryPath($path, $extensions);
     }
 
     protected function registerCachedFile($directoryIndex, $source, $cacheFile)
@@ -298,17 +298,22 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     /**
      * Get path from the cache registry (if up_to_date_check set to false only).
      *
-     * @param string $path required view path.
+     * @param string   $path       required view path.
+     * @param string[] $extensions optional list of extensions to try.
      *
-     * @return string|false false if no path registred, the path else.
+     * @return string|false false if no path registered, the path else.
      */
-    private function getRegistryPath($path)
+    private function getRegistryPath($path, array $extensions = [])
     {
         if ($this->getOption('up_to_date_check')) {
             return false;
         }
 
-        $cachePath = $this->findCachePathInRegistryFile($path, $this->getCachePath('registry'));
+        if ($this->hasOption('extensions')) {
+            $extensions = array_merge($extensions, $this->getOption('extensions'));
+        }
+
+        $cachePath = $this->findCachePathInRegistryFile($path, $this->getCachePath('registry'), $extensions);
 
         if ($cachePath) {
             return $this->getRawCachePath($cachePath);

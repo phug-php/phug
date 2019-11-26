@@ -56,6 +56,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getCacheDirectory
      * @covers ::getRegistryPath
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\AbstractAdapter::<public>
@@ -778,6 +779,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::checkPathExpiration
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\Partial\RegistryTrait::getRegistryPathChunks
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapterLinkToCompiler
@@ -813,9 +815,10 @@ class FileAdapterTest extends AbstractRendererTest
 
     /**
      * @covers ::getRegistryPath
-     * @covers ::findCachePathInRegistry
-     * @covers ::getFirstRegistryIndex
      * @covers ::locate
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      */
     public function testUpperLocator()
     {
