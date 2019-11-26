@@ -83,6 +83,29 @@ trait RegistryTrait
     }
 
     /**
+     * Try to append extension to find a key in a given array if it's
+     * file registry key.
+     *
+     * @param array    $registry
+     * @param string   $key
+     * @param string[] $extensions
+     *
+     * @return bool|mixed
+     */
+    private function tryExtensions($registry, $key, $extensions)
+    {
+        if (substr($key, 0, 2) === 'f:') {
+            foreach ($extensions as $extension) {
+                if (isset($registry[$key.$extension])) {
+                    return $registry[$key.$extension];
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Find raw entry of a cached file for a given path in a given registry.
      *
      * @param string   $path       path to find in the registry
@@ -95,15 +118,7 @@ trait RegistryTrait
     {
         foreach ($this->getRegistryPathChunks($path) as $key) {
             if (!isset($registry[$key])) {
-                if (substr($key, 0, 2) === 'f:') {
-                    foreach ($extensions as $extension) {
-                        if (isset($registry[$key.$extension])) {
-                            return $registry[$key.$extension];
-                        }
-                    }
-                }
-
-                return false;
+                return $this->tryExtensions($registry, $key, $extensions);
             }
 
             $registry = $registry[$key];

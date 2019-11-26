@@ -57,6 +57,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRegistryPath
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\AbstractAdapter::<public>
@@ -567,6 +568,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers                \Phug\Renderer\Partial\CacheTrait::cacheDirectory
      * @covers                \Phug\Renderer\Adapter\FileAdapter::cacheDirectory
      * @covers                \Phug\Renderer\Adapter\FileAdapter::getCacheDirectory
+     * @covers                \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebuggedException
      * @expectedException     \RuntimeException
      * @expectedExceptionCode 5
      */
@@ -780,6 +782,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      * @covers \Phug\Renderer\Partial\RegistryTrait::getRegistryPathChunks
      * @covers \Phug\Renderer\Partial\AdapterTrait::initAdapterLinkToCompiler
@@ -817,6 +820,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRegistryPath
      * @covers ::locate
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistry
      * @covers \Phug\Renderer\Partial\RegistryTrait::getFirstRegistryIndex
      */

@@ -25,6 +25,7 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::resolve
      * @covers ::getExtensions
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
      */
     public function testOptions()
     {
@@ -62,6 +63,7 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::resolve
      * @covers ::getExtensions
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
      */
     public function testUpToDateCheck()
     {
@@ -90,6 +92,7 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::getRegistryPath
      * @covers ::getExtensions
      * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
      * @covers \Phug\Renderer\Task\TasksGroup::<public>
      *
      * @throws RendererException

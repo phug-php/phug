@@ -479,4 +479,19 @@ class HtmlFormatTest extends TestCase
             trim($actual)
         );
     }
+
+    /**
+     * @covers \Phug\Formatter\AbstractFormat::handleTokens
+     */
+    public function testHandleTokens()
+    {
+        $formatter = new Formatter([
+            'pretty' => true,
+        ]);
+
+        self::assertSame(
+            '$a = $b',
+            $formatter->formatCode('$a = $b', false)
+        );
+    }
 }
