@@ -6,6 +6,9 @@ namespace Phug\Compiler;
  * Interface NormalizerInterface.
  *
  * An interface for paths normalization.
+ *
+ * Locators implementing this interface can customize the path normalization on
+ * resolving file paths.
  */
 interface NormalizerInterface
 {

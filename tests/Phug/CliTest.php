@@ -218,10 +218,42 @@ class CliTest extends TestCase
         ob_end_clean();
 
         self::assertFileExists($expected);
+        self::assertFileNotExists("$expected/junk");
+
+        $registryFile = "$expected/registry.php";
+
+        self::assertFileExists($registryFile);
+
+        $registry = include $registryFile;
+
+        self::assertArrayHasKey('d:dir1', $registry);
+        self::assertArrayHasKey('f:file1.pug', $registry['d:dir1']);
+        self::assertArrayHasKey('i:0', $registry['d:dir1']['f:file1.pug']);
+
+        $file = $expected.'/'.$registry['d:dir1']['f:file1.pug']['i:0'];
+
+        self::assertFileExists($file);
+
+        ob_start();
+        include $file;
+        $html = trim(ob_get_contents());
+        ob_end_clean();
+
+        self::assertSame('<p>A</p>', $html);
 
         $this->removeFile($expected);
 
         self::assertSame("3 templates cached.\n0 templates failed to be cached.\n", $text);
+
+        $expected = __DIR__.'/../errorTemplates/cache';
+        ob_start();
+        $this->cli->run(['_', 'compile-directory', __DIR__.'/../errorTemplates', $expected]);
+        $text = ob_get_contents();
+        ob_end_clean();
+
+        $this->removeFile($expected);
+
+        self::assertRegExp('/Inconsistent indentation./', $text);
     }
 
     /**
