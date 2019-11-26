@@ -626,4 +626,35 @@ class CompilerTest extends AbstractCompilerTest
         self::assertInstanceOf(MarkupElement::class, $compiler->compileNode($paragraph));
         self::assertNull($compiler->compileNode(new UnknownNode()));
     }
+
+    /**
+     * @covers ::compileIntoElement
+     *
+     * @throws \Exception
+     */
+    public function testMutedExceptionInCompileIntoElement()
+    {
+        include_once __DIR__.'/Utils/MutedExceptionCompiler.php';
+
+        $compiler = new MutedExceptionCompiler();
+        $forcedReturn = (object) [];
+        $compiler->forcedReturn = $forcedReturn;
+        $element = $compiler->compileIntoElement('p');
+
+        self::assertSame($forcedReturn, $element);
+    }
+
+    /**
+     * @covers ::compileIntoElement
+     *
+     * @throws \Exception
+     */
+    public function testMutedExceptionAssert()
+    {
+        include_once __DIR__.'/Utils/MutedExceptionCompiler.php';
+
+        $compiler = new MutedExceptionCompiler();
+
+        self::assertNull($compiler->assert(false, 'Error'));
+    }
 }

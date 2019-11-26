@@ -779,7 +779,7 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
                 (is_object($element) ? get_class($element) : gettype($element)),
                 $node
             );
-        } // @codeCoverageIgnore
+        }
 
         return $element;
     }
@@ -943,7 +943,7 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
     {
         if (!$condition) {
             $this->throwException($message, $node, $code, $previous);
-        } // @codeCoverageIgnore
+        }
     }
 
     /**

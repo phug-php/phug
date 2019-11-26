@@ -725,4 +725,24 @@ class XmlFormatTest extends TestCase
             $formatter->formatCode('$a[\'foo_with_ref\']($b) + $a[\'foo_without_ref\']($b)', true)
         );
     }
+
+    /**
+     * @covers \Phug\Formatter\AbstractFormat::formatDoctypeElement
+     */
+    public function testXmlFormatDoctypeShortTag()
+    {
+        $document = new DocumentElement();
+        $document->appendChild(new DoctypeElement());
+        $xmlFormat = new XmlFormat(new Formatter([
+            'short_open_tag_fix' => true,
+            'default_format'     => XmlFormat::class,
+        ]));
+
+        $php = $xmlFormat($document);
+
+        self::assertSame(
+            '<<?= "?" ?>xml version="1.0" encoding="utf-8" ?>',
+            $php
+        );
+    }
 }

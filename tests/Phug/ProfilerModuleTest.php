@@ -7,6 +7,9 @@ use Phug\Renderer;
 use Phug\Renderer\Profiler\ProfilerException;
 use Phug\Renderer\Profiler\ProfilerModule;
 use Phug\RendererException;
+use Phug\Util\Exception\LocatedException;
+use Phug\Util\SourceLocation;
+use ReflectionMethod;
 
 /**
  * @coversDefaultClass \Phug\Renderer\Profiler\ProfilerModule
@@ -87,6 +90,10 @@ class ProfilerModuleTest extends TestCase
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
+     *
+     * @throws ProfilerException
+     * @throws RendererException
+     * @throws Renderer\Profiler\ProfilerLocatedException
      */
     public function testLogProfiler()
     {
@@ -159,7 +166,7 @@ class ProfilerModuleTest extends TestCase
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
-     * @covers ::throwException
+     * @covers ::getException
      */
     public function testExecutionMaxTime()
     {
@@ -197,7 +204,9 @@ class ProfilerModuleTest extends TestCase
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
-     * @covers ::throwException
+     * @covers ::getException
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebuggedException
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      */
     public function testMemoryLimit()
     {
@@ -233,6 +242,7 @@ class ProfilerModuleTest extends TestCase
             // 500000B should only be exceeded on verbatim call
             $message = $exception->getMessage();
         }
+
         unset($GLOBALS['LAkjdJHSmlakSJHGdjAJGdjGAHgsjHDAD']);
 
         self::assertContains('memory_limit of '.$limit.'B exceeded.', $message);
@@ -422,5 +432,53 @@ class ProfilerModuleTest extends TestCase
         $render = $renderer->render('div');
 
         self::assertRegExp('/class\\s+Phug\\\\Parser\\\\Node\\\\DocumentNode#\\d+\\s+\\(\\d+\\)\\s+\\{/', $render);
+    }
+
+    /**
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     */
+    public function testHighlightLine()
+    {
+        $highlightLine = new ReflectionMethod(Renderer::class, 'highlightLine');
+        $highlightLine->setAccessible(true);
+        $renderer = new Renderer();
+        $highlightedLine = $highlightLine->invoke($renderer, 'foo', false, null, ['html_error' => true]);
+
+        self::assertSame("<span class=\"error-line\">foo</span>\n", $highlightedLine);
+
+        $highlightedLine = $highlightLine->invoke($renderer, 'foo', true, null, ['html_error' => false]);
+
+        self::assertSame("\e[43;30mfoo\e[0m\n", $highlightedLine);
+    }
+
+    /**
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorAsHtml
+     */
+    public function testGetErrorAsHtml()
+    {
+        if (version_compare(PHP_VERSION, '7.0.0-dev', '<')) {
+            self::markTestSkipped('Need PHP 7 to handle ParseError as Throwable');
+        }
+
+        $getErrorAsHtml = new ReflectionMethod(Renderer::class, 'getErrorAsHtml');
+        $getErrorAsHtml->setAccessible(true);
+        $renderer = new Renderer();
+        $error = $getErrorAsHtml->invoke($renderer, (object) [], [], []);
+
+        self::assertRegExp('/<pre>Call to undefined method .+::getFile\(\)[\s\S]+<\/pre>/', $error);
+    }
+
+    /**
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebuggedException
+     */
+    public function testGetDebuggedException()
+    {
+        $getDebuggedException = new ReflectionMethod(Renderer::class, 'getDebuggedException');
+        $getDebuggedException->setAccessible(true);
+        $renderer = new Renderer();
+        $exception = new LocatedException(new SourceLocation('xy', 1, 0));
+        $error = $getDebuggedException->invoke($renderer, $exception, 0, 'ab', 'xy', [], []);
+
+        self::assertSame($exception, $error);
     }
 }

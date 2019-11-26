@@ -28,6 +28,7 @@ use Phug\Util\Joiner;
 use Phug\Util\OptionInterface;
 use Phug\Util\Partial\OptionTrait;
 use Phug\Util\SourceLocation;
+use ReflectionMethod;
 use SplObjectStorage;
 
 abstract class AbstractFormat implements FormatInterface, OptionInterface
@@ -311,6 +312,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
     protected function getIndent()
     {
         $pretty = $this->getOption('pretty');
+
         if (!$pretty) {
             return '';
         }
@@ -330,17 +332,12 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
     {
         $phpTokenHandler = $this->getOption('php_token_handlers');
         $untouched = false;
+
         if (!$checked) {
-            // @codeCoverageIgnoreStart
-            try {
-                $reflector = new \ReflectionMethod($this, 'handleVariable');
-                $untouched = (empty($phpTokenHandler) || $phpTokenHandler === [
-                    T_VARIABLE => [$this, 'handleVariable'],
-                ]) && $reflector->getDeclaringClass()->getName() === self::class;
-            } catch (\ReflectionException $exp) {
-                $untouched = false;
-            }
-            // @codeCoverageIgnoreEnd
+            $reflector = new ReflectionMethod($this, 'handleVariable');
+            $untouched = (empty($phpTokenHandler) || $phpTokenHandler === [
+                T_VARIABLE => [$this, 'handleVariable'],
+            ]) && $reflector->getDeclaringClass()->getName() === self::class;
         }
 
         if ($untouched) {
@@ -651,14 +648,14 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         $pattern = $type ? 'custom_doctype' : 'doctype';
         $code = $this->pattern($pattern, $type);
         $shortTagFix = $this->getOption('short_open_tag_fix');
+
         if ($shortTagFix === 'auto') {
             $shortTagFix = intval(ini_get('short_open_tag')) || intval(ini_get('hhvm.enable_short_tags'));
         }
-        // @codeCoverageIgnoreStart
+
         if ($shortTagFix) {
             $code = preg_replace('/<\?(?!php)/', '<<?= "?" ?>', $code);
         }
-        // @codeCoverageIgnoreEnd
 
         return $code.$this->getNewLine();
     }

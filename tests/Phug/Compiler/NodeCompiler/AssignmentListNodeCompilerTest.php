@@ -4,6 +4,7 @@ namespace Phug\Test\Compiler\NodeCompiler;
 
 use Phug\Compiler;
 use Phug\Compiler\NodeCompiler\AssignmentListNodeCompiler;
+use Phug\Parser\Node\AssignmentListNode;
 use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractCompilerTest;
 
@@ -12,6 +13,16 @@ use Phug\Test\AbstractCompilerTest;
  */
 class AssignmentListNodeCompilerTest extends AbstractCompilerTest
 {
+    /**
+     * @covers ::<public>
+     */
+    public function testCompileNode()
+    {
+        $assignmentListCompiler = new AssignmentListNodeCompiler(new Compiler());
+
+        self::assertNull($assignmentListCompiler->compileNode(new AssignmentListNode()));
+    }
+
     /**
      * @covers            ::<public>
      * @expectedException \Phug\CompilerException

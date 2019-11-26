@@ -23,6 +23,10 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::__construct
      * @covers ::isExpired
      * @covers ::resolve
+     * @covers ::getExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensionsOnFileKey
      */
     public function testOptions()
     {
@@ -41,8 +45,16 @@ class OptimizerTest extends AbstractPhugTest
             $optimizer->resolve('file2.pug')
         );
         self::assertSame(
+            realpath(__DIR__.'/../views/dir2/file2.pug'),
+            $optimizer->resolve('file2')
+        );
+        self::assertSame(
             true,
             $optimizer->isExpired('file2.pug')
+        );
+        self::assertSame(
+            true,
+            $optimizer->isExpired('file2')
         );
     }
 
@@ -50,6 +62,10 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::__construct
      * @covers ::isExpired
      * @covers ::resolve
+     * @covers ::getExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensionsOnFileKey
      */
     public function testUpToDateCheck()
     {
@@ -63,6 +79,10 @@ class OptimizerTest extends AbstractPhugTest
             false,
             $optimizer->isExpired('file2.pug')
         );
+        self::assertSame(
+            false,
+            $optimizer->isExpired('file2')
+        );
     }
 
     /**
@@ -72,6 +92,10 @@ class OptimizerTest extends AbstractPhugTest
      * @covers ::getCachePath
      * @covers ::getRawCachePath
      * @covers ::getRegistryPath
+     * @covers ::getExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::findInRegistry
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensions
+     * @covers \Phug\Renderer\Partial\RegistryTrait::tryExtensionsOnFileKey
      * @covers \Phug\Renderer\Task\TasksGroup::<public>
      *
      * @throws RendererException
@@ -92,6 +116,7 @@ class OptimizerTest extends AbstractPhugTest
 
         $options['up_to_date_check'] = false;
         $optimizer = new Optimizer($options);
+        $cachePath = null;
         $optimizer->isExpired('file2.pug', $cachePath);
 
         $contents = @file_get_contents($cachePath);
@@ -108,6 +133,7 @@ class OptimizerTest extends AbstractPhugTest
         $options['up_to_date_check'] = false;
         $optimizer = new Optimizer($options);
         rename(__DIR__.'/../views/dir2/file2.pug', __DIR__.'/file2.pug');
+        $cachePath = null;
         $optimizer->isExpired('file2.pug', $cachePath);
 
         $contents = @file_get_contents($cachePath);
@@ -117,8 +143,26 @@ class OptimizerTest extends AbstractPhugTest
             $contents
         );
 
+        $cachePath = null;
+        $optimizer->isExpired('file2', $cachePath);
+
+        $contents = @file_get_contents($cachePath);
+
+        self::assertSame(
+            '<p>B</p>',
+            $contents
+        );
+
+        $options['extensions'] = ['', '.view'];
+        $optimizer = new Optimizer($options);
+        $cachePath = null;
+
+        self::assertFalse($optimizer->isExpired('file2', $cachePath));
+        self::assertFileNotExists($cachePath);
+
         rename(__DIR__.'/file2.pug', __DIR__.'/../views/dir2/file2.pug');
         $options['up_to_date_check'] = true;
+        $cachePath = null;
         $optimizer->isExpired('file2.pug', $cachePath);
 
         $contents = @file_get_contents($cachePath);

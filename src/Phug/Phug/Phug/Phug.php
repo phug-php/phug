@@ -10,13 +10,16 @@ class Phug
     use ExtensionsTrait;
     use FacadeOptionsTrait;
 
-    // @codeCoverageIgnoreStart
-
+    /**
+     * @internal
+     *
+     * Phug constructor.
+     *
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }
-
-    // @codeCoverageIgnoreEnd
 
     /**
      * List of global filters stored as array where keys are filter names, and values the action callback.
@@ -479,8 +482,8 @@ class Phug
         }
 
         return static::getRenderer(array_merge(
-            $options ?: [], // @codeCoverageIgnore
-            $destination ?: [] // @codeCoverageIgnore
+            $options ?: [],
+            $destination ?: []
         ))->cacheDirectory($source);
     }
 

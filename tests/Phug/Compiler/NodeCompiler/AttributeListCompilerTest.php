@@ -4,6 +4,7 @@ namespace Phug\Test\Compiler\NodeCompiler;
 
 use Phug\Compiler;
 use Phug\Compiler\NodeCompiler\AttributeListNodeCompiler;
+use Phug\Parser\Node\AttributeListNode;
 use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractCompilerTest;
 
@@ -12,6 +13,16 @@ use Phug\Test\AbstractCompilerTest;
  */
 class AttributeListCompilerTest extends AbstractCompilerTest
 {
+    /**
+     * @covers ::<public>
+     */
+    public function testCompileNode()
+    {
+        $attributeListCompiler = new AttributeListNodeCompiler(new Compiler());
+
+        self::assertNull($attributeListCompiler->compileNode(new AttributeListNode()));
+    }
+
     /**
      * @covers            ::<public>
      * @expectedException \Phug\CompilerException

@@ -78,9 +78,7 @@ class Optimizer
         return $this->getLocator()->locate(
             $file,
             $this->paths,
-            isset($this->options['extensions'])
-                ? $this->options['extensions']
-                : ['', '.pug', '.jade']
+            $this->getExtensions()
         );
     }
 
@@ -221,6 +219,18 @@ class Optimizer
     }
 
     /**
+     * Get list of extensions to try.
+     *
+     * @return string[]
+     */
+    protected function getExtensions()
+    {
+        return isset($this->options['extensions'])
+            ? $this->options['extensions']
+            : ['', '.pug', '.jade'];
+    }
+
+    /**
      * Lazy loaded the file locator.
      *
      * @return FileLocator
@@ -296,7 +306,11 @@ class Optimizer
      */
     private function getRegistryPath($path)
     {
-        $cachePath = $this->findCachePathInRegistryFile($path, $this->getCachePath('registry'));
+        $cachePath = $this->findCachePathInRegistryFile(
+            $path,
+            $this->getCachePath('registry'),
+            $this->getExtensions()
+        );
 
         if ($cachePath) {
             return $this->getRawCachePath($cachePath);

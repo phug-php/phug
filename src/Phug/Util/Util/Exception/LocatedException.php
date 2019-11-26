@@ -2,9 +2,10 @@
 
 namespace Phug\Util\Exception;
 
+use Exception;
 use Phug\Util\SourceLocationInterface;
 
-class LocatedException extends \Exception
+class LocatedException extends Exception
 {
     private $location;
 

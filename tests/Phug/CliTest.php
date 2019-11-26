@@ -295,4 +295,53 @@ class CliTest extends TestCase
             rename('__phugBootstrap.php', 'phugBootstrap.php');
         }
     }
+
+    /**
+     * @group cli
+     * @covers ::convertToKebabCase
+     * @covers ::convertToCamelCase
+     * @covers ::getNamedArgumentBySpaceDelimiter
+     * @covers ::getNamedArgumentByEqualOperator
+     * @covers ::getNamedArgument
+     * @covers ::execute
+     * @covers ::<public>
+     * @covers \Phug\Phug::cacheDirectory
+     * @covers \Phug\Phug::textualCacheDirectory
+     */
+    public function testCacheDirectoryWithViewsDirInOptions()
+    {
+        $expected = __DIR__.'/../views/cache';
+
+        $this->createEmptyDirectory($expected);
+        file_put_contents("$expected/junk", 'junk');
+        ob_start();
+        $this->cli->run(['_', 'compile-directory', __DIR__.'/../views', null, json_encode(['cache_dir' => $expected])]);
+        $text = ob_get_contents();
+        ob_end_clean();
+
+        self::assertFileExists($expected);
+        self::assertFileNotExists("$expected/junk");
+
+        $registryFile = "$expected/registry.php";
+
+        self::assertFileExists($registryFile);
+
+        $registry = include $registryFile;
+
+        self::assertArrayHasKey('d:dir1', $registry);
+        self::assertArrayHasKey('f:file1.pug', $registry['d:dir1']);
+        self::assertArrayHasKey('i:0', $registry['d:dir1']['f:file1.pug']);
+
+        $file = $expected.'/'.$registry['d:dir1']['f:file1.pug']['i:0'];
+
+        self::assertFileExists($file);
+
+        ob_start();
+        include $file;
+        $html = trim(ob_get_contents());
+        ob_end_clean();
+
+        self::assertSame('<p>A</p>', $html);
+        self::assertSame("3 templates cached.\n0 templates failed to be cached.\n", $text);
+    }
 }
