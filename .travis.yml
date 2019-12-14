@@ -6,6 +6,7 @@ git:
 
 env:
   global:
+    - COMPOSER_FLAGS=''
     - CODACY_PROJECT_TOKEN=eb1f0554c46a4ae486c35d40f75b6d4e
     - CC_TEST_REPORTER_ID=cd1a1fbecb6b26000bcdc53d59b592735acb420dd96ce7151cd9424c39c95cf3
     - MULTITEST=off
@@ -40,10 +41,11 @@ cache:
 sudo: false
 
 install:
+  - if [[ $TRAVIS_PHP_VERSION =~ ^nightly ]]; then COMPOSER_FLAGS='--ignore-platform-reqs'; fi
   - if [[ "$COVERAGE" != "on" ]]; then phpenv config-rm xdebug.ini || echo 'XDebug already disabled'; fi;
   - travis_retry composer self-update
   - composer config version 1.0.x-dev
-  - travis_retry composer install
+  - travis_retry composer install ${COMPOSER_FLAGS} --no-interaction
 
 before_script:
   - if [[ "$COVERAGE" = "on" ]]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi;
