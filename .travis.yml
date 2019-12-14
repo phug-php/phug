@@ -15,7 +15,8 @@ env:
 
 matrix:
   include:
-    - php: 7.4snapshot
+    - php: nightly
+    - php: 7.4
     - php: 7.3
       env: COVERAGE=on
     - php: 7.2

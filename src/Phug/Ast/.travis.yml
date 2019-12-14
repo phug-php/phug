@@ -5,7 +5,7 @@ git:
 
 matrix:
   include:
-    - php: 7.4snapshot
+    - php: 7.4
     - php: 7.3
       env: COVERAGE=on
       dist: trusty
