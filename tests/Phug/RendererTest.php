@@ -568,7 +568,9 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile($path);
 
         self::assertContains(
-            'implode(): Invalid arguments passed on line 3',
+            version_compare(phpversion(), '8.0.0-dev', '<')
+                ? 'implode(): Invalid arguments passed on line 3'
+                : 'implode() expects parameter 2 to be array, string given on line 3, offset 2',
             $message
         );
 
