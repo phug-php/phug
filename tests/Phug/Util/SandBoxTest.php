@@ -67,17 +67,17 @@ class SandBoxTest extends TestCase
         self::assertSame('foo', $sandBox->getBuffer());
 
         $sandBox = new SandBox(function () {
-            return @implode('', '');
+            return @trigger_error('Notice', E_USER_NOTICE);
         });
 
         self::assertNull($sandBox->getThrowable());
 
         $sandBox = new SandBox(function () {
-            return implode('', '');
+            return trigger_error('Notice', E_USER_NOTICE);
         });
 
         self::assertInstanceOf(Exception::class, $sandBox->getThrowable());
-        self::assertContains('implode', $sandBox->getThrowable()->getMessage());
+        self::assertContains('Notice', $sandBox->getThrowable()->getMessage());
 
         $level = error_reporting();
 

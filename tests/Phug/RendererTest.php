@@ -547,7 +547,9 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile($path);
 
         self::assertContains(
-            'implode(): Invalid arguments passed',
+            version_compare(phpversion(), '8.0.0-dev', '<')
+                ? 'implode(): Invalid arguments passed'
+                : 'implode() expects parameter 2 to be array, string given',
             $message
         );
 
@@ -867,7 +869,7 @@ class RendererTest extends AbstractRendererTest
         ]);
         $tolerantRenderer = new Renderer([
             'debug'           => false,
-            'error_reporting' => E_ALL ^ E_NOTICE,
+            'error_reporting' => E_ALL ^ E_USER_NOTICE,
         ]);
         $noWarningRenderer = new Renderer([
             'debug'           => false,
@@ -880,15 +882,11 @@ class RendererTest extends AbstractRendererTest
             },
         ]);
 
-        $vars = [
-            'arr' => [],
-            'obj' => (object) [],
-        ];
         $pugCodes = [
-            'p=$arr["foo"]',
-            'p=$none["foo"]',
-            'p=$obj->foo',
-            'p=$none->foo',
+            'p=trigger_error(\'Notice\', E_USER_NOTICE) ? "ok" : "ko"',
+            'p=trigger_error(\'Notice\', E_USER_NOTICE) ? "ok" : "ko"',
+            'p=trigger_error(\'Notice\', E_USER_NOTICE) ? "ok" : "ko"',
+            'p=trigger_error(\'Notice\', E_USER_NOTICE) ? "ok" : "ko"',
         ];
 
         $level = error_reporting();
@@ -899,63 +897,63 @@ class RendererTest extends AbstractRendererTest
             $severity = null;
 
             try {
-                $renderer->render($pugCode, $vars);
+                $renderer->render($pugCode);
             } catch (ErrorException $exp) {
                 $severity = $exp->getSeverity();
             }
 
-            self::assertSame(E_NOTICE, $severity);
+            self::assertSame(E_USER_NOTICE, $severity);
 
-            error_reporting(E_ALL ^ E_NOTICE);
+            error_reporting(E_ALL ^ E_USER_NOTICE);
 
-            $html = trim($renderer->render($pugCode, $vars));
+            $html = trim($renderer->render($pugCode));
 
-            self::assertSame('<p></p>', $html);
+            self::assertSame('<p>ok</p>', $html);
 
             $code = null;
 
             try {
-                $customRenderer->render($pugCode, $vars);
+                $customRenderer->render($pugCode);
             } catch (ErrorException $exp) {
                 $code = $exp->getCode();
             }
 
-            self::assertSame(E_NOTICE, $code);
+            self::assertSame(E_USER_NOTICE, $code);
 
             error_reporting(E_ALL);
 
             $code = null;
 
             try {
-                $noWarningRenderer->render($pugCode, $vars);
+                $noWarningRenderer->render($pugCode);
             } catch (ErrorException $exp) {
                 $code = $exp->getSeverity();
             }
 
-            self::assertSame(E_NOTICE, $code);
+            self::assertSame(E_USER_NOTICE, $code);
 
-            $html = trim($tolerantRenderer->render($pugCode, $vars));
+            $html = trim($tolerantRenderer->render($pugCode));
 
-            self::assertSame('<p></p>', $html);
+            self::assertSame('<p>ok</p>', $html);
 
             $html = trim($renderer->render(implode("\n", [
-                '- error_reporting(E_ALL ^ E_NOTICE)',
+                '- error_reporting(E_ALL ^ E_USER_NOTICE)',
                 $pugCode,
-            ]), $vars));
+            ])));
 
-            self::assertSame('<p></p>', $html);
+            self::assertSame('<p>ok</p>', $html);
 
             error_reporting(E_ALL);
 
             $code = null;
 
             try {
-                $customRenderer->render($pugCode, $vars);
+                $customRenderer->render($pugCode);
             } catch (ErrorException $exp) {
                 $code = $exp->getCode();
             }
 
-            self::assertSame(E_NOTICE, $code);
+            self::assertSame(E_USER_NOTICE, $code);
         }
 
         error_reporting($level);
