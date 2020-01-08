@@ -719,9 +719,9 @@ class RendererTest extends AbstractRendererTest
     {
         $lastError = null;
         foreach ([
-             FileAdapter::class,
-             EvalAdapter::class,
-             StreamAdapter::class,
+            FileAdapter::class,
+            EvalAdapter::class,
+            StreamAdapter::class,
         ] as $adapter) {
             $renderer = new Renderer([
                 'exit_on_error'      => false,
