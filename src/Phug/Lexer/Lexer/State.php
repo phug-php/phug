@@ -42,6 +42,13 @@ class State implements OptionInterface
     private $indentStack;
 
     /**
+     * List of scanner instances.
+     *
+     * @var ScannerInterface[]
+     */
+    private $scanners;
+
+    /**
      * Creates a new instance of the state.
      *
      * @param Lexer  $lexer   linked lexer
@@ -253,6 +260,10 @@ class State implements OptionInterface
      */
     public function loopScan($scanners, $required = false)
     {
+        if ($this->reader->hasLength() && $this->scanners === null) {
+            $this->scanners = $this->filterScanners($scanners);
+        }
+
         while ($this->reader->hasLength()) {
             $success = false;
             foreach ($this->scan($scanners) as $token) {
@@ -359,11 +370,27 @@ class State implements OptionInterface
     }
 
     /**
+     * Load a scan class name as a scanner instance (use cache if yet loaded in the state).
+     *
+     * @param string $scanner scanner class name
+     *
+     * @return ScannerInterface
+     */
+    private function loadScanner($scanner)
+    {
+        if (!isset($this->scanners[$scanner])) {
+            $this->scanners[$scanner] = new $scanner();
+        }
+
+        return $this->scanners[$scanner];
+    }
+
+    /**
      * Filters and validates the passed scanners.
      *
      * This method makes sure that all scanners given are turned into their respective instances.
      *
-     * @param $scanners
+     * @param array<ScannerInterface|string> $scanners list of scanner instances/class names.
      *
      * @return array
      */
@@ -371,6 +398,7 @@ class State implements OptionInterface
     {
         $scannerInstances = [];
         $scanners = is_array($scanners) ? $scanners : [$scanners];
+
         foreach ($scanners as $key => $scanner) {
             if (!is_a($scanner, ScannerInterface::class, true)) {
                 throw new \InvalidArgumentException(
@@ -381,7 +409,7 @@ class State implements OptionInterface
 
             $scannerInstances[] = $scanner instanceof ScannerInterface
                 ? $scanner
-                : new $scanner();
+                : $this->loadScanner($scanner);
         }
 
         return $scannerInstances;
