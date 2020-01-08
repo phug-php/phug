@@ -2,6 +2,7 @@
 
 namespace Phug;
 
+use Iterator;
 use Phug\Lexer\Event\EndLexEvent;
 use Phug\Lexer\Event\LexEvent;
 use Phug\Lexer\Event\TokenEvent;
@@ -229,8 +230,9 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         $scanners['final_plain_text'] = TextScanner::class;
 
         //Scan for tokens
-        //N> yield from $this->handleTokens($this->>state->loopScan($scanners));
+        //N> yield from $this->handleTokens($this->state->loopScan($scanners));
         $tokens = $this->state->loopScan($scanners);
+
         foreach ($this->handleTokens($tokens) as $token) {
             yield $token;
         }
@@ -264,7 +266,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         yield $token;
     }
 
-    private function handleTokens(\Iterator $tokens)
+    private function handleTokens(Iterator $tokens)
     {
         foreach ($tokens as $rawToken) {
             foreach ($this->handleToken($rawToken) as $token) {
@@ -287,7 +289,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             return $this->dumpToken($input);
         }
 
-        if (!($input instanceof \Iterator) && !is_array($input)) {
+        if (!($input instanceof Iterator) && !is_array($input)) {
             $input = $this->lex((string) $input);
         }
 
