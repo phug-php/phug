@@ -18,15 +18,21 @@ class InvokerTest extends TestCase
      */
     public function testConstructor()
     {
+        $calls = [
+            'NodeEvent' => 0,
+            'CompileEvent' => 0,
+        ];
         $invoker = new Invoker([
-            function (NodeEvent $nodeEvent) {
+            function (NodeEvent $nodeEvent) use (&$calls) {
+                $calls['NodeEvent']++;
                 $node = $nodeEvent->getNode();
 
                 if ($node instanceof ElementNode) {
                     $node->setName('section');
                 }
             },
-            function (CompileEvent $compileEvent) {
+            function (CompileEvent $compileEvent) use (&$calls) {
+                $calls['CompileEvent']++;
                 $compileEvent->setInput('foobar');
             },
         ]);
@@ -36,5 +42,21 @@ class InvokerTest extends TestCase
         $event = new NodeEvent($node);
 
         $invoker->invoke($event);
+
+        $this->assertSame('section', $event->getNode()->getName());
+        $this->assertSame([
+            'NodeEvent' => 1,
+            'CompileEvent' => 0,
+        ], $calls);
+
+        $event = new CompileEvent('biz');
+
+        $invoker->invoke($event);
+
+        $this->assertSame('foobar', $event->getInput());
+        $this->assertSame([
+            'NodeEvent' => 1,
+            'CompileEvent' => 0,
+        ], $calls);
     }
 }
