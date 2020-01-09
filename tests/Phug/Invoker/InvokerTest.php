@@ -19,7 +19,7 @@ class InvokerTest extends TestCase
     public function testConstructor()
     {
         $calls = [
-            'NodeEvent' => 0,
+            'NodeEvent'    => 0,
             'CompileEvent' => 0,
         ];
         $invoker = new Invoker([
@@ -37,7 +37,7 @@ class InvokerTest extends TestCase
             },
         ]);
 
-        $node = new ElementNode;
+        $node = new ElementNode();
         $node->setName('div');
         $event = new NodeEvent($node);
 
@@ -45,7 +45,7 @@ class InvokerTest extends TestCase
 
         $this->assertSame('section', $event->getNode()->getName());
         $this->assertSame([
-            'NodeEvent' => 1,
+            'NodeEvent'    => 1,
             'CompileEvent' => 0,
         ], $calls);
 
@@ -55,7 +55,7 @@ class InvokerTest extends TestCase
 
         $this->assertSame('foobar', $event->getInput());
         $this->assertSame([
-            'NodeEvent' => 1,
+            'NodeEvent'    => 1,
             'CompileEvent' => 0,
         ], $calls);
     }
