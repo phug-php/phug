@@ -43,6 +43,7 @@ class Invoker
 
     public function invoke($event)
     {
-        foreach ($this->invokables as $type => $invokable) {}
+        foreach ($this->invokables as $type => $invokable) {
+        }
     }
 }
