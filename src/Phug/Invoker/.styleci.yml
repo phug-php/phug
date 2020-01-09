@@ -1,0 +1,2 @@
+disabled:
+    - phpdoc_var_without_name
