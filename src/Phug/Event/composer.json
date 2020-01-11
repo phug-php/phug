@@ -24,7 +24,12 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",
+        "phug/event": "^1.4"
+    },
+    "require-dev": {
+        "phug/compiler": "^1.4",
+        "phug/parser": "^1.4"
     },
     "autoload": {
         "psr-4": {

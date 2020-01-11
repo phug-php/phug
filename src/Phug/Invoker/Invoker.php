@@ -2,6 +2,7 @@
 
 namespace Phug;
 
+use Phug\Event\ListenerQueue;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -10,6 +11,11 @@ use RuntimeException;
 
 class Invoker
 {
+    /**
+     * List of callbacks grouped by type.
+     *
+     * @var ListenerQueue[]
+     */
     private $invokables;
 
     /**
@@ -36,7 +42,7 @@ class Invoker
     /**
      * Get all callbacks from the list.
      *
-     * @return callable[]
+     * @return ListenerQueue[]
      */
     public function all()
     {
@@ -70,14 +76,14 @@ class Invoker
             $parameter = $parameter instanceof ReflectionNamedType ? $parameter->getName() : null;
 
             if (!is_string($parameter)) {
-                throw new RuntimeException('Passed callback #'.($index + 1).' should at least 1 argument and this first argument must have a typehint.');
+                throw new RuntimeException('Passed callback #'.($index + 1).' should have at least 1 argument and this first argument must have a typehint.');
             }
 
-            if (isset($this->invokables[$parameter])) {
-                throw new RuntimeException('Passed callback #'.($index + 1).' tried to use a typehint '.$parameter.' already used.');
+            if (!isset($this->invokables[$parameter])) {
+                $this->invokables[$parameter] = new ListenerQueue();
             }
 
-            $this->invokables[$parameter] = $invokable;
+            $this->invokables[$parameter]->insert($invokable, 0);
         }
     }
 
@@ -88,8 +94,18 @@ class Invoker
      */
     public function remove(array $invokables)
     {
-        $this->invokables = array_filter($this->invokables, function ($invokable) use (&$invokables) {
-            return !in_array($invokable, $invokables);
+        $this->invokables = array_filter(array_map(function (ListenerQueue $queue) use (&$invokables) {
+            $filteredQueue = new ListenerQueue();
+
+            foreach ($queue as $invokable) {
+                if (!in_array($invokable, $invokables)) {
+                    $filteredQueue->insert($invokable, 0);
+                }
+            }
+
+            return $filteredQueue;
+        }, $this->invokables), function (ListenerQueue $queue) {
+            return $queue->count();
         });
     }
 
@@ -107,10 +123,11 @@ class Invoker
     {
         $invocations = [];
 
-        foreach ($this->invokables as $type => $invokable) {
+        foreach ($this->invokables as $type => $invokables) {
             if (is_a($event, $type)) {
-                $invocations++;
-                $invokable($event);
+                foreach ($invokables as $invokable) {
+                    $invocations[] = $invokable($event);
+                }
             }
         }
 
