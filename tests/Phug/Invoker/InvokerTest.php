@@ -18,6 +18,7 @@ class InvokerTest extends TestCase
 {
     /**
      * @covers ::__construct
+     * @covers ::add
      *
      * @expectedException        RuntimeException
      * @expectedExceptionMessage Passed callback #1 should have at least 1 argument and this first argument must have a typehint.
@@ -138,6 +139,7 @@ class InvokerTest extends TestCase
     }
 
     /**
+     * @covers ::add
      * @covers ::remove
      * @covers ::all
      *
@@ -177,6 +179,7 @@ class InvokerTest extends TestCase
     }
 
     /**
+     * @covers ::add
      * @covers ::removeByType
      * @covers ::all
      *

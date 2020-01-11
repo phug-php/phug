@@ -119,6 +119,13 @@ class Invoker
         unset($this->invokables[$type]);
     }
 
+    /**
+     * Invoke callbacks that match the passed event.
+     *
+     * @param object $event instance of callback input.
+     *
+     * @return array
+     */
     public function invoke($event)
     {
         $invocations = [];
