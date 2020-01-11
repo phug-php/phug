@@ -150,11 +150,13 @@ trait ExtensionsTrait
     public static function getExtensionsOptions(array $extensions, array $options = [])
     {
         $methods = static::getExtensionsGetters();
+
         foreach ($extensions as $extensionClassName) {
             if (is_a($extensionClassName, ModuleInterface::class, true)) {
                 if (!isset($options['modules'])) {
                     $options['modules'] = [];
                 }
+
                 $options['modules'][] = $extensionClassName;
 
                 continue;

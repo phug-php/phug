@@ -64,16 +64,7 @@ class Invoker
                 throw new RuntimeException('The #'.($index + 1).' value is not callable.');
             }
 
-            $reflection = is_array($invokable)
-                ? new ReflectionMethod($invokable[0], $invokable[1])
-                : new ReflectionFunction($invokable);
-            $parameter = $reflection->getParameters();
-
-            if (count($parameter)) {
-                $parameter = $parameter[0]->getType();
-            }
-
-            $parameter = $parameter instanceof ReflectionNamedType ? $parameter->getName() : null;
+            $parameter = static::getCallbackType($invokable);
 
             if (!is_string($parameter)) {
                 throw new RuntimeException('Passed callback #'.($index + 1).' should have at least 1 argument and this first argument must have a typehint.');
@@ -139,5 +130,28 @@ class Invoker
         }
 
         return $invocations;
+    }
+
+    /**
+     * Return the typehint as string of the first argument of a given callback or null if not typed.
+     *
+     * @param callable $invokable closure or callable
+     *
+     * @throws ReflectionException
+     *
+     * @return string|null
+     */
+    public static function getCallbackType(callable $invokable)
+    {
+        $reflection = is_array($invokable)
+            ? new ReflectionMethod($invokable[0], $invokable[1])
+            : new ReflectionFunction($invokable);
+        $parameter = $reflection->getParameters();
+
+        if (count($parameter)) {
+            $parameter = $parameter[0]->getType();
+        }
+
+        return $parameter instanceof ReflectionNamedType ? $parameter->getName() : null;
     }
 }
