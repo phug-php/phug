@@ -155,6 +155,8 @@ class PluginTest extends AbstractPhugTest
     }
 
     /**
+     * @covers ::enable
+     * @covers ::disable
      * @covers ::getEventContainer
      * @covers \Phug\Phug::isRendererInitialized
      *
@@ -164,6 +166,28 @@ class PluginTest extends AbstractPhugTest
      */
     public function testRendererPlugin()
     {
+        RendererPlugin::enable();
+
+        $this->assertSame('<p>Hello</p><footer></footer>', Phug::render('p Hello'));
+
+        RendererPlugin::disable();
+
+        $this->assertSame('<p>Hello</p>', Phug::render('p Hello'));
+    }
+
+    /**
+     * @covers ::enable
+     * @covers ::disable
+     * @covers \Phug\Phug::isRendererInitialized
+     *
+     * @throws \Phug\PhugException
+     * @throws \Phug\RendererException
+     * @throws \ReflectionException
+     */
+    public function testRendererPluginWithRendererAlreadySet()
+    {
+        $this->assertSame('<p>Hello</p>', Phug::render('p Hello'));
+
         RendererPlugin::enable();
 
         $this->assertSame('<p>Hello</p><footer></footer>', Phug::render('p Hello'));
