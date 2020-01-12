@@ -254,6 +254,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         if ($tokens) {
             //N> yield from $this->handleTokens($tokens)
             foreach ($this->handleTokens($tokens) as $tok) {
+                $this->lastToken = $tok;
                 yield $tok;
             }
 

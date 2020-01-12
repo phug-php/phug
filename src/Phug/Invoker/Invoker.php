@@ -67,7 +67,10 @@ class Invoker
             $parameter = static::getCallbackType($invokable);
 
             if (!is_string($parameter)) {
-                throw new RuntimeException('Passed callback #'.($index + 1).' should have at least 1 argument and this first argument must have a typehint.');
+                throw new RuntimeException(
+                    'Passed callback #'.($index + 1).
+                    ' should have at least 1 argument and this first argument must have a typehint.'
+                );
             }
 
             if (!isset($this->invokables[$parameter])) {

@@ -2,6 +2,7 @@
 
 namespace Phug\Lexer\Event;
 
+use Iterator;
 use Phug\Event;
 use Phug\Lexer\TokenInterface;
 use Phug\LexerEvent;
@@ -36,7 +37,7 @@ class TokenEvent extends Event
         return $this->tokenGenerator;
     }
 
-    public function setTokenGenerator(\Iterator $tokens)
+    public function setTokenGenerator(Iterator $tokens)
     {
         $this->tokenGenerator = $tokens;
     }

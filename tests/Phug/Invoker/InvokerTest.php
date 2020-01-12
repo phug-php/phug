@@ -1,6 +1,6 @@
 <?php
 
-namespace Phug\Test\Event;
+namespace Phug\Test\Invoker;
 
 use PHPUnit\Framework\TestCase;
 use Phug\Compiler\Event\CompileEvent;
