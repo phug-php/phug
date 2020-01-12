@@ -33,7 +33,7 @@ class Collection implements IteratorAggregate
     }
 
     /**
-     * Retrieve an external iterator
+     * Retrieve an external iterator.
      *
      * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
      *
@@ -45,6 +45,8 @@ class Collection implements IteratorAggregate
     }
 
     /**
+     * Get input data as iterable value.
+     *
      * @return iterable
      */
     public function getIterable()
@@ -53,9 +55,12 @@ class Collection implements IteratorAggregate
     }
 
     /**
+     * Get input data as a generator of values.
+     *
      * @return Generator
      */
-    public function getGenerator() {
+    public function getGenerator()
+    {
         foreach ($this->traversable as $value) {
             yield $value;
         }

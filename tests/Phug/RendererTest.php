@@ -1201,15 +1201,15 @@ class RendererTest extends AbstractRendererTest
      */
     public function testCacheDirectoryPreserveDependencies()
     {
-        $cacheDirectory = sys_get_temp_dir() . '/pug-test'.mt_rand(0, 999999);
+        $cacheDirectory = sys_get_temp_dir().'/pug-test'.mt_rand(0, 999999);
         $this->createEmptyDirectory($cacheDirectory);
 
-        $templatesDirectory = __DIR__ . '/../templates/for-cache';
-        $pug = new Renderer(array(
+        $templatesDirectory = __DIR__.'/../templates/for-cache';
+        $pug = new Renderer([
             'modules'   => [JsPhpizePhug::class],
             'paths'     => [$templatesDirectory],
             'cache_dir' => $cacheDirectory,
-        ));
+        ]);
         $pug->cacheDirectory($templatesDirectory);
         $files = glob("$cacheDirectory/*.php");
         $file = count($files) ? file_get_contents($files[0]) : null;
@@ -1218,9 +1218,9 @@ class RendererTest extends AbstractRendererTest
 
         self::assertNotNull($file);
 
-        $foo = array('bar' => 'biz');
+        $foo = ['bar' => 'biz'];
         ob_start();
-        eval('?>' . $file);
+        eval('?>'.$file);
         $contents = ob_get_contents();
         ob_end_clean();
 

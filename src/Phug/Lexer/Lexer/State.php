@@ -124,7 +124,7 @@ class State implements OptionInterface
     }
 
     /**
-     * Return true if previous token was TagInterpolationEndToken or InterpolationEndToken
+     * Return true if previous token was TagInterpolationEndToken or InterpolationEndToken.
      *
      * @return bool
      */

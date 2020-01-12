@@ -3,7 +3,6 @@
 namespace Phug\Lexer\Event;
 
 use InvalidArgumentException;
-use Iterator;
 use Phug\Event;
 use Phug\Lexer\TokenInterface;
 use Phug\LexerEvent;

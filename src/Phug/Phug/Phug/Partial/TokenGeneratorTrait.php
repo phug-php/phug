@@ -10,8 +10,10 @@ use ReflectionException;
 trait TokenGeneratorTrait
 {
     /**
-     * @param callable[] $callbacks
-     * @param iterable $tokens
+     * Get a iterable list of output tokens from a list of interceptors and input tokens.
+     *
+     * @param callable[] $callbacks list of callable interceptors
+     * @param iterable   $tokens    input tokens
      *
      * @throws Exception
      * @throws ReflectionException
