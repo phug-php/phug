@@ -152,7 +152,7 @@ class Invoker
         $parameters = $reflection->getParameters();
         $type = null;
 
-        if (count($parameters)) {
+        if (count($parameters) && method_exists($parameters[0], 'getType')) {
             $type = $parameters[0]->getType();
         }
 
