@@ -136,6 +136,8 @@ class TokenTest extends TestCase
     }
 
     /**
+     * @covers \Phug\Lexer::proceedTokenEvent
+     * @covers \Phug\Lexer::handleToken
      * @covers \Phug\Lexer\AbstractToken::isHandled
      * @covers \Phug\Lexer\AbstractToken::markAsHandled
      */

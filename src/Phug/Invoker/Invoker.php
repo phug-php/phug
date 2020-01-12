@@ -2,6 +2,7 @@
 
 namespace Phug;
 
+use Generator;
 use Phug\Event\ListenerQueue;
 use ReflectionException;
 use ReflectionFunction;
@@ -50,7 +51,7 @@ class Invoker
     }
 
     /**
-     * Add callbacks from the list.
+     * Add a list of callbacks.
      *
      * @param callable[] $invokables list of callbacks
      *
@@ -60,25 +61,40 @@ class Invoker
     public function add(array $invokables)
     {
         foreach ($invokables as $index => $invokable) {
+            $name = '#'.($index + 1);
+
             if (!is_callable($invokable)) {
-                throw new RuntimeException('The #'.($index + 1).' value is not callable.');
+                throw new RuntimeException("The $name value is not callable.");
             }
 
-            $parameter = static::getCallbackType($invokable);
-
-            if (!is_string($parameter)) {
-                throw new RuntimeException(
-                    'Passed callback #'.($index + 1).
-                    ' should have at least 1 argument and this first argument must have a typehint.'
-                );
-            }
-
-            if (!isset($this->invokables[$parameter])) {
-                $this->invokables[$parameter] = new ListenerQueue();
-            }
-
-            $this->invokables[$parameter]->insert($invokable, 0);
+            $this->addCallback($invokable, $name);
         }
+    }
+
+    /**
+     * Add a single callback.
+     *
+     * @param callable $invokable typed callback
+     *
+     * @throws ReflectionException
+     * @throws RuntimeException
+     */
+    public function addCallback(callable $invokable, $name = null)
+    {
+        $parameter = static::getCallbackType($invokable);
+
+        if (!is_string($parameter)) {
+            throw new RuntimeException(
+                'Passed callback '.($name ?: gettype($invokable)).
+                ' should have at least 1 argument and this first argument must have a typehint.'
+            );
+        }
+
+        if (!isset($this->invokables[$parameter])) {
+            $this->invokables[$parameter] = new ListenerQueue();
+        }
+
+        $this->invokables[$parameter]->insert($invokable, 0);
     }
 
     /**
@@ -114,6 +130,38 @@ class Invoker
     }
 
     /**
+     * Return listeners queues for types that match the given event.
+     *
+     * @param object $event instance of callback input.
+     *
+     * @return Generator<ListenerQueue>
+     */
+    public function getQueuesByEvent($event)
+    {
+        foreach ($this->invokables as $type => $invokables) {
+            if (is_a($event, $type)) {
+                yield $type => $invokables;
+            }
+        }
+    }
+
+    /**
+     * Return callbacks for types that match the given event.
+     *
+     * @param object $event instance of callback input.
+     *
+     * @return Generator<ListenerQueue>
+     */
+    public function getCallbacksByEvent($event)
+    {
+        foreach ($this->getQueuesByEvent($event) as $invokables) {
+            foreach ($invokables as $invokable) {
+                yield $invokable;
+            }
+        }
+    }
+
+    /**
      * Invoke callbacks that match the passed event.
      *
      * @param object $event instance of callback input.
@@ -124,12 +172,8 @@ class Invoker
     {
         $invocations = [];
 
-        foreach ($this->invokables as $type => $invokables) {
-            if (is_a($event, $type)) {
-                foreach ($invokables as $invokable) {
-                    $invocations[] = $invokable($event);
-                }
-            }
+        foreach ($this->getCallbacksByEvent($event) as $invokable) {
+            $invocations[] = $invokable($event);
         }
 
         return $invocations;

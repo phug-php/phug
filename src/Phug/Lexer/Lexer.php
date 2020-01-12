@@ -256,7 +256,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         return is_array($value) ? '(?:'.implode('|', $value).')' : $value;
     }
 
-    private function handleToken($token)
+    private function proceedTokenEvent($token)
     {
         $event = new TokenEvent($token);
 
@@ -268,6 +268,12 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             }
         }
 
+        return $event;
+    }
+
+    private function handleToken($token)
+    {
+        $event = $this->proceedTokenEvent($token);
         $tokens = $event->getTokenGenerator();
 
         if ($tokens) {

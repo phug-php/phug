@@ -19,6 +19,7 @@ class InvokerTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::add
+     * @covers ::addCallback
      * @covers ::getCallbackType
      *
      * @expectedException        RuntimeException
@@ -36,6 +37,7 @@ class InvokerTest extends TestCase
 
     /**
      * @covers ::add
+     * @covers ::addCallback
      *
      * @expectedException        RuntimeException
      * @expectedExceptionMessage The #2 value is not callable.
@@ -57,7 +59,10 @@ class InvokerTest extends TestCase
      * @covers ::__construct
      * @covers ::reset
      * @covers ::add
+     * @covers ::addCallback
      * @covers ::invoke
+     * @covers ::getQueuesByEvent
+     * @covers ::getCallbacksByEvent
      *
      * @throws ReflectionException
      */
@@ -122,7 +127,10 @@ class InvokerTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::add
+     * @covers ::addCallback
      * @covers ::invoke
+     * @covers ::getQueuesByEvent
+     * @covers ::getCallbacksByEvent
      * @covers ::getCallbackType
      *
      * @throws ReflectionException
@@ -142,6 +150,7 @@ class InvokerTest extends TestCase
 
     /**
      * @covers ::add
+     * @covers ::addCallback
      * @covers ::remove
      * @covers ::all
      *
@@ -182,6 +191,7 @@ class InvokerTest extends TestCase
 
     /**
      * @covers ::add
+     * @covers ::addCallback
      * @covers ::removeByType
      * @covers ::all
      *
