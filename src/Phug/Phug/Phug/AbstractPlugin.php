@@ -18,6 +18,8 @@ use Phug\Lexer\Event\TokenEvent;
 use Phug\Lexer\TokenInterface;
 use Phug\Parser\Event\ParseEvent;
 use Phug\Parser\NodeInterface;
+use Phug\Partial\PluginEnablerTrait;
+use Phug\Partial\PluginEventsTrait;
 use Phug\Renderer\Event\HtmlEvent;
 use Phug\Renderer\Event\RenderEvent;
 use Phug\Util\ModuleContainerInterface;
@@ -32,6 +34,8 @@ use ReflectionException;
 abstract class AbstractPlugin extends AbstractExtension implements RendererModuleInterface
 {
     use OptionTrait;
+    use PluginEnablerTrait;
+    use PluginEventsTrait;
 
     /**
      * @var Renderer
@@ -78,80 +82,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     public function getContainer()
     {
         return $this->renderer;
-    }
-
-    /**
-     * @param Renderer|null $renderer
-     *
-     * @throws PhugException
-     */
-    public static function enable(Renderer $renderer = null)
-    {
-        if ($renderer) {
-            $renderer->addModule(static::class);
-
-            return;
-        }
-
-        Phug::addExtension(static::class);
-
-        if (Phug::isRendererInitialized()) {
-            Phug::getRenderer()->addModule(static::class);
-        }
-    }
-
-    public static function disable()
-    {
-        Phug::removeExtension(static::class);
-
-        if (Phug::isRendererInitialized()) {
-            $renderer = Phug::getRenderer();
-
-            if ($renderer->hasModule(static::class)) {
-                $renderer->removeModule(static::class);
-            }
-        }
-    }
-
-    private function getCallbacks($name)
-    {
-        list(, $method) = explode('::', $name);
-
-        return isset($this->callbacks[$method]) ? $this->callbacks[$method] : [];
-    }
-
-    /**
-     * @param callable[] $callbacks
-     * @param iterable   $tokens
-     *
-     * @throws ReflectionException
-     *
-     * @return Generator
-     */
-    private function iterateTokens($callbacks, $tokens)
-    {
-        if (count($callbacks) === 0) {
-            foreach ($tokens as $token) {
-                yield $token;
-            }
-
-            return;
-        }
-
-        $callback = array_shift($callbacks);
-
-        foreach ($tokens as $token) {
-            $result = is_a($token, Invoker::getCallbackType($callback)) ? $callback($token) : null;
-            $result = $result ?: $token;
-
-            if (!($result instanceof Iterator)) {
-                $result = [$result];
-            }
-
-            foreach ($this->iterateTokens($callbacks, $result) as $newToken) {
-                yield $newToken;
-            }
-        }
     }
 
     /**
@@ -202,39 +132,9 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         $formatEvent->setElement($element);
     }
 
-    protected function getMethodsByPrefix($prefix)
-    {
-        foreach (get_class_methods($this) as $method) {
-            if (preg_match('/^'.$prefix.'[A-Z]/', $method)) {
-                yield $method;
-            }
-        }
-    }
-
-    protected function addCallback($methodName, $callback)
-    {
-        if (!isset($this->callbacks[$methodName])) {
-            $this->callbacks[$methodName] = [];
-        }
-
-        $this->callbacks[$methodName][] = $callback;
-    }
-
-    protected function addSpecificCallback(&$methods, $type, $callback)
-    {
-        foreach ($this->methodTypes as $methodName => list($className, $eventName)) {
-            if (is_a($type, $className, true)) {
-                $methods[$methodName] = $eventName;
-                $this->addCallback($methodName, $callback);
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
+     * Get events lists to be sorted.
+     *
      * @throws ReflectionException
      *
      * @return array[]
@@ -261,26 +161,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         }
 
         return $listeners;
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function attachEvents()
-    {
-        foreach ($this->getEventsList() as list($event, $listener)) {
-            $this->attachEvent($event, $listener);
-        }
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function detachEvents()
-    {
-        foreach ($this->getEventsList() as list($event, $listener)) {
-            $this->detachEvent($event, $listener);
-        }
     }
 
     /**
@@ -334,26 +214,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     }
 
     /**
-     * @return array
-     *
-     * @throws ReflectionException
-     */
-    private function getEventToContainerMap()
-    {
-        if ($this->eventToContainerMap === null) {
-            $this->eventToContainerMap = [];
-
-            foreach (['Compiler', 'Formatter', 'Parser', 'Lexer'] as $class) {
-                foreach ((new ReflectionClass('Phug\\'.$class.'Event'))->getConstants() as $constant) {
-                    $this->eventToContainerMap[$constant] = $class;
-                }
-            }
-        }
-
-        return $this->eventToContainerMap;
-    }
-
-    /**
      * Get the container able to listen the given event.
      *
      * @param string $event the event to be listenable
@@ -399,5 +259,110 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     public function detachEvent($event, $callback)
     {
         return $this->getEventContainer($event)->detach($event, $callback);
+    }
+
+    /**
+     * @throws ReflectionException
+     *
+     * @return Generator
+     */
+    protected function getClassForEvents()
+    {
+        foreach (['Compiler', 'Formatter', 'Parser', 'Lexer'] as $class) {
+            foreach ((new ReflectionClass('Phug\\'.$class.'Event'))->getConstants() as $constant) {
+                yield $constant => $class;
+            }
+        }
+    }
+
+    /**
+     * @throws ReflectionException
+     *
+     * @return array
+     */
+    protected function getEventToContainerMap()
+    {
+        if ($this->eventToContainerMap === null) {
+            $this->eventToContainerMap = [];
+
+            foreach ($this->getClassForEvents() as $constant => $class) {
+                $this->eventToContainerMap[$constant] = $class;
+            }
+        }
+
+        return $this->eventToContainerMap;
+    }
+
+    protected function getMethodsByPrefix($prefix)
+    {
+        foreach (get_class_methods($this) as $method) {
+            if (preg_match('/^'.$prefix.'[A-Z]/', $method)) {
+                yield $method;
+            }
+        }
+    }
+
+    protected function addCallback($methodName, $callback)
+    {
+        if (!isset($this->callbacks[$methodName])) {
+            $this->callbacks[$methodName] = [];
+        }
+
+        $this->callbacks[$methodName][] = $callback;
+    }
+
+    protected function addSpecificCallback(&$methods, $type, $callback)
+    {
+        foreach ($this->methodTypes as $methodName => list($className, $eventName)) {
+            if (is_a($type, $className, true)) {
+                $methods[$methodName] = $eventName;
+                $this->addCallback($methodName, $callback);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getCallbacks($name)
+    {
+        list(, $method) = explode('::', $name);
+
+        return isset($this->callbacks[$method]) ? $this->callbacks[$method] : [];
+    }
+
+    /**
+     * @param callable[] $callbacks
+     * @param iterable   $tokens
+     *
+     * @throws ReflectionException
+     *
+     * @return Generator
+     */
+    private function iterateTokens($callbacks, $tokens)
+    {
+        if (count($callbacks) === 0) {
+            foreach ($tokens as $token) {
+                yield $token;
+            }
+
+            return;
+        }
+
+        $callback = array_shift($callbacks);
+
+        foreach ($tokens as $token) {
+            $result = is_a($token, Invoker::getCallbackType($callback)) ? $callback($token) : null;
+            $result = $result ?: $token;
+
+            if (!($result instanceof Iterator)) {
+                $result = [$result];
+            }
+
+            foreach ($this->iterateTokens($callbacks, $result) as $newToken) {
+                yield $newToken;
+            }
+        }
     }
 }

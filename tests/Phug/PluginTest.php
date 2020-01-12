@@ -153,6 +153,8 @@ class PluginTest extends AbstractPhugTest
 
     /**
      * @covers ::getEventContainer
+     * @covers ::getEventToContainerMap
+     * @covers ::getClassForEvents
      *
      * @throws PhugException
      */
@@ -171,6 +173,8 @@ class PluginTest extends AbstractPhugTest
      * @covers ::enable
      * @covers ::disable
      * @covers ::getEventContainer
+     * @covers ::getEventToContainerMap
+     * @covers ::getClassForEvents
      * @covers \Phug\Phug::isRendererInitialized
      *
      * @throws PhugException
