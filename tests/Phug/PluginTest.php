@@ -85,6 +85,30 @@ class PluginTest extends AbstractPhugTest
     }
 
     /**
+     * @covers \Phug\Partial\PluginEnablerTrait::enable
+     * @covers \Phug\Partial\PluginEnablerTrait::disable
+     * @covers ::activateOnRenderer
+     *
+     * @throws PhugException
+     */
+    public function testDoubleTaps()
+    {
+        Plugin::enable();
+        Plugin::enable();
+
+        $this->assertSame('<section>9 + 9</section>', Phug::render('p=9 + 9'));
+
+        $this->assertSame('<section>Hello!</section>', Phug::render('div Hello'));
+
+        Plugin::disable();
+        Plugin::disable();
+
+        $this->assertSame('<p>18</p>', Phug::render('p=9 + 9'));
+
+        $this->assertSame('<div>Hello</div>', Phug::render('div Hello'));
+    }
+
+    /**
      * @covers ::getContainer
      * @covers ::getRenderer
      * @covers ::getCompiler

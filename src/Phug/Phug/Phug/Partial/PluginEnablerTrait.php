@@ -18,7 +18,7 @@ trait PluginEnablerTrait
     public static function enable(Renderer $renderer = null)
     {
         if ($renderer) {
-            $renderer->addModule(static::class);
+            static::activateOnRenderer($renderer);
 
             return;
         }
@@ -26,7 +26,7 @@ trait PluginEnablerTrait
         Phug::addExtension(static::class);
 
         if (Phug::isRendererInitialized()) {
-            Phug::getRenderer()->addModule(static::class);
+            static::activateOnRenderer(Phug::getRenderer());
         }
     }
 
@@ -47,6 +47,13 @@ trait PluginEnablerTrait
             if ($renderer->hasModule(static::class)) {
                 $renderer->removeModule(static::class);
             }
+        }
+    }
+
+    private static function activateOnRenderer(Renderer $renderer)
+    {
+        if (!$renderer->hasModule(static::class)) {
+            $renderer->addModule(static::class);
         }
     }
 }
