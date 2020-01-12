@@ -2,7 +2,6 @@
 
 namespace Phug;
 
-use Iterator;
 use Phug\Lexer\Event\EndLexEvent;
 use Phug\Lexer\Event\LexEvent;
 use Phug\Lexer\Event\TokenEvent;
@@ -13,8 +12,10 @@ use Phug\Lexer\Scanner\TextScanner;
 use Phug\Lexer\ScannerInterface;
 use Phug\Lexer\State;
 use Phug\Lexer\TokenInterface;
+use Phug\Util\Collection;
 use Phug\Util\ModuleContainerInterface;
 use Phug\Util\Partial\ModuleContainerTrait;
+use Traversable;
 
 /**
  * Performs lexical analysis and provides a token generator.
@@ -193,7 +194,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
      * @param string $input the pug-string to lex into tokens.
      * @param null   $path
      *
-     * @return \Generator a generator that can be iterated sequentially
+     * @return iterable a generator that can be iterated sequentially
      */
     public function lex($input, $path = null)
     {
@@ -293,7 +294,12 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         yield $token;
     }
 
-    private function handleTokens(Iterator $tokens)
+    /**
+     * @param Traversable|array $tokens
+     *
+     * @return iterable
+     */
+    private function handleTokens($tokens)
     {
         foreach ($tokens as $rawToken) {
             foreach ($this->handleToken($rawToken) as $token) {
@@ -316,7 +322,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             return $this->dumpToken($input);
         }
 
-        if (!($input instanceof Iterator) && !is_array($input)) {
+        if (!Collection::isIterable($input)) {
             $input = $this->lex((string) $input);
         }
 

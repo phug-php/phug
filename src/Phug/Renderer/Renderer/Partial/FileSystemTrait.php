@@ -16,7 +16,7 @@ trait FileSystemTrait
      *                                    (after files have been yielded).
      * @param callable $fileCallback      optional function/closure to call after each file yielded.
      *
-     * @return \Generator
+     * @return iterable
      */
     public function scanDirectory($directory, $extensions = null, $directoryCallback = null, $fileCallback = null)
     {
@@ -58,7 +58,7 @@ trait FileSystemTrait
      *
      * @param $directories
      *
-     * @return \Generator
+     * @return iterable
      */
     public function scanDirectories(array $directories)
     {

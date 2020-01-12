@@ -54,11 +54,11 @@ class IteratorTestModule extends AbstractLexerModule
             LexerEvent::TOKEN => function (TokenEvent $event) {
                 $token = $event->getToken();
                 if ($token instanceof Lexer\Token\TagToken && $token->getName() === 'p') {
-                    $event->setTokenGenerator(new \ArrayIterator([
+                    $event->setTokenGenerator([
                         (new Lexer\Token\TagToken())->setName('div'),
                         new Lexer\Token\ClassToken(),
                         new Lexer\Token\IdToken(),
-                    ]));
+                    ]);
                 }
             },
         ];

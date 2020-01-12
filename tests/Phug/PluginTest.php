@@ -132,7 +132,8 @@ class PluginTest extends AbstractPhugTest
 
     /**
      * @covers ::<public>
-     * @covers ::iterateTokens
+     * @covers \Phug\Partial\TokenGeneratorTrait::getGeneratorFromIterable
+     * @covers \Phug\Partial\TokenGeneratorTrait::getTokenGenerator
      *
      * @throws PhugException
      */

@@ -109,13 +109,14 @@ class Cli
      *
      * @param array|null $customMethods pass custom methods list (calculated from the facade if missing)
      *
-     * @return \Generator
+     * @return iterable
      */
     public function getAvailableMethods($customMethods = null)
     {
         foreach ([$this->methods, $customMethods ?: $this->getCustomMethods()] as $methods) {
             foreach ($methods as $method => $action) {
                 $method = is_int($method) ? $action : $method;
+
                 if (substr($method, 0, 2) !== '__') {
                     yield $method;
                 }

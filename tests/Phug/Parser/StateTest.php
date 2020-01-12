@@ -236,7 +236,6 @@ class StateTest extends TestCase
     {
         $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex("\ndiv\np"));
         $types = [TagToken::class, NewLineToken::class];
 

@@ -4,6 +4,8 @@ namespace Phug\Lexer;
 
 use Phug\Lexer;
 use Phug\Lexer\Partial\IndentStyleTrait;
+use Phug\Lexer\Token\InterpolationEndToken;
+use Phug\Lexer\Token\TagInterpolationEndToken;
 use Phug\LexerException;
 use Phug\Reader;
 use Phug\Util\OptionInterface;
@@ -111,6 +113,7 @@ class State implements OptionInterface
     public function lastTokenIs($classNames)
     {
         $token = $this->getLastToken();
+
         foreach ($classNames as $className) {
             if ($token instanceof $className) {
                 return true;
@@ -118,6 +121,18 @@ class State implements OptionInterface
         }
 
         return false;
+    }
+
+    /**
+     * Return true if previous token was TagInterpolationEndToken or InterpolationEndToken
+     *
+     * @return bool
+     */
+    public function isAfterInterpolation()
+    {
+        $previous = $this->getLastToken();
+
+        return $previous instanceof TagInterpolationEndToken || $previous instanceof InterpolationEndToken;
     }
 
     /**
@@ -218,7 +233,7 @@ class State implements OptionInterface
      *
      * @throws LexerException
      *
-     * @return \Generator the generator yielding all tokens found
+     * @return iterable the generator yielding all tokens found
      */
     public function scan($scanners)
     {
@@ -256,7 +271,7 @@ class State implements OptionInterface
      *
      * @throws LexerException
      *
-     * @return \Generator
+     * @return iterable
      */
     public function loopScan($scanners, $required = false)
     {
@@ -266,8 +281,10 @@ class State implements OptionInterface
 
         while ($this->reader->hasLength()) {
             $success = false;
+
             foreach ($this->scan($scanners) as $token) {
                 $success = true;
+
                 yield $token;
             }
 
@@ -332,7 +349,7 @@ class State implements OptionInterface
      * @param $pattern
      * @param null $modifiers
      *
-     * @return \Generator
+     * @return iterable
      */
     public function scanToken($className, $pattern, $modifiers = null)
     {
@@ -344,6 +361,7 @@ class State implements OptionInterface
 
         $token = $this->createToken($className);
         $this->reader->consume();
+
         foreach ($data as $key => $value) {
             $method = 'set'.ucfirst($key);
 

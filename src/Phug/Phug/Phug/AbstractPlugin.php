@@ -2,8 +2,6 @@
 
 namespace Phug;
 
-use Generator;
-use Iterator;
 use Phug\Compiler\Event\CompileEvent;
 use Phug\Compiler\Event\ElementEvent;
 use Phug\Compiler\Event\NodeEvent;
@@ -20,6 +18,7 @@ use Phug\Parser\Event\ParseEvent;
 use Phug\Parser\NodeInterface;
 use Phug\Partial\PluginEnablerTrait;
 use Phug\Partial\PluginEventsTrait;
+use Phug\Partial\TokenGeneratorTrait;
 use Phug\Renderer\Event\HtmlEvent;
 use Phug\Renderer\Event\RenderEvent;
 use Phug\Util\ModuleContainerInterface;
@@ -36,6 +35,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     use OptionTrait;
     use PluginEnablerTrait;
     use PluginEventsTrait;
+    use TokenGeneratorTrait;
 
     /**
      * @var Renderer
@@ -92,7 +92,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     public function handleTokenEvent(TokenEvent $tokenEvent)
     {
         $tokenEvent->setTokenGenerator(
-            $this->iterateTokens($this->getCallbacks(__METHOD__), [$tokenEvent->getToken()])
+            $this->getTokenGenerator($this->getCallbacks(__METHOD__), [$tokenEvent->getToken()])
         );
     }
 
@@ -264,7 +264,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     /**
      * @throws ReflectionException
      *
-     * @return Generator
+     * @return iterable|string[]
      */
     protected function getClassForEvents()
     {
@@ -330,39 +330,5 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         list(, $method) = explode('::', $name);
 
         return isset($this->callbacks[$method]) ? $this->callbacks[$method] : [];
-    }
-
-    /**
-     * @param callable[] $callbacks
-     * @param iterable   $tokens
-     *
-     * @throws ReflectionException
-     *
-     * @return Generator
-     */
-    private function iterateTokens($callbacks, $tokens)
-    {
-        if (count($callbacks) === 0) {
-            foreach ($tokens as $token) {
-                yield $token;
-            }
-
-            return;
-        }
-
-        $callback = array_shift($callbacks);
-
-        foreach ($tokens as $token) {
-            $result = is_a($token, Invoker::getCallbackType($callback)) ? $callback($token) : null;
-            $result = $result ?: $token;
-
-            if (!($result instanceof Iterator)) {
-                $result = [$result];
-            }
-
-            foreach ($this->iterateTokens($callbacks, $result) as $newToken) {
-                yield $newToken;
-            }
-        }
     }
 }

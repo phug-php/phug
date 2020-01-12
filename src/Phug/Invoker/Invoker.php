@@ -2,7 +2,6 @@
 
 namespace Phug;
 
-use Generator;
 use Phug\Event\ListenerQueue;
 use ReflectionException;
 use ReflectionFunction;
@@ -134,7 +133,7 @@ class Invoker
      *
      * @param object $event instance of callback input.
      *
-     * @return Generator<ListenerQueue>
+     * @return iterable|ListenerQueue[]
      */
     public function getQueuesByEvent($event)
     {
@@ -150,7 +149,7 @@ class Invoker
      *
      * @param object $event instance of callback input.
      *
-     * @return Generator<ListenerQueue>
+     * @return iterable|callable[]
      */
     public function getCallbacksByEvent($event)
     {
