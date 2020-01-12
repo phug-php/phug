@@ -12,12 +12,12 @@ abstract class AbstractParserTest extends TestCase
      */
     protected $parser;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->parser = new Parser();
     }
 
-    public function assertNodes($expression, $expected, Parser $parser = null)
+    protected function assertNodes($expression, $expected, Parser $parser = null)
     {
         if (is_array($expected)) {
             $expected = implode("\n", $expected);

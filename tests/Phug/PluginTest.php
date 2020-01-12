@@ -14,7 +14,7 @@ use Phug\Test\Utils\RendererPlugin;
  */
 class PluginTest extends AbstractPhugTest
 {
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

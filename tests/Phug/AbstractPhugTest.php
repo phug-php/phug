@@ -12,7 +12,7 @@ abstract class AbstractPhugTest extends TestCase
      */
     protected $verbatim;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->verbatim = new VerbatimExtension();
     }

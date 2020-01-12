@@ -61,7 +61,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     public static function enable(Renderer $renderer = null)
     {
         if ($renderer) {
-            (new static($renderer))->attachEvents();
+            $renderer->addModule(static::class);
 
             return;
         }
@@ -69,7 +69,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         Phug::addExtension(static::class);
 
         if (Phug::isRendererInitialized()) {
-            (new static(Phug::getRenderer()))->attachEvents();
+            Phug::getRenderer()->addModule(static::class);
         }
     }
 
@@ -78,14 +78,13 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
      */
     public static function disable()
     {
-        $className = static::class;
-        Phug::removeExtension($className);
+        Phug::removeExtension(static::class);
 
         if (Phug::isRendererInitialized()) {
             $renderer = Phug::getRenderer();
 
-            if ($renderer->hasModule($className)) {
-                Phug::getRenderer()->getModule($className)->detachEvents();
+            if ($renderer->hasModule(static::class)) {
+                $renderer->removeModule(static::class);
             }
         }
     }
