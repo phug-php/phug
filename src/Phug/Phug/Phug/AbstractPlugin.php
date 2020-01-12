@@ -15,6 +15,7 @@ use Phug\Lexer\Event\EndLexEvent;
 use Phug\Lexer\Event\LexEvent;
 use Phug\Lexer\Event\TokenEvent;
 use Phug\Lexer\TokenInterface;
+use Phug\Parser\Event\ParseEvent;
 use Phug\Parser\NodeInterface;
 use Phug\Renderer\Event\HtmlEvent;
 use Phug\Renderer\Event\RenderEvent;
@@ -66,11 +67,31 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         }
 
         Phug::addExtension(static::class);
+
+        if (Phug::isRendererInitialized()) {
+            (new static(Phug::getRenderer()))->attachEvents();
+        }
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public static function disable()
     {
-        Phug::removeExtension(static::class);
+        $className = static::class;
+        Phug::removeExtension($className);
+
+        if (Phug::isRendererInitialized()) {
+            $renderer = Phug::getRenderer();
+            $renderer->getModule($className)->detachEvents();
+            $modules = $renderer->getOption('modules');
+
+            if (is_array($modules)) {
+                $renderer->setOption('modules', array_filter($modules, function ($module) use ($className) {
+                    return $module !== $className;
+                }));
+            }
+        }
     }
 
     private function getCallbacks($name)
@@ -209,6 +230,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
             'handleFormatEvent' => [ElementInterface::class, FormatterEvent::FORMAT],
         ];
         $types = [
+            ParseEvent::class             => ParserEvent::PARSE,
             NodeEvent::class              => CompilerEvent::NODE,
             CompileEvent::class           => CompilerEvent::COMPILE,
             OutputEvent::class            => CompilerEvent::OUTPUT,

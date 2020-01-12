@@ -168,6 +168,16 @@ class Phug
     }
 
     /**
+     * Return true if the facade already created a Renderer instance.
+     *
+     * @return bool
+     */
+    public static function isRendererInitialized()
+    {
+        return self::$renderer !== null;
+    }
+
+    /**
      * Return a rendered Pug template string.
      *
      * @param string $input      pug source

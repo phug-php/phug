@@ -6,6 +6,7 @@ use Iterator;
 use Phug\Lexer\Event\EndLexEvent;
 use Phug\Lexer\Event\LexEvent;
 use Phug\Lexer\Event\TokenEvent;
+use Phug\Lexer\HandleTokenInterface;
 use Phug\Lexer\Partial\DumpTokenTrait;
 use Phug\Lexer\Partial\StateTrait;
 use Phug\Lexer\Scanner\TextScanner;
@@ -247,7 +248,14 @@ class Lexer implements LexerInterface, ModuleContainerInterface
     private function handleToken($token)
     {
         $event = new TokenEvent($token);
-        $this->trigger($event);
+
+        if (!($token instanceof HandleTokenInterface) || !$token->isHandled()) {
+            $this->trigger($event);
+
+            if ($token instanceof HandleTokenInterface) {
+                $token->markAsHandled();
+            }
+        }
 
         $tokens = $event->getTokenGenerator();
 
@@ -255,6 +263,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             //N> yield from $this->handleTokens($tokens)
             foreach ($this->handleTokens($tokens) as $tok) {
                 $this->lastToken = $tok;
+
                 yield $tok;
             }
 
