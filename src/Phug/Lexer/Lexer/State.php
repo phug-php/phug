@@ -379,12 +379,7 @@ class State implements OptionInterface
     private function loadScanner($scanner)
     {
         if (!isset($this->scanners[$scanner])) {
-            $instance = new $scanner();
-            $this->scanners[$scanner] = $instance;
-
-            if ($instance instanceof OptionInterface) {
-                $instance->setOptions($this->getOptions());
-            }
+            $this->scanners[$scanner] = new $scanner();
         }
 
         return $this->scanners[$scanner];
