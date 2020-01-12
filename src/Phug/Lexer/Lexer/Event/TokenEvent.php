@@ -58,7 +58,7 @@ class TokenEvent extends Event
      */
     public function setTokenGenerator($tokens)
     {
-        if (!Collection::isIterable($tokens)) {
+        if ($tokens !== null && !Collection::isIterable($tokens)) {
             throw new InvalidArgumentException(
                 'setTokenGenerator(iterable $tokens) expect its argument to be iterable, '.
                 (is_object($tokens) ? get_class($tokens) : gettype($tokens)).' received.'
