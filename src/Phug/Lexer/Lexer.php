@@ -205,8 +205,8 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             'allow_mixed_indent'       => $this->getOption('allow_mixed_indent'),
             'multiline_markup_enabled' => $this->getOption('multiline_markup_enabled'),
             'level'                    => $this->getOption('level'),
-            'mixin_keyword'            => $this->getOption('mixin_keyword'),
-            'mixin_call_keyword'       => $this->getOption('mixin_call_keyword'),
+            'mixin_keyword'            => $this->getRegExpOption('mixin_keyword'),
+            'mixin_call_keyword'       => $this->getRegExpOption('mixin_call_keyword'),
         ]);
 
         $this->trigger($lexEvent);
@@ -247,6 +247,13 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         //Free state
         $this->state = null;
         $this->lastToken = null;
+    }
+
+    private function getRegExpOption($name)
+    {
+        $value = $this->getOption($name);
+
+        return is_array($value) ? '(?:'.implode('|', $value).')' : $value;
     }
 
     private function handleToken($token)

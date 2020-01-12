@@ -52,6 +52,7 @@ class MixinScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Scanner\MixinScanner
      * @covers \Phug\Lexer\Scanner\MixinScanner::scan
      * @covers \Phug\Lexer\State::loadScanner
+     * @covers \Phug\Lexer::getRegExpOption
      *
      * @throws \Exception
      */

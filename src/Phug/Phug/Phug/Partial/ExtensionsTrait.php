@@ -139,6 +139,16 @@ trait ExtensionsTrait
         return ltrim('\\', strtolower($name));
     }
 
+    protected static function normalizeFilterName($name)
+    {
+        return str_replace(' ', '-', strtolower($name));
+    }
+
+    protected static function normalizeKeywordName($name)
+    {
+        return str_replace(' ', '-', strtolower($name));
+    }
+
     /**
      * Get options from extensions list and default options.
      *

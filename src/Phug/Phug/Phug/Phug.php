@@ -49,19 +49,10 @@ class Phug
      */
     private static $rendererClassName = Renderer::class;
 
-    private static function normalizeFilterName($name)
-    {
-        return str_replace(' ', '-', strtolower($name));
-    }
-
-    private static function normalizeKeywordName($name)
-    {
-        return str_replace(' ', '-', strtolower($name));
-    }
-
     private static function getOptions(array $options = [])
     {
         $extras = static::getFacadeOptions();
+
         foreach (['filters', 'keywords'] as $option) {
             $method = 'get'.ucfirst($option);
             $extras[$option] = static::$method();

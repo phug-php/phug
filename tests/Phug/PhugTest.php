@@ -115,7 +115,7 @@ class PhugTest extends AbstractPhugTest
     /**
      * @covers ::reset
      * @covers ::getRenderer
-     * @covers ::normalizeFilterName
+     * @covers \Phug\Partial\ExtensionsTrait::normalizeFilterName
      * @covers ::hasFilter
      * @covers ::setFilter
      * @covers ::addFilter
@@ -184,7 +184,7 @@ class PhugTest extends AbstractPhugTest
     /**
      * @covers ::reset
      * @covers ::getRenderer
-     * @covers ::normalizeKeywordName
+     * @covers \Phug\Partial\ExtensionsTrait::normalizeKeywordName
      * @covers ::hasKeyword
      * @covers ::setKeyword
      * @covers ::addKeyword

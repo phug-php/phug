@@ -42,6 +42,28 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
      */
     private $callbacks;
 
+    protected $methodTypes = [
+        'handleTokenEvent'  => [TokenInterface::class, LexerEvent::TOKEN],
+        'handleNodeEvent'   => [NodeInterface::class, CompilerEvent::NODE],
+        'handleFormatEvent' => [ElementInterface::class, FormatterEvent::FORMAT],
+    ];
+
+    protected $types = [
+        ParseEvent::class             => ParserEvent::PARSE,
+        NodeEvent::class              => CompilerEvent::NODE,
+        CompileEvent::class           => CompilerEvent::COMPILE,
+        OutputEvent::class            => CompilerEvent::OUTPUT,
+        ElementEvent::class           => CompilerEvent::ELEMENT,
+        TokenEvent::class             => LexerEvent::TOKEN,
+        LexEvent::class               => LexerEvent::LEX,
+        EndLexEvent::class            => LexerEvent::END_LEX,
+        FormatEvent::class            => FormatterEvent::FORMAT,
+        StringifyEvent::class         => FormatterEvent::STRINGIFY,
+        DependencyStorageEvent::class => FormatterEvent::DEPENDENCY_STORAGE,
+        RenderEvent::class            => RendererEvent::RENDER,
+        HtmlEvent::class              => RendererEvent::HTML,
+    ];
+
     public function __construct(Renderer $renderer)
     {
         $this->renderer = $renderer->setOptions(Phug::getExtensionsOptions([static::class]));
@@ -196,9 +218,9 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         $this->callbacks[$methodName][] = $callback;
     }
 
-    protected function addSpecificCallback(&$methods, $methodTypes, $type, $callback)
+    protected function addSpecificCallback(&$methods, $type, $callback)
     {
-        foreach ($methodTypes as $methodName => list($className, $eventName)) {
+        foreach ($this->methodTypes as $methodName => list($className, $eventName)) {
             if (is_a($type, $className, true)) {
                 $methods[$methodName] = $eventName;
                 $this->addCallback($methodName, $callback);
@@ -219,36 +241,16 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     {
         $listeners = [];
         $methods = [];
-        $methodTypes = [
-            'handleTokenEvent'  => [TokenInterface::class, LexerEvent::TOKEN],
-            'handleNodeEvent'   => [NodeInterface::class, CompilerEvent::NODE],
-            'handleFormatEvent' => [ElementInterface::class, FormatterEvent::FORMAT],
-        ];
-        $types = [
-            ParseEvent::class             => ParserEvent::PARSE,
-            NodeEvent::class              => CompilerEvent::NODE,
-            CompileEvent::class           => CompilerEvent::COMPILE,
-            OutputEvent::class            => CompilerEvent::OUTPUT,
-            ElementEvent::class           => CompilerEvent::ELEMENT,
-            TokenEvent::class             => LexerEvent::TOKEN,
-            LexEvent::class               => LexerEvent::LEX,
-            EndLexEvent::class            => LexerEvent::END_LEX,
-            FormatEvent::class            => FormatterEvent::FORMAT,
-            StringifyEvent::class         => FormatterEvent::STRINGIFY,
-            DependencyStorageEvent::class => FormatterEvent::DEPENDENCY_STORAGE,
-            RenderEvent::class            => RendererEvent::RENDER,
-            HtmlEvent::class              => RendererEvent::HTML,
-        ];
 
         foreach ($this->getMethodsByPrefix('on') as $method) {
             $callback = [$this, $method];
             $type = Invoker::getCallbackType($callback);
 
-            if ($this->addSpecificCallback($methods, $methodTypes, $type, $callback)) {
+            if ($this->addSpecificCallback($methods, $type, $callback)) {
                 continue;
             }
 
-            $type = isset($types[$type]) ? $types[$type] : $type;
+            $type = isset($this->types[$type]) ? $this->types[$type] : $type;
             $listeners[] = [$type, $callback];
         }
 

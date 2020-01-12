@@ -114,6 +114,7 @@ class MixinCallScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Scanner\MixinCallScanner
      * @covers \Phug\Lexer\Scanner\MixinCallScanner::scan
      * @covers \Phug\Lexer\State::loadScanner
+     * @covers \Phug\Lexer::getRegExpOption
      *
      * @throws \Exception
      */

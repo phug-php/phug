@@ -14,15 +14,9 @@ class MixinScanner implements ScannerInterface
 {
     public function scan(State $state)
     {
-        $keywordName = $state->getOption('mixin_keyword');
-
-        if (is_array($keywordName)) {
-            $keywordName = '(?:'.implode('|', $keywordName).')';
-        }
-
         foreach ($state->scanToken(
             MixinToken::class,
-            $keywordName."[\t ]+(?<name>[a-zA-Z_][a-zA-Z0-9\-_]*)"
+            $state->getOption('mixin_keyword')."[\t ]+(?<name>[a-zA-Z_][a-zA-Z0-9\-_]*)"
         ) as $token) {
             yield $token;
 
