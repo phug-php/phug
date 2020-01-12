@@ -82,7 +82,11 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         Phug::removeExtension($className);
 
         if (Phug::isRendererInitialized()) {
-            Phug::getRenderer()->getModule($className)->detachEvents();
+            $renderer = Phug::getRenderer();
+
+            if ($renderer->hasModule($className)) {
+                Phug::getRenderer()->getModule($className)->detachEvents();
+            }
         }
     }
 
