@@ -2,6 +2,7 @@
 
 namespace Phug;
 
+use Generator;
 use Iterator;
 use Phug\Compiler\Event\CompileEvent;
 use Phug\Compiler\Event\ElementEvent;
@@ -42,6 +43,11 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
      */
     private $callbacks;
 
+    /**
+     * @var null|array
+     */
+    private $eventToContainerMap = null;
+
     protected $methodTypes = [
         'handleTokenEvent'  => [TokenInterface::class, LexerEvent::TOKEN],
         'handleNodeEvent'   => [NodeInterface::class, CompilerEvent::NODE],
@@ -77,7 +83,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     /**
      * @param Renderer|null $renderer
      *
-     * @throws ReflectionException
      * @throws PhugException
      */
     public static function enable(Renderer $renderer = null)
@@ -95,9 +100,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public static function disable()
     {
         Phug::removeExtension(static::class);
@@ -115,7 +117,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     {
         list(, $method) = explode('::', $name);
 
-        return $this->callbacks[$method];
+        return isset($this->callbacks[$method]) ? $this->callbacks[$method] : [];
     }
 
     /**
@@ -124,7 +126,7 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
      *
      * @throws ReflectionException
      *
-     * @return \Generator|void
+     * @return Generator
      */
     private function iterateTokens($callbacks, $tokens)
     {
@@ -282,6 +284,76 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     }
 
     /**
+     * Get the current renderer instance (container of the plugin).
+     *
+     * @return Renderer
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    /**
+     * Get the current compiler instance (used by the renderer).
+     *
+     * @return CompilerInterface
+     */
+    public function getCompiler()
+    {
+        return $this->renderer->getCompiler();
+    }
+
+    /**
+     * Get the current formatter instance (used by the compiler).
+     *
+     * @return Formatter
+     */
+    public function getFormatter()
+    {
+        return $this->getCompiler()->getFormatter();
+    }
+
+    /**
+     * Get the current parser instance (used by the compiler).
+     *
+     * @return Parser
+     */
+    public function getParser()
+    {
+        return $this->getCompiler()->getParser();
+    }
+
+    /**
+     * Get the current lexer instance (used by the parser).
+     *
+     * @return Lexer
+     */
+    public function getLexer()
+    {
+        return $this->getParser()->getLexer();
+    }
+
+    /**
+     * @return array
+     *
+     * @throws ReflectionException
+     */
+    private function getEventToContainerMap()
+    {
+        if ($this->eventToContainerMap === null) {
+            $this->eventToContainerMap = [];
+
+            foreach (['Compiler', 'Formatter', 'Parser', 'Lexer'] as $class) {
+                foreach ((new ReflectionClass('Phug\\'.$class.'Event'))->getConstants() as $constant) {
+                    $this->eventToContainerMap[$constant] = $class;
+                }
+            }
+        }
+
+        return $this->eventToContainerMap;
+    }
+
+    /**
      * Get the container able to listen the given event.
      *
      * @param string $event the event to be listenable
@@ -292,25 +364,10 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
      */
     public function getEventContainer($event)
     {
-        $instance = $this->renderer;
+        $map = $this->getEventToContainerMap();
+        $class = isset($map[$event]) ? $map[$event] : 'Renderer';
 
-        if (in_array($event, (new ReflectionClass(CompilerEvent::class))->getConstants())) {
-            return $instance->getCompiler();
-        }
-
-        if (in_array($event, (new ReflectionClass(FormatterEvent::class))->getConstants())) {
-            return $instance->getCompiler()->getFormatter();
-        }
-
-        if (in_array($event, (new ReflectionClass(ParserEvent::class))->getConstants())) {
-            return $instance->getCompiler()->getParser();
-        }
-
-        if (in_array($event, (new ReflectionClass(LexerEvent::class))->getConstants())) {
-            return $instance->getCompiler()->getParser()->getLexer();
-        }
-
-        return $instance;
+        return $this->{'get'.$class}();
     }
 
     /**

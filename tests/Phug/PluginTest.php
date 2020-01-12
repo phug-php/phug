@@ -2,12 +2,24 @@
 
 namespace Phug\Test;
 
+use Phug\Compiler\Event\NodeEvent;
+use Phug\Formatter\Element\ExpressionElement;
+use Phug\Formatter\Element\TextElement;
+use Phug\Formatter\Event\FormatEvent;
+use Phug\Formatter\Format\HtmlFormat;
+use Phug\Lexer\Event\TokenEvent;
+use Phug\Lexer\Token\TagToken;
+use Phug\Lexer\Token\TextToken;
+use Phug\Parser\Node\ElementNode;
 use Phug\Phug;
+use Phug\PhugException;
 use Phug\Renderer;
+use Phug\RendererException;
 use Phug\Test\Utils\LexerPlugin;
 use Phug\Test\Utils\ParserPlugin;
 use Phug\Test\Utils\Plugin;
 use Phug\Test\Utils\RendererPlugin;
+use ReflectionException;
 
 /**
  * @coversDefaultClass \Phug\AbstractPlugin
@@ -35,9 +47,8 @@ class PluginTest extends AbstractPhugTest
      * @covers ::addCallback
      * @covers ::addSpecificCallback
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws PhugException
+     * @throws RendererException
      */
     public function testPlugin()
     {
@@ -56,9 +67,7 @@ class PluginTest extends AbstractPhugTest
      * @covers ::addCallback
      * @covers ::addSpecificCallback
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws PhugException
      */
     public function testGlobalPlugin()
     {
@@ -77,24 +86,32 @@ class PluginTest extends AbstractPhugTest
 
     /**
      * @covers ::getContainer
+     * @covers ::getRenderer
+     * @covers ::getCompiler
+     * @covers ::getFormatter
+     * @covers ::getParser
+     * @covers ::getLexer
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws RendererException
      */
     public function testGetContainer()
     {
         $renderer = new Renderer();
+        $plugin = new Plugin($renderer);
 
-        $this->assertSame($renderer, (new Plugin($renderer))->getContainer());
+        $this->assertSame($renderer, $plugin->getContainer());
+        $this->assertSame($renderer, $plugin->getRenderer());
+        $this->assertSame($renderer->getCompiler(), $plugin->getCompiler());
+        $this->assertSame($renderer->getCompiler()->getFormatter(), $plugin->getFormatter());
+        $this->assertSame($renderer->getCompiler()->getParser(), $plugin->getParser());
+        $this->assertSame($renderer->getCompiler()->getParser()->getLexer(), $plugin->getLexer());
     }
 
     /**
      * @covers ::<public>
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws RendererException
+     * @throws ReflectionException
      */
     public function testPluginInstance()
     {
@@ -117,9 +134,7 @@ class PluginTest extends AbstractPhugTest
      * @covers ::<public>
      * @covers ::iterateTokens
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws PhugException
      */
     public function testLexerPlugin()
     {
@@ -139,9 +154,7 @@ class PluginTest extends AbstractPhugTest
     /**
      * @covers ::getEventContainer
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws PhugException
      */
     public function testParserPlugin()
     {
@@ -160,9 +173,7 @@ class PluginTest extends AbstractPhugTest
      * @covers ::getEventContainer
      * @covers \Phug\Phug::isRendererInitialized
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws PhugException
      */
     public function testRendererPlugin()
     {
@@ -180,9 +191,7 @@ class PluginTest extends AbstractPhugTest
      * @covers ::disable
      * @covers \Phug\Phug::isRendererInitialized
      *
-     * @throws \Phug\PhugException
-     * @throws \Phug\RendererException
-     * @throws \ReflectionException
+     * @throws PhugException
      */
     public function testRendererPluginWithRendererAlreadySet()
     {
@@ -195,5 +204,64 @@ class PluginTest extends AbstractPhugTest
         RendererPlugin::disable();
 
         $this->assertSame('<p>Hello</p>', Phug::render('p Hello'));
+    }
+
+    /**
+     * @covers ::handleFormatEvent
+     *
+     * @throws RendererException
+     * @throws PhugException
+     */
+    public function testHandleFormatEvent()
+    {
+        $renderer = new Renderer();
+        Plugin::enable($renderer);
+        $plugin = $renderer->getModule(Plugin::class);
+        $event = new FormatEvent(new ExpressionElement('call()'), new HtmlFormat());
+        $plugin->handleFormatEvent($event);
+
+        $this->assertInstanceOf(TextElement::class, $event->getElement());
+    }
+
+    /**
+     * @covers ::handleNodeEvent
+     *
+     * @throws RendererException
+     * @throws PhugException
+     */
+    public function testHandleNodeEvent()
+    {
+        $renderer = new Renderer();
+        Plugin::enable($renderer);
+        $plugin = $renderer->getModule(Plugin::class);
+        $element = new ElementNode();
+        $element->setName('p');
+        $event = new NodeEvent($element);
+        $plugin->handleNodeEvent($event);
+
+        $this->assertSame('section', $element->getName());
+    }
+
+    /**
+     * @covers ::handleTokenEvent
+     *
+     * @throws RendererException
+     * @throws PhugException
+     */
+    public function testHandleTokenEvent()
+    {
+        $renderer = new Renderer();
+        LexerPlugin::enable($renderer);
+        $plugin = $renderer->getModule(LexerPlugin::class);
+        $event = new TokenEvent(new TextToken());
+        $plugin->handleTokenEvent($event);
+
+        $tokens = [];
+
+        foreach ($event->getTokenGenerator() as $token) {
+            $tokens[] = get_class($token);
+        }
+
+        $this->assertSame([TagToken::class, TextToken::class], $tokens);
     }
 }
