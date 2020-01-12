@@ -69,9 +69,11 @@ class Collection implements IteratorAggregate
     /**
      * Return the result of the passed function for each item of the collection.
      *
+     * @param callable $callback
+     *
      * @return static
      */
-    public function map($callback)
+    public function map(callable $callback)
     {
         return new static($this->yieldMap($callback));
     }
@@ -81,9 +83,11 @@ class Collection implements IteratorAggregate
      * If item is a generator (using yield from inside the function), then it will
      * flatten the yielded values for one more level.
      *
+     * @param callable $callback
+     *
      * @return static
      */
-    public function flatMap($callback)
+    public function flatMap(callable $callback)
     {
         return new static($this->yieldFlatMap($callback));
     }
@@ -91,9 +95,11 @@ class Collection implements IteratorAggregate
     /**
      * Return the result of the passed function for each item of the collection.
      *
+     * @param callable $callback
+     *
      * @return Generator
      */
-    public function yieldMap($callback)
+    public function yieldMap(callable $callback)
     {
         foreach ($this->traversable as $value) {
             yield $callback($value);
@@ -105,9 +111,11 @@ class Collection implements IteratorAggregate
      * If item is a generator (using yield from inside the function), then it will
      * flatten the yielded values for one more level.
      *
+     * @param callable $callback
+     *
      * @return Generator
      */
-    public function yieldFlatMap($callback)
+    public function yieldFlatMap(callable $callback)
     {
         foreach ($this->traversable as $value) {
             $result = $callback($value);

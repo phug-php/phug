@@ -15,7 +15,6 @@ use Phug\Lexer\TokenInterface;
 use Phug\Util\Collection;
 use Phug\Util\ModuleContainerInterface;
 use Phug\Util\Partial\ModuleContainerTrait;
-use Traversable;
 
 /**
  * Performs lexical analysis and provides a token generator.
