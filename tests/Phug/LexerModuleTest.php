@@ -2,6 +2,7 @@
 
 namespace Phug\Test;
 
+use InvalidArgumentException;
 use Phug\AbstractLexerModule;
 use Phug\Lexer;
 use Phug\Lexer\Event\EndLexEvent;
@@ -167,7 +168,7 @@ class LexerModuleTest extends AbstractLexerTest
         try {
             foreach ($lexer->lex('path.pug', '| foo') as $token) {
             }
-        } catch (\InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             $message = $exception->getMessage();
         }
 
@@ -234,6 +235,21 @@ class LexerModuleTest extends AbstractLexerTest
             Lexer\Token\IdToken::class,
             Lexer\Token\TextToken::class,
         ], $lexer);
+
+        $event = new TokenEvent(new Lexer\Token\TextToken());
+        $event->setTokenGenerator(null);
+
+        self::assertNull($event->getTokenGenerator());
+    }
+
+    /**
+     * @covers                   \Phug\Lexer\Event\TokenEvent::setTokenGenerator
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage setTokenGenerator(iterable $tokens) expect its argument to be iterable, integer received.
+     */
+    public function testTokenGeneratorBadInput()
+    {
+        (new TokenEvent(new Lexer\Token\TextToken()))->setTokenGenerator(8);
     }
 }
 //@codingStandardsIgnoreEnd
