@@ -14,9 +14,15 @@ class MixinCallScanner implements ScannerInterface
 {
     public function scan(State $state)
     {
+        $keywordName = $state->getOption('mixin_call_keyword');
+
+        if (is_array($keywordName)) {
+            $keywordName = '(?:'.implode('|', $keywordName).')';
+        }
+
         foreach ($state->scanToken(
             MixinCallToken::class,
-            '\+[ \t]*(?<name>('.
+            $keywordName.'[ \t]*(?<name>('.
                 '[a-zA-Z_][a-zA-Z0-9\-_]*|'.
                 '#\\{(?:(?>"(?:\\\\[\\S\\s]|[^"\\\\])*"|\'(?:\\\\[\\S\\s]|[^\'\\\\])*\'|[^{}\'"]++|(?-1))*+)\\}'.
             '))'

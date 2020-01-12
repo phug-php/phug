@@ -90,6 +90,8 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             'lexer_modules'            => [],
             'keywords'                 => [],
             'scanners'                 => Scanners::getList(),
+            'mixin_keyword'            => 'mixin',
+            'mixin_call_keyword'       => '\\+',
 
             //Events
             'on_lex'                   => null,
@@ -203,6 +205,8 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             'allow_mixed_indent'       => $this->getOption('allow_mixed_indent'),
             'multiline_markup_enabled' => $this->getOption('multiline_markup_enabled'),
             'level'                    => $this->getOption('level'),
+            'mixin_keyword'            => $this->getOption('mixin_keyword'),
+            'mixin_call_keyword'       => $this->getOption('mixin_call_keyword'),
         ]);
 
         $this->trigger($lexEvent);

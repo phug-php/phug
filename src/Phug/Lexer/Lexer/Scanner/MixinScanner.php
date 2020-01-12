@@ -9,18 +9,12 @@ namespace Phug\Lexer\Scanner;
 use Phug\Lexer\ScannerInterface;
 use Phug\Lexer\State;
 use Phug\Lexer\Token\MixinToken;
-use Phug\Util\OptionInterface;
-use Phug\Util\Partial\OptionTrait;
 
-class MixinScanner implements ScannerInterface, OptionInterface
+class MixinScanner implements ScannerInterface
 {
-    use OptionTrait;
-
-    const KEYWORD_NAME = 'mixin';
-
     public function scan(State $state)
     {
-        $keywordName = $this->hasOption('mixin_keyword') ? $this->getOption('mixin_keyword') : static::KEYWORD_NAME;
+        $keywordName = $state->getOption('mixin_keyword');
 
         if (is_array($keywordName)) {
             $keywordName = '(?:'.implode('|', $keywordName).')';
