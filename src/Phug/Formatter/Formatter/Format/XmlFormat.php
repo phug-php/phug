@@ -267,6 +267,7 @@ class XmlFormat extends AbstractFormat
         $markup = $element->getContainer();
 
         $arguments = [];
+
         foreach ($markup->getAssignmentsByName('attributes') as $attributesAssignment) {
             /* @var AssignmentElement $attributesAssignment */
             foreach ($attributesAssignment->getAttributes() as $attribute) {

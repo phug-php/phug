@@ -295,7 +295,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
     }
 
     /**
-     * @param Traversable|array $tokens
+     * @param iterable $tokens
      *
      * @return iterable
      */

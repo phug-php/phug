@@ -27,12 +27,12 @@ trait TokenGeneratorTrait
         }
 
         $callback = array_shift($callbacks);
+        $type = Invoker::getCallbackType($callback);
 
-        foreach ($tokens as $token) {
-            $result = is_a($token, Invoker::getCallbackType($callback)) ? $callback($token) : null;
-            $result = (new Collection($result ?: $token))->getIterable();
+        return (new Collection($tokens))->yieldFlatMap(function ($token) use ($type, $callback, $callbacks) {
+            $result = is_a($token, $type) ? $callback($token) : null;
 
-            return $this->getTokenGenerator($callbacks, $result);
-        }
+            return $this->getTokenGenerator($callbacks, $result ?: $token);
+        });
     }
 }

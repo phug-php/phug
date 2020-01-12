@@ -65,4 +65,62 @@ class Collection implements IteratorAggregate
             yield $value;
         }
     }
+
+    /**
+     * Return the result of the passed function for each item of the collection.
+     *
+     * @return static
+     */
+    public function map($callback)
+    {
+        return new static($this->yieldMap($callback));
+    }
+
+    /**
+     * Return the result of the passed function for each item of the collection.
+     * If item is a generator (using yield from inside the function), then it will
+     * flatten the yielded values for one more level.
+     *
+     * @return static
+     */
+    public function flatMap($callback)
+    {
+        return new static($this->yieldFlatMap($callback));
+    }
+
+    /**
+     * Return the result of the passed function for each item of the collection.
+     *
+     * @return Generator
+     */
+    public function yieldMap($callback)
+    {
+        foreach ($this->traversable as $value) {
+            yield $callback($value);
+        }
+    }
+
+    /**
+     * Return the result of the passed function for each item of the collection.
+     * If item is a generator (using yield from inside the function), then it will
+     * flatten the yielded values for one more level.
+     *
+     * @return Generator
+     */
+    public function yieldFlatMap($callback)
+    {
+        foreach ($this->traversable as $value) {
+            $result = $callback($value);
+
+            if ($result instanceof Generator) {
+                foreach ($result as $item) {
+                    yield $item;
+                }
+
+                continue;
+            }
+
+            yield $result;
+        }
+    }
 }
