@@ -195,9 +195,9 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     }
 
     /**
-     * @return array[]
-     *
      * @throws ReflectionException
+     *
+     * @return array[]
      */
     public function getEventsList()
     {

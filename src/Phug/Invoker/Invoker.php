@@ -149,12 +149,19 @@ class Invoker
         $reflection = is_array($invokable)
             ? new ReflectionMethod($invokable[0], $invokable[1])
             : new ReflectionFunction($invokable);
-        $parameter = $reflection->getParameters();
+        $parameters = $reflection->getParameters();
+        $type = null;
 
-        if (count($parameter)) {
-            $parameter = $parameter[0]->getType();
+        if (count($parameters)) {
+            $type = $parameters[0]->getType();
         }
 
-        return $parameter instanceof ReflectionNamedType ? $parameter->getName() : null;
+        if ($type instanceof ReflectionNamedType) {
+            return $type->getName();
+        }
+
+        $dump = @strval($parameters[0]);
+
+        return preg_match('/>\s(\S+)\s\$/', $dump, $match) ? $match[1] : null;
     }
 }

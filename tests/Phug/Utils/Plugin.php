@@ -2,9 +2,8 @@
 
 namespace Phug\Test\Utils;
 
-use Phug\Compiler\Event\NodeEvent;
 use Phug\AbstractPlugin;
-use Phug\Formatter\Element\CodeElement;
+use Phug\Compiler\Event\NodeEvent;
 use Phug\Formatter\Element\ExpressionElement;
 use Phug\Formatter\Element\TextElement;
 use Phug\Parser\Node\ElementNode;
