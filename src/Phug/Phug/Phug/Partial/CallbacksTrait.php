@@ -27,7 +27,8 @@ trait CallbacksTrait
     /**
      * Get callbacks for a given method name.
      *
-     * @param string $methodName if you pass a name including the class (such as MyClass::myMethod), then class name is ignored.
+     * @param string $methodName if you pass a name including the class (such as MyClass::myMethod),
+     *                           then class name is ignored.
      *
      * @return callable[]
      */
