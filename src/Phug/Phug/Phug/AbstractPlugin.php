@@ -92,7 +92,10 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
     public function handleTokenEvent(TokenEvent $tokenEvent)
     {
         $tokenEvent->setTokenGenerator(
-            $this->getTokenGenerator($this->getCallbacks(__METHOD__), [$tokenEvent->getToken()])
+            $this->getTokenGenerator(
+                $this->getCallbacks(__METHOD__),
+                $tokenEvent->getTokenGenerator() ?: static::toArrayIfTruthy($tokenEvent->getToken())
+            )
         );
     }
 
@@ -330,5 +333,10 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         list(, $method) = explode('::', $name);
 
         return isset($this->callbacks[$method]) ? $this->callbacks[$method] : [];
+    }
+
+    private static function toArrayIfTruthy($value)
+    {
+        return $value ? [$value] : [];
     }
 }

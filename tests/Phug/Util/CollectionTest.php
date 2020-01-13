@@ -20,6 +20,7 @@ class CollectionTest extends TestCase
 
     /**
      * @covers ::__construct
+     * @covers ::makeIterable
      * @covers ::isIterable
      * @covers ::getIterable
      */
@@ -101,19 +102,14 @@ class CollectionTest extends TestCase
     {
         $collection = new Collection($this->getIterator());
         $collection = $collection->flatMap(function ($number) {
-            return $number * 2;
-        });
-
-        self::assertInstanceOf(Collection::class, $collection);
-        self::assertSame([0, 2, 4], iterator_to_array($collection));
-
-        $collection = new Collection($this->getIterator());
-        $collection = $collection->flatMap(function ($number) {
             yield $number;
-            yield -$number;
+
+            if ($number) {
+                yield -$number;
+            }
         });
 
         self::assertInstanceOf(Collection::class, $collection);
-        self::assertSame([0, 0, 1, -1, 2, -2], iterator_to_array($collection));
+        self::assertSame([0, 1, -1, 2, -2], iterator_to_array($collection));
     }
 }

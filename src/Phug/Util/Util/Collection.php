@@ -15,7 +15,7 @@ class Collection implements IteratorAggregate
 
     public function __construct($value)
     {
-        $this->traversable = static::isIterable($value) ? $value : [$value];
+        $this->traversable = static::makeIterable($value);
     }
 
     /**
@@ -30,6 +30,18 @@ class Collection implements IteratorAggregate
     public static function isIterable($value)
     {
         return is_array($value) || (is_object($value) && $value instanceof Traversable);
+    }
+
+    /**
+     * Wrap given value in an array if it's not yet iterable.
+     *
+     * @param mixed $value
+     *
+     * @return iterable
+     */
+    public static function makeIterable($value)
+    {
+        return static::isIterable($value) ? $value : [$value];
     }
 
     /**
@@ -118,17 +130,9 @@ class Collection implements IteratorAggregate
     public function yieldFlatMap(callable $callback)
     {
         foreach ($this->traversable as $value) {
-            $result = $callback($value);
-
-            if ($result instanceof Generator) {
-                foreach ($result as $item) {
-                    yield $item;
-                }
-
-                continue;
+            foreach ($callback($value) as $item) {
+                yield $item;
             }
-
-            yield $result;
         }
     }
 }

@@ -32,7 +32,7 @@ trait TokenGeneratorTrait
         return (new Collection($tokens))->yieldFlatMap(function ($token) use ($type, $callback, $callbacks) {
             $result = is_a($token, $type) ? $callback($token) : null;
 
-            return $this->getTokenGenerator($callbacks, $result ?: $token);
+            return $this->getTokenGenerator($callbacks, $result ?: [$token]);
         });
     }
 }
