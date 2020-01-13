@@ -272,6 +272,7 @@ class PluginTest extends AbstractPhugTest
 
     /**
      * @covers ::handleTokenEvent
+     * @covers ::toArrayIfTruthy
      *
      * @throws RendererException
      * @throws PhugException
