@@ -1,7 +1,7 @@
 {
-    "name": "phug/invoke",
+    "name": "phug/invoker",
     "type": "library",
-    "keywords": ["phug", "invoke"],
+    "keywords": ["phug", "invoke", "invoker"],
     "description": "Typing-based invoker",
     "license": "MIT",
     "homepage": "http://phug-lang.com",
