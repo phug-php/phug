@@ -1211,7 +1211,11 @@ class RendererTest extends AbstractRendererTest
             'cache_dir' => $cacheDirectory,
         ]);
         $pug->cacheDirectory($templatesDirectory);
+        clearstatcache();
         $files = glob("$cacheDirectory/*.php");
+        $files = array_filter($files, function ($name) {
+            return basename($name) !== 'registry.php';
+        });
         $file = count($files) ? file_get_contents($files[0]) : null;
         $this->emptyDirectory($cacheDirectory);
         rmdir($cacheDirectory);
