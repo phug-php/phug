@@ -87,6 +87,7 @@ class PluginTest extends AbstractPhugTest
     /**
      * @covers \Phug\Partial\PluginEnablerTrait::enable
      * @covers \Phug\Partial\PluginEnablerTrait::disable
+     * @covers \Phug\Partial\PluginEnablerTrait::activateOnRenderer
      * @covers ::activateOnRenderer
      *
      * @throws PhugException
