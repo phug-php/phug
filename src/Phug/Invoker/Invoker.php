@@ -9,7 +9,7 @@ use ReflectionMethod;
 use ReflectionNamedType;
 use RuntimeException;
 
-class Invoker
+class Invoker implements InvokerInterface
 {
     /**
      * List of callbacks grouped by type.
@@ -25,7 +25,7 @@ class Invoker
      *
      * @throws ReflectionException
      */
-    public function __construct(array $invokables)
+    public function __construct(array $invokables = [])
     {
         $this->reset();
         $this->add($invokables);
