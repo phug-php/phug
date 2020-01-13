@@ -16,6 +16,7 @@ use Phug\Lexer\Event\TokenEvent;
 use Phug\Lexer\TokenInterface;
 use Phug\Parser\Event\ParseEvent;
 use Phug\Parser\NodeInterface;
+use Phug\Partial\CallbacksTrait;
 use Phug\Partial\PluginEnablerTrait;
 use Phug\Partial\PluginEventsTrait;
 use Phug\Partial\TokenGeneratorTrait;
@@ -32,6 +33,7 @@ use ReflectionException;
  */
 abstract class AbstractPlugin extends AbstractExtension implements RendererModuleInterface
 {
+    use CallbacksTrait;
     use OptionTrait;
     use PluginEnablerTrait;
     use PluginEventsTrait;
@@ -41,11 +43,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
      * @var Renderer
      */
     private $renderer;
-
-    /**
-     * @var callable[][]
-     */
-    private $callbacks;
 
     /**
      * @var null|array
@@ -305,15 +302,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         }
     }
 
-    protected function addCallback($methodName, $callback)
-    {
-        if (!isset($this->callbacks[$methodName])) {
-            $this->callbacks[$methodName] = [];
-        }
-
-        $this->callbacks[$methodName][] = $callback;
-    }
-
     protected function addSpecificCallback(&$methods, $type, $callback)
     {
         foreach ($this->methodTypes as $methodName => list($className, $eventName)) {
@@ -326,13 +314,6 @@ abstract class AbstractPlugin extends AbstractExtension implements RendererModul
         }
 
         return false;
-    }
-
-    private function getCallbacks($name)
-    {
-        list(, $method) = explode('::', $name);
-
-        return isset($this->callbacks[$method]) ? $this->callbacks[$method] : [];
     }
 
     private static function toArrayIfTruthy($value)

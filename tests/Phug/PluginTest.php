@@ -42,9 +42,9 @@ class PluginTest extends AbstractPhugTest
 
     /**
      * @covers ::<public>
-     * @covers ::getCallbacks
+     * @covers \Phug\Partial\CallbacksTrait::getCallbacks
      * @covers ::getMethodsByPrefix
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::addSpecificCallback
      *
      * @throws PhugException
@@ -62,9 +62,9 @@ class PluginTest extends AbstractPhugTest
 
     /**
      * @covers ::<public>
-     * @covers ::getCallbacks
+     * @covers \Phug\Partial\CallbacksTrait::getCallbacks
      * @covers ::getMethodsByPrefix
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::addSpecificCallback
      *
      * @throws PhugException

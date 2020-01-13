@@ -19,7 +19,7 @@ class InvokerTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::add
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::getCallbackType
      *
      * @expectedException        RuntimeException
@@ -37,7 +37,7 @@ class InvokerTest extends TestCase
 
     /**
      * @covers ::add
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      *
      * @expectedException        RuntimeException
      * @expectedExceptionMessage The #2 value is not callable.
@@ -59,7 +59,7 @@ class InvokerTest extends TestCase
      * @covers ::__construct
      * @covers ::reset
      * @covers ::add
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::invoke
      * @covers ::getQueuesByEvent
      * @covers ::getCallbacksByEvent
@@ -127,7 +127,7 @@ class InvokerTest extends TestCase
     /**
      * @covers ::__construct
      * @covers ::add
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::invoke
      * @covers ::getQueuesByEvent
      * @covers ::getCallbacksByEvent
@@ -150,7 +150,7 @@ class InvokerTest extends TestCase
 
     /**
      * @covers ::add
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::remove
      * @covers ::all
      *
@@ -191,7 +191,7 @@ class InvokerTest extends TestCase
 
     /**
      * @covers ::add
-     * @covers ::addCallback
+     * @covers \Phug\Partial\CallbacksTrait::addCallback
      * @covers ::removeByType
      * @covers ::all
      *
