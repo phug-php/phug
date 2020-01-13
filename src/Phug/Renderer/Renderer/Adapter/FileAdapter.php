@@ -139,7 +139,7 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     /**
      * Scan a directory recursively for its views, compile them and save them into the cache directory.
      *
-     * @param array|string $directory the directory to search pug files in it.
+     * @param string[]|string $directory the directory to search pug files in it.
      *
      * @throws \Phug\RendererException
      *

@@ -50,7 +50,7 @@ trait CacheTrait
      * You should call after deploying your application in production to avoid a slower page loading for the first
      * user.
      *
-     * @param string|array $directory
+     * @param string|string[] $directory
      *
      * @return array
      */

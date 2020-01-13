@@ -1213,12 +1213,17 @@ class RendererTest extends AbstractRendererTest
         $pug->cacheDirectory($templatesDirectory);
         clearstatcache();
         $files = glob("$cacheDirectory/*.php");
-        $files = array_filter($files, function ($name) {
+        $files = array_values(array_filter($files, function ($name) {
             return basename($name) !== 'registry.php';
-        });
+        }));
         $file = count($files) ? file_get_contents($files[0]) : null;
         $this->emptyDirectory($cacheDirectory);
         rmdir($cacheDirectory);
+
+        if ($file === null) {
+            var_dump($files, $file);
+            exit;
+        }
 
         self::assertNotNull($file);
 

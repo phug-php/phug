@@ -47,7 +47,7 @@ interface CacheInterface
     public function displayCached($path, $input, callable $rendered, array $variables, &$success = null);
 
     /**
-     * @param array|string $directory the directory(ies) to search in pug templates
+     * @param string[]|string $directory the directory(ies) to search in pug templates
      *
      * @return array count of cached files and error count
      */
