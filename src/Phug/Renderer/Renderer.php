@@ -21,6 +21,8 @@ class Renderer implements ModuleContainerInterface
     use MacroableTrait;
 
     /**
+     * The current compiler in use to convert Pug code into PHP code.
+     *
      * @var Compiler
      */
     private $compiler;
