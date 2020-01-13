@@ -139,6 +139,16 @@ trait ExtensionsTrait
         return ltrim('\\', strtolower($name));
     }
 
+    protected static function normalizeFilterName($name)
+    {
+        return str_replace(' ', '-', strtolower($name));
+    }
+
+    protected static function normalizeKeywordName($name)
+    {
+        return str_replace(' ', '-', strtolower($name));
+    }
+
     /**
      * Get options from extensions list and default options.
      *
@@ -150,11 +160,13 @@ trait ExtensionsTrait
     public static function getExtensionsOptions(array $extensions, array $options = [])
     {
         $methods = static::getExtensionsGetters();
+
         foreach ($extensions as $extensionClassName) {
             if (is_a($extensionClassName, ModuleInterface::class, true)) {
                 if (!isset($options['modules'])) {
                     $options['modules'] = [];
                 }
+
                 $options['modules'][] = $extensionClassName;
 
                 continue;

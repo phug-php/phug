@@ -10,7 +10,7 @@ trait RegistryTrait
      * @param string   $source
      * @param int|null $directoryIndex
      *
-     * @return \Generator
+     * @return iterable
      */
     protected function getRegistryPathChunks($source, $directoryIndex = null)
     {

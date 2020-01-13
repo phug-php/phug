@@ -362,12 +362,13 @@ class State implements OptionInterface, EventManagerInterface
      *
      * @param array $types the token types that are allowed
      *
-     * @return \Generator
+     * @return iterable
      */
     public function lookUp(array $types)
     {
         while ($this->hasTokens()) {
             $token = $this->getToken();
+
             if (!in_array(get_class($token), $types, true)) {
                 break;
             }
@@ -386,15 +387,11 @@ class State implements OptionInterface, EventManagerInterface
      *
      * @param array $types the types that are allowed
      *
-     * @return \Generator
+     * @return iterable
      */
     public function lookUpNext(array $types)
     {
-        if ($this->hasTokens()) {
-            foreach ($this->nextToken()->lookUp($types) as $token) {
-                yield $token;
-            }
-        }
+        return $this->hasTokens() ? $this->nextToken()->lookUp($types) : [];
     }
 
     /**

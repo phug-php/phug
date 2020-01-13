@@ -719,9 +719,9 @@ class RendererTest extends AbstractRendererTest
     {
         $lastError = null;
         foreach ([
-             FileAdapter::class,
-             EvalAdapter::class,
-             StreamAdapter::class,
+            FileAdapter::class,
+            EvalAdapter::class,
+            StreamAdapter::class,
         ] as $adapter) {
             $renderer = new Renderer([
                 'exit_on_error'      => false,
@@ -1194,5 +1194,36 @@ class RendererTest extends AbstractRendererTest
         $html = $renderer->render('div Bye');
 
         $this->assertSameLines('<div>Bye</div>', $html);
+    }
+
+    /**
+     * @throws RendererException
+     */
+    public function testCacheDirectoryPreserveDependencies()
+    {
+        $cacheDirectory = sys_get_temp_dir().'/pug-test'.mt_rand(0, 999999);
+        $this->createEmptyDirectory($cacheDirectory);
+
+        $templatesDirectory = __DIR__.'/../templates/for-cache';
+        $pug = new Renderer([
+            'modules'   => [JsPhpizePhug::class],
+            'paths'     => [$templatesDirectory],
+            'cache_dir' => $cacheDirectory,
+        ]);
+        $pug->cacheDirectory($templatesDirectory);
+        $files = glob("$cacheDirectory/*.php");
+        $file = count($files) ? file_get_contents($files[0]) : null;
+        $this->emptyDirectory($cacheDirectory);
+        rmdir($cacheDirectory);
+
+        self::assertNotNull($file);
+
+        $foo = ['bar' => 'biz'];
+        ob_start();
+        eval('?>'.$file);
+        $contents = ob_get_contents();
+        ob_end_clean();
+
+        self::assertSame('<p>biz</p>', trim($contents));
     }
 }

@@ -5,12 +5,14 @@ namespace Phug;
 use Phug\Lexer\Event\EndLexEvent;
 use Phug\Lexer\Event\LexEvent;
 use Phug\Lexer\Event\TokenEvent;
+use Phug\Lexer\HandleTokenInterface;
 use Phug\Lexer\Partial\DumpTokenTrait;
 use Phug\Lexer\Partial\StateTrait;
 use Phug\Lexer\Scanner\TextScanner;
 use Phug\Lexer\ScannerInterface;
 use Phug\Lexer\State;
 use Phug\Lexer\TokenInterface;
+use Phug\Util\Collection;
 use Phug\Util\ModuleContainerInterface;
 use Phug\Util\Partial\ModuleContainerTrait;
 
@@ -88,6 +90,8 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             'lexer_modules'            => [],
             'keywords'                 => [],
             'scanners'                 => Scanners::getList(),
+            'mixin_keyword'            => 'mixin',
+            'mixin_call_keyword'       => '\\+',
 
             //Events
             'on_lex'                   => null,
@@ -189,7 +193,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
      * @param string $input the pug-string to lex into tokens.
      * @param null   $path
      *
-     * @return \Generator a generator that can be iterated sequentially
+     * @return iterable a generator that can be iterated sequentially
      */
     public function lex($input, $path = null)
     {
@@ -201,6 +205,8 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             'allow_mixed_indent'       => $this->getOption('allow_mixed_indent'),
             'multiline_markup_enabled' => $this->getOption('multiline_markup_enabled'),
             'level'                    => $this->getOption('level'),
+            'mixin_keyword'            => $this->getRegExpOption('mixin_keyword'),
+            'mixin_call_keyword'       => $this->getRegExpOption('mixin_call_keyword'),
         ]);
 
         $this->trigger($lexEvent);
@@ -229,8 +235,9 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         $scanners['final_plain_text'] = TextScanner::class;
 
         //Scan for tokens
-        //N> yield from $this->handleTokens($this->>state->loopScan($scanners));
+        //N> yield from $this->handleTokens($this->state->loopScan($scanners));
         $tokens = $this->state->loopScan($scanners);
+
         foreach ($this->handleTokens($tokens) as $token) {
             yield $token;
         }
@@ -242,16 +249,38 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         $this->lastToken = null;
     }
 
-    private function handleToken($token)
+    private function getRegExpOption($name)
+    {
+        $value = $this->getOption($name);
+
+        return is_array($value) ? '(?:'.implode('|', $value).')' : $value;
+    }
+
+    private function proceedTokenEvent($token)
     {
         $event = new TokenEvent($token);
-        $this->trigger($event);
 
+        if (!($token instanceof HandleTokenInterface) || !$token->isHandled()) {
+            $this->trigger($event);
+
+            if ($token instanceof HandleTokenInterface) {
+                $token->markAsHandled();
+            }
+        }
+
+        return $event;
+    }
+
+    private function handleToken($token)
+    {
+        $event = $this->proceedTokenEvent($token);
         $tokens = $event->getTokenGenerator();
 
         if ($tokens) {
             //N> yield from $this->handleTokens($tokens)
             foreach ($this->handleTokens($tokens) as $tok) {
+                $this->lastToken = $tok;
+
                 yield $tok;
             }
 
@@ -264,7 +293,12 @@ class Lexer implements LexerInterface, ModuleContainerInterface
         yield $token;
     }
 
-    private function handleTokens(\Iterator $tokens)
+    /**
+     * @param iterable $tokens
+     *
+     * @return iterable
+     */
+    private function handleTokens($tokens)
     {
         foreach ($tokens as $rawToken) {
             foreach ($this->handleToken($rawToken) as $token) {
@@ -287,7 +321,7 @@ class Lexer implements LexerInterface, ModuleContainerInterface
             return $this->dumpToken($input);
         }
 
-        if (!($input instanceof \Iterator) && !is_array($input)) {
+        if (!Collection::isIterable($input)) {
             $input = $this->lex((string) $input);
         }
 

@@ -26,7 +26,7 @@ abstract class AbstractCompilerTest extends TestCase
         $this->setExpectedException(Exception::class, $message, null);
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->compiler = new Compiler([
             'paths'    => [__DIR__.'/../templates'],

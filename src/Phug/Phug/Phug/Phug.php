@@ -49,19 +49,10 @@ class Phug
      */
     private static $rendererClassName = Renderer::class;
 
-    private static function normalizeFilterName($name)
-    {
-        return str_replace(' ', '-', strtolower($name));
-    }
-
-    private static function normalizeKeywordName($name)
-    {
-        return str_replace(' ', '-', strtolower($name));
-    }
-
     private static function getOptions(array $options = [])
     {
         $extras = static::getFacadeOptions();
+
         foreach (['filters', 'keywords'] as $option) {
             $method = 'get'.ucfirst($option);
             $extras[$option] = static::$method();
@@ -165,6 +156,16 @@ class Phug
         }
 
         return self::$renderer;
+    }
+
+    /**
+     * Return true if the facade already created a Renderer instance.
+     *
+     * @return bool
+     */
+    public static function isRendererInitialized()
+    {
+        return self::$renderer !== null;
     }
 
     /**

@@ -22,7 +22,7 @@
         "source": "https://github.com/phug-php/ast",
         "docs": "http://phug-lang.com/docs"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
         "phug/util": "^0.4.14 || ^1.0",

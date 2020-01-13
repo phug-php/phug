@@ -4,7 +4,7 @@ namespace Phug\Util\Partial;
 
 use ArrayAccess;
 use ArrayObject;
-use Traversable;
+use Phug\Util\Collection;
 
 /**
  * Class OptionTrait.
@@ -39,14 +39,9 @@ trait OptionTrait
         return $name;
     }
 
-    private function isTraversable($value)
-    {
-        return is_array($value) || $value instanceof Traversable;
-    }
-
     private function filterTraversable($values)
     {
-        return array_filter($values, [$this, 'isTraversable']);
+        return array_filter($values, [Collection::class, 'isIterable']);
     }
 
     /**

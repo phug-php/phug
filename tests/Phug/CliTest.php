@@ -17,7 +17,7 @@ class CliTest extends TestCase
      */
     protected $cli;
 
-    public function setUp()
+    protected function setUp()
     {
         Phug::reset();
         $this->cli = new Cli(Phug::class, [

@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Lexer\Scanner;
 
+use Phug\Lexer;
 use Phug\Lexer\Token\AttributeEndToken;
 use Phug\Lexer\Token\AttributeStartToken;
 use Phug\Lexer\Token\AttributeToken;
@@ -107,5 +108,27 @@ class MixinCallScannerTest extends AbstractLexerTest
             TagToken::class,
             TextToken::class,
         ], $tokens);
+    }
+
+    /**
+     * @covers \Phug\Lexer\Scanner\MixinCallScanner
+     * @covers \Phug\Lexer\Scanner\MixinCallScanner::scan
+     * @covers \Phug\Lexer\State::loadScanner
+     * @covers \Phug\Lexer::getRegExpOption
+     *
+     * @throws \Exception
+     */
+    public function testMixinCallOptions()
+    {
+        $this->assertTokens('@a', [
+            TextToken::class,
+        ]);
+
+        /* @var MixinCallToken $tok */
+        list($tok) = $this->assertTokens('@ab', [
+            MixinCallToken::class,
+        ], new Lexer(['mixin_call_keyword' => ['\\+', '@']]));
+
+        self::assertSame('ab', $tok->getName());
     }
 }

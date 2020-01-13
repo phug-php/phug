@@ -134,4 +134,31 @@ class TokenTest extends TestCase
 
         return $tok;
     }
+
+    /**
+     * @covers \Phug\Lexer::proceedTokenEvent
+     * @covers \Phug\Lexer::handleToken
+     * @covers \Phug\Lexer\AbstractToken::isHandled
+     * @covers \Phug\Lexer\AbstractToken::markAsHandled
+     */
+    public function testHandleTokenInterface()
+    {
+        $tag = new TagToken();
+
+        $this->assertFalse($tag->isHandled());
+
+        $tag->markAsHandled();
+
+        $this->assertTrue($tag->isHandled());
+
+        $lexer = new Lexer();
+        $tokens = [];
+
+        foreach ($lexer->lex('p') as $token) {
+            $tokens[] = $token;
+        }
+
+        $this->assertCount(1, $tokens);
+        $this->assertTrue($tokens[0]->isHandled());
+    }
 }

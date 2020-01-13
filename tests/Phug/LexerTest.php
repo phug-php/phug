@@ -79,6 +79,7 @@ class LexerTest extends AbstractLexerTest
      * @covers ::lex
      * @covers \Phug\Lexer\Partial\StateTrait::hasState
      * @covers \Phug\Lexer\State::lastTokenIs
+     * @covers \Phug\Lexer\State::isAfterInterpolation
      */
     public function testHasState()
     {
@@ -87,6 +88,7 @@ class LexerTest extends AbstractLexerTest
         self::assertFalse($lexer->hasState());
 
         $areTags = [];
+
         foreach ($lexer->lex('p Text') as $token) {
             $areTags[] = $lexer->getState()->lastTokenIs([TagToken::class]);
             self::assertTrue($lexer->hasState());
@@ -94,6 +96,23 @@ class LexerTest extends AbstractLexerTest
 
         self::assertSame([true, false], $areTags);
         self::assertFalse($lexer->hasState());
+
+        $lexer = new Lexer();
+        $areAfterInterpolation = [];
+        $state = null;
+
+        foreach ($lexer->lex('p Text #{a} r #[b ok] hh') as $token) {
+            $state = $lexer->hasState() ? $lexer->getState() : $state;
+            $areAfterInterpolation[] = [get_class($token), $state->isAfterInterpolation()];
+        }
+
+        $this->assertCount(11, $areAfterInterpolation);
+        $tags = array_map('reset', array_filter($areAfterInterpolation, 'end'));
+
+        self::assertSame([
+            4 => Lexer\Token\InterpolationEndToken::class,
+            9 => Lexer\Token\TagInterpolationEndToken::class,
+        ], $tags);
     }
 
     /**
