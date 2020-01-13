@@ -21,9 +21,9 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
-        "phug/invoker": "^1.4",
+        "phug/invoker": "^1.5",
         "phug/renderer": "^1.3",
-        "phug/util": "^1.2"
+        "phug/util": "^1.5"
     },
     "autoload": {
         "psr-4": {
@@ -35,5 +35,9 @@
             "Phug\\Test\\": "./tests/Phug/"
         }
     },
-    "suggest": {}
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
 }
