@@ -128,6 +128,7 @@ $projects = [
     'event',
     'facade',
     'formatter',
+    'invoker',
     'lexer',
     'parser',
     'reader',
