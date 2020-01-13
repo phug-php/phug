@@ -1204,7 +1204,7 @@ class RendererTest extends AbstractRendererTest
         $cacheDirectory = sys_get_temp_dir().'/pug-test'.mt_rand(0, 999999);
         $this->createEmptyDirectory($cacheDirectory);
 
-        $templatesDirectory = __DIR__.'/../templates/for-cache';
+        $templatesDirectory = __DIR__.'/../for-cache';
         $pug = new Renderer([
             'modules'   => [JsPhpizePhug::class],
             'paths'     => [$templatesDirectory],
@@ -1219,11 +1219,6 @@ class RendererTest extends AbstractRendererTest
         $file = count($files) ? file_get_contents($files[0]) : null;
         $this->emptyDirectory($cacheDirectory);
         rmdir($cacheDirectory);
-
-        if ($file === null) {
-            var_dump($files, $file);
-            exit;
-        }
 
         self::assertNotNull($file);
 

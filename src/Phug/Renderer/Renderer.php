@@ -2,6 +2,7 @@
 
 namespace Phug;
 
+use ArrayAccess;
 use Phug\Renderer\Partial\CacheTrait;
 use Phug\Renderer\Partial\Debug\DebuggerTrait;
 use Phug\Renderer\Partial\RendererOptionsTrait;
@@ -10,6 +11,7 @@ use Phug\Renderer\Task\TasksGroup;
 use Phug\Util\ModuleContainerInterface;
 use Phug\Util\Partial\MacroableTrait;
 use Phug\Util\Partial\ModuleContainerTrait;
+use Throwable;
 
 class Renderer implements ModuleContainerInterface
 {
@@ -30,7 +32,7 @@ class Renderer implements ModuleContainerInterface
     /**
      * Renderer constructor.
      *
-     * @param array|\ArrayAccess|null $options
+     * @param array|ArrayAccess|null $options
      *
      * @throws RendererException
      */
@@ -221,7 +223,7 @@ class Renderer implements ModuleContainerInterface
      * @param array  $parameters parameters or file name
      * @param string $filename
      *
-     * @throws RendererException|\Throwable
+     * @throws RendererException|Throwable
      */
     public function display($string, array $parameters = [], $filename = null)
     {
@@ -242,7 +244,7 @@ class Renderer implements ModuleContainerInterface
      * @param string $path       pug input file
      * @param array  $parameters parameters (values for variables used in the template)
      *
-     * @throws RendererException|\Throwable
+     * @throws RendererException|Throwable
      */
     public function displayFile($path, array $parameters = [])
     {
