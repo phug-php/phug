@@ -14,6 +14,7 @@ class CodeNodeCompilerTest extends AbstractCompilerTest
 {
     /**
      * @covers ::<public>
+     * @covers ::getCodeElement
      * @covers \Phug\Compiler\AbstractNodeCompiler::getTextChildren
      */
     public function testCompile()
@@ -47,6 +48,7 @@ class CodeNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     * @covers            ::getCodeElement
      * @expectedException \Phug\CompilerException
      */
     public function testException()

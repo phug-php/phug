@@ -10,7 +10,9 @@ use Phug\Compiler\Event\NodeEvent;
 use Phug\Compiler\Event\OutputEvent;
 use Phug\CompilerException;
 use Phug\Formatter\Element\MarkupElement;
+use Phug\Parser\Node\CodeNode;
 use Phug\Parser\Node\ElementNode;
+use Phug\Parser\Node\TextNode;
 
 /**
  * @coversDefaultClass \Phug\AbstractCompilerModule
@@ -87,6 +89,56 @@ class CompilerModuleTest extends TestCase
         ]);
 
         self::assertSame('<footer></footer>', $compiler->compile('header'));
+    }
+
+    /**
+     * @covers \Phug\Compiler\NodeCompiler\CodeNodeCompiler::compileNode
+     */
+    public function testUntransformableNode()
+    {
+        $compiler = new Compiler([
+            'patterns' => [
+                'transform_code' => '$%s',
+            ],
+            'on_node' => function (NodeEvent $event) {
+                $node = $event->getNode();
+
+                if ($node instanceof ElementNode) {
+                    $text = new TextNode($node->getToken(), null, $node->getLevel(), $node->getParent(), []);
+                    $text->setValue('foo = 9');
+                    $code = new CodeNode($node->getToken(), null, $node->getLevel(), $node->getParent(), [
+                        $text,
+                    ]);
+
+                    $event->setNode($code);
+                }
+            },
+        ]);
+
+        self::assertSame('<?php $foo = 9 ?>', $compiler->compile('header'));
+
+        $compiler = new Compiler([
+            'patterns' => [
+                'transform_code' => '$%s',
+            ],
+            'on_node' => function (NodeEvent $event) {
+                $node = $event->getNode();
+
+                if ($node instanceof ElementNode) {
+                    $text = new TextNode($node->getToken(), null, $node->getLevel(), $node->getParent(), []);
+                    $text->setValue('foo = 9');
+                    $code = new CodeNode($node->getToken(), null, $node->getLevel(), $node->getParent(), [
+                        $text,
+                    ]);
+
+                    $code->preventFromTransformation();
+
+                    $event->setNode($code);
+                }
+            },
+        ]);
+
+        self::assertSame('<?php foo = 9 ?>', $compiler->compile('header'));
     }
 
     /**
