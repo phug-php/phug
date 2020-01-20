@@ -3,9 +3,9 @@
 namespace Phug\Formatter\Element;
 
 use Phug\Ast\NodeInterface;
-use Phug\Formatter\Partial\TransformableTrait;
 use Phug\Parser\NodeInterface as ParserNode;
 use Phug\Util\Partial\CheckTrait;
+use Phug\Util\Partial\TransformableTrait;
 
 class CodeElement extends AbstractValueElement
 {

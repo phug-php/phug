@@ -294,8 +294,8 @@ class XmlFormatTest extends TestCase
      * @covers ::formatPairTag
      * @covers \Phug\Formatter\Element\ExpressionElement::<public>
      * @covers \Phug\Formatter\Partial\HandleVariable::isInKeywordParams
-     * @covers \Phug\Formatter\Partial\TransformableTrait::preventFromTransformation
-     * @covers \Phug\Formatter\Partial\TransformableTrait::isTransformationAllowed
+     * @covers \Phug\Util\Partial\TransformableTrait::preventFromTransformation
+     * @covers \Phug\Util\Partial\TransformableTrait::isTransformationAllowed
      */
     public function testFormatBooleanTrueAttribute()
     {

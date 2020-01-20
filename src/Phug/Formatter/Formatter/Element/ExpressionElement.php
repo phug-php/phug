@@ -2,9 +2,9 @@
 
 namespace Phug\Formatter\Element;
 
-use Phug\Formatter\Partial\TransformableTrait;
 use Phug\Util\Partial\CheckTrait;
 use Phug\Util\Partial\EscapeTrait;
+use Phug\Util\Partial\TransformableTrait;
 
 class ExpressionElement extends AbstractValueElement
 {

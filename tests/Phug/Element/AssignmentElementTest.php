@@ -176,8 +176,8 @@ class AssignmentElementTest extends TestCase
      * @covers \Phug\Formatter\Format\XmlFormat::formatAssignmentElement
      * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentElement
      * @covers \Phug\Formatter\Element\ExpressionElement::<public>
-     * @covers \Phug\Formatter\Partial\TransformableTrait::preventFromTransformation
-     * @covers \Phug\Formatter\Partial\TransformableTrait::isTransformationAllowed
+     * @covers \Phug\Util\Partial\TransformableTrait::preventFromTransformation
+     * @covers \Phug\Util\Partial\TransformableTrait::isTransformationAllowed
      */
     public function testAssignmentHandlersOption()
     {

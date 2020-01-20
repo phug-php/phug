@@ -34,6 +34,7 @@ class TestClass implements DocumentLocationInterface, OptionInterface, ScopeInte
     use Partial\RestTrait;
     use Partial\ScopeTrait;
     use Partial\SubjectTrait;
+    use Partial\TransformableTrait;
     use Partial\ValueTrait;
     use Partial\VariadicTrait;
     use Partial\VisibleTrait;
@@ -625,6 +626,22 @@ class PartialTest extends TestCase
         $inst = new TestClass();
 
         self::assertGreaterThan(16, strlen($inst->testHashPrint('foo')));
+    }
+
+    /**
+     * @covers \Phug\Util\Partial\TransformableTrait
+     * @covers \Phug\Util\Partial\TransformableTrait::preventFromTransformation
+     * @covers \Phug\Util\Partial\TransformableTrait::isTransformationAllowed
+     */
+    public function testTransformableTrait()
+    {
+        $inst = new TestClass();
+
+        self::assertTrue($inst->isTransformationAllowed());
+
+        $inst->preventFromTransformation();
+
+        self::assertFalse($inst->isTransformationAllowed());
     }
 }
 //@codingStandardsIgnoreEnd
