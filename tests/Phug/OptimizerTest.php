@@ -400,17 +400,16 @@ class OptimizerTest extends AbstractPhugTest
 
         touch($templates.'/foo.pug', time() - 3600);
 
-        // @TODO Make the test pass for cached renders
-        /*
         self::assertSame(
             'def',
             $optimizer->renderFile('foo', ['this' => new Context('def')])
         );
 
+        touch($templates.'/foo.pug', time() - 3600);
+
         self::assertSame(
             '25',
             Optimizer::call('renderFile', ['foo', ['this' => new Context(25)]], $options)
         );
-        */
     }
 }
