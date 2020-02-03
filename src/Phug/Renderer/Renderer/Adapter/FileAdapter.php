@@ -86,9 +86,9 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
             include $__pug_path;
         };
 
-        if (isset($variables['this'])) {
-            $execution = $execution->bindTo($variables['this']);
-            unset($variables['this']);
+        if (isset($__pug_parameters['this'])) {
+            $execution = $execution->bindTo($__pug_parameters['this']);
+            unset($__pug_parameters['this']);
         }
 
         $__pug_parameters['__pug_adapter'] = $this;
@@ -194,8 +194,19 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
      */
     public function display($__pug_php, array $__pug_parameters)
     {
-        extract($__pug_parameters);
-        include $this->getCompiledFile($__pug_php);
+        $execution = function () use ($__pug_php, &$__pug_parameters) {
+            extract($__pug_parameters);
+            include ${'__pug_adapter'}->getCompiledFile($__pug_php);
+        };
+
+        if (isset($__pug_parameters['this'])) {
+            $execution = $execution->bindTo($__pug_parameters['this']);
+            unset($__pug_parameters['this']);
+        }
+
+        $__pug_parameters['__pug_adapter'] = $this;
+
+        $execution();
     }
 
     /**

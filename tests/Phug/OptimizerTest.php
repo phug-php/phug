@@ -2,10 +2,12 @@
 
 namespace Phug\Test;
 
+use DateTime;
 use Phug\Optimizer;
 use Phug\Phug;
 use Phug\Reader;
 use Phug\RendererException;
+use Phug\Test\Utils\Context;
 use Phug\Test\Utils\CustomFacade;
 use Phug\Test\Utils\CustomRenderer;
 
@@ -372,5 +374,43 @@ class OptimizerTest extends AbstractPhugTest
             '6',
             Optimizer::call('renderFile', ['foo', ['c' => 3]], $options)
         );
+    }
+
+    /**
+     * @covers ::call
+     * @covers ::displayFile
+     */
+    public function testThisBinding()
+    {
+        $cache = sys_get_temp_dir().'/foo'.mt_rand(0, 999999);
+        $templates = sys_get_temp_dir().'/templates'.mt_rand(0, 999999);
+        $this->createEmptyDirectory($cache);
+        $this->createEmptyDirectory($templates);
+        file_put_contents($templates.'/foo.pug', '=$this->getInput()');
+        $options = [
+            'paths' => [$templates],
+            'cache' => $cache,
+        ];
+        $optimizer = new Optimizer($options);
+
+        self::assertSame(
+            'abc',
+            $optimizer->renderFile('foo', ['this' => new Context('abc')])
+        );
+
+        touch($templates.'/foo.pug', time() - 3600);
+
+        // @TODO Make the test pass for cached renders
+        /*
+        self::assertSame(
+            'def',
+            $optimizer->renderFile('foo', ['this' => new Context('def')])
+        );
+
+        self::assertSame(
+            '25',
+            Optimizer::call('renderFile', ['foo', ['this' => new Context(25)]], $options)
+        );
+        */
     }
 }

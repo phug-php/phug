@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Adapter;
 
+use DateTime;
 use Phug\Renderer;
 use Phug\Renderer\Adapter\Stream\Template;
 use Phug\Renderer\Adapter\StreamAdapter;
@@ -31,5 +32,19 @@ class StreamAdapterTest extends AbstractRendererTest
         self::assertTrue(is_int($stream->stream_tell()));
         self::assertTrue(is_array($stream->url_stat('a', 'b')));
         self::assertTrue($stream->stream_set_option('a', 'b', 'c'));
+    }
+
+    /**
+     * @covers ::<public>
+     */
+    public function testThisOverride()
+    {
+        $renderer = new Renderer([
+            'adapter_class_name' => StreamAdapter::class,
+        ]);
+
+        self::assertSame('<p>2020-02</p>', $renderer->render('p=$this->format("Y-m")', [
+            'this' => new DateTime('2020-02-05'),
+        ]));
     }
 }

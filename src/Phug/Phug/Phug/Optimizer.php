@@ -169,8 +169,17 @@ class Optimizer
             $__pug_parameters = [$self => $__pug_parameters];
         }
 
-        extract($__pug_parameters);
-        include $__pug_cache_file;
+        $execution = function () use ($__pug_cache_file, &$__pug_parameters) {
+            extract($__pug_parameters);
+            include $__pug_cache_file;
+        };
+
+        if (isset($__pug_parameters['this'])) {
+            $execution->bindTo($__pug_parameters['this']);
+            unset($__pug_parameters['this']);
+        }
+
+        $execution();
     }
 
     /**
