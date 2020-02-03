@@ -2,7 +2,6 @@
 
 namespace Phug\Test;
 
-use DateTime;
 use Phug\Optimizer;
 use Phug\Phug;
 use Phug\Reader;
