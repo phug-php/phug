@@ -864,15 +864,33 @@ class FileAdapterTest extends AbstractRendererTest
 
     /**
      * @covers ::<public>
+     * @covers \Phug\Renderer\AbstractAdapter::execute
      */
     public function testThisOverride()
     {
+        $cacheDirectory = sys_get_temp_dir().'/phug-cache-'.mt_rand(0, 999999);
+        $this->createEmptyDirectory($cacheDirectory);
         $renderer = new Renderer([
+            'cache_dir'          => $cacheDirectory,
             'adapter_class_name' => FileAdapter::class,
         ]);
 
         self::assertSame('<p>2020-02</p>', $renderer->render('p=$this->format("Y-m")', [
             'this' => new DateTime('2020-02-05'),
         ]));
+
+        $file = sys_get_temp_dir().'/pug-'.mt_rand(0, 999999).'.pug';
+        file_put_contents($file, 'p=$this->format("Y-m")');
+        $render1 = $renderer->renderFile($file, [
+            'this' => new DateTime('2020-02-05'),
+        ]);
+        touch($file, time() - 3600);
+        $render2 = $renderer->renderFile($file, [
+            'this' => new DateTime('2020-02-05'),
+        ]);
+        unlink($file);
+
+        self::assertSame('<p>2020-02</p>', $render1);
+        self::assertSame('<p>2020-02</p>', $render2);
     }
 }

@@ -27,6 +27,7 @@ class EvalAdapterTest extends AbstractRendererTest
 
     /**
      * @covers ::<public>
+     * @covers \Phug\Renderer\AbstractAdapter::execute
      */
     public function testThisOverride()
     {

@@ -36,6 +36,7 @@ class StreamAdapterTest extends AbstractRendererTest
 
     /**
      * @covers ::<public>
+     * @covers \Phug\Renderer\AbstractAdapter::execute
      */
     public function testThisOverride()
     {

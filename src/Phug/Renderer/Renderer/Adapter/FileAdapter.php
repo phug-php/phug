@@ -81,19 +81,11 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     {
         $__pug_parameters = $variables;
         $__pug_path = $this->cache($path, $input, $rendered, $success);
-        $execution = function () use ($__pug_path, &$__pug_parameters) {
+
+        $this->execute(function () use ($__pug_path, &$__pug_parameters) {
             extract($__pug_parameters);
             include $__pug_path;
-        };
-
-        if (isset($__pug_parameters['this'])) {
-            $execution = $execution->bindTo($__pug_parameters['this']);
-            unset($__pug_parameters['this']);
-        }
-
-        $__pug_parameters['__pug_adapter'] = $this;
-
-        $execution();
+        }, $__pug_parameters);
     }
 
     /**
@@ -194,19 +186,10 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
      */
     public function display($__pug_php, array $__pug_parameters)
     {
-        $execution = function () use ($__pug_php, &$__pug_parameters) {
+        $this->execute(function () use ($__pug_php, &$__pug_parameters) {
             extract($__pug_parameters);
             include ${'__pug_adapter'}->getCompiledFile($__pug_php);
-        };
-
-        if (isset($__pug_parameters['this'])) {
-            $execution = $execution->bindTo($__pug_parameters['this']);
-            unset($__pug_parameters['this']);
-        }
-
-        $__pug_parameters['__pug_adapter'] = $this;
-
-        $execution();
+        }, $__pug_parameters);
     }
 
     /**
