@@ -81,11 +81,19 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     {
         $__pug_parameters = $variables;
         $__pug_path = $this->cache($path, $input, $rendered, $success);
-
-        call_user_func(function () use ($__pug_path, $__pug_parameters) {
+        $execution = function () use ($__pug_path, &$__pug_parameters) {
             extract($__pug_parameters);
             include $__pug_path;
-        });
+        };
+
+        if (isset($variables['this'])) {
+            $execution = $execution->bindTo($variables['this']);
+            unset($variables['this']);
+        }
+
+        $__pug_parameters['__pug_adapter'] = $this;
+
+        $execution();
     }
 
     /**
