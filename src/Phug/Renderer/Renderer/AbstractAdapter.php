@@ -2,6 +2,7 @@
 
 namespace Phug\Renderer;
 
+use Closure;
 use Phug\Renderer;
 use Phug\Util\Partial\OptionTrait;
 
@@ -40,5 +41,17 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->captureBuffer(function () use ($php, $parameters) {
             $this->display($php, $parameters);
         });
+    }
+
+    protected function execute(Closure $execution, array &$variables)
+    {
+        if (isset($variables['this'])) {
+            $execution = $execution->bindTo($variables['this']);
+            unset($variables['this']);
+        }
+
+        $variables['__pug_adapter'] = $this;
+
+        $execution();
     }
 }

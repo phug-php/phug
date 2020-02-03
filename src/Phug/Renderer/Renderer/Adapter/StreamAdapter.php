@@ -33,8 +33,10 @@ class StreamAdapter extends AbstractAdapter
     public function display($__pug_php, array $__pug_parameters)
     {
         $this->setRenderingFile($__pug_php);
-        extract($__pug_parameters);
-        include $this->getRenderingFile();
+        $this->execute(function () use ($__pug_php, &$__pug_parameters) {
+            extract($__pug_parameters);
+            include ${'__pug_adapter'}->getRenderingFile();
+        }, $__pug_parameters);
     }
 
     public function getRenderingFile()

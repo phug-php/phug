@@ -323,7 +323,7 @@ class ProfilerModuleTest extends TestCase
         self::assertContains('title="div parsing:', $contents);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $contents);
         self::assertContains('title="div compiling:', $contents);
-        self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $contents);
+        self::assertRegExp('/div formatting\s*<br>\s*[+-]?[\.\d]+[µm]?s/', $contents);
         self::assertContains('title="div formatting:', $contents);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $contents);
         self::assertContains('title="div rendering:', $contents);

@@ -5,6 +5,7 @@ namespace Phug;
 use Phug\Compiler\Locator\FileLocator;
 use Phug\Renderer\Partial\RegistryTrait;
 use Phug\Util\Partial\HashPrintTrait;
+use RuntimeException;
 
 class Optimizer
 {
@@ -132,11 +133,13 @@ class Optimizer
 
                 return;
             }
+
             if (isset($this->options['renderer'])) {
                 $this->options['renderer']->displayFile($__pug_file, $__pug_parameters);
 
                 return;
             }
+
             if (isset($this->options['renderer_class_name'])) {
                 $className = $this->options['renderer_class_name'];
                 $renderer = new $className($this->options);
@@ -144,16 +147,18 @@ class Optimizer
 
                 return;
             }
+
             $facade = isset($this->options['facade'])
                 ? $this->options['facade']
                 : static::FACADE;
+
             if (is_callable([$facade, 'displayFile'])) {
                 $facade::displayFile($__pug_file, $__pug_parameters, $this->options);
 
                 return;
             }
 
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'No valid render method, renderer engine, renderer class or facade provided.'
             );
         }
@@ -161,16 +166,27 @@ class Optimizer
         if (isset($this->options['shared_variables'])) {
             $__pug_parameters = array_merge($this->options['shared_variables'], $__pug_parameters);
         }
+
         if (isset($this->options['globals'])) {
             $__pug_parameters = array_merge($this->options['globals'], $__pug_parameters);
         }
+
         if (isset($this->options['self']) && $this->options['self']) {
             $self = $this->options['self'] === true ? 'self' : strval($this->options['self']);
             $__pug_parameters = [$self => $__pug_parameters];
         }
 
-        extract($__pug_parameters);
-        include $__pug_cache_file;
+        $execution = function () use ($__pug_cache_file, &$__pug_parameters) {
+            extract($__pug_parameters);
+            include $__pug_cache_file;
+        };
+
+        if (isset($__pug_parameters['this'])) {
+            $execution = $execution->bindTo($__pug_parameters['this']);
+            unset($__pug_parameters['this']);
+        }
+
+        $execution();
     }
 
     /**
