@@ -545,6 +545,7 @@ class RendererTest extends AbstractRendererTest
         ]);
         $path = realpath(__DIR__.'/../utils/error.pug');
         $renderer->renderFile($path);
+        $message = str_replace('implode(): Invalid arguments passed', 'array, string given', $message ?: '');
 
         self::assertContains(
             'array, string given',
@@ -564,6 +565,7 @@ class RendererTest extends AbstractRendererTest
         $message = null;
         $renderer->setOption('debug', true);
         $renderer->renderFile($path);
+        $message = str_replace('implode(): Invalid arguments passed', 'array, string given', $message ?: '');
 
         self::assertContains(
             'array, string given on line 3, offset 2',
