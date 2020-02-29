@@ -547,7 +547,7 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile($path);
 
         self::assertContains(
-            'implode() expects parameter 2 to be array, string given',
+            'array, string given',
             $message
         );
 
@@ -566,7 +566,7 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile($path);
 
         self::assertContains(
-            'implode() expects parameter 2 to be array, string given on line 3, offset 2',
+            'array, string given on line 3, offset 2',
             $message
         );
 
