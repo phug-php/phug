@@ -388,6 +388,25 @@ class FormatterTest extends TestCase
     }
 
     /**
+     * @covers \Phug\Formatter\AbstractFormat::formatBoolean
+     * @covers ::formatBoolean
+     * @covers ::getFormatInstance
+     */
+    public function testFormatBooleanMethod()
+    {
+        $formatter = new Formatter([
+            'patterns' => [
+                'expression_in_bool' => '!!(%s)',
+            ],
+        ]);
+
+        self::assertSame(
+            '!!(func_call())',
+            $formatter->formatBoolean('func_call()')
+        );
+    }
+
+    /**
      * @covers \Phug\Formatter\AbstractFormat::pattern
      * @covers \Phug\Formatter\AbstractFormat::formatCode
      * @covers \Phug\Formatter\AbstractFormat::formatExpressionElement
