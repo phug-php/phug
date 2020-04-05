@@ -1,6 +1,10 @@
 pug-php/pug: default
 
-pug/bemto: default
+pug/bemto:
+  autoload:
+    - cp -r vendor/phug/phug vendor/phug/compiler
+    - cp -r vendor/phug/phug vendor/phug/formatter
+    - composer dump-autoload --optimize --no-interaction --quiet
 
 pug-php/pug-assets: default
 
