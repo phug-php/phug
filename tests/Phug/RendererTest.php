@@ -14,6 +14,7 @@ use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Renderer\AdapterInterface;
 use Phug\RendererException;
+use Phug\Test\Utils\BooleanAble;
 
 /**
  * @coversDefaultClass \Phug\Renderer
@@ -1227,5 +1228,36 @@ class RendererTest extends AbstractRendererTest
         ob_end_clean();
 
         self::assertSame('<p>biz</p>', trim($contents));
+    }
+
+    /**
+     * @throws RendererException
+     */
+    public function testBooleanCastAbleObject()
+    {
+        include_once __DIR__.'/Utils/BooleanAble.php';
+
+        $pug = new Renderer([
+            'modules' => [JsPhpizePhug::class],
+        ]);
+        $data = [
+            'trueObj' => new BooleanAble(true),
+            'falseObj' => new BooleanAble(false),
+            'whileObj' => new BooleanAble(2),
+        ];
+        $code = implode("\n", [
+            'if trueObj',
+            '  p if true',
+            'if falseObj',
+            '  p if false',
+            'unless trueObj',
+            '  p unless true',
+            'unless falseObj',
+            '  p unless false',
+            'while whileObj',
+            '  p while',
+        ]);
+
+        self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
     }
 }
