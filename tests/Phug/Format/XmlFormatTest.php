@@ -703,6 +703,7 @@ class XmlFormatTest extends TestCase
 
     /**
      * @covers \Phug\Formatter\Partial\HandleVariable::handleVariable
+     * @covers \Phug\Formatter\Partial\HandleVariable::wrapVariableContext
      */
     public function testCheckedVariableExceptionsOption()
     {

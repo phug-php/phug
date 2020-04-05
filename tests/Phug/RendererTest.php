@@ -1265,4 +1265,34 @@ class RendererTest extends AbstractRendererTest
 
         self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
     }
+
+    /**
+     * @throws RendererException
+     */
+    public function testIssetCompatibility()
+    {
+        $pug = new Renderer([
+            'modules' => [JsPhpizePhug::class],
+        ]);
+        $code = implode("\n", [
+            'if isset($value) && $value !== false',
+            '  | yes',
+            'else',
+            '  | no',
+        ]);
+
+        self::assertSame('no', trim($pug->render($code)));
+        self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
+
+        $pug = new Renderer();
+        $code = implode("\n", [
+            'if isset($value) && $value !== false',
+            '  | yes',
+            'else',
+            '  | no',
+        ]);
+
+        self::assertSame('no', trim($pug->render($code)));
+        self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
+    }
 }
