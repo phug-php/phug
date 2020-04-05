@@ -436,6 +436,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      */
     public function testHighlightLine()
     {

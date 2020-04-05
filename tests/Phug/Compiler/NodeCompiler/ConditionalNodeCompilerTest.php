@@ -15,6 +15,8 @@ class ConditionalNodeCompilerTest extends AbstractCompilerTest
     /**
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\AbstractStatementNodeCompiler::<public>
+     * @covers \Phug\Compiler\NodeCompiler\AbstractStatementNodeCompiler::wrapStatement
+     * @covers \Phug\Compiler\NodeCompiler\AbstractStatementNodeCompiler::getStatementSubject
      */
     public function testCompile()
     {

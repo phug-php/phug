@@ -381,6 +381,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
+     * @covers ::wrapLineWith
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
@@ -467,6 +468,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
+     * @covers ::wrapLineWith
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
@@ -530,6 +532,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      * @covers \Phug\Renderer\AbstractAdapter::captureBuffer
      */
     public function testHandleErrorInFile()
@@ -712,6 +715,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      * @covers \Phug\Renderer\AbstractAdapter::captureBuffer
      */
     public function testHandleHtmlError()
@@ -757,6 +761,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      * @covers \Phug\Renderer\AbstractAdapter::captureBuffer
      */
     public function testHandleParseError()
@@ -1241,7 +1246,7 @@ class RendererTest extends AbstractRendererTest
             'modules' => [JsPhpizePhug::class],
         ]);
         $data = [
-            'trueObj' => new BooleanAble(true),
+            'trueObj'  => new BooleanAble(true),
             'falseObj' => new BooleanAble(false),
             'whileObj' => new BooleanAble(2),
         ];

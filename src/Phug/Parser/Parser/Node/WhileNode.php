@@ -11,7 +11,7 @@ class WhileNode extends Node implements BooleanSubjectInterface
     use SubjectTrait;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function hasBooleanSubject()
     {

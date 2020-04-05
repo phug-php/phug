@@ -17,6 +17,7 @@ class ForNodeCompilerTest extends AbstractCompilerTest
      * @covers \Phug\Compiler\NodeCompiler\EachNodeCompiler::<public>
      * @covers \Phug\Compiler\NodeCompiler\EachNodeCompiler::compileLoop
      * @covers \Phug\Compiler\NodeCompiler\AbstractStatementNodeCompiler::wrapStatement
+     * @covers \Phug\Compiler\NodeCompiler\AbstractStatementNodeCompiler::getStatementSubject
      */
     public function testCompile()
     {

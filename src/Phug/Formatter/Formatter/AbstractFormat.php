@@ -530,12 +530,14 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         }
 
         foreach (['begin', 'end'] as $key) {
-            $result[$key] = (isset($result[$key.'Php'])
-                ? "<?php\n".$result[$key.'Php']."\n?>"
-                : ''
-            ).(isset($result[$key])
-                ? $result[$key]
-                : ''
+            $result[$key] = (
+                isset($result[$key.'Php'])
+                    ? "<?php\n".$result[$key.'Php']."\n?>"
+                    : ''
+            ).(
+                isset($result[$key])
+                    ? $result[$key]
+                    : ''
             );
         }
 
@@ -904,12 +906,13 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
                 '        if (mb_substr($__local_pug_key, 0, 6) === \'__pug_\') {'."\n".
                 '            continue;'."\n".
                 '        }'."\n".
-                ($variablesVariable
-                    ? '        if(isset($'.$variablesVariable.'[$__local_pug_key])){'."\n".
-                    '            $$__local_pug_key = &$'.$variablesVariable.'[$__local_pug_key];'."\n".
-                    '            continue;'."\n".
-                    '        }'."\n"
-                    : ''
+                (
+                    $variablesVariable
+                        ? '        if(isset($'.$variablesVariable.'[$__local_pug_key])){'."\n".
+                        '            $$__local_pug_key = &$'.$variablesVariable.'[$__local_pug_key];'."\n".
+                        '            continue;'."\n".
+                        '        }'."\n"
+                        : ''
                 ).
                 '        $__local_pug_ref = &$GLOBALS[$__local_pug_key];'."\n".
                 '        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];'."\n".

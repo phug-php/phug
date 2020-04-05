@@ -127,13 +127,15 @@ class FileAdapterTest extends AbstractRendererTest
             file_get_contents(__DIR__.'/../../cases/attrs.pug'),
             function ($path, $input) {
                 return "$path\n$input";
-            });
+            }
+        );
         $path2 = $fileAdapter->cache(
             __DIR__.'/../../cases/attrs-data.pug',
             file_get_contents(__DIR__.'/../../cases/attrs-data.pug'),
             function ($path, $input) {
                 return "$path\n$input";
-            });
+            }
+        );
 
         self::assertNotEquals($path1, $path2);
 
@@ -235,13 +237,15 @@ class FileAdapterTest extends AbstractRendererTest
             file_get_contents(__DIR__.'/../../cases/attrs.pug'),
             function ($path, $input) {
                 return "$path\n$input";
-            });
+            }
+        );
         $path2 = $fileAdapter->cache(
             __DIR__.'/../../cases/attrs-data.pug',
             file_get_contents(__DIR__.'/../../cases/attrs-data.pug'),
             function ($path, $input) {
                 return "$path\n$input";
-            });
+            }
+        );
 
         self::assertNotEquals($path1, $path2);
 

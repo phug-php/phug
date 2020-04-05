@@ -59,13 +59,14 @@ abstract class AbstractLexerTest extends TestCase
 
         for ($i = 0; $i < $lines; $i++) {
             $expected = isset($classNames[$i]) ? $this->filterTokenClass($classNames[$i]) : '';
-            $table .= "\n".(isset($tokens[$i])
-                ? str_pad($expected, 80, ' ', STR_PAD_RIGHT).str_replace(
-                    "\n",
-                    "\n".str_repeat(' ', 80),
-                    trim($this->lexer->dump($tokens[$i]))
-                )
-                : $expected
+            $table .= "\n".(
+                isset($tokens[$i])
+                    ? str_pad($expected, 80, ' ', STR_PAD_RIGHT).str_replace(
+                        "\n",
+                        "\n".str_repeat(' ', 80),
+                        trim($this->lexer->dump($tokens[$i]))
+                    )
+                    : $expected
             );
         }
 
