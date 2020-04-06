@@ -209,6 +209,7 @@ class FormatterTest extends TestCase
      * @covers \Phug\Formatter\Partial\HandleVariable::isInInterpolation
      * @covers \Phug\Formatter\Partial\HandleVariable::isInExclusionContext
      * @covers \Phug\Formatter\Partial\HandleVariable::handleVariable
+     * @covers \Phug\Formatter\Partial\HandleVariable::wrapVariableContext
      */
     public function testFormat()
     {
@@ -269,6 +270,16 @@ class FormatterTest extends TestCase
         $return = eval(str_replace(['<?=', '?>'], ['return', ';'], '$ext = "bar";'.$formatter->format($exp)));
 
         self::assertSame('foo.bar', $return);
+
+        $exp = new ExpressionElement('isset($$var) ? $$var : "nothing"');
+        $return = eval(str_replace(['<?=', '?>'], ['return', ';'], $formatter->format($exp)));
+
+        self::assertSame('nothing', $return);
+
+        $exp = new ExpressionElement('isset($$var) ? $$var : "nothing"');
+        $return = eval(str_replace(['<?=', '?>'], ['return', ';'], '$var = "bar"; $bar = "foo";'.$formatter->format($exp)));
+
+        self::assertSame('foo', $return);
 
         $exp = new ExpressionElement('($a = function ($a) { return $a; }) ? call_user_func($a, "A") : null');
         $return = eval(str_replace(['<?=', '?>'], ['return', ';'], $formatter->format($exp)));
@@ -384,6 +395,25 @@ class FormatterTest extends TestCase
         self::assertSame(
             '($foo = "bar")',
             $formatter->formatCode('$foo = "bar"')
+        );
+    }
+
+    /**
+     * @covers \Phug\Formatter\AbstractFormat::formatBoolean
+     * @covers ::formatBoolean
+     * @covers ::getFormatInstance
+     */
+    public function testFormatBooleanMethod()
+    {
+        $formatter = new Formatter([
+            'patterns' => [
+                'expression_in_bool' => '!!(%s)',
+            ],
+        ]);
+
+        self::assertSame(
+            '!!(func_call())',
+            $formatter->formatBoolean('func_call()')
         );
     }
 
@@ -617,6 +647,7 @@ class FormatterTest extends TestCase
      * @covers \Phug\Formatter\Partial\HandleVariable::isInInterpolation
      * @covers \Phug\Formatter\Partial\HandleVariable::isInExclusionContext
      * @covers \Phug\Formatter\Partial\HandleVariable::handleVariable
+     * @covers \Phug\Formatter\Partial\HandleVariable::wrapVariableContext
      * @covers \Phug\Formatter\Element\CodeElement::getValueTokens
      * @covers \Phug\Formatter\Element\CodeElement::<public>
      */

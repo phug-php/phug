@@ -34,14 +34,7 @@ trait DebuggerTrait
     {
         if ($options['html_error']) {
             return '<span class="error-line">'.
-                (is_null($offset)
-                    ? $lineText
-                    : mb_substr($lineText, 0, $offset).
-                    '<span class="error-offset">'.
-                    mb_substr($lineText, $offset, 1).
-                    '</span>'.
-                    mb_substr($lineText, $offset + 1)
-                ).
+                $this->wrapLineWith($lineText, $offset, '<span class="error-offset">%s</span>').
                 "</span>\n";
         }
 
@@ -50,15 +43,17 @@ trait DebuggerTrait
         }
 
         return "\033[43;30m".
-            (is_null($offset)
-                ? $lineText
-                : mb_substr($lineText, 0, $offset + 7).
-                "\033[43;31m".
-                mb_substr($lineText, $offset + 7, 1).
-                "\033[43;30m".
-                mb_substr($lineText, $offset + 8)
-            ).
+            $this->wrapLineWith($lineText, $offset, "\033[43;31m%s\033[43;30m", 7).
             "\e[0m\n";
+    }
+
+    private function wrapLineWith($lineText, $offset, $wrapper, $shift = 0)
+    {
+        return is_null($offset)
+            ? $lineText
+            : mb_substr($lineText, 0, $offset + $shift).
+            sprintf($wrapper, mb_substr($lineText, $offset + $shift, 1)).
+            mb_substr($lineText, $offset + 1 + $shift);
     }
 
     private function getErrorAsHtml($error, $parameters, $data)

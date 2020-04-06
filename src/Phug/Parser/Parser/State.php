@@ -632,9 +632,10 @@ class State implements OptionInterface, EventManagerInterface
         //- If none is found, we create an empty source location
         $location = $relatedToken && $relatedToken->getSourceLocation()
             ? clone $relatedToken->getSourceLocation()
-            : ($lexer->hasState()
-                ? $lexer->getState()->createCurrentSourceLocation()
-                : new SourceLocation(null, 0, 0)
+            : (
+                $lexer->hasState()
+                    ? $lexer->getState()->createCurrentSourceLocation()
+                    : new SourceLocation(null, 0, 0)
             );
 
         $near = $lexer->hasState()

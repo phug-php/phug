@@ -6,8 +6,9 @@ use Phug\Ast\NodeInterface;
 use Phug\Parser\NodeInterface as ParserNode;
 use Phug\Util\Partial\CheckTrait;
 use Phug\Util\Partial\TransformableTrait;
+use Phug\Util\TransformableInterface;
 
-class CodeElement extends AbstractValueElement
+class CodeElement extends AbstractValueElement implements TransformableInterface
 {
     use CheckTrait;
     use TransformableTrait;

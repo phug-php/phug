@@ -14,6 +14,7 @@ use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Renderer\AdapterInterface;
 use Phug\RendererException;
+use Phug\Test\Utils\BooleanAble;
 
 /**
  * @coversDefaultClass \Phug\Renderer
@@ -380,6 +381,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
+     * @covers ::wrapLineWith
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
@@ -466,6 +468,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
+     * @covers ::wrapLineWith
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
      * @covers \Phug\Renderer\Partial\AdapterTrait::callAdapter
@@ -529,6 +532,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      * @covers \Phug\Renderer\AbstractAdapter::captureBuffer
      */
     public function testHandleErrorInFile()
@@ -711,6 +715,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      * @covers \Phug\Renderer\AbstractAdapter::captureBuffer
      */
     public function testHandleHtmlError()
@@ -756,6 +761,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::wrapLineWith
      * @covers \Phug\Renderer\AbstractAdapter::captureBuffer
      */
     public function testHandleParseError()
@@ -1227,5 +1233,110 @@ class RendererTest extends AbstractRendererTest
         ob_end_clean();
 
         self::assertSame('<p>biz</p>', trim($contents));
+    }
+
+    /**
+     * @throws RendererException
+     */
+    public function testBooleanCastAbleObject()
+    {
+        include_once __DIR__.'/Utils/BooleanAble.php';
+
+        $pug = new Renderer([
+            'modules' => [JsPhpizePhug::class],
+        ]);
+        $data = [
+            'trueObj'  => new BooleanAble(true),
+            'falseObj' => new BooleanAble(false),
+            'whileObj' => new BooleanAble(2),
+        ];
+        $code = implode("\n", [
+            'if trueObj',
+            '  p if true',
+            'if falseObj',
+            '  p if false',
+            'unless trueObj',
+            '  p unless true',
+            'unless falseObj',
+            '  p unless false',
+            'while whileObj',
+            '  p while',
+        ]);
+
+        self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
+    }
+
+    /**
+     * @throws RendererException
+     */
+    public function testIssetCompatibility()
+    {
+        $jsPhpizeVersion = '1.0.0';
+
+        foreach (@json_decode(file_get_contents(__DIR__.'/../../vendor/composer/installed.json')) ?: [] as $package) {
+            if ($package->name === 'js-phpize/js-phpize') {
+                $jsPhpizeVersion = $package->version_normalized;
+
+                break;
+            }
+        }
+
+        $jsPhpizeAtLeastTwo = version_compare($jsPhpizeVersion, '2.0', '>=');
+
+        $handleCode = function (array $lines) use ($jsPhpizeAtLeastTwo) {
+            $code = implode("\n", $lines);
+
+            if ($jsPhpizeAtLeastTwo) {
+                return $code;
+            }
+
+            return strtr($code, ['$' => '']);
+        };
+
+        $pug = new Renderer();
+        $code = implode("\n", [
+            'if isset($value) && $value !== false',
+            '  | yes',
+            'else',
+            '  | no',
+        ]);
+
+        self::assertSame('no', trim($pug->render($code)));
+        self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
+
+        $pug = new Renderer([
+            'modules' => [JsPhpizePhug::class],
+        ]);
+        $code = $handleCode([
+            'if isset($value) && $value !== false',
+            '  | yes',
+            'else',
+            '  | no',
+        ]);
+
+        self::assertSame('no', trim($pug->render($code)));
+        self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
+
+        $code = $handleCode([
+            'if $foo && $bar[$foo - 1] === "x"',
+            '  | yes',
+            'else',
+            '  | no',
+        ]);
+
+        $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
+        $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
+
+        if ($jsPhpizeAtLeastTwo) {
+            $code = $handleCode([
+                'if $foo && isset($bar[$foo - 1])',
+                '  | yes',
+                'else',
+                '  | no',
+            ]);
+
+            $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
+            $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
+        }
     }
 }

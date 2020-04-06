@@ -43,6 +43,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             ? json_encode($_pug_temp)
             : strval($_pug_temp))';
     const EXPRESSION_IN_TEXT = '(is_bool($_pug_temp = %s) ? var_export($_pug_temp, true) : $_pug_temp)';
+    const EXPRESSION_IN_BOOL = 'method_exists($_pug_temp = %s, "__toBoolean") ? $_pug_temp->__toBoolean() : $_pug_temp';
     const HTML_EXPRESSION_ESCAPE = 'htmlspecialchars(%s)';
     const HTML_TEXT_ESCAPE = 'htmlspecialchars';
     const PAIR_TAG = '%s%s%s';
@@ -75,6 +76,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             'class_attribute'        => static::CLASS_ATTRIBUTE,
             'string_attribute'       => static::STRING_ATTRIBUTE,
             'expression_in_text'     => static::EXPRESSION_IN_TEXT,
+            'expression_in_bool'     => static::EXPRESSION_IN_BOOL,
             'html_expression_escape' => static::HTML_EXPRESSION_ESCAPE,
             'html_text_escape'       => static::HTML_TEXT_ESCAPE,
             'pair_tag'               => static::PAIR_TAG,
@@ -420,6 +422,18 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         )))->join('');
     }
 
+    /**
+     * Return an expression to be casted as boolean according to expression_in_bool pattern.
+     *
+     * @param string $code expression input code.
+     *
+     * @return string
+     */
+    public function formatBoolean($code)
+    {
+        return $this->pattern('expression_in_bool', $code);
+    }
+
     protected function formatAssignmentValue($value)
     {
         if ($value instanceof ExpressionElement) {
@@ -516,12 +530,14 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         }
 
         foreach (['begin', 'end'] as $key) {
-            $result[$key] = (isset($result[$key.'Php'])
-                ? "<?php\n".$result[$key.'Php']."\n?>"
-                : ''
-            ).(isset($result[$key])
-                ? $result[$key]
-                : ''
+            $result[$key] = (
+                isset($result[$key.'Php'])
+                    ? "<?php\n".$result[$key.'Php']."\n?>"
+                    : ''
+            ).(
+                isset($result[$key])
+                    ? $result[$key]
+                    : ''
             );
         }
 
@@ -890,12 +906,13 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
                 '        if (mb_substr($__local_pug_key, 0, 6) === \'__pug_\') {'."\n".
                 '            continue;'."\n".
                 '        }'."\n".
-                ($variablesVariable
-                    ? '        if(isset($'.$variablesVariable.'[$__local_pug_key])){'."\n".
-                    '            $$__local_pug_key = &$'.$variablesVariable.'[$__local_pug_key];'."\n".
-                    '            continue;'."\n".
-                    '        }'."\n"
-                    : ''
+                (
+                    $variablesVariable
+                        ? '        if(isset($'.$variablesVariable.'[$__local_pug_key])){'."\n".
+                        '            $$__local_pug_key = &$'.$variablesVariable.'[$__local_pug_key];'."\n".
+                        '            continue;'."\n".
+                        '        }'."\n"
+                        : ''
                 ).
                 '        $__local_pug_ref = &$GLOBALS[$__local_pug_key];'."\n".
                 '        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];'."\n".

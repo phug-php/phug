@@ -32,6 +32,7 @@ abstract class AbstractCompilerTest extends TestCase
             'paths'    => [__DIR__.'/../templates'],
             'patterns' => [
                 'expression_in_text' => '%s',
+                'expression_in_bool' => '%s',
             ],
         ]);
     }
