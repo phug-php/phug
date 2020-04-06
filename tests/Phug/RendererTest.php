@@ -1271,18 +1271,27 @@ class RendererTest extends AbstractRendererTest
      */
     public function testIssetCompatibility()
     {
-        $pug = new Renderer([
-            'modules' => [JsPhpizePhug::class],
-        ]);
-        $code = implode("\n", [
-            'if isset($value) && $value !== false',
-            '  | yes',
-            'else',
-            '  | no',
-        ]);
+        $jsPhpizeVersion = '1.0.0';
 
-        self::assertSame('no', trim($pug->render($code)));
-        self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
+        foreach (@json_decode(file_get_contents(__DIR__.'/../../vendor/composer/installed.json')) ?: [] as $package) {
+            if ($package->name === 'js-phpize/js-phpize') {
+                $jsPhpizeVersion = $package->version_normalized;
+
+                break;
+            }
+        }
+
+        $jsPhpizeAtLeastTwo = version_compare($jsPhpizeVersion, '2.0', '>=');
+
+        $handleCode = function (array $lines) use ($jsPhpizeAtLeastTwo) {
+            $code = implode("\n", $lines);
+
+            if ($jsPhpizeAtLeastTwo) {
+                return $code;
+            }
+
+            return strtr($code, ['$' => '']);
+        };
 
         $pug = new Renderer();
         $code = implode("\n", [
@@ -1298,7 +1307,17 @@ class RendererTest extends AbstractRendererTest
         $pug = new Renderer([
             'modules' => [JsPhpizePhug::class],
         ]);
-        $code = implode("\n", [
+        $code = $handleCode([
+            'if isset($value) && $value !== false',
+            '  | yes',
+            'else',
+            '  | no',
+        ]);
+
+        self::assertSame('no', trim($pug->render($code)));
+        self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
+
+        $code = $handleCode([
             'if $foo && $bar[$foo - 1] === "x"',
             '  | yes',
             'else',
@@ -1308,17 +1327,16 @@ class RendererTest extends AbstractRendererTest
         $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
         $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
 
-        $pug = new Renderer([
-            'modules' => [JsPhpizePhug::class],
-        ]);
-        $code = implode("\n", [
-            'if $foo && isset($bar[$foo - 1])',
-            '  | yes',
-            'else',
-            '  | no',
-        ]);
+        if ($jsPhpizeAtLeastTwo) {
+            $code = $handleCode([
+                'if $foo && isset($bar[$foo - 1])',
+                '  | yes',
+                'else',
+                '  | no',
+            ]);
 
-        $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
-        $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
+            $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
+            $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
+        }
     }
 }
