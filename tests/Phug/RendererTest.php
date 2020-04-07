@@ -296,6 +296,43 @@ class RendererTest extends AbstractRendererTest
         self::assertSame('ko', $actual);
     }
 
+    /**
+     * @covers ::share
+     * @covers ::resetSharedVariables
+     * @covers ::mergeWithSharedVariables
+     */
+    public function testShareRecursion()
+    {
+        $foo = (object) [
+            'biz' => 42,
+        ];
+        $bar = (object) [];
+        $foo->bar = &$bar;
+        $bar->foo = &$foo;
+
+        $this->renderer->share('foo', $foo);
+
+        $actual = str_replace(
+            "\r",
+            '',
+            trim($this->renderer->render('=foo.bar.foo.biz'))
+        );
+        self::assertSame('42', $actual);
+
+        $_SESSION['foo'] = $foo;
+        $options = [
+            'modules'          => [JsPhpizePhug::class],
+            'shared_variables' => ['session' => $_SESSION],
+        ];
+        $renderer = new Renderer($options);
+        $actual = str_replace(
+            "\r",
+            '',
+            trim($renderer->render('=session.foo.bar.foo.biz'))
+        );
+        self::assertSame('42', $actual);
+    }
+
     public function testInterpolations()
     {
         $actual = str_replace(
