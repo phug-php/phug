@@ -331,6 +331,19 @@ class RendererTest extends AbstractRendererTest
             trim($renderer->render('=session.foo.bar.foo.biz'))
         );
         self::assertSame('42', $actual);
+
+        $data = ['foo' => 'bar'];
+        $session = [
+            'biz' => &$data
+        ];
+
+        $pug = new Renderer([
+            'shared_variables' => [
+                'session' => $session
+            ]
+        ]);
+
+        self::assertSame('bar', $pug->render('=session.biz.foo'));
     }
 
     public function testInterpolations()
