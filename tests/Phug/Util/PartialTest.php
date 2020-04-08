@@ -401,21 +401,7 @@ class PartialTest extends TestCase
     }
 
     /**
-     * @covers \Phug\Util\Partial\OptionTrait::setOptionArrays
-     * @covers \Phug\Util\Partial\OptionTrait::handleOptionName
-     * @covers \Phug\Util\Partial\OptionTrait::addOptionNameHandlers
-     * @covers \Phug\Util\Partial\OptionTrait::setDefaultOption
-     * @covers \Phug\Util\Partial\OptionTrait::mergeOptionValue
-     * @covers \Phug\Util\Partial\OptionTrait::setOptionsDefaults
-     * @covers \Phug\Util\Partial\OptionTrait::filterTraversable
-     * @covers \Phug\Util\Partial\OptionTrait::getOptions
-     * @covers \Phug\Util\Partial\OptionTrait::setOptions
-     * @covers \Phug\Util\Partial\OptionTrait::setOptionsRecursive
-     * @covers \Phug\Util\Partial\OptionTrait::getOption
-     * @covers \Phug\Util\Partial\OptionTrait::setOption
-     * @covers \Phug\Util\Partial\OptionTrait::hasOption
-     * @covers \Phug\Util\Partial\OptionTrait::unsetOption
-     * @covers \Phug\Util\Partial\OptionTrait::resetOptions
+     * @covers \Phug\Util\Partial\OptionTrait
      */
     public function testOptionTraitAndInterface()
     {

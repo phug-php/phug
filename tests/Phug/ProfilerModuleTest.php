@@ -149,7 +149,7 @@ class ProfilerModuleTest extends TestCase
 
         $renderer = new Renderer([
             'enable_profiler' => false,
-            'memory_limit'    => 2000000 * (version_compare(phpversion(), '7.0.0-dev', '<') ? 3 : 1),
+            'memory_limit'    => 2000000,
         ]);
 
         self::assertTrue($renderer->getOption('enable_profiler'));
