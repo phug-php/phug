@@ -334,13 +334,13 @@ class RendererTest extends AbstractRendererTest
 
         $data = ['foo' => 'bar'];
         $session = [
-            'biz' => &$data
+            'biz' => &$data,
         ];
 
         $pug = new Renderer([
             'shared_variables' => [
-                'session' => $session
-            ]
+                'session' => $session,
+            ],
         ]);
 
         self::assertSame('bar', $pug->render('=session.biz.foo'));
