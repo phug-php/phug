@@ -32,6 +32,14 @@ trait OptionTrait
     protected $recursiveReplaceFunction = 'array_replace_recursive';
 
     /**
+     * @var string[]
+     */
+    protected $nonDeepOptions = [
+        'shared_variables',
+        'globals',
+    ];
+
+    /**
      * @param string $name
      *
      * @return string
@@ -67,6 +75,7 @@ trait OptionTrait
         }
 
         $options = $this->getOptions();
+
         foreach ($this->filterTraversable($arrays) as $array) {
             foreach ($array as $key => $value) {
                 $this->withVariableReference($options, $key, function (&$base, $name) use ($functionName, $value) {
@@ -82,9 +91,7 @@ trait OptionTrait
 
     private function mergeOptionValue($name, $current, $addedValue, $functionName)
     {
-        if ($functionName === $this->recursiveReplaceFunction &&
-            ($name === 'shared_variables' || $name === 'globals')
-        ) {
+        if ($functionName === $this->recursiveReplaceFunction && in_array($name, $this->nonDeepOptions)) {
             $functionName = $this->replaceFunction;
         }
 
