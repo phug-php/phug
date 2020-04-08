@@ -343,7 +343,7 @@ class RendererTest extends AbstractRendererTest
             ],
         ]);
 
-        self::assertSame('bar', $pug->render('=session.biz.foo'));
+        self::assertSame('bar', $pug->render('=$session["biz"]["foo"]'));
     }
 
     public function testInterpolations()
