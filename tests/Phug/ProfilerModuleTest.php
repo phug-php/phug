@@ -146,6 +146,22 @@ class ProfilerModuleTest extends TestCase
 
         self::assertLessThan(0, $renderer->getOption('memory_limit'));
         self::assertLessThan(0, $renderer->getOption('execution_max_time'));
+    }
+
+    /**
+     * @group profiler
+     * @covers ::renderProfile
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::initDebugOptions
+     */
+    public function testMemoryLimitOptions()
+    {
+        if (version_compare(PHP_VERSION, '5.6.0-dev', '>=') &&
+            version_compare(PHP_VERSION, '7.0.0-dev', '<')
+        ) {
+            self::markTestSkipped('Skipped due to Travis bug with PHP 5.6 only.');
+
+            return;
+        }
 
         $renderer = new Renderer([
             'enable_profiler' => false,

@@ -22,6 +22,24 @@ trait OptionTrait
     private $optionNameHandlers = [];
 
     /**
+     * @var callable
+     */
+    protected $replaceFunction = 'array_replace';
+
+    /**
+     * @var callable
+     */
+    protected $recursiveReplaceFunction = 'array_replace_recursive';
+
+    /**
+     * @var string[]
+     */
+    protected $nonDeepOptions = [
+        'shared_variables',
+        'globals',
+    ];
+
+    /**
      * @param string $name
      *
      * @return string
@@ -57,17 +75,27 @@ trait OptionTrait
         }
 
         $options = $this->getOptions();
+
         foreach ($this->filterTraversable($arrays) as $array) {
             foreach ($array as $key => $value) {
                 $this->withVariableReference($options, $key, function (&$base, $name) use ($functionName, $value) {
                     $base[$name] = isset($base[$name]) && is_array($base[$name]) && is_array($value)
-                        ? $functionName($base[$name], $value)
+                        ? $this->mergeOptionValue($name, $base[$name], $value, $functionName)
                         : $value;
                 });
             }
         }
 
         return $this;
+    }
+
+    private function mergeOptionValue($name, $current, $addedValue, $functionName)
+    {
+        if ($functionName === $this->recursiveReplaceFunction && in_array($name, $this->nonDeepOptions)) {
+            $functionName = $this->replaceFunction;
+        }
+
+        return $functionName($current, $addedValue);
     }
 
     /**
@@ -87,7 +115,7 @@ trait OptionTrait
      */
     public function setOptions($options)
     {
-        return $this->setOptionArrays(func_get_args(), 'array_replace');
+        return $this->setOptionArrays(func_get_args(), $this->replaceFunction);
     }
 
     /**
@@ -95,7 +123,7 @@ trait OptionTrait
      */
     public function setOptionsRecursive($options)
     {
-        return $this->setOptionArrays(func_get_args(), 'array_replace_recursive');
+        return $this->setOptionArrays(func_get_args(), $this->recursiveReplaceFunction);
     }
 
     private function setDefaultOption($key, $value)
@@ -105,7 +133,10 @@ trait OptionTrait
         } elseif (is_array($option = $this->getOption($key)) &&
             (!count($option) || is_string(key($option))) && is_array($value)
         ) {
-            $this->setOption($key, array_replace_recursive($value, $this->getOption($key)));
+            $this->setOption(
+                $key,
+                $this->mergeOptionValue($key, $value, $this->getOption($key), $this->recursiveReplaceFunction)
+            );
         }
     }
 

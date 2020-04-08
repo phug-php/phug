@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Util;
 
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use Phug\Util\DocumentLocationInterface;
 use Phug\Util\Exception\LocatedException;
@@ -401,25 +402,11 @@ class PartialTest extends TestCase
 
     /**
      * @covers \Phug\Util\Partial\OptionTrait
-     * @covers \Phug\Util\Partial\OptionTrait::setOptionArrays
-     * @covers \Phug\Util\Partial\OptionTrait::handleOptionName
-     * @covers \Phug\Util\Partial\OptionTrait::addOptionNameHandlers
-     * @covers \Phug\Util\Partial\OptionTrait::setDefaultOption
-     * @covers \Phug\Util\Partial\OptionTrait::setOptionsDefaults
-     * @covers \Phug\Util\Partial\OptionTrait::filterTraversable
-     * @covers \Phug\Util\Partial\OptionTrait::getOptions
-     * @covers \Phug\Util\Partial\OptionTrait::setOptions
-     * @covers \Phug\Util\Partial\OptionTrait::setOptionsRecursive
-     * @covers \Phug\Util\Partial\OptionTrait::getOption
-     * @covers \Phug\Util\Partial\OptionTrait::setOption
-     * @covers \Phug\Util\Partial\OptionTrait::hasOption
-     * @covers \Phug\Util\Partial\OptionTrait::unsetOption
-     * @covers \Phug\Util\Partial\OptionTrait::resetOptions
      */
     public function testOptionTraitAndInterface()
     {
         $inst = new TestClass();
-        self::assertInstanceOf(\ArrayObject::class, $inst->getOptions());
+        self::assertInstanceOf(ArrayObject::class, $inst->getOptions());
         self::assertCount(0, $inst->getOptions());
 
         $options = [
@@ -514,7 +501,7 @@ class PartialTest extends TestCase
         self::assertFalse($inst->hasOption('foo.baz'));
         self::assertFalse($inst->hasOption('new_option'));
 
-        $ref = new \ArrayObject([
+        $ref = new ArrayObject([
             'foo' => 'bar',
         ]);
         $inst->resetOptions();
@@ -527,7 +514,7 @@ class PartialTest extends TestCase
         self::assertSame('bar', $ref['foo']);
         self::assertSame('baz', $ref['bar']);
 
-        $ref = new \ArrayObject([
+        $ref = new ArrayObject([
             'foo' => [
                 'bar' => 'baz',
             ],
@@ -541,7 +528,7 @@ class PartialTest extends TestCase
         self::assertSame('bar', $inst->getOption('foo.baz'));
         self::assertSame('baz', $inst->getOption('foo.bar'));
 
-        $ref = new \ArrayObject([
+        $ref = new ArrayObject([
             'foo' => 'bar',
         ]);
         $inst->resetOptions();
@@ -557,6 +544,19 @@ class PartialTest extends TestCase
         $objectOptions = new ObjectOptions();
         self::assertTrue($objectOptions->hasOption('a'));
         self::assertFalse($objectOptions->hasOption('b'));
+
+        $inst = new TestClass();
+        $inst->setOptionsRecursive([
+            'globals' => ['bar' => ['x' => 9]],
+        ]);
+        $inst->setOption('globals', ['biz' => ['x' => 9]]);
+        self::assertFalse($inst->hasOption(['globals', 'bar']));
+        self::assertSame(9, $inst->getOption(['globals', 'biz', 'x']));
+        $inst->setOptionsRecursive([
+            'globals' => ['biz' => ['y' => 9]],
+        ]);
+        self::assertFalse($inst->hasOption(['globals', 'biz', 'x']));
+        self::assertSame(9, $inst->getOption(['globals', 'biz', 'y']));
     }
 
     /**
