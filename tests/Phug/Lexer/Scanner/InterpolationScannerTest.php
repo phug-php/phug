@@ -21,8 +21,6 @@ class InterpolationScannerTest extends AbstractLexerTest
 {
     /**
      * @covers \Phug\Lexer\Scanner\InterpolationScanner
-     * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanInterpolation
-     * @covers \Phug\Lexer\Scanner\InterpolationScanner::scan
      * @covers \Phug\Lexer\Scanner\TextScanner::scan
      * @covers \Phug\Lexer\Scanner\TextScanner::scanInterpolationTokens
      * @covers \Phug\Lexer\Scanner\TextScanner::scanInterpolationToken
@@ -122,6 +120,38 @@ class InterpolationScannerTest extends AbstractLexerTest
             TextToken::class,
             NewLineToken::class,
             TextToken::class,
+        ]);
+
+        $this->assertTokens("p\n  | #{\$var}\n  | biz", [
+            TagToken::class,
+            NewLineToken::class,
+            IndentToken::class,
+            TextToken::class,
+            InterpolationStartToken::class,
+            ExpressionToken::class,
+            InterpolationEndToken::class,
+            TextToken::class,
+            NewLineToken::class,
+            TextToken::class,
+        ]);
+
+        $this->assertTokens("| #{\$var}\n| biz", [
+            TextToken::class,
+            InterpolationStartToken::class,
+            ExpressionToken::class,
+            InterpolationEndToken::class,
+            TextToken::class,
+            NewLineToken::class,
+            TextToken::class,
+        ]);
+
+        $this->assertTokens("| #{\$var}\nbiz", [
+            TextToken::class,
+            InterpolationStartToken::class,
+            ExpressionToken::class,
+            InterpolationEndToken::class,
+            NewLineToken::class,
+            TagToken::class,
         ]);
 
         $this->assertTokens("p.\n  foo\n  #{'hi'}\n", [
