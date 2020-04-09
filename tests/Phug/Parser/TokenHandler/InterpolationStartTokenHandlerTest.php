@@ -153,6 +153,17 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         }
     }
 
+    public function testConsecutiveInterpolations()
+    {
+        $this->assertNodes('| #{$a}#{$b}', [
+            '[DocumentNode]',
+            '  [TextNode]',
+            '  [ExpressionNode]',
+            '  [ExpressionNode]',
+            '  [TextNode]',
+        ]);
+    }
+
     /**
      * @covers                   ::<public>
      * @expectedException        \Phug\ParserException

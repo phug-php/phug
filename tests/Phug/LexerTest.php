@@ -194,6 +194,32 @@ class LexerTest extends AbstractLexerTest
     }
 
     /**
+     * @covers ::setLastToken
+     * @covers ::getPreviousToken
+     * @covers ::getLastToken
+     */
+    public function testGetLastAndPreviousToken()
+    {
+        $lexer = new Lexer();
+        /** @var \Generator $iterator */
+        $iterator = $lexer->lex('p Test', 'test.pug');
+
+        self::assertNull($lexer->getLastToken());
+        self::assertNull($lexer->getPreviousToken());
+
+        $iterator->current();
+
+        self::assertInstanceOf(TagToken::class, $lexer->getLastToken());
+        self::assertNull($lexer->getPreviousToken());
+
+        $iterator->next();
+        $iterator->current();
+
+        self::assertInstanceOf(TextToken::class, $lexer->getLastToken());
+        self::assertInstanceOf(TagToken::class, $lexer->getPreviousToken());
+    }
+
+    /**
      * @covers ::dump
      * @covers \Phug\Lexer\Partial\DumpTokenTrait::dumpToken
      * @covers \Phug\Lexer\Partial\DumpTokenTrait::dumpAttributeToken
