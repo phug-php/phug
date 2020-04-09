@@ -98,7 +98,7 @@ class InterpolationScanner implements ScannerInterface
 
             $reader->consume();
 
-            if ($reader->peekNewLine()) {
+            if ($reader->peekNewLine() && $reader->match('\n*'.$state->getIndentStyle().'{'.$state->getIndentWidth().'}'.'\|')) {
                 /** @var TextToken $token */
                 $token = $state->createToken(TextToken::class);
                 $token->setValue("\n");
