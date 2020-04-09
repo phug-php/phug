@@ -75,12 +75,19 @@ class StateTest extends TestCase
      */
     public function testTokensCrawler()
     {
-        $lexer = new Lexer();
-        $state = new State(new Parser(), $lexer->lex("div\np"));
+        $parser = new Parser();
+        $lexer = $parser->getLexer();
+        $state = new State($parser, $lexer->lex("div\np"));
 
         self::assertTrue($state->hasTokens());
         self::assertSame($state, $state->nextToken());
+        self::assertSame($lexer->getLastToken(), $state->getToken());
+        $newLineToken = $state->getToken();
+        self::assertInstanceOf(NewLineToken::class, $newLineToken);
+        self::assertSame('div', $state->getPreviousToken()->getName());
         self::assertSame('p', $state->nextToken()->getToken()->getName());
+        self::assertInstanceOf(NewLineToken::class, $state->getPreviousToken());
+        self::assertSame($newLineToken, $state->getPreviousToken());
         self::assertFalse($state->nextToken()->hasTokens());
     }
 

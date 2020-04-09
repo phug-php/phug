@@ -462,11 +462,21 @@ class State implements OptionInterface, EventManagerInterface
      *
      * @see \Generator->current
      *
-     * @return array the token array (always _one_ token, as an array)
+     * @return TokenInterface|null
      */
     public function getToken()
     {
         return $this->tokens->current();
+    }
+
+    /**
+     * Return the token parsed just before the current one (->getToken()).
+     *
+     * @return TokenInterface|null
+     */
+    public function getPreviousToken()
+    {
+        return $this->parser->getLexer()->getPreviousToken();
     }
 
     public function is(Node $node, array $classNames)
