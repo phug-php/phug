@@ -43,8 +43,13 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             ? json_encode($_pug_temp)
             : strval($_pug_temp))';
     const EXPRESSION_IN_TEXT = '(is_bool($_pug_temp = %s) ? var_export($_pug_temp, true) : $_pug_temp)';
-    const EXPRESSION_IN_BOOL = 'method_exists($_pug_temp = %s, "__toBoolean") ? $_pug_temp->__toBoolean() : $_pug_temp';
-    const EXPRESSION_IN_BOOL_PHP8 = 'is_object($_pug_temp = %s) && method_exists($_pug_temp, "__toBoolean") ? $_pug_temp->__toBoolean() : $_pug_temp';
+    const EXPRESSION_IN_BOOL = 'method_exists($_pug_temp = %s, "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp';
+    const EXPRESSION_IN_BOOL_PHP8 = '
+        is_object($_pug_temp = %s) && method_exists($_pug_temp, "__toBoolean")
+            ? $_pug_temp->__toBoolean()
+            : $_pug_temp';
     const HTML_EXPRESSION_ESCAPE = 'htmlspecialchars(%s)';
     const HTML_TEXT_ESCAPE = 'htmlspecialchars';
     const PAIR_TAG = '%s%s%s';
