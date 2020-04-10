@@ -62,6 +62,7 @@ class InterpolationStartTokenHandler implements TokenHandlerInterface
             'currentNode' => $node,
             'parentNode'  => $state->getParentNode(),
         ]);
+
         $state->store();
     }
 }
