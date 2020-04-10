@@ -52,7 +52,6 @@ before_script:
   - if [[ "$COVERAGE" = "on" ]]; then ./cc-test-reporter before-build; fi;
 
 script:
-  - php test.php
   - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" && "$SPLIT" != "on" ]]; then vendor/bin/phpunit --no-coverage; fi;
   - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml; fi;
   - if [[ "$MULTITEST" = "on" ]]; then vendor/bin/multi-tester --verbose --quiet-install; fi;
