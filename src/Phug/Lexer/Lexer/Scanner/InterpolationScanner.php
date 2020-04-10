@@ -59,7 +59,7 @@ class InterpolationScanner implements ScannerInterface
         yield $end;
     }
 
-    protected function needsSeparationBlankLine(State $state)
+    protected function needSeparationBlankLine(State $state)
     {
         $reader = $state->getReader();
 
@@ -112,7 +112,7 @@ class InterpolationScanner implements ScannerInterface
 
             $reader->consume();
 
-            if ($this->needsSeparationBlankLine($state)) {
+            if ($this->needSeparationBlankLine($state)) {
                 /** @var TextToken $token */
                 $token = $state->createToken(TextToken::class);
                 $token->setValue("\n");
