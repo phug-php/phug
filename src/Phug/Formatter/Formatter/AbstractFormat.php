@@ -43,7 +43,13 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             ? json_encode($_pug_temp)
             : strval($_pug_temp))';
     const EXPRESSION_IN_TEXT = '(is_bool($_pug_temp = %s) ? var_export($_pug_temp, true) : $_pug_temp)';
-    const EXPRESSION_IN_BOOL = 'method_exists($_pug_temp = %s, "__toBoolean") ? $_pug_temp->__toBoolean() : $_pug_temp';
+    const EXPRESSION_IN_BOOL = 'method_exists($_pug_temp = %s, "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp';
+    const EXPRESSION_IN_BOOL_PHP8 = '
+        is_object($_pug_temp = %s) && method_exists($_pug_temp, "__toBoolean")
+            ? $_pug_temp->__toBoolean()
+            : $_pug_temp';
     const HTML_EXPRESSION_ESCAPE = 'htmlspecialchars(%s)';
     const HTML_TEXT_ESCAPE = 'htmlspecialchars';
     const PAIR_TAG = '%s%s%s';
@@ -76,7 +82,9 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             'class_attribute'        => static::CLASS_ATTRIBUTE,
             'string_attribute'       => static::STRING_ATTRIBUTE,
             'expression_in_text'     => static::EXPRESSION_IN_TEXT,
-            'expression_in_bool'     => static::EXPRESSION_IN_BOOL,
+            'expression_in_bool'     => PHP_MAJOR_VERSION < 8
+                ? static::EXPRESSION_IN_BOOL // @codeCoverageIgnore
+                : static::EXPRESSION_IN_BOOL_PHP8, // @codeCoverageIgnore
             'html_expression_escape' => static::HTML_EXPRESSION_ESCAPE,
             'html_text_escape'       => static::HTML_TEXT_ESCAPE,
             'pair_tag'               => static::PAIR_TAG,

@@ -59,6 +59,20 @@ class InterpolationScanner implements ScannerInterface
         yield $end;
     }
 
+    protected function needsSeparationBlankLine(State $state)
+    {
+        $reader = $state->getReader();
+
+        if (!$reader->peekNewLine()) {
+            return false;
+        }
+
+        $indentWidth = $state->getIndentWidth();
+        $indentation = $indentWidth > 0 ? $state->getIndentStyle().'{'.$state->getIndentWidth().'}' : '';
+
+        return $reader->match('\n*'.$indentation.'\|');
+    }
+
     public function scan(State $state)
     {
         $reader = $state->getReader();
@@ -98,7 +112,7 @@ class InterpolationScanner implements ScannerInterface
 
             $reader->consume();
 
-            if ($reader->peekNewLine()) {
+            if ($this->needsSeparationBlankLine($state)) {
                 /** @var TextToken $token */
                 $token = $state->createToken(TextToken::class);
                 $token->setValue("\n");

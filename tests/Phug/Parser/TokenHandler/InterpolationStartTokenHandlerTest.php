@@ -69,7 +69,6 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
             '  [ElementNode]',
             '    [TextNode]',
             '    [ExpressionNode]',
-            '    [TextNode]',
         ]);
         $document = $this->parser->parse($template);
         $element = $document->getChildAt(0);
@@ -82,7 +81,6 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
             '  [ElementNode]',
             '    [TextNode]',
             '    [ExpressionNode]',
-            '    [TextNode]',
         ]);
         $document = $this->parser->parse($template);
         $element = $document->getChildAt(0);
@@ -160,7 +158,50 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
             '  [TextNode]',
             '  [ExpressionNode]',
             '  [ExpressionNode]',
+        ]);
+    }
+
+    public function testInterpolationsSeparatedWithStatement()
+    {
+        $this->assertNodes("| #{\$a}\nif true\n  | #{\$b}\n| c", [
+            '[DocumentNode]',
             '  [TextNode]',
+            '  [ExpressionNode]',
+            '  [ConditionalNode]',
+            '    [TextNode]',
+            '    [ExpressionNode]',
+            '  [TextNode]',
+        ]);
+    }
+
+    public function testInterpolationsWithOneTagPerLine()
+    {
+        $code = implode("\n", [
+            'p',
+            '  | bing',
+            '  | #[strong foo]',
+            '  | #[strong= \'[foo]\']',
+            '  | #[- var foo = \'foo]\']',
+            '  | bong',
+        ]);
+
+        $this->assertNodes($code, [
+            '[DocumentNode]',
+            '  [ElementNode]',
+            '    [TextNode]',
+            '    [TextNode]',
+            '    [ElementNode]',
+            '      [TextNode]',
+            '    [TextNode]',
+            '    [TextNode]',
+            '    [ElementNode]',
+            '      [ExpressionNode]',
+            '    [TextNode]',
+            '    [TextNode]',
+            '    [CodeNode]',
+            '      [TextNode]',
+            '    [TextNode]',
+            '    [TextNode]',
         ]);
     }
 

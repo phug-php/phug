@@ -43,7 +43,6 @@ sudo: false
 install:
   - if [[ $TRAVIS_PHP_VERSION =~ ^nightly ]]; then COMPOSER_FLAGS='--ignore-platform-reqs'; fi
   - if [[ "$COVERAGE" != "on" ]]; then phpenv config-rm xdebug.ini || echo 'XDebug already disabled'; fi;
-  - travis_retry composer self-update
   - composer config version 1.0.x-dev
   - travis_retry composer install ${COMPOSER_FLAGS} --no-interaction
 

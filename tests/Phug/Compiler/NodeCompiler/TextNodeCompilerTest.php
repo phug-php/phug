@@ -34,8 +34,7 @@ class TextNodeCompilerTest extends AbstractCompilerTest
         $this->assertCompile(
             [
                 '<p>article'."\n",
-                '  <p>Name</p>'."\n",
-                '</p>',
+                '  <p>Name</p></p>',
             ],
             [
                 'p.'."\n",

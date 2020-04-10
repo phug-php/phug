@@ -95,7 +95,6 @@ class TagInterpolationStartTokenHandlerTest extends AbstractParserTest
             '        [ElementNode]',
             '          [TextNode]',
             '      [TextNode]',
-            '      [TextNode]',
             '      [ElementNode]',
             '        [TextNode]',
             '      [TextNode]',

@@ -1370,6 +1370,13 @@ class RendererTest extends AbstractRendererTest
         self::assertSame('no', trim($pug->render($code)));
         self::assertSame('yes', trim($pug->render($code, ['value' => 1])));
 
+        self::assertSame('abc', trim($pug->render("| a\nif true\n  | b\n| c")));
+        self::assertSame('abc', trim($pug->render("| a\nif true\n  | #{'b'}\n| c")));
+        self::assertSame('abc', trim($pug->render("| #{'a'}\nif true\n  | #{'b'}\n| c")));
+        self::assertSame("a\nb", trim($pug->render("| #{'a'}\n| #{'b'}")));
+        self::assertSame("a\nb", trim($pug->render("| #{'a'}\n\n| #{'b'}")));
+        self::assertSame('<p>a</p>b', trim($pug->render("p\n  | #{'a'}\n| #{'b'}")));
+
         $pug = new Renderer([
             'modules' => [JsPhpizePhug::class],
         ]);
