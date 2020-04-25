@@ -917,10 +917,10 @@ class Reader
         $exception = new ReaderException(
             new SourceLocation(null, $this->line, $this->offset),
             ReaderException::message($message, [
-                'near' => $this->peek(20),
-                'path' => $path,
-                'line' => $this->line,
-                'offset' => $this->offset,
+                'near'     => $this->peek(20),
+                'path'     => $path,
+                'line'     => $this->line,
+                'offset'   => $this->offset,
                 'position' => $this->position,
             ])
         );

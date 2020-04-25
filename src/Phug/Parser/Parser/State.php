@@ -649,11 +649,11 @@ class State implements OptionInterface, EventManagerInterface
         throw new ParserException(
             $location,
             ParserException::message($message, [
-                'path' => $location->getPath(),
-                'near' => $lexer->hasState()
+                'path'   => $location->getPath(),
+                'near'   => $lexer->hasState()
                     ? $lexer->getState()->getReader()->peek(20)
                     : '[No clue]',
-                'line' => $location->getLine(),
+                'line'   => $location->getLine(),
                 'offset' => $location->getOffset(),
             ]),
             $code,

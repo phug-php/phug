@@ -450,9 +450,9 @@ class State implements OptionInterface
         throw new LexerException(
             $this->createCurrentSourceLocation(),
             LexerException::message($message, [
-                'near' => $this->reader->peek(20),
-                'path' => $this->getOption('path'),
-                'line' => $this->reader->getLine(),
+                'near'   => $this->reader->peek(20),
+                'path'   => $this->getOption('path'),
+                'line'   => $this->reader->getLine(),
                 'offset' => $this->reader->getOffset(),
             ]),
             $code,

@@ -916,8 +916,8 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         throw new CompilerException(
             new SourceLocation($path, $line, $offset, $offsetLength),
             CompilerException::message($message, [
-                'path' => $path,
-                'line' => $line,
+                'path'   => $path,
+                'line'   => $line,
                 'offset' => $offset,
             ]),
             $code,
