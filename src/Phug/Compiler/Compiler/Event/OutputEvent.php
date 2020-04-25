@@ -70,7 +70,11 @@ class OutputEvent extends Event
     public function prependOutput($code)
     {
         if ($this->hasNamespaceStatement($namespaceStatement, $output)) {
-            $this->output = $this->concatCode($this->closePhpCode($namespaceStatement), $code, $this->openPhpCode($output));
+            $this->output = $this->concatCode(
+                $this->closePhpCode($namespaceStatement),
+                $code,
+                $this->openPhpCode($output)
+            );
 
             return;
         }
