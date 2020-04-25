@@ -69,17 +69,15 @@ class OutputEvent extends Event
      */
     public function prependOutput($code)
     {
-        if ($this->hasNamespaceStatement($namespaceStatement, $output)) {
-            $this->output = $this->concatCode(
-                $this->closePhpCode($namespaceStatement),
-                $code,
-                $this->openPhpCode($output)
-            );
-
-            return;
-        }
-
-        $this->output = $this->concatCode($code, $this->output);
+        $this->setOutput(
+            $this->hasNamespaceStatement($namespaceStatement, $output)
+                ? $this->concatCode(
+                    $this->closePhpCode($namespaceStatement),
+                    $code,
+                    $this->openPhpCode($output)
+                )
+                : $this->concatCode($code, $this->output)
+        );
     }
 
     /**
@@ -117,11 +115,9 @@ class OutputEvent extends Event
         $trimmedCloseTag = ltrim($this->closePhpTag);
         $closeLength = strlen($trimmedCloseTag);
 
-        if (substr($trimmedCode, 0, $closeLength) === $trimmedCloseTag) {
-            return substr($trimmedCode, $closeLength);
-        }
-
-        return $this->openPhpTag.$code;
+        return substr($trimmedCode, 0, $closeLength) === $trimmedCloseTag
+            ? substr($trimmedCode, $closeLength)
+            : $this->openPhpTag.$code;
     }
 
     protected function closePhpCode($code)
@@ -130,11 +126,9 @@ class OutputEvent extends Event
         $trimmedOpenTag = rtrim($this->openPhpTag);
         $openLength = strlen($trimmedOpenTag);
 
-        if (substr($trimmedCode, -$openLength) === $trimmedOpenTag) {
-            return substr($trimmedCode, 0, -$openLength);
-        }
-
-        return $code.$this->closePhpTag;
+        return substr($trimmedCode, -$openLength) === $trimmedOpenTag
+            ? substr($trimmedCode, 0, -$openLength)
+            : $code.$this->closePhpTag;
     }
 
     protected function concatCode()

@@ -29,6 +29,7 @@ class CommentNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     * @covers            \Phug\CompilerException::<public>
      * @expectedException \Phug\CompilerException
      */
     public function testException()

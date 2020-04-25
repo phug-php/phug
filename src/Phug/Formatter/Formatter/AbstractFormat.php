@@ -27,6 +27,7 @@ use Phug\Parser\NodeInterface;
 use Phug\Util\Joiner;
 use Phug\Util\OptionInterface;
 use Phug\Util\Partial\OptionTrait;
+use Phug\Util\PhpTokenizer;
 use Phug\Util\SourceLocation;
 use ReflectionMethod;
 use SplObjectStorage;
@@ -356,7 +357,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             return;
         }
 
-        $tokens = array_slice(token_get_all('<?php '.$code), 1);
+        $tokens = PhpTokenizer::getTokens($code);
         $afterIsset = false;
         $inIsset = false;
 

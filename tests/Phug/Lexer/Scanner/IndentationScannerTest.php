@@ -165,6 +165,7 @@ class IndentationScannerTest extends AbstractLexerTest
      * @covers            \Phug\Lexer\Scanner\IndentationScanner::scan
      * @covers            \Phug\Lexer\Scanner\IndentationScanner::formatIndentChar
      * @covers            \Phug\Lexer\Scanner\IndentationScanner::getIndentChar
+     * @covers            \Phug\LexerException::<public>
      * @expectedException \Phug\LexerException
      */
     public function testInconsistentIndent()

@@ -247,7 +247,7 @@ class ReaderTest extends TestCase
      * @covers ::throwException
      * @covers \Phug\ReaderException
      * @expectedException \Phug\ReaderException
-     * @expectedExceptionMessage File: path.pug
+     * @expectedExceptionMessage Path: path.pug
      */
     public function testPathInErrors()
     {

@@ -6,6 +6,7 @@ use Phug\Ast\NodeInterface;
 use Phug\Parser\NodeInterface as ParserNode;
 use Phug\Util\Partial\CheckTrait;
 use Phug\Util\Partial\TransformableTrait;
+use Phug\Util\PhpTokenizer;
 use Phug\Util\TransformableInterface;
 
 class CodeElement extends AbstractValueElement implements TransformableInterface
@@ -48,12 +49,8 @@ class CodeElement extends AbstractValueElement implements TransformableInterface
 
         $value = $this->getValue();
         if (!isset($cache[$value])) {
-            $cache[$value] = array_slice(
-                token_get_all(
-                    '<?php '.
-                    preg_replace('/\s*\{\s*\}$/', '', trim($value))
-                ),
-                1
+            $cache[$value] = PhpTokenizer::getTokens(
+                preg_replace('/\s*\{\s*\}$/', '', trim($value))
             );
         }
 

@@ -162,13 +162,14 @@ class StateTest extends TestCase
     /**
      * @covers                   ::__construct
      * @expectedException        \Phug\ReaderException
-     * @expectedExceptionMessage File: path.pug
+     * @expectedExceptionMessage Path: path.pug
      */
     public function testReaderExceptionWithPath()
     {
         $state = new State(new Lexer(), 'foobar foobar foobar', [
             'path' => 'path.pug',
         ]);
+
         foreach ($state->scanToken(TextToken::class, '(?:\D+|<\d+>)*[!?]') as $token) {
             self::assertSame('should not exist', $token);
         }
