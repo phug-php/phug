@@ -58,7 +58,7 @@ class OutputEvent extends Event
      */
     public function prependCode($code)
     {
-        return $this->prependOutput($this->openPhpTag.$code.$this->closePhpTag);
+        return $this->prependOutput($this->closePhpCode($this->openPhpCode($code)));
     }
 
     /**
@@ -107,7 +107,7 @@ class OutputEvent extends Event
         return false;
     }
 
-    private function openPhpCode($code)
+    protected function openPhpCode($code)
     {
         $trimmedCode = ltrim($code);
         $trimmedCloseTag = ltrim($this->closePhpTag);
@@ -120,20 +120,20 @@ class OutputEvent extends Event
         return $this->openPhpTag.$code;
     }
 
-    private function closePhpCode($code)
+    protected function closePhpCode($code)
     {
         $trimmedCode = rtrim($code);
         $trimmedOpenTag = rtrim($this->openPhpTag);
         $openLength = strlen($trimmedOpenTag);
 
         if (substr($trimmedCode, -$openLength) === $trimmedOpenTag) {
-            return substr($trimmedCode, 0, $openLength);
+            return substr($trimmedCode, 0, -$openLength);
         }
 
         return $code.$this->closePhpTag;
     }
 
-    private function concatCode()
+    protected function concatCode()
     {
         $string = '';
         $closeLength = strlen($this->closePhpTag);

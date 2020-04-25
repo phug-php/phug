@@ -72,9 +72,20 @@ class CompilerModuleTest extends TestCase
 
     /**
      * @covers \Phug\Compiler\Event\OutputEvent::<public>
+     * @covers \Phug\Compiler\Event\OutputEvent::openPhpCode
+     * @covers \Phug\Compiler\Event\OutputEvent::closePhpCode
+     * @covers \Phug\Compiler\Event\OutputEvent::concatCode
      */
     public function testPrependCode()
     {
+        $compiler = new Compiler([
+            'on_output' => function (OutputEvent $event) {
+                $event->prependCode('?><h1>Title</h1><?php');
+            },
+        ]);
+
+        self::assertSame('<h1>Title</h1><div></div>', $compiler->compile('div'));
+
         $compiler = new Compiler([
             'on_output' => function (OutputEvent $event) {
                 $event->prependCode('namespace pug;');
@@ -97,10 +108,18 @@ class CompilerModuleTest extends TestCase
             '- namespace pug;',
             'div',
         ])));
+
+        self::assertSame("<?php namespace pug;\necho \"Hello\";\necho \"Bye\"; ?><div></div>", $compiler->compile(implode("\n", [
+            '- namespace pug; echo "Bye";',
+            'div',
+        ])));
     }
 
     /**
      * @covers \Phug\Compiler\Event\OutputEvent::<public>
+     * @covers \Phug\Compiler\Event\OutputEvent::openPhpCode
+     * @covers \Phug\Compiler\Event\OutputEvent::closePhpCode
+     * @covers \Phug\Compiler\Event\OutputEvent::concatCode
      */
     public function testPrependOutput()
     {
@@ -127,6 +146,11 @@ class CompilerModuleTest extends TestCase
             'div',
         ])));
 
+        self::assertSame("<?php namespace pug;\necho \"Hello\";\necho \"Bye\"; ?><div></div>", $compiler->compile(implode("\n", [
+            '- namespace pug; echo "Bye";',
+            'div',
+        ])));
+
         $compiler = new Compiler([
             'on_output' => function (OutputEvent $event) {
                 $event->prependOutput('<p>Hello</p>');
@@ -139,6 +163,11 @@ class CompilerModuleTest extends TestCase
 
         self::assertSame('<?php namespace pug; ?><p>Hello</p><div></div>', $compiler->compile(implode("\n", [
             '- namespace pug;',
+            'div',
+        ])));
+
+        self::assertSame('<?php namespace pug; ?><p>Hello</p><?php echo "Bye"; ?><div></div>', $compiler->compile(implode("\n", [
+            '- namespace pug;echo "Bye";',
             'div',
         ])));
     }
