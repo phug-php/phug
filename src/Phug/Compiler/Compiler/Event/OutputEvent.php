@@ -47,4 +47,25 @@ class OutputEvent extends Event
     {
         $this->output = $output;
     }
+
+    /**
+     * Prepend PHP code before the output (but after the namespace statement if present).
+     *
+     * @param string $code PHP code (whihout <?php ?> tags)
+     */
+    public function prependCode($code)
+    {
+        if (preg_match('/^(<\?(?:php)?\s+namespace\s\S.*)(((?:;|\n|\?>)[\s\S]*)?)$/U', $this->output, $matches)) {
+            if (substr($matches[2], 0, 1) === ';') {
+                $matches[1] .= ';';
+                $matches[2] = substr($matches[2], 1);
+            }
+
+            $this->output = $matches[1].$code.$matches[2];
+
+            return;
+        }
+
+        $this->output = "<?php$code?>".$this->output;
+    }
 }
