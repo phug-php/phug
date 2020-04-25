@@ -906,8 +906,6 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
      */
     public function throwException($message, $node = null, $code = 0, $previous = null)
     {
-        $pattern = "Failed to compile: %s \nLine: %s \nOffset: %s";
-
         $location = $node ? $node->getSourceLocation() : null;
 
         $path = $location ? $location->getPath() : $this->getPath();
@@ -915,16 +913,12 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
         $offset = $location ? $location->getOffset() : 0;
         $offsetLength = $location ? $location->getOffsetLength() : 0;
 
-        if ($path) {
-            $pattern .= "\nPath: $path";
-        }
-
         throw new CompilerException(
             new SourceLocation($path, $line, $offset, $offsetLength),
-            vsprintf($pattern, [
-                $message,
-                $line,
-                $offset,
+            CompilerException::message($message, [
+                'path' => $path,
+                'line' => $line,
+                'offset' => $offset,
             ]),
             $code,
             $previous

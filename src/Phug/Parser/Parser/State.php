@@ -632,8 +632,6 @@ class State implements OptionInterface, EventManagerInterface
      */
     public function throwException($message, $code = 0, TokenInterface $relatedToken = null, $previous = null)
     {
-        $pattern = "Failed to parse: %s \nNear: %s \nLine: %s \nOffset: %s";
-
         $lexer = $this->parser->getLexer();
         //This will basically check for a source location for this Node. The process is like:
         //- If there's a related token, we use the cloned token's source location
@@ -648,24 +646,15 @@ class State implements OptionInterface, EventManagerInterface
                     : new SourceLocation(null, 0, 0)
             );
 
-        $near = $lexer->hasState()
-            ? $lexer->getState()->getReader()->peek(20)
-            : '[No clue]';
-
-        //We know where it occured!
-        $path = $location->getPath();
-
-        if ($path) {
-            $pattern .= "\nPath: $path";
-        }
-
         throw new ParserException(
             $location,
-            vsprintf($pattern, [
-                $message,
-                $near,
-                $location->getLine(),
-                $location->getOffset(),
+            ParserException::message($message, [
+                'path' => $location->getPath(),
+                'near' => $lexer->hasState()
+                    ? $lexer->getState()->getReader()->peek(20)
+                    : '[No clue]',
+                'line' => $location->getLine(),
+                'offset' => $location->getOffset(),
             ]),
             $code,
             $relatedToken,

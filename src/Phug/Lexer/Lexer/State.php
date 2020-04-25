@@ -447,20 +447,13 @@ class State implements OptionInterface
      */
     public function throwException($message, $code = 0, $previous = null)
     {
-        $pattern = "Failed to lex: %s \nNear: %s \nLine: %s \nOffset: %s";
-        $path = $this->getOption('path');
-
-        if ($path) {
-            $pattern .= "\nPath: $path";
-        }
-
         throw new LexerException(
             $this->createCurrentSourceLocation(),
-            vsprintf($pattern, [
-                $message,
-                $this->reader->peek(20),
-                $this->reader->getLine(),
-                $this->reader->getOffset(),
+            LexerException::message($message, [
+                'near' => $this->reader->peek(20),
+                'path' => $this->getOption('path'),
+                'line' => $this->reader->getLine(),
+                'offset' => $this->reader->getOffset(),
             ]),
             $code,
             $previous
