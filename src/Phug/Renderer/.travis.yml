@@ -21,7 +21,7 @@ install:
     if [[ "$STYLECHECK" != "on" ]]; then
       mkdir -p tests/Phug && \
       vendor/bin/split copy https://github.com/phug-php/phug.git tests/Phug/ --filters=tests/Phug/Adapter,tests/Phug/Profiler,tests/Phug/Utils,tests/Phug/AbstractRendererTest.php,tests/Phug/CasesTest.php,tests/Phug/ProfilerModuleTest.php,tests/Phug/Renderer*
-      vendor/bin/split copy https://github.com/phug-php/phug.git tests/ --filters=tests/call-undefined,tests/cases,tests/errored,tests/fixtures,tests/for-cache,tests/utils,tests/state.php,tests/update.php;
+      vendor/bin/split copy https://github.com/phug-php/phug.git tests/ --filters=tests/call-undefined,tests/cases,tests/errored,tests/fixtures,tests/extra-fixtures,tests/for-cache,tests/utils,tests/state.php,tests/update.php;
     fi;
 
 script:
