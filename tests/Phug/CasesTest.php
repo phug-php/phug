@@ -58,7 +58,7 @@ class CasesTest extends AbstractRendererTest
             $context
         );
         $pugPhp = @file_get_contents(
-            'https://api.github.com/repos/phug-php/renderer/commits?path=tests/cases',
+            'https://api.github.com/repos/phug-php/phug/commits?path=tests/cases',
             false,
             $context
         );
