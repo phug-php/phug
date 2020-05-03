@@ -168,7 +168,7 @@ class RendererModuleTest extends TestCase
         $exception = null;
 
         try {
-            $renderer->renderFile(__DIR__.'/../fixtures/missing-mixin.pug');
+            $renderer->renderFile(__DIR__.'/../extra-fixtures/missing-mixin.pug');
         } catch (\InvalidArgumentException $e) {
             $exception = $e;
         } catch (\Exception $e) {

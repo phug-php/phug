@@ -13,6 +13,16 @@ use Phug\Renderer\Task\TasksGroup;
 use Phug\Util\Partial\HashPrintTrait;
 use RuntimeException;
 
+/**
+ * Renderer using files system.
+ *
+ * Options to customize paths:
+ * - cache_dir directory to save the rendered files (no cache by default)
+ * - tmp_dir working directory (directory used to temporarily save files if no long term cache_dir is provided, sys_get_temp_dir() by default)
+ * - tmp_name_function function used to create temporary files (tempnam() by default)
+ * - up_to_date_check (true: check if templates changed since the cached file was written, false: cache can only be cleared manually)
+ * - keep_base_name (true: file name of the template will appear in the cached file name, false: only a hash is used in the cached file)
+ */
 class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInterface
 {
     use FileAdapterCacheToolsTrait;
@@ -23,11 +33,11 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
     public function __construct(Renderer $renderer, $options)
     {
         parent::__construct($renderer, [
-            'cache_dir'           => null,
-            'tmp_dir'             => sys_get_temp_dir(),
-            'tmp_name_function'   => 'tempnam',
-            'up_to_date_check'    => true,
-            'keep_base_name'      => false,
+            'cache_dir'         => null,
+            'tmp_dir'           => sys_get_temp_dir(),
+            'tmp_name_function' => 'tempnam',
+            'up_to_date_check'  => true,
+            'keep_base_name'    => false,
         ]);
 
         $this->setOptions($options);
