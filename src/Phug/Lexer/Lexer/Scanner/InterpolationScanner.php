@@ -11,9 +11,11 @@ use Phug\Lexer\State;
 use Phug\Lexer\Token\ExpressionToken;
 use Phug\Lexer\Token\InterpolationEndToken;
 use Phug\Lexer\Token\InterpolationStartToken;
+use Phug\Lexer\Token\NewLineToken;
 use Phug\Lexer\Token\TagInterpolationEndToken;
 use Phug\Lexer\Token\TagInterpolationStartToken;
 use Phug\Lexer\Token\TextToken;
+use RuntimeException;
 
 class InterpolationScanner implements ScannerInterface
 {
@@ -31,9 +33,15 @@ class InterpolationScanner implements ScannerInterface
             $lexer = $state->getLexer();
 
             yield $start;
+
             foreach ($lexer->lex($tagInterpolation) as $token) {
+                if ($token instanceof NewLineToken) {
+                    $state->throwException('End of line was reached with no closing bracket for interpolation.');
+                }
+
                 yield $token;
             }
+
             yield $end;
 
             return;
