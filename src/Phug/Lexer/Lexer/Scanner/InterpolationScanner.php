@@ -21,6 +21,10 @@ class InterpolationScanner implements ScannerInterface
 {
     protected function scanInterpolation(State $state, $tagInterpolation, $interpolation, $escape)
     {
+        if (strpos($interpolation, "\n") !== false) {
+            $state->throwException('End of line was reached with no closing bracket for interpolation.');
+        }
+
         if ($tagInterpolation) {
             /** @var TagInterpolationStartToken $start */
             $start = $state->createToken(TagInterpolationStartToken::class);
@@ -58,6 +62,7 @@ class InterpolationScanner implements ScannerInterface
         /** @var ExpressionToken $token */
         $token = $state->createToken(ExpressionToken::class);
         $token->setValue($interpolation);
+
         if ($escape === '#') {
             $token->escape();
         }

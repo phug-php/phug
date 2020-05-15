@@ -185,11 +185,22 @@ class InterpolationScannerTest extends AbstractLexerTest
     /**
      * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanInterpolation
      */
-    public function testNewLineInInterpolation()
+    public function testNewLineInTagInterpolation()
     {
         $this->expectMessageToBeThrown('End of line was reached with no closing bracket for interpolation.');
 
         $input = "p #[em\n]";
+        $tokens = iterator_to_array($this->lexer->lex($input));
+    }
+
+    /**
+     * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanInterpolation
+     */
+    public function testNewLineInInterpolation()
+    {
+        $this->expectMessageToBeThrown('End of line was reached with no closing bracket for interpolation.');
+
+        $input = "p #{em\n}";
         iterator_to_array($this->lexer->lex($input));
     }
 }
