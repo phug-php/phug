@@ -169,13 +169,17 @@ class LineAnalyzer
     public function getFlatLines()
     {
         return array_map(function ($line) {
+            $rawText = '';
+
             foreach ($line as $chunk) {
                 if ($chunk instanceof TokenInterface) {
-                    $this->state->throwException('Unexpected '.get_class($chunk).' inside raw text.');
+                    continue;
                 }
+
+                $rawText .= $chunk;
             }
 
-            return implode('', $line);
+            return $rawText;
         }, $this->lines);
     }
 

@@ -49,7 +49,7 @@ abstract class AbstractLexerTest extends TestCase
         }
     }
 
-    protected function assertTokens($expression, array $classNames, Lexer $lexer = null)
+    protected function assertTokens($expression, array $classNames, Lexer $lexer = null, &$tokens = [])
     {
         $lexer = $lexer ?: $this->lexer;
         $tokens = iterator_to_array($lexer->lex($expression));

@@ -2,8 +2,6 @@
 
 namespace Phug\Test\Lexer\Scanner;
 
-use Phug\Lexer\Analyzer\LineAnalyzer;
-use Phug\Lexer\State;
 use Phug\Lexer\Token\ExpressionToken;
 use Phug\Lexer\Token\IndentToken;
 use Phug\Lexer\Token\InterpolationEndToken;
@@ -13,9 +11,7 @@ use Phug\Lexer\Token\TagInterpolationEndToken;
 use Phug\Lexer\Token\TagInterpolationStartToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
-use Phug\Reader;
 use Phug\Test\AbstractLexerTest;
-use Phug\Util\SourceLocation;
 
 class InterpolationScannerTest extends AbstractLexerTest
 {
@@ -164,21 +160,5 @@ class InterpolationScannerTest extends AbstractLexerTest
             InterpolationEndToken::class,
             TextToken::class,
         ]);
-    }
-
-    /**
-     * @covers                   \Phug\Lexer\Analyzer\LineAnalyzer::<public>
-     * @expectedException        \Phug\LexerException
-     * @expectedExceptionMessage Failed to lex: Unexpected Phug\Lexer\Token\InterpolationStartToken inside raw text.
-     */
-    public function testTokenInLineAnalyzer()
-    {
-        $input = 'p #{42}';
-        $analyzer = new LineAnalyzer(new State($this->lexer, $input, []), new Reader($input), [
-            [
-                new InterpolationStartToken(new SourceLocation('foo.pug', 12, 43)),
-            ],
-        ]);
-        $analyzer->getFlatLines();
     }
 }
