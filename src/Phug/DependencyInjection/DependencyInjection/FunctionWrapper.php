@@ -74,18 +74,18 @@ class FunctionWrapper extends ReflectionFunction
      */
     protected function getTypeAsString(ReflectionParameter $parameter)
     {
-        if (method_exists($parameter, 'getType')) {
-            /** @var mixed $parameter ReflectionParameter has hasType and getType methods since PHP 7.0. */
+        if (version_compare(phpversion(), '8.0.0-dev', '<')) {
+            if ($parameter->isArray()) {
+                return 'array';
+            }
 
-            return $parameter->hasType() ? strval($parameter->getType()) : null;
+            $class = $parameter->getClass();
+
+            return $class ? $class->name : null;
         }
 
-        if ($parameter->isArray()) {
-            return 'array';
-        }
+        /** @var mixed $parameter ReflectionParameter has hasType and getType methods since PHP 7.0. */
 
-        $class = $parameter->getClass();
-
-        return $class ? $class->name : null;
+        return $parameter->hasType() ? strval($parameter->getType()) : null;
     }
 }
