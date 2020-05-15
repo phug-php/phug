@@ -2,6 +2,7 @@
 
 namespace Phug\Test;
 
+use Phug\DependencyException;
 use Phug\DependencyInjection;
 use Phug\Util\UnorderedArguments;
 
@@ -97,13 +98,16 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
     }
 
     /**
-     * @covers                   \Phug\DependencyInjection::setAsRequired
-     * @expectedException        \Phug\DependencyException
-     * @expectedExceptionCode    2
-     * @expectedExceptionMessage Dependency not found: baz < bar < foo
+     * @covers \Phug\DependencyInjection::setAsRequired
      */
     public function testRequiredFailure()
     {
+        $this->expectMessageToBeThrown(
+            DependencyException::class,
+            'Dependency not found: baz < bar < foo',
+            2
+        );
+
         $injector = new DependencyInjection();
         $injector->provider('bar', ['baz', 1]);
         $injector->provider('foo', ['bar', 2]);
@@ -111,13 +115,16 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
     }
 
     /**
-     * @covers                   \Phug\DependencyInjection::getProvider
-     * @expectedException        \Phug\DependencyException
-     * @expectedExceptionCode    1
-     * @expectedExceptionMessage foobar dependency not found.
+     * @covers \Phug\DependencyInjection::getProvider
      */
     public function testGetProviderException()
     {
+        $this->expectMessageToBeThrown(
+            DependencyException::class,
+            'foobar dependency not found.',
+            1
+        );
+
         $injector = new DependencyInjection();
         $injector->getProvider('foobar');
     }
@@ -248,13 +255,15 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
     }
 
     /**
-     * @covers                   \Phug\DependencyInjection::provider
-     * @expectedException        \Phug\DependencyException
-     * @expectedExceptionMessage Invalid provider passed to foobar,
-     * @expectedExceptionMessage it must be an array or a callable function.
+     * @covers  \Phug\DependencyInjection::provider
      */
     public function testProviderException()
     {
+        $this->expectMessageToBeThrown(
+            DependencyException::class,
+            'Invalid provider passed to foobar, it must be an array or a callable function.'
+        );
+
         $injector = new DependencyInjection();
         $injector->provider('foobar', '-');
     }

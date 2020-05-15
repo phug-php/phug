@@ -15,15 +15,16 @@ abstract class AbstractCompilerTest extends TestCase
      */
     protected $compiler;
 
-    protected function expectMessageToBeThrown($message)
+    protected function expectMessageToBeThrown($message, $type = null)
     {
         if (method_exists($this, 'expectExceptionMessage')) {
             $this->expectExceptionMessage($message);
+            $this->expectException($type ?: Exception::class);
 
             return;
         }
 
-        $this->setExpectedException(Exception::class, $message, null);
+        $this->setExpectedException($type ?: Exception::class, $message, null);
     }
 
     protected function setUp()

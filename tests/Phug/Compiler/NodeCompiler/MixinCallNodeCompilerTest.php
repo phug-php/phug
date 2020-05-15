@@ -2,8 +2,10 @@
 
 namespace Phug\Test\Compiler\NodeCompiler;
 
+use InvalidArgumentException;
 use Phug\Compiler;
 use Phug\Compiler\NodeCompiler\MixinCallNodeCompiler;
+use Phug\CompilerException;
 use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractCompilerTest;
 
@@ -321,15 +323,16 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
     }
 
     /**
-     * @group             mixins
-     * @covers            ::<public>
-     * @expectedException \Phug\CompilerException
+     * @group mixins
+     *
+     * @covers ::<public>
      */
     public function testException()
     {
         $this->expectMessageToBeThrown(
             'Unexpected Phug\Parser\Node\ElementNode '.
-            'given to mixin call compiler.'
+            'given to mixin call compiler.',
+            CompilerException::class,
         );
 
         $mixinCallCompiler = new MixinCallNodeCompiler(new Compiler());
@@ -337,14 +340,15 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
     }
 
     /**
-     * @group             mixins
-     * @covers            ::<public>
-     * @expectedException \InvalidArgumentException
+     * @group mixins
+     *
+     * @covers ::<public>
      */
     public function testUnknownMixin()
     {
         $this->expectMessageToBeThrown(
-            'Unknown undef mixin called.'
+            'Unknown undef mixin called.',
+            InvalidArgumentException::class
         );
 
         $php = (new Compiler([

@@ -4,6 +4,7 @@ namespace Phug\Test\Compiler\NodeCompiler;
 
 use Phug\Compiler;
 use Phug\Compiler\NodeCompiler\ForNodeCompiler;
+use Phug\CompilerException;
 use Phug\Parser\Node\ElementNode;
 use Phug\Test\AbstractCompilerTest;
 
@@ -143,14 +144,14 @@ class ForNodeCompilerTest extends AbstractCompilerTest
     }
 
     /**
-     * @covers            ::<public>
-     * @expectedException \Phug\CompilerException
+     * @covers ::<public>
      */
     public function testException()
     {
         $this->expectMessageToBeThrown(
             'Unexpected Phug\Parser\Node\ElementNode '.
-            'given to for compiler.'
+            'given to for compiler.',
+            CompilerException::class
         );
 
         $forCompiler = new ForNodeCompiler(new Compiler());

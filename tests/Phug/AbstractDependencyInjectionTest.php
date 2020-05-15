@@ -21,4 +21,20 @@ abstract class AbstractDependencyInjectionTest extends TestCase
 
         self::assertSame($expected, $actual);
     }
+
+    protected function expectMessageToBeThrown($type, $message, $code = null)
+    {
+        if (method_exists($this, 'expectExceptionMessage')) {
+            $this->expectException($type);
+            $this->expectExceptionMessage($message);
+
+            if ($code !== null) {
+                $this->expectExceptionCode($code);
+            }
+
+            return;
+        }
+
+        $this->setExpectedException($type, $message, $code);
+    }
 }
