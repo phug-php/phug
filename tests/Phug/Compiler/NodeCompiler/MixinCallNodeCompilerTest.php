@@ -332,7 +332,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
         $this->expectMessageToBeThrown(
             'Unexpected Phug\Parser\Node\ElementNode '.
             'given to mixin call compiler.',
-            CompilerException::class,
+            CompilerException::class
         );
 
         $mixinCallCompiler = new MixinCallNodeCompiler(new Compiler());
