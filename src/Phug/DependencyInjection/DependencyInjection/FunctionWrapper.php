@@ -68,6 +68,8 @@ class FunctionWrapper extends ReflectionFunction
     /**
      * Return the type as a string in a way compatible from PHP 5.5 to 8.0.
      *
+     * @codeCoverageIgnore
+     *
      * @param ReflectionParameter $parameter
      *
      * @return string|null
