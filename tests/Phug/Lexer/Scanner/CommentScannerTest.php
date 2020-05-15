@@ -142,6 +142,9 @@ class CommentScannerTest extends AbstractLexerTest
         ]);
     }
 
+    /**
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getFlatLines
+     */
     public function testInterpolationInComment()
     {
         $code = implode("\n", [
