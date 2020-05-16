@@ -122,17 +122,7 @@ class LineAnalyzer
     public function getFlatLines()
     {
         return array_map(function ($line) {
-            $rawText = '';
-
-            foreach ($line as $chunk) {
-                if ($chunk instanceof TokenInterface) {
-                    continue;
-                }
-
-                $rawText .= $chunk;
-            }
-
-            return $rawText;
+            return implode('', $line);
         }, $this->lines);
     }
 

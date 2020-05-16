@@ -42,6 +42,7 @@ class CommentScanner extends MultilineScanner
         $token = $state->createToken(TextToken::class);
 
         $analyzer = new LineAnalyzer($state, $reader, $lines);
+        $analyzer->disallowInterpolation();
         $analyzer->analyze(false);
         $lines = $analyzer->getFlatLines();
 

@@ -172,7 +172,7 @@ class InterpolationScannerTest extends AbstractLexerTest
         $this->expectMessageToBeThrown('End of line was reached with no closing bracket for interpolation.');
 
         $input = "p #[em\n]";
-        $tokens = iterator_to_array($this->lexer->lex($input));
+        iterator_to_array($this->lexer->lex($input));
     }
 
     /**

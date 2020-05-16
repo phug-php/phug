@@ -151,13 +151,13 @@ class CommentScannerTest extends AbstractLexerTest
      */
     public function testInterpolationInComment()
     {
-        $code = implode("\n", [
-            '//',
+        $comment = implode("\n", [
+            '',
             '  p.',
             '    go to #[a(href=\'\') page]',
         ]);
 
-        $this->assertTokens($code, [
+        $this->assertTokens("//$comment", [
             CommentToken::class,
             TextToken::class,
         ], null, $tokens);
@@ -165,11 +165,17 @@ class CommentScannerTest extends AbstractLexerTest
         /** @var TextToken $text */
         $text = $tokens[1];
 
-        $this->assertSame(implode("\n", [
-            '',
-            '  p.',
-            '    go to page',
-        ]), $text->getValue());
+        $this->assertSame($comment, $text->getValue());
+
+        $this->assertTokens("//-$comment", [
+            CommentToken::class,
+            TextToken::class,
+        ], null, $tokens);
+
+        /** @var TextToken $text */
+        $text = $tokens[1];
+
+        $this->assertSame($comment, $text->getValue());
     }
 
     /**
