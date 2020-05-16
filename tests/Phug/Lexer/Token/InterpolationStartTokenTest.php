@@ -23,4 +23,14 @@ class InterpolationStartTokenTest extends TestCase
         $start->setEnd($end);
         self::assertSame($end, $start->getEnd());
     }
+
+    /**
+     * @covers ::__toString
+     */
+    public function testStringification()
+    {
+        $start = new InterpolationStartToken();
+
+        self::assertSame('['.InterpolationStartToken::class.']', "$start");
+    }
 }

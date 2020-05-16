@@ -147,6 +147,38 @@ class CommentScannerTest extends AbstractLexerTest
     }
 
     /**
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getFlatLines
+     */
+    public function testInterpolationInComment()
+    {
+        $comment = implode("\n", [
+            '',
+            '  p.',
+            '    go to #[a(href=\'\') page]',
+        ]);
+
+        $this->assertTokens("//$comment", [
+            CommentToken::class,
+            TextToken::class,
+        ], null, $tokens);
+
+        /** @var TextToken $text */
+        $text = $tokens[1];
+
+        $this->assertSame($comment, $text->getValue());
+
+        $this->assertTokens("//-$comment", [
+            CommentToken::class,
+            TextToken::class,
+        ], null, $tokens);
+
+        /** @var TextToken $text */
+        $text = $tokens[1];
+
+        $this->assertSame($comment, $text->getValue());
+    }
+
+    /**
      * @covers \Phug\Lexer\Scanner\CommentScanner
      * @covers \Phug\Lexer\Scanner\CommentScanner::scan
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>

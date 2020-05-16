@@ -18,6 +18,35 @@ use Phug\Lexer\Token\TextToken;
 
 class InterpolationScanner implements ScannerInterface
 {
+    protected $interpolationChars = [
+        'tagInterpolation' => ['[', ']'],
+        'interpolation'    => ['{', '}'],
+    ];
+
+    protected $regExp;
+
+    public function __construct()
+    {
+        $interpolations = [];
+        $backIndex = 2;
+
+        foreach ($this->interpolationChars as $name => list($start, $end)) {
+            $start = preg_quote($start, '/');
+            $end = preg_quote($end, '/');
+            $interpolations[] = $start.'(?<'.$name.'>'.
+                '(?>"(?:\\\\[\\S\\s]|[^"\\\\])*"|\'(?:\\\\[\\S\\s]|[^\'\\\\])*\'|[^'.
+                $start.$end.
+                '\'"]++|(?-'.$backIndex.'))*+'.
+                ')'.$end;
+            $backIndex++;
+        }
+
+        $this->regExp = '(?<text>.*?)'.
+            '(?<!\\\\)'.
+            '(?<escape>#|!(?='.preg_quote($this->interpolationChars['interpolation'][0], '/').'))'.
+            '(?<wrap>'.implode('|', $interpolations).')';
+    }
+
     protected function throwEndOfLineExceptionIf(State $state, $condition)
     {
         if ($condition) {
@@ -103,21 +132,9 @@ class InterpolationScanner implements ScannerInterface
     {
         $reader = $state->getReader();
 
-        //TODO: $state->endToken
-        while ($reader->match(
-            '(?<text>.*?)'.
-            '(?<!\\\\)'.
-            '(?<escape>#|!(?=\{))(?<wrap>'.
-                '\\[(?<tagInterpolation>'.
-                    '(?>"(?:\\\\[\\S\\s]|[^"\\\\])*"|\'(?:\\\\[\\S\\s]|[^\'\\\\])*\'|[^\\[\\]\'"]++|(?-2))*+'.
-                ')\\]|'.
-                '\\{(?<interpolation>'.
-                    '(?>"(?:\\\\[\\S\\s]|[^"\\\\])*"|\'(?:\\\\[\\S\\s]|[^\'\\\\])*\'|[^{}\'"]++|(?-3))*+'.
-                ')\\}'.
-            ')'
-        )) {
+        while ($reader->match($this->regExp)) {
             $text = $reader->getMatch('text');
-            $text = preg_replace('/\\\\([#!]\\[|#\\{)/', '$1', $text);
+            $text = preg_replace('/\\\\([#!]\\[|#{)/', '$1', $text);
 
             if (mb_strlen($text) > 0) {
                 /** @var TextToken $token */
@@ -142,6 +159,7 @@ class InterpolationScanner implements ScannerInterface
                 /** @var TextToken $token */
                 $token = $state->createToken(TextToken::class);
                 $token->setValue("\n");
+
                 yield $token;
             }
         }
