@@ -18,6 +18,13 @@ use Phug\Lexer\Token\TextToken;
 
 class InterpolationScanner implements ScannerInterface
 {
+    protected function throwEndOfLineExceptionIf(State $state, $condition)
+    {
+        if ($condition) {
+            $state->throwException('End of line was reached with no closing bracket for interpolation.');
+        }
+    }
+
     protected function scanTagInterpolation(State $state, $tagInterpolation)
     {
         /** @var TagInterpolationStartToken $start */
@@ -33,9 +40,7 @@ class InterpolationScanner implements ScannerInterface
         yield $start;
 
         foreach ($lexer->lex($tagInterpolation) as $token) {
-            if ($token instanceof NewLineToken) {
-                $state->throwException('End of line was reached with no closing bracket for interpolation.');
-            }
+            $this->throwEndOfLineExceptionIf($state, $token instanceof NewLineToken);
 
             yield $token;
         }
@@ -68,9 +73,10 @@ class InterpolationScanner implements ScannerInterface
 
     protected function scanInterpolation(State $state, $tagInterpolation, $interpolation, $escape)
     {
-        if (strpos($interpolation, "\n") !== false) {
-            $state->throwException('End of line was reached with no closing bracket for interpolation.');
-        }
+        $this->throwEndOfLineExceptionIf(
+            $state,
+            !$state->getOption('multiline_interpolation') && strpos($interpolation, "\n") !== false
+        );
 
         if ($tagInterpolation) {
             return $this->scanTagInterpolation($state, $tagInterpolation);

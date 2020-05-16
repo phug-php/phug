@@ -183,6 +183,8 @@ class InterpolationScannerTest extends AbstractLexerTest
     }
 
     /**
+     * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanTagInterpolation
+     * @covers \Phug\Lexer\Scanner\InterpolationScanner::throwEndOfLineExceptionIf
      * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanInterpolation
      */
     public function testNewLineInTagInterpolation()
@@ -194,12 +196,15 @@ class InterpolationScannerTest extends AbstractLexerTest
     }
 
     /**
+     * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanExpressionInterpolation
+     * @covers \Phug\Lexer\Scanner\InterpolationScanner::throwEndOfLineExceptionIf
      * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanInterpolation
      */
     public function testNewLineInInterpolation()
     {
         $this->expectMessageToBeThrown('End of line was reached with no closing bracket for interpolation.');
 
+        $this->lexer->setOption('multiline_interpolation', false);
         $input = "p #{em\n}";
         iterator_to_array($this->lexer->lex($input));
     }
