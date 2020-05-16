@@ -1,27 +1,13 @@
----
-engines:
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - ruby
-      - javascript
-      - python
-      - php
+version: "2"
+checks:
   fixme:
     enabled: true
   phpmd:
     enabled: true
     config:
       rulesets: rulesets.xml
-ratings:
-  paths:
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-  - "**.rb"
+  similar-code:
+    config:
+      threshold: 64
 exclude_patterns:
-- "**/tests/**"
+  - "**/tests/**"

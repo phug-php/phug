@@ -71,6 +71,8 @@ class TextScannerTest extends AbstractLexerTest
 
     /**
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::hasChunksUntil
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::setNewLevel
      */
     public function testStartingWhitespace()
     {

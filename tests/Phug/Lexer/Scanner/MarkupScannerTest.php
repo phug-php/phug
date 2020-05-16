@@ -24,9 +24,11 @@ class MarkupScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Scanner\MarkupScanner
      * @covers \Phug\Lexer\Scanner\MarkupScanner::scan
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::hasChunksUntil
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::setNewLevel
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testMarkupInCondition()
     {
@@ -127,7 +129,7 @@ class MarkupScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testRawMarkup()
     {
@@ -275,7 +277,7 @@ EOT;
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testRawMarkupQuit()
     {
