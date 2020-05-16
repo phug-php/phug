@@ -19,9 +19,11 @@ class CommentScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Scanner\CommentScanner
      * @covers \Phug\Lexer\Scanner\CommentScanner::scan
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::hasChunksUntil
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::setNewLevel
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testVisibleSingleLineComment()
     {
@@ -42,9 +44,11 @@ class CommentScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Scanner\CommentScanner
      * @covers \Phug\Lexer\Scanner\CommentScanner::scan
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::hasChunksUntil
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::setNewLevel
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testInvisibleSingleLineComment()
     {
@@ -67,7 +71,7 @@ class CommentScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testVisibleMultiLineComment()
     {
@@ -93,7 +97,7 @@ class CommentScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testInvisibleMultiLineComment()
     {
@@ -119,7 +123,7 @@ class CommentScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testCommentInIndent()
     {
@@ -174,7 +178,7 @@ class CommentScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::<public>
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
-     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
+     * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
      */
     public function testCommentQuit()
     {
