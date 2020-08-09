@@ -34,14 +34,12 @@ abstract class AbstractRendererTest extends TestCase
 
             return $engine->parse($contents);
         };
-        $coffee = function ($contents, $options) use ($uglify) {
+        $coffee = function ($contents, $options) {
             $engine = new CoffeeScript($contents, false);
             $result = $engine->getResult();
-            if (isset($options['minify']) && $options['minify']) {
-                // @TODO fix it when https://github.com/pugjs/pug/issues/2829 answered
-                return "\n(function(){}).call(this);\n";
 
-                //return $uglify($result);
+            if (isset($options['minify']) && $options['minify']) {
+                return "\n(function(){}).call(this);\n";
             }
 
             return "\n".$result."\n";

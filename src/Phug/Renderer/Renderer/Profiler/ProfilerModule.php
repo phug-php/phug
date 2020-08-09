@@ -203,7 +203,7 @@ class ProfilerModule extends AbstractModule
         parent::attachEvents();
         $formatter = $this->getContainer();
         if ($formatter instanceof Formatter) {
-            $formatter->setOption('patterns.debug_comment', function ($nodeId) use ($formatter) {
+            $formatter->setOption('patterns.debug_comment', function ($nodeId) {
                 return "\n".(
                     $nodeId !== ''
                         ? '\\'.static::class.'::recordProfilerDisplayEvent('.
