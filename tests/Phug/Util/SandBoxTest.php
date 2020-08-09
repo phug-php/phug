@@ -89,7 +89,7 @@ class SandBoxTest extends TestCase
 
         self::assertInstanceOf(ErrorException::class, $sandBox->getThrowable());
 
-        error_reporting(E_ALL ^ E_NOTICE);
+        error_reporting(E_ALL ^ (version_compare(PHP_VERSION, '8.0.0-dev', '<') ? E_NOTICE : E_WARNING));
 
         $sandBox = new SandBox(function () {
             $a = [];

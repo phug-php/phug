@@ -107,7 +107,11 @@ class LexerTest extends AbstractLexerTest
         }
 
         $this->assertCount(11, $areAfterInterpolation);
-        $tags = array_map('reset', array_filter($areAfterInterpolation, 'end'));
+        $tags = array_map(function ($value) {
+            return reset($value);
+        }, array_filter($areAfterInterpolation, function ($value) {
+            return end($value);
+        }));
 
         self::assertSame([
             4 => Lexer\Token\InterpolationEndToken::class,

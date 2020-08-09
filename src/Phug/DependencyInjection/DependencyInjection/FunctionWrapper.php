@@ -76,7 +76,7 @@ class FunctionWrapper extends ReflectionFunction
      */
     protected function getTypeAsString(ReflectionParameter $parameter)
     {
-        if (version_compare(phpversion(), '8.0.0-dev', '<')) {
+        if (version_compare(PHP_VERSION, '8.0.0-dev', '<')) {
             if ($parameter->isArray()) {
                 return 'array';
             }
