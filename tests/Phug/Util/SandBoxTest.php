@@ -89,7 +89,10 @@ class SandBoxTest extends TestCase
 
         self::assertInstanceOf(ErrorException::class, $sandBox->getThrowable());
 
-        error_reporting(E_ALL ^ (version_compare(PHP_VERSION, '8.0.0-dev', '<') ? E_NOTICE : E_WARNING));
+        $undefinedOffsetSeverity = version_compare(PHP_VERSION, '8.0.0-dev', '<')
+            ? E_NOTICE
+            : E_WARNING;
+        error_reporting(E_ALL ^ $undefinedOffsetSeverity);
 
         $sandBox = new SandBox(function () {
             $a = [];
@@ -108,7 +111,7 @@ class SandBoxTest extends TestCase
         });
 
         self::assertSame('interceptor', $sandBox->getThrowable()->getMessage());
-        self::assertSame(E_NOTICE, $sandBox->getThrowable()->getCode());
+        self::assertSame($undefinedOffsetSeverity, $sandBox->getThrowable()->getCode());
 
         error_reporting($level);
     }
