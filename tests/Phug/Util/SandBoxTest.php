@@ -55,7 +55,7 @@ class SandBoxTest extends TestCase
     {
         $sandBox = new SandBox(function () {
             echo 'foo';
-            $a = trigger_error("Division by zero");
+            $a = trigger_error('Division by zero');
             echo 'bar';
 
             return $a;
@@ -89,11 +89,10 @@ class SandBoxTest extends TestCase
 
         self::assertInstanceOf(ErrorException::class, $sandBox->getThrowable());
 
-        error_reporting(E_ALL ^ E_NOTICE);
+        error_reporting(E_ALL ^ E_USER_NOTICE);
 
         $sandBox = new SandBox(function () {
-            $a = [];
-            $b = $a['foo'];
+            trigger_error('Undefined index');
         });
 
         self::assertNull($sandBox->getThrowable());
@@ -101,14 +100,13 @@ class SandBoxTest extends TestCase
         error_reporting(E_ALL);
 
         $sandBox = new SandBox(function () {
-            $a = [];
-            $b = $a['foo'];
+            trigger_error('Undefined index');
         }, function ($number, $message, $file, $line) {
             throw new ErrorException('interceptor', $number);
         });
 
         self::assertSame('interceptor', $sandBox->getThrowable()->getMessage());
-        self::assertSame(E_NOTICE, $sandBox->getThrowable()->getCode());
+        self::assertSame(E_USER_NOTICE, $sandBox->getThrowable()->getCode());
 
         error_reporting($level);
     }
