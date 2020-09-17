@@ -55,7 +55,7 @@ class SandBoxTest extends TestCase
     {
         $sandBox = new SandBox(function () {
             echo 'foo';
-            $a = 5 / 0;
+            $a = trigger_error("Division by zero");
             echo 'bar';
 
             return $a;
@@ -89,10 +89,7 @@ class SandBoxTest extends TestCase
 
         self::assertInstanceOf(ErrorException::class, $sandBox->getThrowable());
 
-        $undefinedOffsetSeverity = version_compare(PHP_VERSION, '8.0.0-dev', '<')
-            ? E_NOTICE
-            : E_WARNING;
-        error_reporting(E_ALL ^ $undefinedOffsetSeverity);
+        error_reporting(E_ALL ^ E_NOTICE);
 
         $sandBox = new SandBox(function () {
             $a = [];
@@ -111,7 +108,7 @@ class SandBoxTest extends TestCase
         });
 
         self::assertSame('interceptor', $sandBox->getThrowable()->getMessage());
-        self::assertSame($undefinedOffsetSeverity, $sandBox->getThrowable()->getCode());
+        self::assertSame(E_NOTICE, $sandBox->getThrowable()->getCode());
 
         error_reporting($level);
     }
