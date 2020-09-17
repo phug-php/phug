@@ -1170,7 +1170,7 @@ class FormatterTest extends TestCase
         $document->appendChild($htmlEl = new MarkupElement('html'));
         $htmlEl->appendChild($bodyEl = new MarkupElement('body'));
         $bodyEl->appendChild(new ExpressionElement(
-            '12 / 0',
+            'trigger_error("Division by zero")',
             $node
         ));
         $php = $formatter->format($document);
@@ -1196,7 +1196,7 @@ class FormatterTest extends TestCase
             'debug' => true,
         ]);
         $helper = function () {
-            return 12 / 0;
+            trigger_error('Division by zero');
         };
         $node = new ExpressionNode(null, new SourceLocation(null, 7, 9));
         $document = new DocumentElement();
@@ -1340,7 +1340,7 @@ class FormatterTest extends TestCase
         $document->appendChild($htmlEl = new MarkupElement('html'));
         $htmlEl->appendChild($bodyEl = new MarkupElement('body'));
         $bodyEl->appendChild(new ExpressionElement(
-            '12 / 0',
+            'trigger_error("Division by zero")',
             $node
         ));
         $php = $formatter->format($document);

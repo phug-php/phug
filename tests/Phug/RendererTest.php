@@ -468,7 +468,7 @@ class RendererTest extends AbstractRendererTest
             $message = null;
 
             try {
-                $renderer->render('div: p=12/0');
+                $renderer->render('div: p=trigger_error("Division by zero")');
             } catch (\Exception $error) {
                 $message = $error->getMessage();
             }
@@ -479,7 +479,7 @@ class RendererTest extends AbstractRendererTest
             );
 
             self::assertNotContains(
-                '12/0',
+                'trigger_error("Division'.'by'.'zero")',
                 str_replace(' ', '', $message)
             );
 
@@ -487,7 +487,7 @@ class RendererTest extends AbstractRendererTest
             $renderer->setOption('debug', true);
 
             try {
-                $renderer->render('div: p=12/0');
+                $renderer->render('div: p=trigger_error("Division by zero")');
             } catch (RendererException $error) {
                 $message = $error->getMessage();
             }
@@ -498,7 +498,7 @@ class RendererTest extends AbstractRendererTest
             );
 
             self::assertContains(
-                '12/0',
+                'trigger_error("Division'.'by'.'zero")',
                 str_replace(' ', '', $message)
             );
 
@@ -506,7 +506,7 @@ class RendererTest extends AbstractRendererTest
             $renderer->setOption('color_support', true);
 
             try {
-                $renderer->render('div: p=12/0');
+                $renderer->render('div: p=trigger_error("Division by zero")');
             } catch (RendererException $error) {
                 $message = $error->getMessage();
             }
@@ -517,7 +517,7 @@ class RendererTest extends AbstractRendererTest
             );
 
             self::assertContains(
-                "\033[43;30m>   1 | div: p\033[43;31m=\033[43;30m12/0\e[0m\n",
+                "\033[43;30m>   1 | div: p\033[43;31m=\033[43;30mtrigger_error(\"Division by zero\")\e[0m\n",
                 $message
             );
         }
