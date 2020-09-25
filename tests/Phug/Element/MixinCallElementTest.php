@@ -29,6 +29,7 @@ class MixinCallElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::formatMixinCallElement
@@ -83,6 +84,7 @@ class MixinCallElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::formatMixinCallElement
@@ -170,6 +172,7 @@ class MixinCallElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinCallElement
@@ -220,6 +223,7 @@ class MixinCallElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinCallElement
@@ -330,6 +334,7 @@ class MixinCallElementTest extends TestCase
      * @covers \Phug\Formatter::getDestructors
      * @covers \Phug\Formatter\AbstractFormat::getChildrenIterator
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      */
     public function testPhpUnwrap()
     {

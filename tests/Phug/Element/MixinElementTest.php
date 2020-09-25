@@ -22,6 +22,7 @@ class MixinElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinElement
@@ -61,6 +62,7 @@ class MixinElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinElement
@@ -89,6 +91,7 @@ class MixinElementTest extends TestCase
      * @covers \Phug\Formatter::requireAllMixins
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinElement
@@ -129,6 +132,7 @@ class MixinElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinElement
@@ -172,6 +176,7 @@ class MixinElementTest extends TestCase
      * @covers \Phug\Formatter::requireMixin
      * @covers \Phug\Formatter::formatDependencies
      * @covers \Phug\Formatter\Util\PhpUnwrap::<public>
+     * @covers \Phug\Formatter\Util\PhpUnwrapString::<public>
      * @covers \Phug\Formatter\AbstractFormat::formatMixinAttributeValue
      * @covers \Phug\Formatter\AbstractFormat::getMixinAttributes
      * @covers \Phug\Formatter\AbstractFormat::formatMixinElement
