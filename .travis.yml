@@ -30,8 +30,6 @@ matrix:
       env: STYLECHECK=on
     - php: 7.3
       env: MULTITEST=on
-    - php: nightly
-      env: MULTITEST=on
     - php: 7.3
       env: SPLIT=on
 
