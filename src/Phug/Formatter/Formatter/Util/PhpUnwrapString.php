@@ -18,8 +18,18 @@ class PhpUnwrapString
     {
         $unwrappedCode = new self($code);
         $unwrappedCode->unwrapStart();
+        $unwrappedCode->movePhugCodeAfterNamespace();
 
         return $unwrappedCode;
+    }
+
+    public function movePhugCodeAfterNamespace()
+    {
+        $this->code = preg_replace(
+            '/^((?:[ \t]*(?:\\\\Phug\\\\.*\n|\\/\\/.*\n|(?:\?><\?php)?[ \t\n]+)?)*)(namespace (?:.*)\n)/',
+            '$2$1',
+            $this->code
+        );
     }
 
     public function unwrapStart()

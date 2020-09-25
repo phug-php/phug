@@ -28,7 +28,7 @@ class CasesTest extends AbstractRendererTest
     public function testRender($expected, $actual, $message)
     {
         $debug = $this->renderer->getOption('debug');
-        $this->renderer->setOption('debug', pathinfo($actual)['filename'] !== 'scope');
+        $this->renderer->setOption('debug', true);
         $render = $this->renderer->renderFile($actual);
         $this->renderer->setOption('debug', $debug);
 
