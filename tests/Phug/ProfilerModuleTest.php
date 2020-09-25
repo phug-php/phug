@@ -155,10 +155,8 @@ class ProfilerModuleTest extends TestCase
      */
     public function testMemoryLimitOptions()
     {
-        if (version_compare(PHP_VERSION, '5.6.0-dev', '>=') &&
-            version_compare(PHP_VERSION, '7.0.0-dev', '<')
-        ) {
-            self::markTestSkipped('Skipped due to Travis bug with PHP 5.6 only.');
+        if (version_compare(PHP_VERSION, '7.0.0-dev', '<')) {
+            self::markTestSkipped('Skipped due to Travis bug with PHP 5 only.');
 
             return;
         }

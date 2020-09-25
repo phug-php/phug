@@ -471,6 +471,8 @@ class RendererTest extends AbstractRendererTest
                 $renderer->render('div: p=trigger_error("Division by zero")');
             } catch (\Exception $error) {
                 $message = $error->getMessage();
+            } catch (\Throwable $error) {
+                $message = $error->getMessage();
             }
 
             self::assertContains(

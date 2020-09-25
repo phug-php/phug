@@ -2,6 +2,7 @@
 
 namespace Phug\Renderer\Adapter;
 
+use Phug\Formatter\Util\PhpUnwrapString;
 use Phug\Renderer\AbstractAdapter;
 
 /**
@@ -17,7 +18,7 @@ class EvalAdapter extends AbstractAdapter
     {
         $this->execute(function () use ($__pug_php, &$__pug_parameters) {
             extract($__pug_parameters);
-            eval('?>'.$__pug_php);
+            eval(PhpUnwrapString::withoutOpenTag($__pug_php));
         }, $__pug_parameters);
     }
 }

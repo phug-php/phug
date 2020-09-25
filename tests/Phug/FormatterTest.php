@@ -1217,6 +1217,9 @@ class FormatterTest extends TestCase
             } catch (\Exception $exception) {
                 /** @var LocatedException $error */
                 $error = $formatter->getDebugError($exception, $code);
+            } catch (\Throwable $exception) {
+                /** @var LocatedException $error */
+                $error = $formatter->getDebugError($exception, $code);
             }
         }, '?>'.$php);
         ob_end_clean();
@@ -1354,6 +1357,8 @@ class FormatterTest extends TestCase
         try {
             include $file;
         } catch (\Exception $exception) {
+            $error = $exception;
+        } catch (\Throwable $exception) {
             $error = $exception;
         }
         ob_end_clean();
