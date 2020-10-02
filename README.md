@@ -21,4 +21,4 @@ Not just a port. It's written from scratch as a native PHP template engine.
 Documentation
 ------------
 
-https://www.phug-lang.com/
+https://phug.selfbuild.fr/
