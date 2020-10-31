@@ -1339,17 +1339,7 @@ class RendererTest extends AbstractRendererTest
      */
     public function testIssetCompatibility()
     {
-        $jsPhpizeVersion = '1.0.0';
-
-        foreach (@json_decode(file_get_contents(__DIR__.'/../../vendor/composer/installed.json')) ?: [] as $package) {
-            if ($package->name === 'js-phpize/js-phpize') {
-                $jsPhpizeVersion = $package->version_normalized;
-
-                break;
-            }
-        }
-
-        $jsPhpizeAtLeastTwo = version_compare($jsPhpizeVersion, '2.0', '>=');
+        $jsPhpizeAtLeastTwo = version_compare($this->getJsPhpizeVersion(), '2.0', '>=');
 
         $handleCode = function (array $lines) use ($jsPhpizeAtLeastTwo) {
             $code = implode("\n", $lines);
@@ -1413,5 +1403,24 @@ class RendererTest extends AbstractRendererTest
             $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
             $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
         }
+    }
+
+    private function getPackages()
+    {
+        return @json_decode(
+            file_get_contents(__DIR__.'/../../vendor/composer/installed.json'),
+            true
+        ) ?: [];
+    }
+
+    private function getJsPhpizeVersion()
+    {
+        foreach ($this->getPackages() as $package) {
+            if ($package['name'] === 'js-phpize/js-phpize') {
+                return $package['version_normalized'];
+            }
+        }
+
+        return '1.0.0';
     }
 }

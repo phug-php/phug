@@ -872,7 +872,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             '    $'.$variablesVariable.'[$__local_pug_key] = &$$__local_pug_key;',
             '    $__local_pug_ref = &$GLOBALS[$__local_pug_key];',
             '    $__local_pug_value = &$$__local_pug_key;',
-            '    if($__local_pug_ref !== $__local_pug_value){',
+            '    if ($__local_pug_ref !== $__local_pug_value) {',
             '        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;',
 
             '        continue;',
@@ -917,7 +917,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
                 '        }'."\n".
                 (
                     $variablesVariable
-                        ? '        if(isset($'.$variablesVariable.'[$__local_pug_key])){'."\n".
+                        ? '        if (isset($'.$variablesVariable.'[$__local_pug_key])) {'."\n".
                         '            $$__local_pug_key = &$'.$variablesVariable.'[$__local_pug_key];'."\n".
                         '            continue;'."\n".
                         '        }'."\n"
@@ -925,7 +925,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
                 ).
                 '        $__local_pug_ref = &$GLOBALS[$__local_pug_key];'."\n".
                 '        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];'."\n".
-                '        if($__local_pug_ref !== $__local_pug_value){'."\n".
+                '        if ($__local_pug_ref !== $__local_pug_value) {'."\n".
                 '            $$__local_pug_key = &$__local_pug_value;'."\n".
                 '            continue;'."\n".
                 '        }'."\n".
