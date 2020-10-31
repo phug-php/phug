@@ -1339,8 +1339,6 @@ class RendererTest extends AbstractRendererTest
      */
     public function testIssetCompatibility()
     {
-        echo $this->getJsPhpizeVersion();
-        exit;
         $jsPhpizeAtLeastTwo = version_compare($this->getJsPhpizeVersion(), '2.0', '>=');
 
         $handleCode = function (array $lines) use ($jsPhpizeAtLeastTwo) {
