@@ -52,8 +52,8 @@ before_script:
   - if [[ "$COVERAGE" = "on" ]]; then ./cc-test-reporter before-build; fi;
 
 script:
-  - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" && "$SPLIT" != "on" ]]; then vendor/bin/phpunit --no-coverage --debug --verbose; fi;
-  - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --no-coverage --debug --verbose; fi;
+  - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" && "$SPLIT" != "on" ]]; then vendor/bin/phpunit --no-coverage --verbose; fi;
+  - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --no-coverage --verbose; fi;
   - if [[ "$MULTITEST" = "on" ]]; then vendor/bin/multi-tester --verbose --quiet-install; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs --ignore=*.js src; fi;
   - if [[ "$SPLIT" = "on" ]]; then composer require phug/split && vendor/bin/split update --git-credentials=$GH_CREDENTIALS; fi;

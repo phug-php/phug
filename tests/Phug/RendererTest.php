@@ -1407,8 +1407,10 @@ class RendererTest extends AbstractRendererTest
 
     private function getPackages()
     {
-        return @json_decode(
-            file_get_contents(__DIR__.'/../../vendor/composer/installed.json'),
+        $directory = __DIR__.'/../../vendor/composer';
+
+        return @include "$directory/installed.php" ?: json_decode(
+            file_get_contents("$directory/installed.json"),
             true
         ) ?: [];
     }
@@ -1416,7 +1418,7 @@ class RendererTest extends AbstractRendererTest
     private function getJsPhpizeVersion()
     {
         foreach ($this->getPackages() as $package) {
-            if ($package['name'] === 'js-phpize/js-phpize') {
+            if (isset($package['name']) && $package['name'] === 'js-phpize/js-phpize') {
                 return $package['version_normalized'];
             }
         }
