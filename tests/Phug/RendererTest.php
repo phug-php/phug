@@ -1339,6 +1339,8 @@ class RendererTest extends AbstractRendererTest
      */
     public function testIssetCompatibility()
     {
+        echo $this->getJsPhpizeVersion();
+        exit;
         $jsPhpizeAtLeastTwo = version_compare($this->getJsPhpizeVersion(), '2.0', '>=');
 
         $handleCode = function (array $lines) use ($jsPhpizeAtLeastTwo) {
@@ -1405,19 +1407,25 @@ class RendererTest extends AbstractRendererTest
         }
     }
 
-    private function getPackages()
+    private function getJsPhpizeVersion()
     {
         $directory = __DIR__.'/../../vendor/composer';
+        $packages = @include "$directory/installed.php";
 
-        return @include "$directory/installed.php" ?: json_decode(
+        if (is_array($packages) && isset($packages['versions'])) {
+            return $packages['versions']['js-phpize/js-phpize']['version'];
+        }
+
+        $packages = @json_decode(
             file_get_contents("$directory/installed.json"),
             true
         ) ?: [];
-    }
 
-    private function getJsPhpizeVersion()
-    {
-        foreach ($this->getPackages() as $package) {
+        if (isset($packages['packages'])) {
+            $packages = $packages['packages'];
+        }
+
+        foreach ($packages as $package) {
             if (isset($package['name']) && $package['name'] === 'js-phpize/js-phpize') {
                 return $package['version_normalized'];
             }
