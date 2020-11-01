@@ -47,23 +47,36 @@ install:
   - travis_retry composer install ${COMPOSER_FLAGS} --no-interaction
 
 before_script:
-  - if [[ "$COVERAGE" = "on" ]]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi;
+  - |
+    if [[ "$COVERAGE" = "on" ]]; then
+      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
+    fi;
   - if [[ "$COVERAGE" = "on" ]]; then chmod +x ./cc-test-reporter; fi;
   - if [[ "$COVERAGE" = "on" ]]; then ./cc-test-reporter before-build; fi;
 
 script:
-  - if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" && "$SPLIT" != "on" ]]; then vendor/bin/phpunit --no-coverage --verbose; fi;
-  - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --no-coverage --verbose; fi;
+  - |
+    if [[ "$STYLECHECK" != "on" && "$COVERAGE" != "on" && "$MULTITEST" != "on" && "$SPLIT" != "on" ]]; then
+      vendor/bin/phpunit --no-coverage --verbose;
+    fi;
+  - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/phpunit --verbose --coverage-text --coverage-clover=coverage.xml; fi;
   - if [[ "$MULTITEST" = "on" ]]; then vendor/bin/multi-tester --verbose --quiet-install; fi;
   - if [[ "$STYLECHECK" = "on" ]]; then vendor/bin/phpcs --ignore=*.js src; fi;
-  - if [[ "$SPLIT" = "on" ]]; then composer require phug/split && vendor/bin/split update --git-credentials=$GH_CREDENTIALS; fi;
+  - |
+    if [[ "$SPLIT" = "on" ]]; then
+      composer require phug/split && vendor/bin/split update --git-credentials=$GH_CREDENTIALS;
+    fi;
 
 after_success:
   - if [[ "$COVERAGE" = "on" ]]; then bash <(curl -s https://codecov.io/bash); fi;
 
 after_script:
   - if [[ "$COVERAGE" = "on" ]]; then cp coverage.xml clover.xml; fi;
-  - if [[ "$COVERAGE" = "on" ]]; then ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT; fi;
+  - |
+    if [[ "$COVERAGE" = "on" ]]; then
+      cp coverage.xml clover.xml
+      ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT;
+    fi;
   - if [[ "$COVERAGE" = "on" ]]; then composer require codacy/coverage; fi;
   - if [[ "$COVERAGE" = "on" ]]; then vendor/bin/codacycoverage clover coverage.xml; fi;
 
