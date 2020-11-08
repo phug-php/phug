@@ -3,6 +3,7 @@
 namespace Phug\Test;
 
 use ErrorException;
+use Exception;
 use JsPhpize\JsPhpizePhug;
 use Phug\Compiler\Event\NodeEvent;
 use Phug\CompilerInterface;
@@ -15,6 +16,7 @@ use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Renderer\AdapterInterface;
 use Phug\RendererException;
 use Phug\Test\Utils\BooleanAble;
+use Throwable;
 
 /**
  * @coversDefaultClass \Phug\Renderer
@@ -469,9 +471,9 @@ class RendererTest extends AbstractRendererTest
 
             try {
                 $renderer->render('div: p=trigger_error("Division by zero")');
-            } catch (\Exception $error) {
+            } catch (Exception $error) {
                 $message = $error->getMessage();
-            } catch (\Throwable $error) {
+            } catch (Throwable $error) {
                 $message = $error->getMessage();
             }
 
@@ -567,7 +569,7 @@ class RendererTest extends AbstractRendererTest
                 '// line +4',
                 '// line +5',
             ]));
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             $message = $error->getMessage();
         }
 
@@ -611,7 +613,7 @@ class RendererTest extends AbstractRendererTest
             'debug'         => false,
             'pretty'        => true,
             'error_handler' => function ($error) use (&$message) {
-                /* @var \Throwable $error */
+                /* @var Throwable $error */
                 $message = $error->getMessage();
             },
         ]);
@@ -1091,7 +1093,7 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
-     * @expectedException        \Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage p= $undefined()
      */
     public function testExtendsUndefinedCall()
@@ -1112,7 +1114,7 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
-     * @expectedException        \Exception
+     * @expectedException        Exception
      * @expectedExceptionMessage div= $undefined()
      */
     public function testUndefinedCallInBlock()
@@ -1341,8 +1343,16 @@ class RendererTest extends AbstractRendererTest
     {
         $jsPhpizeAtLeastTwo = version_compare($this->getJsPhpizeVersion(), '2.0', '>=');
 
-        $handleCode = function (array $lines) use ($jsPhpizeAtLeastTwo) {
-            $code = implode("\n", $lines);
+        $handleCode = static function (array $lines) use ($jsPhpizeAtLeastTwo) {
+            $code = implode("\n", array_map(static function ($line) {
+                try {
+                    return (string) $line;
+                } catch (Throwable $e) {
+                    var_dump($line);
+                    echo $e->getTraceAsString();
+                    exit;
+                }
+            }, $lines));
 
             if ($jsPhpizeAtLeastTwo) {
                 return $code;

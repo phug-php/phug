@@ -21,6 +21,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
+        "phug/formatter": "^1.8.1",
         "phug/compiler": "^1.2",
         "phug/util": "^1.5",
         "symfony/var-dumper": "^3.4 || ^4.0"
