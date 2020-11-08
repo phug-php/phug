@@ -1345,13 +1345,7 @@ class RendererTest extends AbstractRendererTest
 
         $handleCode = static function (array $lines) use ($jsPhpizeAtLeastTwo) {
             $code = implode("\n", array_map(static function ($line) {
-                try {
-                    return (string) $line;
-                } catch (Throwable $e) {
-                    var_dump($line);
-                    echo $e->getTraceAsString();
-                    exit;
-                }
+                return (string) $line;
             }, $lines));
 
             if ($jsPhpizeAtLeastTwo) {
