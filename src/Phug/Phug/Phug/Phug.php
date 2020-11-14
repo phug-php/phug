@@ -2,6 +2,7 @@
 
 namespace Phug;
 
+use InvalidArgumentException;
 use Phug\Partial\ExtensionsTrait;
 use Phug\Partial\FacadeOptionsTrait;
 
@@ -476,16 +477,24 @@ class Phug
      */
     public static function cacheDirectory($source, $destination = null, $options = null)
     {
-        if ($destination && !is_array($destination)) {
+        $options = $options ?: [];
+        $destination = $destination ?: [];
+
+        if (!is_array($destination)) {
             $destination = [
                 'cache_dir' => $destination,
             ];
         }
 
-        return static::getRenderer(array_merge(
-            $options ?: [],
-            $destination ?: []
-        ))->cacheDirectory($source);
+        if (!is_array($options)) {
+            throw new InvalidArgumentException(
+                "Expected \$options to be an array, got: ".
+                (@var_export($options, true) ?: (is_object($options) ? get_class($options) : gettype($options)))
+            );
+        }
+
+        return static::getRenderer(array_merge($options, $destination))
+            ->cacheDirectory($source);
     }
 
     /**

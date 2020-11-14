@@ -4,7 +4,9 @@ pug/bemto:
   autoload:
     - cp -r vendor/phug/phug vendor/phug/compiler
     - cp -r vendor/phug/phug vendor/phug/formatter
+    - composer self-update 1.10.17
     - composer dump-autoload --optimize --no-interaction --quiet
+    - composer self-update --2
 
 pug-php/pug-assets: default
 
@@ -15,7 +17,9 @@ pug/slim: default
 pug/twig:
   autoload:
     - cp -r vendor/phug/phug vendor/phug/compiler
+    - composer self-update 1.10.17
     - composer dump-autoload --optimize --no-interaction --quiet
+    - composer self-update --2
 
 ci-pug/ci-pug: default
 
