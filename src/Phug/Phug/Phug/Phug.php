@@ -488,7 +488,7 @@ class Phug
 
         if (!is_array($options)) {
             throw new InvalidArgumentException(
-                "Expected \$options to be an array, got: ".
+                'Expected $options to be an array, got: '.
                 (@var_export($options, true) ?: (is_object($options) ? get_class($options) : gettype($options)))
             );
         }
