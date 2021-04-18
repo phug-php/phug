@@ -742,10 +742,18 @@ class FileAdapterTest extends AbstractRendererTest
         $foo = ['bar' => 'biz'];
         ob_start();
         eval('?>'.$file);
-        $contents = ob_get_contents();
+        $contents = trim(ob_get_contents());
         ob_end_clean();
 
-        self::assertSame('<p>biz</p>', trim($contents));
+        if (empty($contents)) {
+            echo "\nDebug:\n";
+            var_dump($files, $file);
+            echo "\n";
+
+            return;
+        }
+
+        self::assertSame('<p>biz</p>', $contents);
     }
 
     /**
@@ -773,10 +781,17 @@ class FileAdapterTest extends AbstractRendererTest
         $foo = ['bar' => 'biz'];
         ob_start();
         eval('?>'.$file);
-        $contents = ob_get_contents();
+        $contents = trim(ob_get_contents());
         ob_end_clean();
 
-        self::assertSame('<p>biz</p>', trim($contents));
+        if (empty($contents)) {
+            echo "\nDebug:\n";
+            var_dump($files, $file);
+            echo "\n";
+
+            return;
+        }
+        self::assertSame('<p>biz</p>', $contents);
     }
 
     /**
