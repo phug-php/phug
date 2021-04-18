@@ -25,7 +25,6 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: calendar
         tools: composer:v2
 
     - name: Cache Composer packages
@@ -40,9 +39,9 @@ jobs:
     - name: Code Climate Test Reporter Preparation
       if: matrix.php == '7.4' && matrix.setup == 'stable'
       run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
-        chmod +x ./cc-test-reporter;
-        ./cc-test-reporter before-build;
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
@@ -59,11 +58,11 @@ jobs:
     - name: Code Climate Test Reporter
       if: ${{ matrix.php == '7.4' && matrix.setup == 'stable' && env.CC_TEST_REPORTER_ID != '' }}
       run: |
-        cp coverage.xml clover.xml;
-        bash <(curl -s https://codecov.io/bash);
-        ./cc-test-reporter after-build --coverage-input-type clover --exit-code $TRAVIS_TEST_RESULT;
-        composer require codacy/coverage;
-        vendor/bin/codacycoverage clover coverage.xml;
+        cp coverage.xml clover.xml
+        bash <(curl -s https://codecov.io/bash)
+        ./cc-test-reporter after-build --coverage-input-type clover --exit-code 0
+        composer require codacy/coverage
+        vendor/bin/codacycoverage clover coverage.xml
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         CODACY_PROJECT_TOKEN: ${{ secrets.CC_TEST_REPORTER_ID }}
