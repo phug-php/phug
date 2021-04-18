@@ -446,6 +446,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::setDebugFormatter
      * @covers ::getDebugFormatter
      * @covers ::hasColorSupport
+     * @covers ::isATTY
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
@@ -535,6 +536,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::setDebugFormatter
      * @covers ::getDebugFormatter
      * @covers ::hasColorSupport
+     * @covers ::isATTY
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
@@ -599,6 +601,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::setDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::hasColorSupport
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::isATTY
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
@@ -782,6 +785,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::setDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::hasColorSupport
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::isATTY
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
@@ -828,6 +832,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::setDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::hasColorSupport
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::isATTY
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine

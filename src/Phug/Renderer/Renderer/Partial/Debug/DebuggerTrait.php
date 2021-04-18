@@ -195,6 +195,13 @@ trait DebuggerTrait
                 || getenv('TERM') === 'xterm';
         }
 
+        return $this->isATTY();
+        // @codeCoverageIgnoreEnd
+    }
+
+    private function isATTY()
+    {
+        // @codeCoverageIgnoreStart
         if (!defined('STDOUT')) {
             return false;
         }
