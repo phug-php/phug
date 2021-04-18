@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.3']
+        php: ['8.0']
         setup: ['stable']
 
     name: PHP ${{ matrix.php }} - ${{ matrix.setup }}
@@ -33,13 +33,16 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: ${{ runner.os }}-${{ matrix.setup }}-v2-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        key: style-${{ runner.os }}-${{ matrix.setup }}-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-${{ matrix.setup }}-v2-php-${{ matrix.php }}-
+          style-${{ runner.os }}-${{ matrix.setup }}-${{ matrix.php }}-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress --no-suggest ${{ matrix.php >= 8.1 && '--ignore-platform-req=php' || '' }}
+      run: |
+        composer remove phpunit/phpunit phpunit/php-code-coverage --no-update
+        composer require squizlabs/php_codesniffer --no-update
+        composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress
 
     - name: Check style with PHPCS
       run: vendor/bin/phpcs --ignore=*.js src

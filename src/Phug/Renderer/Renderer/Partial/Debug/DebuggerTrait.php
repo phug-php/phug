@@ -178,30 +178,43 @@ trait DebuggerTrait
         ), $code, $error);
     }
 
+    /**
+     * @return bool
+     * @codeCoverageIgnore
+     */
     private function hasColorSupport()
     {
-        // @codeCoverageIgnoreStart
         if ('Hyper' === getenv('TERM_PROGRAM') || getenv('BABUN_HOME') !== false) {
             return true;
         }
 
         if (DIRECTORY_SEPARATOR === '\\') {
-            return (defined('STDOUT')
-                    && function_exists('sapi_windows_vt100_support')
-                    && @sapi_windows_vt100_support(STDOUT)
-                )
+            return $this->hasStdOutVt100Support()
                 || getenv('ANSICON') !== false
                 || getenv('ConEmuANSI') === 'ON'
                 || getenv('TERM') === 'xterm';
         }
 
-        return $this->isATTY();
-        // @codeCoverageIgnoreEnd
+        return $this->isStdOutATTY();
     }
 
-    private function isATTY()
+    /**
+     * @return bool
+     * @codeCoverageIgnore
+     */
+    private function hasStdOutVt100Support()
     {
-        // @codeCoverageIgnoreStart
+        return defined('STDOUT')
+            && function_exists('sapi_windows_vt100_support')
+            && @sapi_windows_vt100_support(STDOUT);
+    }
+
+    /**
+     * @return bool
+     * @codeCoverageIgnore
+     */
+    private function isStdOutATTY()
+    {
         if (!defined('STDOUT')) {
             return false;
         }
@@ -218,7 +231,6 @@ trait DebuggerTrait
         }
 
         return function_exists('posix_isatty') && @posix_isatty(STDOUT);
-        // @codeCoverageIgnoreEnd
     }
 
     private function getDebuggedException($error, $code, $source, $path, $parameters, $options)

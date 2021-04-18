@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.3']
+        php: ['8.0']
         setup: ['stable']
 
     name: PHP ${{ matrix.php }} - ${{ matrix.setup }}
@@ -33,16 +33,18 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: ${{ runner.os }}-${{ matrix.setup }}-v2-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        key: split-${{ runner.os }}-${{ matrix.setup }}-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-${{ matrix.setup }}-v2-php-${{ matrix.php }}-
+          split-${{ runner.os }}-${{ matrix.setup }}-${{ matrix.php }}-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
-        composer config version 1.8.x-dev
-        ${{ matrix.php >= 8.1 && 'composer require --no-update phpunit/phpunit:^8.5.14 --no-interaction' || '' }}
-        composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress --no-suggest ${{ matrix.php >= 8.1 && '--ignore-platform-req=php' || '' }}
+        composer config version 1.9.0
+        composer require phug/split --no-update --no-interaction
+        composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress
 
     - name: Split monorepository
-      run: composer require phug/split && vendor/bin/split update --git-credentials=${{ secrets.GITHUB_TOKEN }}
+      run: vendor/bin/split update --git-credentials=$REPOSITORY_CREDENTIALS
+      env:
+        REPOSITORY_CREDENTIALS: ${{ secrets.REPOSITORY_CREDENTIALS }}
