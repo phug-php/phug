@@ -181,13 +181,36 @@ trait DebuggerTrait
     private function hasColorSupport()
     {
         // @codeCoverageIgnoreStart
-        return DIRECTORY_SEPARATOR === '\\'
-            ? false !== getenv('ANSICON') ||
-            'ON' === getenv('ConEmuANSI') ||
-            false !== getenv('BABUN_HOME')
-            : (false !== getenv('BABUN_HOME')) ||
-            function_exists('posix_isatty') &&
-            @posix_isatty(STDOUT);
+        if ('Hyper' === getenv('TERM_PROGRAM') || getenv('BABUN_HOME') !== false) {
+            return true;
+        }
+
+        if (DIRECTORY_SEPARATOR === '\\') {
+            return (defined('STDOUT')
+                    && function_exists('sapi_windows_vt100_support')
+                    && @sapi_windows_vt100_support(STDOUT)
+                )
+                || getenv('ANSICON') !== false
+                || getenv('ConEmuANSI') === 'ON'
+                || getenv('TERM') === 'xterm';
+        }
+
+        if (!defined('STDOUT')) {
+            return false;
+        }
+
+        if (is_resource(STDOUT)) {
+            // These functions require a descriptor that is a real resource, not a numeric ID of it
+            if (function_exists('stream_isatty') && @stream_isatty(STDOUT)) {
+                return true;
+            }
+
+            $stat = @fstat(STDOUT);
+            // Check if formatted mode is S_IFCHR
+            return $stat ? 0020000 === ($stat['mode'] & 0170000) : false;
+        }
+
+        return function_exists('posix_isatty') && @posix_isatty(STDOUT);
         // @codeCoverageIgnoreEnd
     }
 
