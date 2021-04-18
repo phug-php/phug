@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.0']
+        php: ['7.4']
         setup: ['stable']
 
     name: PHP
@@ -49,7 +49,6 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
         composer config version 1.9.0
-        ${{ matrix.php >= 8.1 && 'composer require --no-update phpunit/phpunit:^8.5.14 --no-interaction' || '' }}
         composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress ${{ matrix.php >= 8.1 && '--ignore-platform-req=php' || '' }}
 
     - name: Run test suite

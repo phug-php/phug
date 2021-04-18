@@ -39,7 +39,7 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: |
           composer require kylekatarnls/multi-tester:^1.1 --no-update --no-interaction
-          composer update --prefer-dist --prefer-${{ matrix.setup }} --no-progress --no-interactio;
+          composer update --prefer-dist --prefer-${{ matrix.setup }} --no-progress --no-interaction
 
       - name: Run test suites
         run: vendor/bin/multi-tester --verbose
