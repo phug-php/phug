@@ -8,8 +8,8 @@ use ReflectionMethod;
 $setUp = @new ReflectionMethod(PHPUnitTestCase::class, 'setUp');
 
 require $setUp && method_exists($setUp, 'hasReturnType') && $setUp->hasReturnType()
-    ? __DIR__ . '/TestCaseTyped.php'
-    : __DIR__ . '/TestCaseUntyped.php';
+    ? __DIR__.'/TestCaseTyped.php'
+    : __DIR__.'/TestCaseUntyped.php';
 
 class TestCase extends TestCaseTypeBase
 {

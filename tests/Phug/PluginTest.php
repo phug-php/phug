@@ -28,7 +28,7 @@ class PluginTest extends AbstractPhugTest
 {
     protected function prepareTest()
     {
-        parent::setUp();
+        parent::prepareTest();
 
         Phug::reset();
     }
@@ -37,7 +37,7 @@ class PluginTest extends AbstractPhugTest
     {
         Phug::reset();
 
-        parent::tearDown();
+        parent::finishTest();
     }
 
     /**
