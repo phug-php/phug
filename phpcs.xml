@@ -3,6 +3,7 @@
     <rule ref="PSR2">
         <exclude-pattern>*.js</exclude-pattern>
         <exclude-pattern>*/src/Phug/Renderer/Renderer/Adapter/Stream/Template.php</exclude-pattern>
+        <exclude-pattern>*/src/Phug/Util/Util/TestCase.php</exclude-pattern>
     </rule>
     <file>src</file>
 </ruleset>
