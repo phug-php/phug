@@ -27,7 +27,7 @@ trait IndentStyleTrait
      */
     public function getIndentStyle()
     {
-        return $this->indentStyle;
+        return (string) $this->indentStyle;
     }
 
     /**
