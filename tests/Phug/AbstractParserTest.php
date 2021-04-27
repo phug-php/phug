@@ -2,8 +2,8 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Parser;
+use Phug\Util\TestCase;
 
 abstract class AbstractParserTest extends TestCase
 {
