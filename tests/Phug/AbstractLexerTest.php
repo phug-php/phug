@@ -3,8 +3,8 @@
 namespace Phug\Test;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
+use Phug\Util\TestCase;
 
 abstract class AbstractLexerTest extends TestCase
 {
