@@ -468,7 +468,7 @@ class ProfilerModuleTest extends TestCase
         $eventDumpProperty->setAccessible(true);
         $eventDump = $eventDumpProperty->getValue($profiler);
 
-        $this->assertSame('string(2) "OK"', trim($eventDump('OK')));
+        $this->assertRegExp('/(.*ProfilerModule\.php:\d+:\n)?string\(2\) "OK"/', trim($eventDump('OK')));
     }
 
     /**
