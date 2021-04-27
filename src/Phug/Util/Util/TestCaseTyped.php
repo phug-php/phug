@@ -4,7 +4,7 @@ namespace Phug\Util;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-if (!class_exists(TestCaseTypeBase::class, false)) {
+if (!isset($testCaseInitialization) || !class_exists(TestCaseTypeBase::class, false)) {
     return;
 }
 
