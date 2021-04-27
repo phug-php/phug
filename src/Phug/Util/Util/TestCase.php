@@ -67,7 +67,7 @@ class TestCase extends PHPUnitTestCase
     {
         if (file_exists($dir)) {
             if (is_dir($dir)) {
-                $this->emptyDirectory($dir);
+                @$this->emptyDirectory($dir);
 
                 return;
             }
