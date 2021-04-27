@@ -11,7 +11,7 @@ abstract class AbstractLexerTest extends TestCase
     /** @var Lexer */
     protected $lexer;
 
-    protected function setUp()
+    protected function prepareTest()
     {
         parent::setUp();
 

@@ -12,7 +12,7 @@ abstract class AbstractParserTest extends TestCase
      */
     protected $parser;
 
-    protected function setUp()
+    protected function prepareTest()
     {
         $this->parser = new Parser();
     }

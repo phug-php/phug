@@ -19,7 +19,7 @@ abstract class AbstractRendererTest extends TestCase
      */
     protected $renderer;
 
-    protected function setUp()
+    protected function prepareTest()
     {
         ini_set('memory_limit', '512M');
         include_once __DIR__.'/Utils/Date.php';
