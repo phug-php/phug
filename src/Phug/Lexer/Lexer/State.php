@@ -329,7 +329,7 @@ class State implements OptionInterface
         return new $className(
             $this->createCurrentSourceLocation(),
             $this->level,
-            str_repeat($this->getIndentStyle(), $this->getIndentWidth())
+            str_repeat((string) $this->getIndentStyle(), $this->getIndentWidth())
         );
     }
 
