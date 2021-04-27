@@ -4,6 +4,10 @@ namespace Phug\Util;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+if (!class_exists(TestCaseTypeBase::class, false)) {
+    return;
+}
+
 class TestCaseTypeBase extends PHPUnitTestCase
 {
     protected function prepareTest()

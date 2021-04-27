@@ -189,6 +189,10 @@ abstract class AbstractRendererTest extends TestCase
             $message = $message();
         }
 
+        if (version_compare(PHP_VERSION, '8.1.0-dev', '>=')) {
+            $actual = str_replace('&#039;', "'", $actual);
+        }
+
         self::assertSame($expected, $actual, $message);
     }
 

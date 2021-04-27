@@ -98,7 +98,7 @@ class IndentationScanner implements ScannerInterface
         $newLevel = $this->getIndentLevel($state, INF, function () use (&$indent) {
             $char = null;
 
-            if (mb_strlen($indent)) {
+            if ($indent !== null && mb_strlen($indent)) {
                 $char = mb_substr($indent, 0, 1);
                 $indent = mb_substr($indent, 1);
             }
