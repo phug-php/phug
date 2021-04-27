@@ -1280,6 +1280,10 @@ class RendererTest extends AbstractRendererTest
      */
     public function testCacheDirectoryPreserveDependencies()
     {
+        if (version_compare(PHP_VERSION, '8.1.0-dev', '>=')) {
+            $this->markTestSkipped('Not compatible with PHP 8.1');
+        }
+
         $cacheDirectory = sys_get_temp_dir().'/pug-test'.mt_rand(0, 999999);
         $this->createEmptyDirectory($cacheDirectory);
 
