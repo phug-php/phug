@@ -13,7 +13,7 @@ abstract class AbstractLexerTest extends TestCase
 
     protected function prepareTest()
     {
-        parent::setUp();
+        parent::prepareTest();
 
         $this->lexer = $this->createLexer();
     }
