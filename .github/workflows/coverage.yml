@@ -52,7 +52,7 @@ jobs:
         composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress ${{ matrix.php >= 8.1 && '--ignore-platform-req=php' || '' }}
 
     - name: Run test suite
-      run: vendor/bin/phpunit --coverage-text --coverage-clover=clover.xml
+      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
     - name: Code Climate Test Reporter
       if: ${{ matrix.php == '7.4' && matrix.setup == 'stable' && env.CC_TEST_REPORTER_ID != '' }}
