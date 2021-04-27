@@ -88,8 +88,6 @@ class ProfilerModule extends AbstractModule
         if (in_array($this->eventDump, ['var_dump', 'print_r'])) {
             $function = $this->eventDump;
             $this->eventDump = function ($value) use ($function) {
-                echo (new \Exception())->getTraceAsString();
-                exit;
                 return $this->getFunctionDump($value, $function);
             };
         }
