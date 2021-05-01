@@ -452,6 +452,7 @@ class ProfilerModuleTest extends TestCase
     /**
      * @group profiler
      * @covers ::initialize
+     * @covers ::getFunctionDump
      */
     public function testEventVarDumpIsolated()
     {

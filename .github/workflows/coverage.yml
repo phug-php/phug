@@ -66,4 +66,4 @@ jobs:
         vendor/bin/codacycoverage clover coverage.xml
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        CODACY_PROJECT_TOKEN: ${{ secrets.CC_TEST_REPORTER_ID }}
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
