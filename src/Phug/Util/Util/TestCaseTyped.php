@@ -4,6 +4,7 @@ namespace Phug\Util;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
+// @codeCoverageIgnoreStart
 if (!isset($testCaseInitialization) || !class_exists(TestCaseTypeBase::class, false)) {
     return;
 }
@@ -30,3 +31,4 @@ class TestCaseTypeBase extends PHPUnitTestCase
         $this->finishTest();
     }
 }
+// @codeCoverageIgnoreEnd

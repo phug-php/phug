@@ -61,6 +61,7 @@ jobs:
         cp coverage.xml clover.xml
         bash <(curl -s https://codecov.io/bash)
         ./cc-test-reporter after-build --coverage-input-type clover --exit-code 0
+        composer config version 1.9.0
         composer require codacy/coverage
         vendor/bin/codacycoverage clover coverage.xml
       env:
