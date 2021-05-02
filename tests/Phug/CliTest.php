@@ -17,7 +17,7 @@ class CliTest extends TestCase
      */
     protected $cli;
 
-    protected function setUp()
+    protected function prepareTest()
     {
         Phug::reset();
         $this->cli = new Cli(Phug::class, [
@@ -37,7 +37,7 @@ class CliTest extends TestCase
         ]);
     }
 
-    public function tearDown()
+    public function finishTest()
     {
         Phug::reset();
     }

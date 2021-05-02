@@ -19,7 +19,7 @@ abstract class AbstractRendererTest extends TestCase
      */
     protected $renderer;
 
-    protected function setUp()
+    protected function prepareTest()
     {
         ini_set('memory_limit', '512M');
         include_once __DIR__.'/Utils/Date.php';
@@ -187,6 +187,10 @@ abstract class AbstractRendererTest extends TestCase
 
         if (is_callable($message)) {
             $message = $message();
+        }
+
+        if (version_compare(PHP_VERSION, '8.1.0-dev', '>=')) {
+            $actual = str_replace('&#039;', "'", $actual);
         }
 
         self::assertSame($expected, $actual, $message);

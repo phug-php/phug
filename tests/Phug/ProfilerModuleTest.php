@@ -10,6 +10,7 @@ use Phug\RendererException;
 use Phug\Util\Exception\LocatedException;
 use Phug\Util\SourceLocation;
 use ReflectionMethod;
+use ReflectionProperty;
 
 /**
  * @coversDefaultClass \Phug\Renderer\Profiler\ProfilerModule
@@ -446,6 +447,29 @@ class ProfilerModuleTest extends TestCase
         $render = $renderer->render('div');
 
         self::assertRegExp('/class\\s+Phug\\\\Parser\\\\Node\\\\DocumentNode#\\d+\\s+\\(\\d+\\)\\s+\\{/', $render);
+    }
+
+    /**
+     * @group profiler
+     * @covers ::initialize
+     * @covers ::getFunctionDump
+     */
+    public function testEventVarDumpIsolated()
+    {
+        $renderer = new Renderer([
+            'enable_profiler' => true,
+        ]);
+        $renderer->setOption('profiler.dump_event', 'var_dump');
+        /* @var ProfilerModule $profiler */
+        $profiler = array_filter($renderer->getModules(), function ($module) {
+            return $module instanceof ProfilerModule;
+        })[0];
+        $profiler->initialize();
+        $eventDumpProperty = new ReflectionProperty(ProfilerModule::class, 'eventDump');
+        $eventDumpProperty->setAccessible(true);
+        $eventDump = $eventDumpProperty->getValue($profiler);
+
+        $this->assertRegExp('/(.*ProfilerModule\.php:\d+:\n)?string\(2\) "OK"/', trim($eventDump('OK')));
     }
 
     /**

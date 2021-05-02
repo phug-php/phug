@@ -732,7 +732,9 @@ class FileAdapterTest extends AbstractRendererTest
             'cache_dir' => $cacheDirectory,
         ]);
         $renderer->cacheDirectory($templatesDirectory);
-        $files = glob("$cacheDirectory/*.php");
+        $files = array_values(array_filter(glob("$cacheDirectory/*.php"), function ($file) {
+            return basename($file) !== 'registry.php';
+        }));
         $file = count($files) ? file_get_contents($files[0]) : null;
         $this->emptyDirectory($cacheDirectory);
         rmdir($cacheDirectory);
@@ -742,10 +744,10 @@ class FileAdapterTest extends AbstractRendererTest
         $foo = ['bar' => 'biz'];
         ob_start();
         eval('?>'.$file);
-        $contents = ob_get_contents();
+        $contents = trim(ob_get_contents());
         ob_end_clean();
 
-        self::assertSame('<p>biz</p>', trim($contents));
+        self::assertSame('<p>biz</p>', $contents);
     }
 
     /**
@@ -764,7 +766,9 @@ class FileAdapterTest extends AbstractRendererTest
         $compiler = $renderer->getCompiler();
         $compiler->addModule(new JsPhpizePhug($compiler));
         $renderer->cacheDirectory($templatesDirectory);
-        $files = glob("$cacheDirectory/*.php");
+        $files = array_values(array_filter(glob("$cacheDirectory/*.php"), function ($file) {
+            return basename($file) !== 'registry.php';
+        }));
         $file = count($files) ? file_get_contents($files[0]) : null;
         $this->removeFile($cacheDirectory);
 
@@ -773,10 +777,10 @@ class FileAdapterTest extends AbstractRendererTest
         $foo = ['bar' => 'biz'];
         ob_start();
         eval('?>'.$file);
-        $contents = ob_get_contents();
+        $contents = trim(ob_get_contents());
         ob_end_clean();
 
-        self::assertSame('<p>biz</p>', trim($contents));
+        self::assertSame('<p>biz</p>', $contents);
     }
 
     /**

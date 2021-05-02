@@ -1,0 +1,46 @@
+name: Multitest
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  multitest:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: ['7.4', '8.0']
+        setup: ['stable']
+
+    name: PHP ${{ matrix.php }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-multi-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-multi-${{ matrix.php }}-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: |
+          composer config version 1.9.0
+          composer require kylekatarnls/multi-tester:^1.1 --no-update --no-interaction
+          composer update --prefer-dist --prefer-${{ matrix.setup }} --no-progress --no-interaction
+
+      - name: Run test suites
+        run: vendor/bin/multi-tester --verbose

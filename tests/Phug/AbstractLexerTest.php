@@ -3,17 +3,17 @@
 namespace Phug\Test;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
+use Phug\Util\TestCase;
 
 abstract class AbstractLexerTest extends TestCase
 {
     /** @var Lexer */
     protected $lexer;
 
-    protected function setUp()
+    protected function prepareTest()
     {
-        parent::setUp();
+        parent::prepareTest();
 
         $this->lexer = $this->createLexer();
     }

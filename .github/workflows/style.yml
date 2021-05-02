@@ -1,0 +1,48 @@
+name: Style
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.0']
+        setup: ['stable']
+
+    name: PHP ${{ matrix.php }} - ${{ matrix.setup }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        tools: composer:v2
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: style-${{ runner.os }}-${{ matrix.setup }}-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          style-${{ runner.os }}-${{ matrix.setup }}-${{ matrix.php }}-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: |
+        composer config version 1.9.0
+        composer remove squizlabs/php_codesniffer phpunit/phpunit phpunit/php-code-coverage --no-update --dev --no-interaction
+        composer require squizlabs/php_codesniffer --no-update --no-interaction
+        composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress
+
+    - name: Check style with PHPCS
+      run: vendor/bin/phpcs --ignore=*.js src

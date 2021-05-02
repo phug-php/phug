@@ -3,8 +3,18 @@
 namespace Phug\Util;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use ReflectionMethod;
 
-class TestCase extends PHPUnitTestCase
+$setUp = @new ReflectionMethod(PHPUnitTestCase::class, 'setUp');
+$testCaseInitialization = true;
+
+require $setUp && method_exists($setUp, 'hasReturnType') && $setUp->hasReturnType()
+    ? __DIR__.'/TestCaseTyped.php'
+    : __DIR__.'/TestCaseUntyped.php';
+
+unset($testCaseInitialization);
+
+class TestCase extends TestCaseTypeBase
 {
     /**
      * @var string
@@ -67,7 +77,7 @@ class TestCase extends PHPUnitTestCase
     {
         if (file_exists($dir)) {
             if (is_dir($dir)) {
-                $this->emptyDirectory($dir);
+                @$this->emptyDirectory($dir);
 
                 return;
             }

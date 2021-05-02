@@ -15,7 +15,7 @@ use Phug\Test\Utils\CustomRenderer;
  */
 class OptimizerTest extends AbstractPhugTest
 {
-    public function tearDown()
+    public function finishTest()
     {
         Phug::reset();
     }

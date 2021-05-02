@@ -446,6 +446,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::setDebugFormatter
      * @covers ::getDebugFormatter
      * @covers ::hasColorSupport
+     * @covers ::isStdOutATTY
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
@@ -535,6 +536,7 @@ class RendererTest extends AbstractRendererTest
      * @covers ::setDebugFormatter
      * @covers ::getDebugFormatter
      * @covers ::hasColorSupport
+     * @covers ::isStdOutATTY
      * @covers ::getRendererException
      * @covers ::getErrorMessage
      * @covers ::highlightLine
@@ -599,6 +601,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::setDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::hasColorSupport
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::isStdOutATTY
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
@@ -782,6 +785,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::setDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::hasColorSupport
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::isStdOutATTY
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
@@ -828,6 +832,7 @@ class RendererTest extends AbstractRendererTest
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::setDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebugFormatter
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::hasColorSupport
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::isStdOutATTY
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getErrorMessage
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::highlightLine
@@ -1275,6 +1280,10 @@ class RendererTest extends AbstractRendererTest
      */
     public function testCacheDirectoryPreserveDependencies()
     {
+        if (version_compare(PHP_VERSION, '8.1.0-dev', '>=')) {
+            $this->markTestSkipped('Not compatible with PHP 8.1');
+        }
+
         $cacheDirectory = sys_get_temp_dir().'/pug-test'.mt_rand(0, 999999);
         $this->createEmptyDirectory($cacheDirectory);
 

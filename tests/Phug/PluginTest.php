@@ -26,18 +26,18 @@ use ReflectionException;
  */
 class PluginTest extends AbstractPhugTest
 {
-    protected function setUp()
+    protected function prepareTest()
     {
-        parent::setUp();
+        parent::prepareTest();
 
         Phug::reset();
     }
 
-    protected function tearDown()
+    protected function finishTest()
     {
         Phug::reset();
 
-        parent::tearDown();
+        parent::finishTest();
     }
 
     /**
