@@ -19,7 +19,7 @@ if (!file_exists($autoload)) {
 
 include $autoload;
 
-$cli = new Cli('Phug', [
+$cli = new Cli('Phug\Phug', [
     'render',
     'renderFile',
     'renderDirectory',
