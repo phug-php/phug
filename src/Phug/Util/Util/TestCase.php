@@ -3,16 +3,19 @@
 namespace Phug\Util;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Phug\CompatibilityUtil\TestCaseTypeBase;
 use ReflectionMethod;
 
-$setUp = @new ReflectionMethod(PHPUnitTestCase::class, 'setUp');
-$testCaseInitialization = true;
+if (!class_exists(TestCaseTypeBase::class)) {
+    $setUp = @new ReflectionMethod(PHPUnitTestCase::class, 'setUp');
+    $testCaseInitialization = true;
 
-require $setUp && method_exists($setUp, 'hasReturnType') && $setUp->hasReturnType()
-    ? __DIR__.'/TestCaseTyped.php'
-    : __DIR__.'/TestCaseUntyped.php';
+    require $setUp && method_exists($setUp, 'hasReturnType') && $setUp->hasReturnType()
+        ? __DIR__.'/../CompatibilityUtil/TestCaseTyped.php'
+        : __DIR__.'/../CompatibilityUtil/TestCaseUntyped.php';
 
-unset($testCaseInitialization);
+    unset($testCaseInitialization);
+}
 
 class TestCase extends TestCaseTypeBase
 {

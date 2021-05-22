@@ -66,9 +66,9 @@
                 "./src/Phug/Lexer/",
                 "./src/Phug/Parser/",
                 "./src/Phug/Reader/",
-                "./src/Phug/Renderer/",
-                "./src/Phug/Util/"
-            ]
+                "./src/Phug/Renderer/"
+            ],
+            "Phug\\Util\\": "./src/Phug/Util/Util/"
         }
     },
     "autoload-dev": {
