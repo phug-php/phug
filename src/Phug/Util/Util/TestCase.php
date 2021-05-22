@@ -8,15 +8,10 @@ use ReflectionMethod;
 if (!class_exists(TestCaseTypeBase::class)) {
     $setUp = @new ReflectionMethod(PHPUnitTestCase::class, 'setUp');
     $testCaseInitialization = true;
-    $compatibilityFolder = __DIR__.'/../../../../compatibility';
-
-    if (!file_exists($compatibilityFolder)) {
-        $compatibilityFolder = __DIR__.'/../compatibility';
-    }
 
     require $setUp && method_exists($setUp, 'hasReturnType') && $setUp->hasReturnType()
-        ? "$compatibilityFolder/Phug/Util/TestCaseTyped.php"
-        : "$compatibilityFolder/Phug/Util/TestCaseUntyped.php";
+        ? __DIR__ . '/../CompatibilityUtil/TestCaseTyped.php'
+        : __DIR__ . '/../CompatibilityUtil/TestCaseUntyped.php';
 
     unset($testCaseInitialization);
 }
