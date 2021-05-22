@@ -1,6 +1,6 @@
 <?php
 
-namespace Phug\Util;
+namespace Phug\CompatibilityUtil;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 

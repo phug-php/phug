@@ -3,6 +3,7 @@
 namespace Phug\Util;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Phug\CompatibilityUtil\TestCaseTypeBase;
 use ReflectionMethod;
 
 if (!class_exists(TestCaseTypeBase::class)) {
