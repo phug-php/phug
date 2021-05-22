@@ -11,8 +11,8 @@ if (!class_exists(TestCaseTypeBase::class)) {
     $testCaseInitialization = true;
 
     require $setUp && method_exists($setUp, 'hasReturnType') && $setUp->hasReturnType()
-        ? __DIR__ . '/../CompatibilityUtil/TestCaseTyped.php'
-        : __DIR__ . '/../CompatibilityUtil/TestCaseUntyped.php';
+        ? __DIR__.'/../CompatibilityUtil/TestCaseTyped.php'
+        : __DIR__.'/../CompatibilityUtil/TestCaseUntyped.php';
 
     unset($testCaseInitialization);
 }
