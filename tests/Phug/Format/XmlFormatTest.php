@@ -661,7 +661,7 @@ class XmlFormatTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<a data-user="{"name":{"last":"Trosvald","first":"Linus"}}"></a>',
+            '<a data-user="{"name":{"first":"Linus","last":"Trosvald"}}"></a>',
             $actual
         );
     }

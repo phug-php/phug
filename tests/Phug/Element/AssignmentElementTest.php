@@ -66,7 +66,7 @@ class AssignmentElementTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<img alt="Foo" src="/foo/bar.png" />',
+            '<img src="/foo/bar.png" alt="Foo" />',
             $actual
         );
 
@@ -81,7 +81,7 @@ class AssignmentElementTest extends TestCase
         $assignment = new AssignmentElement('attributes', $data, $img);
         $img->getAssignments()->attach($assignment);
         $img->getAttributes()->attach(new AttributeElement('class', 'foo bar'));
-        $img->getAttributes()->attach(new AttributeElement('style', 'height: 100px; z-index: 9;'));
+        $img->getAttributes()->attach(new AttributeElement('style', 'height: 100px; z-index: 9'));
 
         ob_start();
         $php = $formatter->format($img);
@@ -90,7 +90,7 @@ class AssignmentElementTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<img class="baz foo foobar bar" style="width:200px;display:block;height: 100px; z-index: 9;" />',
+            '<img class="foo bar baz foobar" style="height: 100px; z-index: 9;width:200px;display:block" />',
             $actual
         );
 
@@ -114,7 +114,7 @@ class AssignmentElementTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<img class="baz foo foobar bar" style="width:200px;display:block;height: 100px; z-index: 9;" />',
+            '<img class="foo bar baz foobar" style="height: 100px; z-index: 9;width:200px;display:block" />',
             $actual
         );
 
@@ -147,7 +147,7 @@ class AssignmentElementTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<input class="top bottom foo">',
+            '<input class="foo top bottom">',
             $actual
         );
     }
@@ -226,7 +226,7 @@ class AssignmentElementTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<img data-user="Bob" data-foo="bar" bar="foo" />',
+            '<img data-foo="bar" bar="foo" data-user="Bob" />',
             $actual
         );
     }
