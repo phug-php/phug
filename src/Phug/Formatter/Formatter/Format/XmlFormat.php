@@ -2,6 +2,7 @@
 
 namespace Phug\Formatter\Format;
 
+use Generator;
 use Phug\Formatter;
 use Phug\Formatter\AbstractFormat;
 use Phug\Formatter\AssignmentContainerInterface;
@@ -301,24 +302,35 @@ class XmlFormat extends AbstractFormat
     {
         $arguments = [];
 
+        foreach ($this->yieldAssignmentAttributes($markup) as $attribute) {
+            $checked = method_exists($attribute, 'isChecked') && $attribute->isChecked();
+
+            while (method_exists($attribute, 'getValue')) {
+                $attribute = $attribute->getValue();
+            }
+
+            $arguments[] = $this->formatCode($attribute, $checked);
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * @param AssignmentContainerInterface $markup
+     *
+     * @return Generator|AbstractValueElement[]
+     */
+    protected function yieldAssignmentAttributes(AssignmentContainerInterface $markup)
+    {
         foreach ($markup->getAssignmentsByName('attributes') as $attributesAssignment) {
             /* @var AssignmentElement $attributesAssignment */
             foreach ($attributesAssignment->getAttributes() as $attribute) {
                 /* @var AbstractValueElement $attribute */
-                $value = $attribute;
-                $checked = method_exists($value, 'isChecked') && $value->isChecked();
-
-                while (method_exists($value, 'getValue')) {
-                    $value = $value->getValue();
-                }
-
-                $arguments[] = $this->formatCode($value, $checked);
+                yield $attribute;
             }
 
             $markup->removedAssignment($attributesAssignment);
         }
-
-        return $arguments;
     }
 
     /**
