@@ -632,6 +632,9 @@ class XmlFormatTest extends TestCase
      * @covers ::formatAssignmentValue
      * @covers ::formatAssignmentElement
      * @covers ::yieldAssignmentElement
+     * @covers ::formatAttributeAssignments
+     * @covers ::yieldAssignmentAttributes
+     * @covers ::formatMarkupAttributes
      * @covers ::formatAttributes
      */
     public function testAttributeAssignmentsOption()

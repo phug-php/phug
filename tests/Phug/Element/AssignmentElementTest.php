@@ -41,6 +41,9 @@ class AssignmentElementTest extends TestCase
      * @covers \Phug\Formatter\Format\XmlFormat::formatAttributeAsArrayItem
      * @covers \Phug\Formatter\Format\XmlFormat::formatAssignmentElement
      * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentElement
+     * @covers \Phug\Formatter\Format\XmlFormat::formatAttributeAssignments
+     * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentAttributes
+     * @covers \Phug\Formatter\Format\XmlFormat::formatMarkupAttributes
      * @covers \Phug\Formatter\Format\XmlFormat::formatAttributes
      */
     public function testAttributeElement()
@@ -156,6 +159,9 @@ class AssignmentElementTest extends TestCase
      * @covers                   \Phug\Formatter\AbstractFormat::throwException
      * @covers                   \Phug\Formatter\Format\XmlFormat::formatAssignmentElement
      * @covers                   \Phug\Formatter\Format\XmlFormat::yieldAssignmentElement
+     * @covers                   \Phug\Formatter\Format\XmlFormat::formatAttributeAssignments
+     * @covers                   \Phug\Formatter\Format\XmlFormat::yieldAssignmentAttributes
+     * @covers                   \Phug\Formatter\Format\XmlFormat::formatMarkupAttributes
      * @expectedException        \Phug\FormatterException
      * @expectedExceptionMessage Unable to handle class assignment
      */
@@ -175,6 +181,9 @@ class AssignmentElementTest extends TestCase
     /**
      * @covers \Phug\Formatter\Format\XmlFormat::formatAssignmentElement
      * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentElement
+     * @covers \Phug\Formatter\Format\XmlFormat::formatAttributeAssignments
+     * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentAttributes
+     * @covers \Phug\Formatter\Format\XmlFormat::formatMarkupAttributes
      * @covers \Phug\Formatter\Element\ExpressionElement::<public>
      * @covers \Phug\Util\Partial\TransformableTrait::preventFromTransformation
      * @covers \Phug\Util\Partial\TransformableTrait::isTransformationAllowed
@@ -235,6 +244,9 @@ class AssignmentElementTest extends TestCase
      * @covers \Phug\Formatter\Element\AssignmentElement::detach
      * @covers \Phug\Formatter\Format\XmlFormat::formatAssignmentElement
      * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentElement
+     * @covers \Phug\Formatter\Format\XmlFormat::formatAttributeAssignments
+     * @covers \Phug\Formatter\Format\XmlFormat::yieldAssignmentAttributes
+     * @covers \Phug\Formatter\Format\XmlFormat::formatMarkupAttributes
      * @covers \Phug\Formatter\Partial\HandleVariable::isInComplexInterpolation
      */
     public function testAssignmentHandlersWithYield()
