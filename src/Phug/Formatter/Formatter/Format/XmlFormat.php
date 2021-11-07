@@ -4,6 +4,7 @@ namespace Phug\Formatter\Format;
 
 use Phug\Formatter;
 use Phug\Formatter\AbstractFormat;
+use Phug\Formatter\AssignmentContainerInterface;
 use Phug\Formatter\Element\AbstractValueElement;
 use Phug\Formatter\Element\AssignmentElement;
 use Phug\Formatter\Element\AttributeElement;
@@ -16,6 +17,7 @@ use Phug\Formatter\ElementInterface;
 use Phug\Formatter\MarkupInterface;
 use Phug\Formatter\Partial\AssignmentHelpersTrait;
 use Phug\FormatterException;
+use Phug\Util\AttributesInterface;
 use Phug\Util\Joiner;
 use SplObjectStorage;
 
@@ -266,6 +268,37 @@ class XmlFormat extends AbstractFormat
         /* @var MarkupElement $markup */
         $markup = $element->getContainer();
 
+        $arguments = $markup instanceof AssignmentContainerInterface
+            ? $this->formatAttributeAssignments($markup)
+            : [];
+
+        $arguments = array_merge(
+            $markup instanceof AttributesInterface
+                ? $this->formatMarkupAttributes($markup)
+                : [],
+            $arguments
+        );
+
+        foreach ($markup->getAssignments() as $assignment) {
+            /* @var AssignmentElement $assignment */
+            $this->throwException(
+                'Unable to handle '.$assignment->getName().' assignment',
+                $assignment
+            );
+        }
+
+        if (count($arguments)) {
+            yield $this->attributesAssignmentsFromPairs($arguments);
+        }
+    }
+
+    /**
+     * @param AssignmentContainerInterface $markup
+     *
+     * @return array<string>
+     */
+    protected function formatAttributeAssignments(AssignmentContainerInterface $markup)
+    {
         $arguments = [];
 
         foreach ($markup->getAssignmentsByName('attributes') as $attributesAssignment) {
@@ -285,6 +318,17 @@ class XmlFormat extends AbstractFormat
             $markup->removedAssignment($attributesAssignment);
         }
 
+        return $arguments;
+    }
+
+    /**
+     * @param AttributesInterface $markup
+     *
+     * @return array<string>
+     */
+    protected function formatMarkupAttributes(AttributesInterface $markup)
+    {
+        $arguments = [];
         $attributes = $markup->getAttributes();
 
         foreach ($attributes as $attribute) {
@@ -294,17 +338,7 @@ class XmlFormat extends AbstractFormat
 
         $attributes->removeAll($attributes);
 
-        foreach ($markup->getAssignments() as $assignment) {
-            /* @var AssignmentElement $assignment */
-            $this->throwException(
-                'Unable to handle '.$assignment->getName().' assignment',
-                $assignment
-            );
-        }
-
-        if (count($arguments)) {
-            yield $this->attributesAssignmentsFromPairs($arguments);
-        }
+        return $arguments;
     }
 
     /**

@@ -6,10 +6,11 @@ use Phug\Ast\NodeInterface;
 use Phug\Formatter\AbstractElement;
 use Phug\Formatter\AssignmentContainerInterface;
 use Phug\Parser\NodeInterface as ParserNode;
+use Phug\Util\AttributesInterface;
 use Phug\Util\Partial\AttributeTrait;
 use Phug\Util\Partial\NameTrait;
 
-class AssignmentElement extends AbstractElement
+class AssignmentElement extends AbstractElement implements AttributesInterface
 {
     use AttributeTrait;
     use NameTrait;
