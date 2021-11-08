@@ -2,10 +2,12 @@
 
 namespace Phug\Event;
 
+use ReturnTypeWillChange;
 use SplPriorityQueue;
 
 class ListenerQueue extends SplPriorityQueue
 {
+    #[ReturnTypeWillChange]
     public function compare($priority, $priorityToCompare)
     {
         if ($priority === $priorityToCompare) {
@@ -15,6 +17,7 @@ class ListenerQueue extends SplPriorityQueue
         return $priority > $priorityToCompare ? -1 : 1;
     }
 
+    #[ReturnTypeWillChange]
     public function insert($value, $priority)
     {
         if (!is_callable($value)) {
