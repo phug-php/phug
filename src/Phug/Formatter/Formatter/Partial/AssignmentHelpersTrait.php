@@ -202,11 +202,14 @@ trait AssignmentHelpersTrait
             if (is_string($value) && mb_substr($value, 0, 7) === '{&quot;') {
                 $value = json_decode(htmlspecialchars_decode($value));
             }
+
             $styles = isset($attributes['style']) ? array_filter(explode(';', $attributes['style'])) : [];
+
             foreach ((array) $value as $propertyName => $propertyValue) {
                 if (!is_int($propertyName)) {
                     $propertyValue = $propertyName.':'.$propertyValue;
                 }
+
                 $styles[] = $propertyValue;
             }
 

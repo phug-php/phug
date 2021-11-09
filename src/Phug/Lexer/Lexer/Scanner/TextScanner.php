@@ -19,7 +19,7 @@ class TextScanner implements ScannerInterface
 
     private function isTextStartToTrim(State $state, $text)
     {
-        return in_array(mb_substr($text, 0, 1), [' ', "\t"]) && !$state->isAfterInterpolation();
+        return in_array(mb_substr((string) $text, 0, 1), [' ', "\t"]) && !$state->isAfterInterpolation();
     }
 
     private function leftTrimValueIfNotAfterInterpolation(State $state, TextToken $token)
@@ -27,7 +27,7 @@ class TextScanner implements ScannerInterface
         $text = $token->getValue();
 
         if ($this->isTextStartToTrim($state, $text)) {
-            $token->setValue(mb_substr($text, 1) ?: '');
+            $token->setValue(mb_substr((string) $text, 1));
         }
     }
 
@@ -87,7 +87,7 @@ class TextScanner implements ScannerInterface
             $text = mb_substr($text, 1);
         }
 
-        $text = preg_replace('/\\\\([#!]\\[|#\\{)/', '$1', $text);
+        $text = preg_replace('/\\\\([#!]\\[|#{)/', '$1', $text);
         $token->setValue($text);
 
         yield $state->endToken($token);

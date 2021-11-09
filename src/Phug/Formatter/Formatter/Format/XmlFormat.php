@@ -166,7 +166,7 @@ class XmlFormat extends AbstractFormat
         $nonEmptyAttribute = ($name === 'class' || $name === 'id');
         if ($nonEmptyAttribute && (
             !$value ||
-            ($value instanceof TextElement && ($value->getValue() ?: '') === '') ||
+            ($value instanceof TextElement && ((string) $value->getValue()) === '') ||
             (is_string($value) && in_array(trim($value), ['', '""', "''"]))
         )) {
             return '';

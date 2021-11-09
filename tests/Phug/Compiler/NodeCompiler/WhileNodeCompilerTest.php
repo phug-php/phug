@@ -48,7 +48,7 @@ class WhileNodeCompilerTest extends AbstractCompilerTest
                 '<ul>',
                 '<?php while (x < 10) { ?>',
                 '<?php x++; ?>',
-                '<li><?= htmlspecialchars(x) ?></li>',
+                '<li><?= htmlspecialchars((string) (x)) ?></li>',
                 '<?php } ?>',
                 '</ul>',
             ],

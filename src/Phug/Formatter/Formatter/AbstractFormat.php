@@ -51,7 +51,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         is_object($_pug_temp = %s) && method_exists($_pug_temp, "__toBoolean")
             ? $_pug_temp->__toBoolean()
             : $_pug_temp';
-    const HTML_EXPRESSION_ESCAPE = 'htmlspecialchars(%s)';
+    const HTML_EXPRESSION_ESCAPE = 'htmlspecialchars((string) (%s))';
     const HTML_TEXT_ESCAPE = 'htmlspecialchars';
     const PAIR_TAG = '%s%s%s';
     const TRANSFORM_EXPRESSION = '%s';
