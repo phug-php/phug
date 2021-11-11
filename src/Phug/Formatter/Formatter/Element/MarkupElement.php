@@ -4,10 +4,11 @@ namespace Phug\Formatter\Element;
 
 use Phug\Ast\NodeInterface;
 use Phug\Parser\NodeInterface as ParserNode;
+use Phug\Util\AttributesInterface;
 use Phug\Util\Partial\AttributeTrait;
 use Phug\Util\Partial\NameTrait;
 
-class MarkupElement extends AbstractMarkupElement
+class MarkupElement extends AbstractMarkupElement implements AttributesInterface
 {
     use AttributeTrait;
     use NameTrait;

@@ -632,6 +632,9 @@ class XmlFormatTest extends TestCase
      * @covers ::formatAssignmentValue
      * @covers ::formatAssignmentElement
      * @covers ::yieldAssignmentElement
+     * @covers ::formatAttributeAssignments
+     * @covers ::yieldAssignmentAttributes
+     * @covers ::formatMarkupAttributes
      * @covers ::formatAttributes
      */
     public function testAttributeAssignmentsOption()
@@ -661,7 +664,7 @@ class XmlFormatTest extends TestCase
         ob_end_clean();
 
         self::assertSame(
-            '<a data-user="{"name":{"last":"Trosvald","first":"Linus"}}"></a>',
+            '<a data-user="{"name":{"first":"Linus","last":"Trosvald"}}"></a>',
             $actual
         );
     }

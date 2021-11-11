@@ -105,7 +105,7 @@ trait DebuggerTrait
         $contextLines = $data->options['error_context_lines'];
         $code = '';
         $sourceOffset = max(0, $line - 1);
-        $untilOffset = isset($source[$sourceOffset]) ? (mb_substr($source[$sourceOffset], 0, $offset ?: 0) ?: '') : '';
+        $untilOffset = isset($source[$sourceOffset]) ? mb_substr((string) $source[$sourceOffset], 0, $offset ?: 0) : '';
         $htmlError = $data->options['html_error'];
         $start = null;
         foreach ($source as $index => $lineText) {

@@ -53,7 +53,7 @@ class HtmlFormatTest extends TestCase
     {
         $formatter = new HtmlFormat();
 
-        self::assertSame('htmlspecialchars("<")', $formatter->escapeHtml('"<"'));
+        self::assertSame('htmlspecialchars((string) ("<"))', $formatter->escapeHtml('"<"'));
     }
 
     /**

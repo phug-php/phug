@@ -46,6 +46,9 @@ class VariableElementTest extends TestCase
         $document = new DocumentElement();
         $document->appendChild($variable);
 
-        self::assertSame('<?php $foo=htmlspecialchars((isset($bar) ? $bar : null)) ?>', $formatter->format($document));
+        self::assertSame(
+            '<?php $foo=htmlspecialchars((string) ((isset($bar) ? $bar : null))) ?>',
+            $formatter->format($document)
+        );
     }
 }

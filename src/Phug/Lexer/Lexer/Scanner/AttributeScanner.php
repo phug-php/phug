@@ -30,7 +30,7 @@ class AttributeScanner implements ScannerInterface
         $expression = preg_replace('/
                 "(?:\\\\[\\S\\s]|[^"\\\\])*"|
                 \'(?:\\\\[\\S\\s]|[^\'\\\\])*\'
-            /x', '0', $expression);
+            /x', '0', (string) $expression);
         $expression = preg_replace('/\\s*(
                 (\\[([^\\[\\]]+|(?1))*\\]) |
                 (\\(([^\\(\\)]+|(?1))*\\)) |
@@ -42,6 +42,8 @@ class AttributeScanner implements ScannerInterface
 
     private function isTruncatedExpression(Reader $reader, &$expression)
     {
+        $expression = (string) $expression;
+
         if (mb_substr($expression, -3) === 'new' || mb_substr($expression, -5) === 'clone') {
             $expression .= $reader->getLastPeekResult();
             $reader->consume();

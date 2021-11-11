@@ -26,6 +26,18 @@ class AssignmentNodeCompilerTest extends AbstractCompilerTest
             '<a class="bar fiz foo biz"></a>',
             'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])'
         );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])'
+        );
+        $this->assertRender(
+            '<a href="/"></a>',
+            'a(href="#")&attributes(["href" => "/"])'
+        );
+        $this->assertRender(
+            '<a href="/"></a>',
+            'a&attributes(["href" => "/"])(href="#")'
+        );
     }
 
     /**

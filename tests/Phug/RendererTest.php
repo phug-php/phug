@@ -1317,37 +1317,6 @@ class RendererTest extends AbstractRendererTest
     /**
      * @throws RendererException
      */
-    public function testBooleanCastAbleObject()
-    {
-        include_once __DIR__.'/Utils/BooleanAble.php';
-
-        $pug = new Renderer([
-            'modules' => [JsPhpizePhug::class],
-        ]);
-        $data = [
-            'trueObj'  => new BooleanAble(true),
-            'falseObj' => new BooleanAble(false),
-            'whileObj' => new BooleanAble(2),
-        ];
-        $code = implode("\n", [
-            'if trueObj',
-            '  p if true',
-            'if falseObj',
-            '  p if false',
-            'unless trueObj',
-            '  p unless true',
-            'unless falseObj',
-            '  p unless false',
-            'while whileObj',
-            '  p while',
-        ]);
-
-        self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
-    }
-
-    /**
-     * @throws RendererException
-     */
     public function testIssetCompatibility()
     {
         $jsPhpizeAtLeastTwo = version_compare($this->getJsPhpizeVersion(), '2.0', '>=');
@@ -1416,6 +1385,37 @@ class RendererTest extends AbstractRendererTest
             $this->assertSame('no', trim($pug->render($code, ['foo' => 1])));
             $this->assertSame('yes', trim($pug->render($code, ['foo' => 1, 'bar' => ['x']])));
         }
+    }
+
+    /**
+     * @throws RendererException
+     */
+    public function testBooleanCastAbleObject()
+    {
+        include_once __DIR__.'/Utils/BooleanAble.php';
+
+        $pug = new Renderer([
+            'modules' => [JsPhpizePhug::class],
+        ]);
+        $data = [
+            'trueObj'  => new BooleanAble(true),
+            'falseObj' => new BooleanAble(false),
+            'whileObj' => new BooleanAble(2),
+        ];
+        $code = implode("\n", [
+            'if trueObj',
+            '  p if true',
+            'if falseObj',
+            '  p if false',
+            'unless trueObj',
+            '  p unless true',
+            'unless falseObj',
+            '  p unless false',
+            'while whileObj',
+            '  p while',
+        ]);
+
+        self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
     }
 
     private function getJsPhpizeVersion()

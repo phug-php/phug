@@ -54,8 +54,8 @@ class TestCase extends TestCaseTypeBase
     protected function removeFile($file)
     {
         if (is_dir($file)) {
-            $this->emptyDirectory($file);
-            rmdir($file);
+            @$this->emptyDirectory($file);
+            @rmdir($file);
 
             return;
         }

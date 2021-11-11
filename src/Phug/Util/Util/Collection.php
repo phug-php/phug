@@ -4,6 +4,7 @@ namespace Phug\Util;
 
 use Generator;
 use IteratorAggregate;
+use ReturnTypeWillChange;
 use Traversable;
 
 class Collection implements IteratorAggregate
@@ -51,6 +52,7 @@ class Collection implements IteratorAggregate
      *
      * @return Traversable An instance of an object implementing <b>Iterator</b> or <b>Traversable</b>
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         return $this->traversable instanceof Traversable ? $this->traversable : $this->getGenerator();

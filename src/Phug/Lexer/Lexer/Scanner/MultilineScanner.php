@@ -92,7 +92,7 @@ class MultilineScanner implements ScannerInterface
         if ($maxIndent > 0 && $maxIndent < INF) {
             foreach ($lines as &$line) {
                 if (count($line) && is_string($line[0])) {
-                    $line[0] = mb_substr($line[0], $maxIndent) ?: '';
+                    $line[0] = mb_substr((string) $line[0], $maxIndent);
                 }
             }
         }

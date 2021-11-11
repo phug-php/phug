@@ -55,7 +55,7 @@ class FilterScanner implements ScannerInterface
             $token = $state->createToken(TextToken::class);
             if ($maxIndent > 0 && $maxIndent < INF) {
                 foreach ($lines as &$line) {
-                    $line = mb_substr($line, $maxIndent) ?: '';
+                    $line = mb_substr((string) $line, $maxIndent);
                 }
             }
             $token->setValue(implode("\n", $lines));

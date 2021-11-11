@@ -19,7 +19,7 @@ class VariableNodeCompilerTest extends AbstractCompilerTest
     {
         $this->assertCompile('<?php $answer=42 ?>', '$answer != 42');
         $this->assertCompile(
-            '<?php $answer=htmlspecialchars($foo) ?>',
+            '<?php $answer=htmlspecialchars((string) ($foo)) ?>',
             '$answer ?= $foo'
         );
     }

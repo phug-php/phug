@@ -364,8 +364,8 @@ class FileAdapter extends AbstractAdapter implements CacheInterface, LocatorInte
      * Return true if the file or content is up to date in the cache folder,
      * false else.
      *
-     * @param &string $path  to be filled
-     * @param string  $input file or pug code
+     * @param string &$path to be filled
+     * @param string $input file or pug code
      *
      * @return bool
      */

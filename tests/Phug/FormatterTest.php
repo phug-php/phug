@@ -557,8 +557,8 @@ class FormatterTest extends TestCase
         $formatter = new Formatter();
 
         self::assertSame(
-            '<?= htmlspecialchars((is_bool($_pug_temp = "<".(isset($tag) ? $tag : null).">") '.
-            '? var_export($_pug_temp, true) : $_pug_temp)) ?>',
+            '<?= htmlspecialchars((string) ((is_bool($_pug_temp = "<".(isset($tag) ? $tag : null).">") '.
+            '? var_export($_pug_temp, true) : $_pug_temp))) ?>',
             $formatter->format($answer, HtmlFormat::class)
         );
 
@@ -566,8 +566,8 @@ class FormatterTest extends TestCase
         $formatter = new Formatter();
 
         self::assertSame(
-            '<?= htmlspecialchars((is_bool($_pug_temp = "<".$tag.">") '.
-            '? var_export($_pug_temp, true) : $_pug_temp)) ?>',
+            '<?= htmlspecialchars((string) ((is_bool($_pug_temp = "<".$tag.">") '.
+            '? var_export($_pug_temp, true) : $_pug_temp))) ?>',
             $formatter->format($answer, HtmlFormat::class)
         );
 

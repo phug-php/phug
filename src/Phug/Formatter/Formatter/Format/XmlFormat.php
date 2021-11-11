@@ -2,8 +2,10 @@
 
 namespace Phug\Formatter\Format;
 
+use Generator;
 use Phug\Formatter;
 use Phug\Formatter\AbstractFormat;
+use Phug\Formatter\AssignmentContainerInterface;
 use Phug\Formatter\Element\AbstractValueElement;
 use Phug\Formatter\Element\AssignmentElement;
 use Phug\Formatter\Element\AttributeElement;
@@ -16,6 +18,7 @@ use Phug\Formatter\ElementInterface;
 use Phug\Formatter\MarkupInterface;
 use Phug\Formatter\Partial\AssignmentHelpersTrait;
 use Phug\FormatterException;
+use Phug\Util\AttributesInterface;
 use Phug\Util\Joiner;
 use SplObjectStorage;
 
@@ -163,7 +166,7 @@ class XmlFormat extends AbstractFormat
         $nonEmptyAttribute = ($name === 'class' || $name === 'id');
         if ($nonEmptyAttribute && (
             !$value ||
-            ($value instanceof TextElement && ($value->getValue() ?: '') === '') ||
+            ($value instanceof TextElement && ((string) $value->getValue()) === '') ||
             (is_string($value) && in_array(trim($value), ['', '""', "''"]))
         )) {
             return '';
@@ -266,33 +269,16 @@ class XmlFormat extends AbstractFormat
         /* @var MarkupElement $markup */
         $markup = $element->getContainer();
 
-        $arguments = [];
+        $arguments = $markup instanceof AssignmentContainerInterface
+            ? $this->formatAttributeAssignments($markup)
+            : [];
 
-        foreach ($markup->getAssignmentsByName('attributes') as $attributesAssignment) {
-            /* @var AssignmentElement $attributesAssignment */
-            foreach ($attributesAssignment->getAttributes() as $attribute) {
-                /* @var AbstractValueElement $attribute */
-                $value = $attribute;
-                $checked = method_exists($value, 'isChecked') && $value->isChecked();
-
-                while (method_exists($value, 'getValue')) {
-                    $value = $value->getValue();
-                }
-
-                $arguments[] = $this->formatCode($value, $checked);
-            }
-
-            $markup->removedAssignment($attributesAssignment);
-        }
-
-        $attributes = $markup->getAttributes();
-
-        foreach ($attributes as $attribute) {
-            /* @var AttributeElement $attribute */
-            $arguments[] = $this->formatAttributeAsArrayItem($attribute);
-        }
-
-        $attributes->removeAll($attributes);
+        $arguments = array_merge(
+            $markup instanceof AttributesInterface
+                ? $this->formatMarkupAttributes($markup)
+                : [],
+            $arguments
+        );
 
         foreach ($markup->getAssignments() as $assignment) {
             /* @var AssignmentElement $assignment */
@@ -305,6 +291,66 @@ class XmlFormat extends AbstractFormat
         if (count($arguments)) {
             yield $this->attributesAssignmentsFromPairs($arguments);
         }
+    }
+
+    /**
+     * @param AssignmentContainerInterface $markup
+     *
+     * @return array<string>
+     */
+    protected function formatAttributeAssignments(AssignmentContainerInterface $markup)
+    {
+        $arguments = [];
+
+        foreach ($this->yieldAssignmentAttributes($markup) as $attribute) {
+            $checked = method_exists($attribute, 'isChecked') && $attribute->isChecked();
+
+            while (method_exists($attribute, 'getValue')) {
+                $attribute = $attribute->getValue();
+            }
+
+            $arguments[] = $this->formatCode($attribute, $checked);
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * @param AssignmentContainerInterface $markup
+     *
+     * @return Generator|AbstractValueElement[]
+     */
+    protected function yieldAssignmentAttributes(AssignmentContainerInterface $markup)
+    {
+        foreach ($markup->getAssignmentsByName('attributes') as $attributesAssignment) {
+            /* @var AssignmentElement $attributesAssignment */
+            foreach ($attributesAssignment->getAttributes() as $attribute) {
+                /* @var AbstractValueElement $attribute */
+                yield $attribute;
+            }
+
+            $markup->removedAssignment($attributesAssignment);
+        }
+    }
+
+    /**
+     * @param AttributesInterface $markup
+     *
+     * @return array<string>
+     */
+    protected function formatMarkupAttributes(AttributesInterface $markup)
+    {
+        $arguments = [];
+        $attributes = $markup->getAttributes();
+
+        foreach ($attributes as $attribute) {
+            /* @var AttributeElement $attribute */
+            $arguments[] = $this->formatAttributeAsArrayItem($attribute);
+        }
+
+        $attributes->removeAll($attributes);
+
+        return $arguments;
     }
 
     /**
