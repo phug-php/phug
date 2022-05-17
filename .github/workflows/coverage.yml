@@ -61,8 +61,8 @@ jobs:
         bash <(curl -s https://codecov.io/bash)
         ./cc-test-reporter after-build --coverage-input-type clover --exit-code 0
         composer config version 1.9.0
-        composer require codacy/coverage
-        vendor/bin/codacycoverage clover coverage.xml
+      #  composer require codacy/coverage
+      #  vendor/bin/codacycoverage clover coverage.xml
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      #  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}

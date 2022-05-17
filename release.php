@@ -4,7 +4,7 @@
  * Example:
  * ```
  * php release.php minor stable message.md
- * ```
+ * ```.
  *
  * Put release notes in message.md as markdown format.
  */
