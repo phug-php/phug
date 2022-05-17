@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Example:
+ * ```
+ * php release.php minor stable message.md
+ * ```
+ */
+
 $settings = parse_ini_file('.env');
 
 function env($var)
