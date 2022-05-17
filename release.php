@@ -5,8 +5,9 @@
  * ```
  * php release.php minor stable message.md
  * ```
+ *
+ * Put release notes in message.md as markdown format.
  */
-
 $settings = parse_ini_file('.env');
 
 function env($var)
