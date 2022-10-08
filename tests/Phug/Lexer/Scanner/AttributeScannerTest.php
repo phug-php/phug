@@ -603,21 +603,21 @@ class AttributeScannerTest extends AbstractLexerTest
         self::assertSame('"a"', $class->getValue());
     }
 
+    /**
+     * @covers \Phug\Lexer\Scanner\AssignmentScanner::scan
+     */
     public function testTernaryRendering()
     {
-        list(
-            $tag,
-            $assignment,
-            $start,
-            $attribute,
-            $end,
-        ) = $this->assertTokens('div&attributes(val === "42" ? {"answer": "42"} : {"ko": "failed"})', [
-            TagToken::class,
-            AssignmentToken::class,
-            AttributeStartToken::class,
-            AttributeToken::class,
-            AttributeEndToken::class,
-        ]);
+        list($tag, $assignment, $start, $attribute, $end) = $this->assertTokens(
+            'div&attributes(val === "42" ? {"answer": "42"} : {"ko": "failed"})',
+            [
+                TagToken::class,
+                AssignmentToken::class,
+                AttributeStartToken::class,
+                AttributeToken::class,
+                AttributeEndToken::class,
+            ]
+        );
 
         self::assertSame('div', $tag->getName());
         self::assertSame('attributes', $assignment->getName());

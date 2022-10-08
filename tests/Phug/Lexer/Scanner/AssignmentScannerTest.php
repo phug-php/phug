@@ -59,7 +59,7 @@ class AssignmentScannerTest extends AbstractLexerTest
 
         self::assertSame(
             'isNestedFile ? {\'href\': \'../account-orders.html\'} : {\'href\': \'accountorders.html\'}',
-            $tok->getName()
+            $tok->getValue()
         );
     }
 }

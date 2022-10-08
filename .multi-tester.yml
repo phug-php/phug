@@ -1,4 +1,7 @@
-pug-php/pug: default
+pug-php/pug:
+  install:
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
 
 pug/bemto:
   autoload:
@@ -8,11 +11,20 @@ pug/bemto:
     - composer dump-autoload --optimize --no-interaction --quiet
     - composer self-update --2
 
-pug-php/pug-assets: default
+pug-php/pug-assets:
+  install:
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
 
-pug-php/pug-minify: default
+pug-php/pug-minify:
+  install:
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
 
-pug/slim: default
+pug/slim:
+  install:
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
 
 pug/twig:
   autoload:
@@ -21,8 +33,19 @@ pug/twig:
     - composer dump-autoload --optimize --no-interaction --quiet
     - composer self-update --2
 
-ci-pug/ci-pug: default
+ci-pug/ci-pug:
+  install:
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
 
-bkwld/laravel-pug: default
+bkwld/laravel-pug:
+  install:
+    - composer config --no-plugins allow-plugins.pug/installer true
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
 
-pug/yii2: default
+pug/yii2:
+  install:
+    - composer config --no-plugins allow-plugins.yiisoft/yii2-composer true
+    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
+    - composer install --no-interaction
