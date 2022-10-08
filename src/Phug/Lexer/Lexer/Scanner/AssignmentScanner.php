@@ -14,9 +14,15 @@ class AssignmentScanner implements ScannerInterface
 {
     public function scan(State $state)
     {
-        return $state->scanToken(
+        foreach ($state->scanToken(
             AssignmentToken::class,
             '&(?<name>[a-zA-Z_][a-zA-Z0-9\-_]*)'
-        );
+        ) as $token) {
+            yield $token;
+
+            foreach ($state->scan(AttributeScanner::class, ['allow_name' => false]) as $attributeToken) {
+                yield $attributeToken;
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace Phug\Test\Lexer\Scanner;
 use Phug\Lexer;
 use Phug\Lexer\Scanner\AttributeScanner;
 use Phug\Lexer\State;
+use Phug\Lexer\Token\AssignmentToken;
 use Phug\Lexer\Token\AttributeEndToken;
 use Phug\Lexer\Token\AttributeStartToken;
 use Phug\Lexer\Token\AttributeToken;
@@ -600,5 +601,28 @@ class AttributeScannerTest extends AbstractLexerTest
         /* @var AttributeToken $class */
         self::assertSame('class', $class->getName());
         self::assertSame('"a"', $class->getValue());
+    }
+
+    /**
+     * @covers \Phug\Lexer\Scanner\AssignmentScanner::scan
+     */
+    public function testTernaryRendering()
+    {
+        list($tag, $assignment, $start, $attribute, $end) = $this->assertTokens(
+            'div&attributes(val === "42" ? {"answer": "42"} : {"ko": "failed"})',
+            [
+                TagToken::class,
+                AssignmentToken::class,
+                AttributeStartToken::class,
+                AttributeToken::class,
+                AttributeEndToken::class,
+            ]
+        );
+
+        self::assertSame('div', $tag->getName());
+        self::assertSame('attributes', $assignment->getName());
+        self::assertSame(0, $start->getLevel());
+        self::assertSame('val === "42" ? {"answer": "42"} : {"ko": "failed"}', $attribute->getValue());
+        self::assertSame(0, $end->getLevel());
     }
 }

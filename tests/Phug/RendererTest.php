@@ -1418,6 +1418,19 @@ class RendererTest extends AbstractRendererTest
         self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
     }
 
+    public function testTernaryRendering()
+    {
+        include_once __DIR__.'/Utils/BooleanAble.php';
+
+        $pug = new Renderer([
+            'modules' => [JsPhpizePhug::class],
+        ]);
+        $code = 'div&attributes(val === "42" ? {"answer": "42"} : {"ko": "failed"})';
+
+        self::assertSame('<div answer="42"></div>', trim($pug->render($code, ['val' => '42'])));
+        self::assertSame('<div ko="failed"></div>', trim($pug->render($code, ['val' => '1'])));
+    }
+
     private function getJsPhpizeVersion()
     {
         $directory = __DIR__.'/../../vendor/composer';

@@ -230,20 +230,21 @@ class State implements OptionInterface
      * use the `loopScan`-method
      *
      * @param array|string $scanners the scanners to run
+     * @param array        $options  options to be passed for the scanner
      *
      * @throws LexerException
      *
      * @return iterable the generator yielding all tokens found
      */
-    public function scan($scanners)
+    public function scan($scanners, array $options = [])
     {
         $scanners = $this->filterScanners($scanners);
 
-        foreach ($scanners as $key => $scanner) {
+        foreach ($scanners as $scanner) {
 
             /** @var ScannerInterface $scanner */
             $success = false;
-            foreach ($scanner->scan($this) as $token) {
+            foreach ($scanner->scan($this, $options) as $token) {
                 if (!($token instanceof TokenInterface)) {
                     $this->throwException(
                         'Scanner '.get_class($scanner).' generated a result that is not a '.TokenInterface::class
