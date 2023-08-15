@@ -180,7 +180,7 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
         $expected = file_get_contents(__DIR__.'/../../../templates/yield-in-sub-include.html');
 
         $this->assertCompileFile(
-            str_replace("\n", '', $expected),
+            str_replace(["\r", "\n"], '', $expected),
             __DIR__.'/../../../templates/yield-in-sub-include.pug'
         );
     }
@@ -193,7 +193,7 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
         $expected = file_get_contents(__DIR__.'/../../../templates/inheritance.extend.mixins.html');
 
         $this->assertRenderFile(
-            preg_replace('/\n\s*/', '', $expected),
+            preg_replace('/\r?\n\s*/', '', $expected),
             __DIR__.'/../../../templates/inheritance.extend.mixins.pug'
         );
     }

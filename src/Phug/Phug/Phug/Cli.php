@@ -152,21 +152,21 @@ class Cli
     {
         return preg_replace_callback('/[A-Z]/', function ($match) {
             return '-'.strtolower($match[0]);
-        }, $string);
+        }, (string) $string);
     }
 
     protected function convertToCamelCase($string)
     {
         return preg_replace_callback('/-([a-z])/', function ($match) {
             return strtoupper($match[1]);
-        }, $string);
+        }, (string) $string);
     }
 
     protected function execute($facade, $method, $arguments, $outputFile)
     {
         $callable = [$facade, $method];
         $arguments = array_map(function ($argument) {
-            return in_array(substr($argument, 0, 1), ['[', '{'])
+            return in_array(substr((string) $argument, 0, 1), ['[', '{'])
                 ? json_decode($argument, true)
                 : $argument;
         }, $arguments);
@@ -206,7 +206,7 @@ class Cli
 
     protected function getNamedArgumentByEqualOperator(array &$arguments, $index, $name)
     {
-        if (preg_match('/^'.preg_quote($name).'=(.*)$/', $arguments[$index], $match)) {
+        if (preg_match('/^'.preg_quote($name).'=(.*)$/', (string) $arguments[$index], $match)) {
             array_splice($arguments, $index, 1);
 
             return $match[1];

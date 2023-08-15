@@ -450,7 +450,7 @@ class FormatterTest extends TestCase
         self::assertSame(
             '<?= (is_array($_pug_temp = $foo->bar) || is_object($_pug_temp) && '.
             '!method_exists($_pug_temp, "__toString") ? json_encode($_pug_temp) : strval($_pug_temp)) ?>',
-            $formatter->format($expression, HtmlFormat::class)
+            preg_replace('/\s+/', ' ', $formatter->format($expression, HtmlFormat::class))
         );
 
         $attribute = new AttributeElement('class', new ExpressionElement('$foo.bar'));

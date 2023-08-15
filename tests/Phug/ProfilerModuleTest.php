@@ -187,6 +187,7 @@ class ProfilerModuleTest extends TestCase
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
      * @covers ::getException
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      */
     public function testExecutionMaxTime()
     {

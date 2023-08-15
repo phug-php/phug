@@ -47,7 +47,7 @@ trait AssertRender
             sort($attributes);
 
             return ' '.implode(' ', $attributes);
-        }, is_string($str) ? $str : implode('', $str));
+        }, str_replace("\r", '', is_string($str) ? $str : implode('', $str)));
     }
 
     protected function assertSameLines($expected, $actual)
