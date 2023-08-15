@@ -78,7 +78,6 @@ abstract class AbstractCompilerTest extends TestCase
         });
 
         $compiler->attach(CompilerEvent::OUTPUT, function (Compiler\Event\OutputEvent $event) use ($compiler) {
-
             /** @var JsPhpize $jsPhpize */
             $jsPhpize = $compiler->getOption('jsphpize_engine');
             $dependencies = $jsPhpize->compileDependencies();

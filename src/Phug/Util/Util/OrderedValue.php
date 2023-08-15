@@ -9,6 +9,7 @@ use Phug\Util\Partial\ValueTrait;
  * Class OrderedValue.
  *
  * @template T
+ *
  * @template-implements ValueTrait<T>
  */
 class OrderedValue implements OrderableInterface

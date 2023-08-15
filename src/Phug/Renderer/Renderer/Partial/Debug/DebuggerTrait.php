@@ -180,6 +180,7 @@ trait DebuggerTrait
 
     /**
      * @return bool
+     *
      * @codeCoverageIgnore
      */
     private function hasColorSupport()
@@ -200,6 +201,7 @@ trait DebuggerTrait
 
     /**
      * @return bool
+     *
      * @codeCoverageIgnore
      */
     private function hasStdOutVt100Support()
@@ -211,6 +213,7 @@ trait DebuggerTrait
 
     /**
      * @return bool
+     *
      * @codeCoverageIgnore
      */
     private function isStdOutATTY()

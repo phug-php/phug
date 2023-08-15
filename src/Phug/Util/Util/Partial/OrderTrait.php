@@ -2,10 +2,6 @@
 
 namespace Phug\Util\Partial;
 
-use ArrayAccess;
-use ArrayObject;
-use Phug\Util\Collection;
-
 trait OrderTrait
 {
     /**

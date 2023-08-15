@@ -370,7 +370,6 @@ class Node implements NodeInterface
         $level = $level ?: 0;
 
         foreach ($this->children as $child) {
-
             /** @var NodeInterface $child */
             if ($child->is($callback)) {
                 yield $child;

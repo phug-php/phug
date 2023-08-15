@@ -559,7 +559,7 @@ class XmlFormat extends AbstractFormat
 
     /**
      * @param AssignmentContainerInterface|AttributesInterface|mixed $markup
-     * @param Closure(OrderedValue, OrderedValue): int $sorter
+     * @param Closure(OrderedValue, OrderedValue): int               $sorter
      *
      * @return list<string>
      */
