@@ -27,7 +27,9 @@ class BlockTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass block tokens to this token handler
      */
     public function testHandleTokenTokenException()

@@ -30,7 +30,9 @@ class AttributeEndTokenHandlerTest extends TestCase
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass attribute end tokens to this token handler
      */
     public function testHandleTokenTokenException()

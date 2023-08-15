@@ -13,7 +13,6 @@ class ClassScannerTest extends AbstractLexerTest
      */
     public function testSingleClass()
     {
-
         /** @var ClassToken $tok */
         list($tok) = $this->assertTokens('.some-class', [
             ClassToken::class,
@@ -28,7 +27,6 @@ class ClassScannerTest extends AbstractLexerTest
      */
     public function testMultipleClasses()
     {
-
         /**
          * @var ClassToken
          * @var ClassToken $b
@@ -50,7 +48,6 @@ class ClassScannerTest extends AbstractLexerTest
 
     public function testCommonNamingPatterns()
     {
-
         /** @var ClassToken $tok */
         list($tok) = $this->assertTokens('.--some-class', [
             ClassToken::class,

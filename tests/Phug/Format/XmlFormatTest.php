@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Format;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AssignmentElement;
@@ -17,6 +18,8 @@ use Phug\Formatter\ElementInterface;
 use Phug\Formatter\Format\BasicFormat;
 use Phug\Formatter\Format\XmlFormat;
 use Phug\Parser\Node\TextNode;
+use Phug\Test\Utils\AssertRender;
+use Phug\Util\OrderedValue;
 use SplObjectStorage;
 
 /**
@@ -24,6 +27,8 @@ use SplObjectStorage;
  */
 class XmlFormatTest extends TestCase
 {
+    use AssertRender;
+
     /**
      * @covers ::__construct
      * @covers \Phug\Formatter\AbstractFormat::__construct
@@ -636,6 +641,7 @@ class XmlFormatTest extends TestCase
      * @covers ::yieldAssignmentAttributes
      * @covers ::formatMarkupAttributes
      * @covers ::formatAttributes
+     * @covers ::formatInnerCodeValue
      */
     public function testAttributeAssignmentsOption()
     {
@@ -666,6 +672,160 @@ class XmlFormatTest extends TestCase
         self::assertSame(
             '<a data-user="{"name":{"first":"Linus","last":"Trosvald"}}"></a>',
             $actual
+        );
+    }
+
+    /**
+     * @covers ::yieldAssignmentElement
+     * @covers ::formatOrderedAttributeAssignments
+     * @covers ::yieldAssignmentOrderedAttributes
+     * @covers ::formatOrderedMarkupAttributes
+     * @covers ::formatInnerCodeValue
+     * @covers ::getSortedAttributes
+     */
+    public function testAttributeAttributePrecedence()
+    {
+        $this->prepareTest();
+
+        // Take Attribute over Assignment
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a&attributes(["href" => "#"])',
+            ['attribute_precedence' => 'attribute']
+        );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])',
+            ['attribute_precedence' => 'attribute']
+        );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])',
+            ['attribute_precedence' => 'attribute']
+        );
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a(href="#")&attributes(["href" => "/"])',
+            ['attribute_precedence' => 'attribute']
+        );
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a&attributes(["href" => "/"])(href="#")',
+            ['attribute_precedence' => 'attribute']
+        );
+        $this->assertRender(
+            '<a href="#" id="bam"></a>',
+            'a(href="#")&attributes(["href" => "/"])&attributes(["id" => "biz"])#boom(id="bam")',
+            ['attribute_precedence' => 'attribute']
+        );
+
+        // Left
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a&attributes(["href" => "#"])',
+            ['attribute_precedence' => 'left']
+        );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])',
+            ['attribute_precedence' => 'left']
+        );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])',
+            ['attribute_precedence' => 'left']
+        );
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a(href="#")&attributes(["href" => "/"])',
+            ['attribute_precedence' => 'left']
+        );
+        $this->assertRender(
+            '<a href="/"></a>',
+            'a&attributes(["href" => "/"])(href="#")',
+            ['attribute_precedence' => 'left']
+        );
+        $this->assertRender(
+            '<a href="#" id="biz"></a>',
+            'a(href="#")&attributes(["href" => "/"])&attributes(["id" => "biz"])#boom(id="bam")',
+            ['attribute_precedence' => 'left']
+        );
+        $this->assertRender(
+            '<a href="#" id="boom"></a>',
+            'a(href="#")&attributes(["href" => "/"])#boom&attributes(["id" => "biz"])(id="bam")',
+            ['attribute_precedence' => 'left']
+        );
+
+        // Right
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a&attributes(["href" => "#"])',
+            ['attribute_precedence' => 'right']
+        );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])',
+            ['attribute_precedence' => 'right']
+        );
+        $this->assertRender(
+            '<a class="bar fiz foo biz"></a>',
+            'a.foo(class=["bar", "biz"])&attributes(["class" => "bar fiz"])',
+            ['attribute_precedence' => 'right']
+        );
+        $this->assertRender(
+            '<a href="/"></a>',
+            'a(href="#")&attributes(["href" => "/"])',
+            ['attribute_precedence' => 'right']
+        );
+        $this->assertRender(
+            '<a href="#"></a>',
+            'a&attributes(["href" => "/"])(href="#")',
+            ['attribute_precedence' => 'right']
+        );
+        $this->assertRender(
+            '<a href="/" id="bam"></a>',
+            'a(href="#")&attributes(["href" => "/"])&attributes(["id" => "biz"])#boom(id="bam")',
+            ['attribute_precedence' => 'right']
+        );
+        $this->assertRender(
+            '<a href="/" id="boom"></a>',
+            'a(href="#")&attributes(["href" => "/"])&attributes(["id" => "biz"])(id="bam")#boom',
+            ['attribute_precedence' => 'right']
+        );
+
+        $this->assertRender(
+            '<a href="#stuff" id="boom"></a>',
+            'a(href="#stuff")&attributes(["href" => "/"])&attributes(["id" => "biz"])#boom(id="bam")',
+            ['attribute_precedence' => static function (array $assignments, array $attributes) {
+                $arguments = array_merge($assignments, $attributes);
+
+                usort($arguments, static function (OrderedValue $a, OrderedValue $b) {
+                    return strlen($a->getValue()) - strlen($b->getValue());
+                });
+
+                return $arguments;
+            }]
+        );
+    }
+
+    /**
+     * @covers ::yieldAssignmentElement
+     * @covers ::formatOrderedAttributeAssignments
+     * @covers ::yieldAssignmentOrderedAttributes
+     * @covers ::formatOrderedMarkupAttributes
+     * @covers ::formatInnerCodeValue
+     *
+     * @expectedException InvalidArgumentException
+     *
+     * @expectedExceptionMessage Option attribute_precedence must be "assignment" (default), "attribute", "left", "right" or a callable.
+     */
+    public function testAttributeAttributePrecedenceFailure()
+    {
+        $this->prepareTest();
+
+        $this->render(
+            'a&attributes(["href" => "#"])',
+            ['attribute_precedence' => 'unknown']
         );
     }
 

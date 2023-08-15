@@ -73,7 +73,9 @@ class AssignmentTokenHandlerTest extends TestCase
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass Assignment tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -86,7 +88,9 @@ class AssignmentTokenHandlerTest extends TestCase
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Failed to parse: Assignments can only happen on elements and mixinCalls
      */
     public function testHandleTokenElementTagsException()

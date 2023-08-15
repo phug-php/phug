@@ -209,7 +209,9 @@ class HtmlFormatTest extends TestCase
     /**
      * @covers                   \Phug\Formatter\AbstractFormat::throwException
      * @covers                   \Phug\Formatter\Format\XmlFormat::isSelfClosingTag
+     *
      * @expectedException        \Phug\FormatterException
+     *
      * @expectedExceptionMessage input is a self closing element: <input/> but contains nested content.
      */
     public function testChildrenInSelfClosingTag()
@@ -237,7 +239,9 @@ class HtmlFormatTest extends TestCase
     /**
      * @covers                   \Phug\Formatter\AbstractFormat::throwException
      * @covers                   \Phug\Formatter\Format\XmlFormat::isSelfClosingTag
+     *
      * @expectedException        \Phug\FormatterException
+     *
      * @expectedExceptionMessage input is a self closing element: <input/> but contains nested content.
      */
     public function testTextInSelfClosingTag()

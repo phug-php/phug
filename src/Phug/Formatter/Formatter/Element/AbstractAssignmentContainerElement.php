@@ -4,10 +4,16 @@ namespace Phug\Formatter\Element;
 
 use Phug\Formatter\AbstractElement;
 use Phug\Formatter\AssignmentContainerInterface;
+use Phug\Util\Partial\AttributesOrderTrait;
 use SplObjectStorage;
 
 abstract class AbstractAssignmentContainerElement extends AbstractElement implements AssignmentContainerInterface
 {
+    use AttributesOrderTrait;
+
+    /**
+     * @var SplObjectStorage<AssignmentElement>
+     */
     private $assignments;
 
     /**
@@ -19,6 +25,10 @@ abstract class AbstractAssignmentContainerElement extends AbstractElement implem
      */
     public function addAssignment(AssignmentElement $element)
     {
+        if ($element->getOrder() === null) {
+            $element->setOrder($this->getNextAttributeIndex());
+        }
+
         $element->setContainer($this);
         $this->getAssignments()->attach($element);
 
@@ -42,7 +52,7 @@ abstract class AbstractAssignmentContainerElement extends AbstractElement implem
     /**
      * Return markup assignments list.
      *
-     * @return SplObjectStorage[AssignmentElement]
+     * @return SplObjectStorage<AssignmentElement>
      */
     public function getAssignments()
     {

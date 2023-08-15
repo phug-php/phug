@@ -27,7 +27,9 @@ class DoctypeTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass doctype tokens to this token handler
      */
     public function testHandleTokenTokenException()

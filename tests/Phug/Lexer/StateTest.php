@@ -20,7 +20,9 @@ class StateTest extends TestCase
 {
     /**
      * @covers                   ::__construct
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Configuration option `reader_class_name`
      * @expectedExceptionMessage needs to be a valid FQCN of a class
      * @expectedExceptionMessage that extends Phug\Reader
@@ -71,7 +73,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   \Phug\Lexer\Partial\IndentStyleTrait::setIndentStyle
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage indentStyle needs to be null or one of the INDENT_* constants of the lexer
      */
     public function testSetIndentStyleException()
@@ -120,7 +124,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   \Phug\Lexer\Partial\IndentStyleTrait::setIndentWidth
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage indentWidth needs to be null or an integer above 0
      */
     public function testSetIndentWidthException()
@@ -143,7 +149,9 @@ class StateTest extends TestCase
     /**
      * @covers                   ::createToken
      * @covers                   ::throwException
+     *
      * @expectedException        \Phug\LexerException
+     *
      * @expectedExceptionMessage Failed to lex: bar
      * @expectedExceptionMessage Near: p Hello
      * @expectedExceptionMessage Line: 1
@@ -161,7 +169,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   ::__construct
+     *
      * @expectedException        \Phug\ReaderException
+     *
      * @expectedExceptionMessage Path: path.pug
      */
     public function testReaderExceptionWithPath()
@@ -203,7 +213,9 @@ class StateTest extends TestCase
      * @covers                   ::scan
      * @covers                   ::filterScanners
      * @covers                   ::throwException
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage The passed scanner with key `tag`
      * @expectedExceptionMessage doesn't seem to be either a valid
      * @expectedExceptionMessage Phug\Lexer\ScannerInterface
@@ -222,7 +234,9 @@ class StateTest extends TestCase
      * @covers                   ::scan
      * @covers                   ::filterScanners
      * @covers                   ::throwException
+     *
      * @expectedException        \Phug\LexerException
+     *
      * @expectedExceptionMessage Scanner Phug\Test\MockScanner
      * @expectedExceptionMessage generated a result that is not a
      * @expectedExceptionMessage Phug\Lexer\TokenInterface
@@ -245,7 +259,9 @@ class StateTest extends TestCase
     /**
      * @covers                   ::loopScan
      * @covers                   ::throwException
+     *
      * @expectedException        \Phug\LexerException
+     *
      * @expectedExceptionMessage Unexpected p Hello
      */
     public function testLoopScanException()

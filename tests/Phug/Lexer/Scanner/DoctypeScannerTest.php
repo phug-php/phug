@@ -13,7 +13,6 @@ class DoctypeScannerTest extends AbstractLexerTest
      */
     public function testCommonDoctypes()
     {
-
         /** @var DoctypeToken $tok */
         list($tok) = $this->assertTokens(
             'doctype 5',

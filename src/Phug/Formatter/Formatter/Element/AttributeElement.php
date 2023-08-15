@@ -4,12 +4,15 @@ namespace Phug\Formatter\Element;
 
 use Phug\Ast\NodeInterface;
 use Phug\Parser\NodeInterface as ParserNode;
+use Phug\Util\OrderableInterface;
 use Phug\Util\Partial\NameTrait;
+use Phug\Util\Partial\OrderTrait;
 use Phug\Util\Partial\VariadicTrait;
 
-class AttributeElement extends AbstractValueElement
+class AttributeElement extends AbstractValueElement implements OrderableInterface
 {
     use NameTrait;
+    use OrderTrait;
     use VariadicTrait;
 
     /**

@@ -162,6 +162,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::__construct
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testParserClassException()
@@ -180,6 +181,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::__construct
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testFormatterClassException()
@@ -198,6 +200,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::__construct
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testLocatorClassException()
@@ -213,6 +216,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::setNodeCompiler
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testSetNodeCompilerException()
@@ -228,6 +232,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::compileNode
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testCompileNodeException()
@@ -246,6 +251,7 @@ class CompilerTest extends AbstractCompilerTest
      * @covers            ::locate
      * @covers            ::resolve
      * @covers            \Phug\Compiler\NodeCompiler\ImportNodeCompiler::compileNode
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testAbsolutePathWithoutPaths()
@@ -283,7 +289,9 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers ::resolve
+     *
      * @expectedException \Phug\CompilerException
+     *
      * @expectedExceptionMessage Source file not-existent not found
      */
     public function testResolveNotFoundException()
@@ -294,6 +302,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @group hooks
+     *
      * @covers ::compileNode
      * @covers ::compile
      * @covers ::__construct
@@ -409,6 +418,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers ::throwException
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testThrowException()
@@ -419,7 +429,9 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers ::throwException
+     *
      * @expectedException \Phug\CompilerException
+     *
      * @expectedExceptionMessage foobar.pug
      */
     public function testThrowExceptionFileName()
@@ -441,6 +453,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers ::assert
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testAssertFailure()
@@ -451,7 +464,9 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers                   ::initializeFormatter
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Passed formatter class stdClass is not a valid Phug\Formatter
      */
     public function testInitializeFormatterException()
@@ -594,7 +609,9 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers                   ::compileNode
+     *
      * @expectedException        \Phug\CompilerException
+     *
      * @expectedExceptionMessage Failed to compile: No compiler found able to compile Phug\Test\Utils\UnknownNode
      */
     public function testUnknownNodeThrowException()

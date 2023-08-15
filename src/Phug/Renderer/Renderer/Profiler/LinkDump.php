@@ -33,11 +33,11 @@ class LinkDump
         foreach ([
             ['current', EndLexEvent::class, 'lexing', [
                 'background' => '#7200c4',
-                'color' => 'white',
+                'color'      => 'white',
             ]],
             ['current', HtmlEvent::class, 'rendering', [
                 'background' => '#648481',
-                'color' => 'white',
+                'color'      => 'white',
             ]],
             ['previous', CompileEvent::class, '%s', [
                 'background' => '#ffff78',

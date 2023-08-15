@@ -26,6 +26,7 @@ class WhenScannerTest extends AbstractControlStatementScannerTest
      * @covers \Phug\Lexer\Scanner\ControlStatementScanner::scan
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForTernary
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForNamespaceAndTernary
+     *
      * @dataProvider provideExpressions
      */
     public function testExpandedExpressions($expr)
@@ -35,7 +36,6 @@ class WhenScannerTest extends AbstractControlStatementScannerTest
 
     public function testDefault()
     {
-
         /** @var WhenToken $tok */
         list($tok) = $this->assertTokens('default: p Do something', [
             WhenToken::class,

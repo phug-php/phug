@@ -9,6 +9,7 @@ use Phug\Formatter\ElementInterface;
 use Phug\Parser\Node\ElementNode;
 use Phug\Parser\Node\ExpressionNode;
 use Phug\Parser\NodeInterface;
+use Phug\Util\OrderableInterface;
 use SplObjectStorage;
 
 class ElementNodeCompiler extends AbstractNodeCompiler
@@ -35,6 +36,11 @@ class ElementNodeCompiler extends AbstractNodeCompiler
         $markup = new MarkupElement($name, $node->isAutoClosed(), $attributes, $node);
         foreach ($node->getAssignments() as $assignment) {
             $compiledAssignment = $compiler->compileNode($assignment, $parent);
+
+            if ($compiledAssignment instanceof OrderableInterface && $assignment instanceof OrderableInterface) {
+                $compiledAssignment->setOrder($assignment->getOrder());
+            }
+
             if ($compiledAssignment instanceof AssignmentElement) {
                 $markup->addAssignment($compiledAssignment);
             }

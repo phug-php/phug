@@ -50,7 +50,9 @@ class TagTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass tag tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -63,7 +65,9 @@ class TagTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Failed to parse: Tags can only be used on elements
      */
     public function testHandleTokenElementTagsException()
@@ -83,7 +87,9 @@ class TagTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Failed to parse: The element already has a tag name
      */
     public function testHandleTokenTagNameException()

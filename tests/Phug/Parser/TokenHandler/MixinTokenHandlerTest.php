@@ -29,7 +29,9 @@ class MixinTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass mixin tokens to this token handler
      */
     public function testHandleTokenTokenException()

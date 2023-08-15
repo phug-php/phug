@@ -16,7 +16,9 @@ class TagInterpolationEndTokenHandlerTest extends TestCase
 {
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass tag interpolation end tokens to this token handler
      */
     public function testHandleTokenTokenException()

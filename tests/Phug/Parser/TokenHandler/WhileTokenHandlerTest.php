@@ -45,7 +45,9 @@ class WhileTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass while tokens to this token handler
      */
     public function testHandleTokenTokenException()

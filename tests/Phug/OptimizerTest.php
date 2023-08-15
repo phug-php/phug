@@ -88,7 +88,9 @@ class OptimizerTest extends AbstractPhugTest
 
     /**
      * @covers                   \Phug\Phug::cacheDirectory
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Expected $options to be an array, got: 'biz'
      */
     public function testCacheDirectoryWithWrongOptions()

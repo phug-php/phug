@@ -19,6 +19,7 @@ class ProfilerModuleTest extends TestCase
 {
     /**
      * @group profiler
+     *
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::cleanupProfilerNodes
@@ -88,6 +89,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
@@ -129,6 +131,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::renderProfile
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::initDebugOptions
      */
@@ -151,6 +154,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::renderProfile
      * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::initDebugOptions
      */
@@ -178,10 +182,12 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
      * @covers ::getException
+     * @covers \Phug\Renderer\Partial\Debug\DebuggerTrait::getRendererException
      */
     public function testExecutionMaxTime()
     {
@@ -216,6 +222,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::recordDisplayEvent
@@ -265,6 +272,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers \Phug\Renderer\Profiler\TokenDump::<public>
      */
     public function testTokenDump()
@@ -294,6 +302,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::record
      * @covers ::renderProfile
      * @covers ::cleanupProfilerNodes
@@ -347,6 +356,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::reset
      * @covers ::initialize
      * @covers ::getFunctionDump
@@ -396,6 +406,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::reset
      * @covers ::initialize
      * @covers ::getFunctionDump
@@ -451,6 +462,7 @@ class ProfilerModuleTest extends TestCase
 
     /**
      * @group profiler
+     *
      * @covers ::initialize
      * @covers ::getFunctionDump
      */

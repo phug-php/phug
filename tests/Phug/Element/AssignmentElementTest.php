@@ -162,7 +162,9 @@ class AssignmentElementTest extends TestCase
      * @covers                   \Phug\Formatter\Format\XmlFormat::formatAttributeAssignments
      * @covers                   \Phug\Formatter\Format\XmlFormat::yieldAssignmentAttributes
      * @covers                   \Phug\Formatter\Format\XmlFormat::formatMarkupAttributes
+     *
      * @expectedException        \Phug\FormatterException
+     *
      * @expectedExceptionMessage Unable to handle class assignment
      */
     public function testFormatAssignmentElementException()

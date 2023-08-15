@@ -32,7 +32,9 @@ class DoTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass do tokens to this token handler
      */
     public function testHandleTokenTokenException()

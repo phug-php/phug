@@ -20,6 +20,11 @@ class Template
     private $data = '';
 
     /**
+     * @var mixed
+     */
+    public $context;
+
+    /**
      * @param $path
      *
      * @return bool

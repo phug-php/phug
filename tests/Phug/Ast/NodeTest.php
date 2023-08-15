@@ -282,6 +282,7 @@ class NodeTest extends TestCase
 
     /**
      * @covers ::getChildAt
+     *
      * @expectedException \Phug\AstException
      */
     public function testGetChildAtWithInvalidOffset()
@@ -309,6 +310,7 @@ class NodeTest extends TestCase
 
     /**
      * @covers ::removeChildAt
+     *
      * @expectedException \Phug\AstException
      */
     public function testRemoveChildAtWithInvalidOffset()
@@ -447,7 +449,9 @@ class NodeTest extends TestCase
 
     /**
      * @covers                   ::insertBefore
+     *
      * @expectedException        \Phug\AstException
+     *
      * @expectedExceptionMessage Failed to insert before: Passed child is not a child of element to insert in
      */
     public function testInsertBeforeWithBadSibling()
@@ -481,7 +485,9 @@ class NodeTest extends TestCase
 
     /**
      * @covers                   ::insertAfter
+     *
      * @expectedException        \Phug\AstException
+     *
      * @expectedExceptionMessage Failed to insert after: Passed child is not a child of element to insert in
      */
     public function testInsertAfterWithBadSibling()
@@ -562,7 +568,9 @@ class NodeTest extends TestCase
 
     /**
      * @covers                   ::offsetSet
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Argument 2 passed to Node->offsetSet needs to be instance of Phug\Ast\NodeInterface
      */
     public function testOffsetSetInvalidArgument()

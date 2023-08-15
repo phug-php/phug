@@ -49,6 +49,7 @@ class CodeNodeCompilerTest extends AbstractCompilerTest
     /**
      * @covers            ::<public>
      * @covers            ::getCodeElement
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()

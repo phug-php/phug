@@ -112,7 +112,9 @@ class KeywordElementTest extends TestCase
 
     /**
      * @covers                   \Phug\Formatter\AbstractFormat::formatKeywordElement
+     *
      * @expectedException        \Phug\FormatterException
+     *
      * @expectedExceptionMessage The keyword foo returned an invalid value type
      */
     public function testBadReturn()

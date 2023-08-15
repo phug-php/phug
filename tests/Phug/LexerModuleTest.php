@@ -244,7 +244,9 @@ class LexerModuleTest extends AbstractLexerTest
 
     /**
      * @covers                   \Phug\Lexer\Event\TokenEvent::setTokenGenerator
+     *
      * @expectedException        InvalidArgumentException
+     *
      * @expectedExceptionMessage setTokenGenerator(iterable $tokens) expect its argument to be iterable, integer received.
      */
     public function testTokenGeneratorBadInput()

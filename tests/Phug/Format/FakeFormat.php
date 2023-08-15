@@ -19,20 +19,24 @@ class FakeFormat extends AbstractFormat implements ArrayAccess
         return $helper($element->getName());
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return strpos($offset, 'non_existing') === false;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $offset;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
     }

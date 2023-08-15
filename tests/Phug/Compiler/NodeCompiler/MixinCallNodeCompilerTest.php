@@ -16,6 +16,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 {
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::compileAnonymousBlock
@@ -54,6 +55,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      */
     public function testCompileNestedMixins()
@@ -82,6 +84,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      */
     public function testCompileVariadicMixin()
@@ -104,6 +107,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::compileAnonymousBlock
@@ -124,6 +128,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler::compileDocument
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::compileAnonymousBlock
@@ -177,6 +182,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\MixinNodeCompiler::<public>
      */
@@ -274,6 +280,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::compileAnonymousBlock
@@ -299,6 +306,7 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group  mixins
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::<public>
      * @covers \Phug\Compiler\NodeCompiler\BlockNodeCompiler::compileAnonymousBlock

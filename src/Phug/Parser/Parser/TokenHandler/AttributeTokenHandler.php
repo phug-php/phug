@@ -10,6 +10,8 @@ use Phug\Parser\Node\ElementNode;
 use Phug\Parser\Node\MixinCallNode;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandlerInterface;
+use Phug\Util\AttributesOrderInterface;
+use Phug\Util\OrderableInterface;
 
 class AttributeTokenHandler implements TokenHandlerInterface
 {
@@ -46,8 +48,15 @@ class AttributeTokenHandler implements TokenHandlerInterface
             }
         }
 
-        /** @var ElementNode|MixinCallNode $current */
+        /** @var ElementNode|MixinCallNode|AssignmentNode $current */
         $current = $state->getCurrentNode();
+
+        if ($current instanceof AttributesOrderInterface) {
+            $node->setOrder($current->getNextAttributeIndex());
+        } elseif ($current instanceof OrderableInterface) {
+            $node->setOrder($current->getOrder());
+        }
+
         $current->getAttributes()->attach($node);
     }
 }

@@ -7,6 +7,7 @@ use Phug\Parser\NodeInterface as ParserNode;
 use Phug\Util\AttributesInterface;
 use Phug\Util\Partial\AttributeTrait;
 use Phug\Util\Partial\NameTrait;
+use SplObjectStorage;
 
 class MarkupElement extends AbstractMarkupElement implements AttributesInterface
 {
@@ -21,17 +22,17 @@ class MarkupElement extends AbstractMarkupElement implements AttributesInterface
     /**
      * MarkupElement constructor.
      *
-     * @param string                 $name
-     * @param bool                   $autoClosed
-     * @param \SplObjectStorage|null $attributes
-     * @param ParserNode|null        $originNode
-     * @param NodeInterface|null     $parent
-     * @param array|null             $children
+     * @param string                $name
+     * @param bool                  $autoClosed
+     * @param SplObjectStorage|null $attributes
+     * @param ParserNode|null       $originNode
+     * @param NodeInterface|null    $parent
+     * @param array|null            $children
      */
     public function __construct(
         $name,
         $autoClosed = false,
-        \SplObjectStorage $attributes = null,
+        SplObjectStorage $attributes = null,
         ParserNode $originNode = null,
         NodeInterface $parent = null,
         array $children = null

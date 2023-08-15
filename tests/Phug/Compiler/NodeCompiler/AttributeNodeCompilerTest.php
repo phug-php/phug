@@ -77,6 +77,7 @@ class AttributeNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()
@@ -92,6 +93,7 @@ class AttributeNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::compileValue
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testAttributeException()

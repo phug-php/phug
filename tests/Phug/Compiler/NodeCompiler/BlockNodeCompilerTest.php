@@ -38,6 +38,7 @@ class BlockNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()
@@ -53,6 +54,7 @@ class BlockNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            \Phug\Compiler::compileBlocks
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testCompileBlocksException()
