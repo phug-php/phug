@@ -2,6 +2,7 @@
 
 namespace Phug\Util\Partial;
 
+use Phug\Util\AttributesStorage;
 use SplObjectStorage;
 
 /**
@@ -20,7 +21,7 @@ trait AttributeTrait
     public function getAttributes()
     {
         if (!$this->attributes) {
-            $this->attributes = new SplObjectStorage();
+            $this->attributes = new AttributesStorage($this);
         }
 
         return $this->attributes;

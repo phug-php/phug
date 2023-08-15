@@ -9,6 +9,7 @@ use Phug\Formatter\Element\TextElement;
 use Phug\Formatter\ElementInterface;
 use Phug\Parser\Node\AttributeNode;
 use Phug\Parser\NodeInterface;
+use Phug\Util\OrderableInterface;
 
 class AttributeNodeCompiler extends AbstractNodeCompiler
 {
@@ -71,6 +72,7 @@ class AttributeNodeCompiler extends AbstractNodeCompiler
         $name = $this->compileName($node);
         $value = $this->compileValue($node);
         $attribute = new AttributeElement($name, $value, $node);
+        $attribute->setOrder($node->getOrder());
         $attribute->setIsVariadic($node->isVariadic());
 
         return $attribute;

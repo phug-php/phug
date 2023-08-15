@@ -39,6 +39,7 @@ class AssignmentTokenHandler implements TokenHandlerInterface
 
         /** @var ElementNode|MixinCallNode $current */
         $current = $state->getCurrentNode();
+        $node->setOrder($current->getNextAttributeIndex());
         $current->getAssignments()->attach($node);
 
         if ($state->expectNext([AttributeStartToken::class])) {

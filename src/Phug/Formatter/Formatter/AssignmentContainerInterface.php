@@ -3,8 +3,9 @@
 namespace Phug\Formatter;
 
 use Phug\Formatter\Element\AssignmentElement;
+use Phug\Util\AttributesOrderInterface;
 
-interface AssignmentContainerInterface extends ElementInterface
+interface AssignmentContainerInterface extends ElementInterface, AttributesOrderInterface
 {
     public function getName();
 
