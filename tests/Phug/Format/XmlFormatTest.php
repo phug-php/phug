@@ -811,13 +811,13 @@ class XmlFormatTest extends TestCase
      * @covers ::formatOrderedAttributeAssignments
      * @covers ::formatOrderedMarkupAttributes
      * @covers ::formatInnerCodeValue
+     *
+     * @expectedException InvalidArgumentException
+     *
+     * @expectedExceptionMessage Option attribute_precedence must be "assignment" (default), "attribute", "left", "right" or a callable.
      */
     public function testAttributeAttributePrecedenceFailure()
     {
-        self::expectExceptionObject(new InvalidArgumentException(
-            'Option attribute_precedence must be "assignment" (default), "attribute", "left", "right" or a callable.',
-        ));
-
         $this->prepareTest();
 
         $this->render(

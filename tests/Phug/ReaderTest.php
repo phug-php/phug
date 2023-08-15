@@ -198,6 +198,7 @@ class ReaderTest extends TestCase
 
     /**
      * @covers ::peek
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testPeekThrowsExceptionOnInvalidArguments()
@@ -236,6 +237,7 @@ class ReaderTest extends TestCase
      * @covers ::getPregErrorText
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
      */
     public function testMatchFailsOnPregError()
@@ -246,7 +248,9 @@ class ReaderTest extends TestCase
     /**
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
+     *
      * @expectedExceptionMessage Path: path.pug
      */
     public function testPathInErrors()
@@ -275,6 +279,7 @@ class ReaderTest extends TestCase
      * @covers ::getMatch
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
      */
     public function testGetMatchCantOperateOnMissingMatchCall()
@@ -297,6 +302,7 @@ class ReaderTest extends TestCase
      * @covers ::getMatchData
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
      */
     public function testGetMatchDataCantOperateOnMissingMatchCall()
@@ -336,6 +342,7 @@ class ReaderTest extends TestCase
      * @covers ::consume
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
      */
     public function testConsumeThrowsExceptionOnInvalidConsumeLength()
@@ -361,6 +368,7 @@ class ReaderTest extends TestCase
 
     /**
      * @covers ::readWhile
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testReadWhileExpectsValidCallback()
@@ -659,6 +667,7 @@ class ReaderTest extends TestCase
      * @covers ::readString
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
      *
      * @dataProvider provideNotCorrectlyClosedStrings
@@ -692,6 +701,7 @@ class ReaderTest extends TestCase
      * @covers ::readExpression
      * @covers ::throwException
      * @covers \Phug\ReaderException
+     *
      * @expectedException \Phug\ReaderException
      *
      * @dataProvider provideNotCorrectlyClosedBrackets
@@ -726,7 +736,6 @@ class ReaderTest extends TestCase
 
     public function testReadmeFirstLexingExample()
     {
-
         //Some C-style example code
         $code = 'someVar = {a, "this is a string (really, it \"is\")", func(b, c), d}';
 

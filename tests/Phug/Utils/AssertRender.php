@@ -18,7 +18,7 @@ trait AssertRender
         }
 
         $this->compiler = new Compiler([
-            'paths'    => [__DIR__.'/../templates'],
+            'paths'    => [__DIR__.'/../../templates'],
             'patterns' => [
                 'expression_in_text' => '%s',
                 'expression_in_bool' => '%s',
@@ -32,10 +32,10 @@ trait AssertRender
             $attributes = [];
             $input = $matches[0];
             while (mb_strlen($input) && preg_match(
-                    '/^\s+([a-z0-9:_-]+)="((?:\\\\[\\S\\s]|[^"\\\\])*)"/',
-                    $input,
-                    $match
-                )) {
+                '/^\s+([a-z0-9:_-]+)="((?:\\\\[\\S\\s]|[^"\\\\])*)"/',
+                $input,
+                $match
+            )) {
                 if ($match[1] === 'class') {
                     $classes = explode(' ', $match[2]);
                     sort($classes);

@@ -18,8 +18,7 @@ class AttributesStorage extends SplObjectStorage
     #[ReturnTypeWillChange]
     public function attach($object, $info = null)
     {
-        if (
-            $object instanceof OrderableInterface &&
+        if ($object instanceof OrderableInterface &&
             $object->getOrder() === null &&
             $this->holder instanceof AttributesOrderInterface
         ) {

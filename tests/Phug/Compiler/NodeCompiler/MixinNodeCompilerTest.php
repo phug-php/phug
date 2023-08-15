@@ -14,6 +14,7 @@ class MixinNodeCompilerTest extends AbstractCompilerTest
 {
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()
@@ -29,6 +30,7 @@ class MixinNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group mixins
+     *
      * @covers ::<public>
      */
     public function testRecursion()
@@ -60,6 +62,7 @@ class MixinNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group mixins
+     *
      * @covers ::<public>
      */
     public function testRecursionWithBlock()
@@ -94,7 +97,9 @@ class MixinNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @group             mixins
+     *
      * @covers            \Phug\Compiler\NodeCompiler\BlockNodeCompiler ::compileAnonymousBlock
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testAnonymousBlocksOutsideMixin()

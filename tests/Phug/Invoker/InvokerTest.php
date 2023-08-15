@@ -23,6 +23,7 @@ class InvokerTest extends TestCase
      * @covers ::getCallbackType
      *
      * @expectedException        RuntimeException
+     *
      * @expectedExceptionMessage Passed callback #1 should have at least 1 argument and this first argument must have a typehint.
      *
      * @throws ReflectionException
@@ -40,6 +41,7 @@ class InvokerTest extends TestCase
      * @covers ::addCallback
      *
      * @expectedException        RuntimeException
+     *
      * @expectedExceptionMessage The #2 value is not callable.
      *
      * @throws ReflectionException

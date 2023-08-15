@@ -41,6 +41,7 @@ class LexerTest extends AbstractLexerTest
 
     /**
      * @covers            \Phug\Lexer\Partial\StateTrait::getState
+     *
      * @expectedException \RuntimeException
      */
     public function testGetStateException()
@@ -148,6 +149,7 @@ class LexerTest extends AbstractLexerTest
 
     /**
      * @covers            ::filterScanner
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testFilterScanner()
@@ -165,6 +167,7 @@ class LexerTest extends AbstractLexerTest
 
     /**
      * @covers            ::lex
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testBadStateClassName()

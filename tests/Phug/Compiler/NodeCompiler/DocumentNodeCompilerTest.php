@@ -22,6 +22,7 @@ class DocumentNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()

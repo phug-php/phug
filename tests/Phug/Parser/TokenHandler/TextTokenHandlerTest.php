@@ -60,7 +60,9 @@ class TextTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass text tokens to this token handler
      */
     public function testHandleTokenTokenException()

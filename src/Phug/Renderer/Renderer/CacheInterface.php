@@ -11,7 +11,7 @@ interface CacheInterface
     /**
      * Return the cached file path after cache optional process.
      *
-     * @param $path
+     * @param string   $path
      * @param string   $input    pug input
      * @param callable $rendered method to compile the source into PHP
      * @param bool     $success

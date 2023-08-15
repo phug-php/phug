@@ -44,6 +44,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::getCustomMethods
      */
     public function testGetCustomMethods()
@@ -73,6 +74,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::getNamedArgumentBySpaceDelimiter
@@ -104,6 +106,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::execute
@@ -158,6 +161,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::execute
@@ -175,6 +179,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::getNamedArgumentBySpaceDelimiter
@@ -196,6 +201,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::getNamedArgumentBySpaceDelimiter
@@ -258,6 +264,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::getNamedArgumentBySpaceDelimiter
@@ -298,6 +305,7 @@ class CliTest extends TestCase
 
     /**
      * @group cli
+     *
      * @covers ::convertToKebabCase
      * @covers ::convertToCamelCase
      * @covers ::getNamedArgumentBySpaceDelimiter

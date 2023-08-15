@@ -330,8 +330,8 @@ class Parser implements ModuleContainerInterface
 
         foreach ($expandingNodes as $expandingNode) {
             $current = $expandingNode;
-            while ($outerNode = $expandingNode->getOuterNode()) {
 
+            while ($outerNode = $expandingNode->getOuterNode()) {
                 /** @var NodeInterface $expandedNode */
                 $expandedNode = $outerNode;
                 $current->setOuterNode(null);

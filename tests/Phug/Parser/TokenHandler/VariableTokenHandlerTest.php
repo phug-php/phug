@@ -28,7 +28,9 @@ class VariableTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass variable tokens to this token handler
      */
     public function testHandleTokenTokenException()

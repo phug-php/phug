@@ -64,6 +64,7 @@ class WhileNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()
@@ -80,6 +81,7 @@ class WhileNodeCompilerTest extends AbstractCompilerTest
     /**
      * @covers            ::<public>
      * @covers            \Phug\Compiler\NodeCompiler\DoNodeCompiler::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testDoAndWhileSeededException()

@@ -37,7 +37,7 @@ trait AssignmentHelpersTrait
                 return function (&$attributes, $name, $value) use ($attributeAssignments) {
                     if (isset($name) && $name !== '') {
                         $result = $attributeAssignments($attributes, $name, $value);
-                        if (($result !== null && $result !== false && ($result !== '' || $name !== 'class'))) {
+                        if ($result !== null && $result !== false && ($result !== '' || $name !== 'class')) {
                             $attributes[$name] = $result;
                         }
                     }

@@ -11,7 +11,7 @@ use Phug\Parser\NodeInterface as ParserNodeInterface;
 interface NodeCompilerInterface
 {
     /**
-     * @param $nodeList
+     * @param                  $nodeList
      * @param ElementInterface $parent
      *
      * @return array

@@ -98,7 +98,9 @@ class CodeTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass code tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -112,7 +114,9 @@ class CodeTokenHandlerTest extends AbstractParserTest
     /**
      * @covers                   ::<public>
      * @covers                   \Phug\Parser\State::throwException
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Unexpected token `blockcode` expected `text`, `interpolated-code` or `code`
      */
     public function testHandleTokenUnexpectedBlock()

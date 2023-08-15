@@ -258,7 +258,9 @@ class PhugTest extends AbstractPhugTest
 
     /**
      * @covers                   ::setFilter
+     *
      * @expectedException        \Phug\PhugException
+     *
      * @expectedExceptionMessage Invalid foo filter given:
      */
     public function testWrongFilter()
@@ -297,7 +299,9 @@ class PhugTest extends AbstractPhugTest
 
     /**
      * @covers                   ::addExtension
+     *
      * @expectedException        \Phug\PhugException
+     *
      * @expectedExceptionMessage Invalid not-an-extension extension given:
      */
     public function testWrongExtension()

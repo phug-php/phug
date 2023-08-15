@@ -50,7 +50,9 @@ class WhenTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass when tokens to this token handler
      */
     public function testHandleTokenTokenException()

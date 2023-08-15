@@ -9,7 +9,6 @@ use Phug\Formatter\Element\TextElement;
 use Phug\Formatter\ElementInterface;
 use Phug\Parser\Node\AttributeNode;
 use Phug\Parser\NodeInterface;
-use Phug\Util\OrderableInterface;
 
 class AttributeNodeCompiler extends AbstractNodeCompiler
 {

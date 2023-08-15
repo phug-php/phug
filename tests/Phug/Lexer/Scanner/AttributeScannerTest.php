@@ -197,6 +197,7 @@ class AttributeScannerTest extends AbstractLexerTest
      * @covers            \Phug\Lexer\Scanner\AttributeScanner::scanParenthesesContent
      * @covers            \Phug\Lexer\Scanner\AttributeScanner::scanParentheses
      * @covers            \Phug\Lexer\Scanner\AttributeScanner::scan
+     *
      * @expectedException \Phug\LexerException
      */
     public function testFailsOnUnclosedBracket()

@@ -31,7 +31,9 @@ class NewLineTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass newline tokens to this token handler
      */
     public function testHandleTokenTokenException()

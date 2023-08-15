@@ -8,7 +8,6 @@ use Phug\Formatter\ElementInterface;
 use Phug\Parser\Node\AssignmentNode;
 use Phug\Parser\Node\AttributeNode;
 use Phug\Parser\NodeInterface;
-use Phug\Util\AttributesStorage;
 use Phug\Util\OrderableInterface;
 use SplObjectStorage;
 

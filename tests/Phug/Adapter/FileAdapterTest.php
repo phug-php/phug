@@ -575,7 +575,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers                \Phug\Renderer\Adapter\FileAdapter::cacheDirectory
      * @covers                \Phug\Renderer\Adapter\FileAdapter::getCacheDirectory
      * @covers                \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebuggedException
+     *
      * @expectedException     \RuntimeException
+     *
      * @expectedExceptionCode 5
      */
     public function testMissingDirectory()
@@ -594,7 +596,9 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers                \Phug\Renderer\Adapter\FileAdapter::cacheDirectory
      * @covers                \Phug\Renderer\Adapter\FileAdapter::cache
      * @covers                \Phug\Renderer\Adapter\FileAdapter::displayCached
+     *
      * @expectedException     \RuntimeException
+     *
      * @expectedExceptionCode 6
      */
     public function testReadOnlyDirectory()

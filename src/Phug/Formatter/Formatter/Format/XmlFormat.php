@@ -315,7 +315,8 @@ class XmlFormat extends AbstractFormat
             default:
                 if (!is_callable($attributeOrder)) {
                     throw new InvalidArgumentException(
-                        'Option attribute_precedence must be "assignment" (default), "attribute", "left", "right" or a callable.'
+                        'Option attribute_precedence must be '.
+                        '"assignment" (default), "attribute", "left", "right" or a callable.'
                     );
                 }
 
@@ -559,7 +560,7 @@ class XmlFormat extends AbstractFormat
 
     /**
      * @param AssignmentContainerInterface|AttributesInterface|mixed $markup
-     * @param Closure(OrderedValue, OrderedValue): int $sorter
+     * @param Closure(OrderedValue, OrderedValue): int               $sorter
      *
      * @return list<string>
      */

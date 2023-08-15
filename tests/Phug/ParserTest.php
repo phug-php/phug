@@ -22,7 +22,9 @@ class ParserTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Passed lexer class ErrorException is not a valid Phug\Lexer
      */
     public function testWrongLexerClassNameOption()
@@ -34,7 +36,9 @@ class ParserTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Passed token handler needs to implement Phug\Parser\TokenHandlerInterface
      */
     public function testWrongTokenHandler()
@@ -45,7 +49,9 @@ class ParserTest extends AbstractParserTest
     /**
      * @covers                   ::<public>
      * @covers                   ::dumpNode
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage parser_state_class_name needs to be a valid Phug\Parser\State sub class
      */
     public function testWrongStateClassNameOption()
