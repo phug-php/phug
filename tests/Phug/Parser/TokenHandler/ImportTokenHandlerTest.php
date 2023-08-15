@@ -38,7 +38,9 @@ class ImportTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass import tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -52,7 +54,9 @@ class ImportTokenHandlerTest extends AbstractParserTest
     /**
      * @covers                   ::<public>
      * @covers                   ::isEmptyDocument
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage extends should be the very first statement in a document
      */
     public function testDivTagBeforeExtends()
@@ -63,7 +67,9 @@ class ImportTokenHandlerTest extends AbstractParserTest
     /**
      * @covers                   ::<public>
      * @covers                   ::isEmptyDocument
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage extends should be the very first statement in a document
      */
     public function testVisibleCommentBeforeExtends()
@@ -74,7 +80,9 @@ class ImportTokenHandlerTest extends AbstractParserTest
     /**
      * @covers                   ::<public>
      * @covers                   ::isEmptyDocument
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage extends should be the very first statement in a document
      */
     public function testMultipleThingsBeforeExtends()

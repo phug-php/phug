@@ -233,7 +233,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
     /**
      * @param string|ElementInterface $element
      * @param bool                    $noDebug
-     * @param $element
+     * @param                         $element
      *
      * @return string
      */

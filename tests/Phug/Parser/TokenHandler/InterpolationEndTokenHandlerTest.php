@@ -16,7 +16,9 @@ class InterpolationEndTokenHandlerTest extends TestCase
 {
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass interpolation end tokens to this token handler
      */
     public function testHandleTokenTokenException()

@@ -29,7 +29,9 @@ class EachTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass each tokens to this token handler
      */
     public function testHandleTokenTokenException()

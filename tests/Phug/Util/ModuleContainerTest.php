@@ -100,7 +100,9 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     *
      * @expectedException InvalidArgumentException
+     *
      * @expectedExceptionMessage Passed module class name stdClass needs to be a class extending Phug\Util\ModuleInterface and/or Phug\Util\ModuleInterface
      */
     public function testInvalidModuleClassName()
@@ -115,7 +117,9 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     *
      * @expectedException InvalidArgumentException
+     *
      * @expectedExceptionMessage Module Phug\Test\Util\FirstTestModule is already registered.
      */
     public function testDoubleRegistration()
@@ -131,7 +135,9 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     *
      * @expectedException InvalidArgumentException
+     *
      * @expectedExceptionMessage This occurrence of Phug\Test\Util\FirstTestModule is already registered.
      */
     public function testInstanceDoubleRegistration()
@@ -148,7 +154,9 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::addModule
+     *
      * @expectedException InvalidArgumentException
+     *
      * @expectedExceptionMessage This occurrence of Phug\Test\Util\FirstTestModule is already registered in another module container.
      */
     public function testInstanceDivergentRegistrations()
@@ -164,7 +172,9 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::removeModule
+     *
      * @expectedException InvalidArgumentException
+     *
      * @expectedExceptionMessage The container doesn't contain a Phug\Test\Util\FirstTestModule module
      */
     public function testRemovalOfNonExistentModule()
@@ -180,7 +190,9 @@ class ModuleContainerTest extends TestCase
     /**
      * @covers ::getModuleBaseClassName
      * @covers ::removeModule
+     *
      * @expectedException InvalidArgumentException
+     *
      * @expectedExceptionMessage This occurrence of Phug\Test\Util\FirstTestModule is not registered.
      */
     public function testRemovalOfNonExistentModuleInstance()
@@ -196,7 +208,9 @@ class ModuleContainerTest extends TestCase
 
     /**
      * @covers ::addModule
+     *
      * @expectedException \RuntimeException
+     *
      * @expectedExceptionMessage Current module container uses the ModuleContainerTrait, but doesn't implement Phug\Util\ModuleContainerInterface, please implement it.
      */
     public function testNonInterfacedContainer()

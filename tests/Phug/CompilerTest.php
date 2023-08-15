@@ -302,6 +302,7 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @group hooks
+     *
      * @covers ::compileNode
      * @covers ::compile
      * @covers ::__construct
@@ -608,7 +609,9 @@ class CompilerTest extends AbstractCompilerTest
 
     /**
      * @covers                   ::compileNode
+     *
      * @expectedException        \Phug\CompilerException
+     *
      * @expectedExceptionMessage Failed to compile: No compiler found able to compile Phug\Test\Utils\UnknownNode
      */
     public function testUnknownNodeThrowException()

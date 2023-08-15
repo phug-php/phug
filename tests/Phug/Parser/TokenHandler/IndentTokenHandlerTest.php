@@ -29,7 +29,9 @@ class IndentTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass indent tokens to this token handler
      */
     public function testHandleTokenTokenException()

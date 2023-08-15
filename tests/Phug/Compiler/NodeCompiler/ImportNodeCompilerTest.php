@@ -15,6 +15,7 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
 {
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()
@@ -294,6 +295,7 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            \Phug\Compiler::compileIntoElement
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testCompileIntoElementException()
@@ -345,6 +347,7 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            \Phug\Compiler::throwException
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testFileNotFoundInFileException()

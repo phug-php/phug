@@ -89,7 +89,9 @@ class AutoCloseTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass auto-close tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -102,7 +104,9 @@ class AutoCloseTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Auto-close operators can only be used on elements
      */
     public function testHandleClassOnWrongNode()

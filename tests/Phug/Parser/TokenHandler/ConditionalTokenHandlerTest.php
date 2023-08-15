@@ -28,7 +28,9 @@ class ConditionalTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass conditional tokens to this token handler
      */
     public function testHandleTokenTokenException()

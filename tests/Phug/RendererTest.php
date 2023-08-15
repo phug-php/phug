@@ -822,6 +822,7 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @group error
+     *
      * @covers ::handleError
      * @covers \Phug\Renderer\Partial\AdapterTrait::getSandboxCall
      * @covers \Phug\Renderer\Partial\AdapterTrait::handleHtmlEvent
@@ -1099,6 +1100,7 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @expectedException        Exception
+     *
      * @expectedExceptionMessage p= $undefined()
      */
     public function testExtendsUndefinedCall()
@@ -1120,6 +1122,7 @@ class RendererTest extends AbstractRendererTest
 
     /**
      * @expectedException        Exception
+     *
      * @expectedExceptionMessage div= $undefined()
      */
     public function testUndefinedCallInBlock()

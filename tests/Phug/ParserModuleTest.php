@@ -109,6 +109,7 @@ class ParserModuleTest extends AbstractParserTest
 
     /**
      * @group events
+     *
      * @covers \Phug\Parser::__construct
      * @covers \Phug\Parser\Event\ParseEvent::<public>
      * @covers \Phug\Parser\Event\NodeEvent::<public>

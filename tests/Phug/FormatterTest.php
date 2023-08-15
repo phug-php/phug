@@ -794,6 +794,7 @@ class FormatterTest extends TestCase
 
     /**
      * @group  debug
+     *
      * @covers \Phug\Formatter\AbstractFormat::format
      * @covers \Phug\Formatter\AbstractFormat::formatElementChildren
      * @covers \Phug\Formatter::getSourceLine
@@ -914,6 +915,7 @@ class FormatterTest extends TestCase
 
     /**
      * @group  debug
+     *
      * @covers \Phug\Formatter::getSourceLine
      * @covers \Phug\Formatter::getDebugError
      */

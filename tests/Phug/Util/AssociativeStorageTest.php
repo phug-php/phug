@@ -21,7 +21,9 @@ class AssociativeStorageTest extends TestCase
     /**
      * @covers                   ::<public>
      * @covers                   ::attachStrictMode
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Duplicate entity for the name foo
      */
     public function testStrictMode()
@@ -39,7 +41,9 @@ class AssociativeStorageTest extends TestCase
     /**
      * @covers                   ::<public>
      * @covers                   ::attachStrictMode
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Unknown mode: 99
      */
     public function testWrongMode()

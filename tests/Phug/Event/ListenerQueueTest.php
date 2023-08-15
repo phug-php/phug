@@ -57,7 +57,9 @@ class ListenerQueueTest extends TestCase
 
     /**
      * @covers                   ::insertMultiple
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage insertMultiple only accept array or Traversable as first argument
      */
     public function testInsertMultipleBadType()
@@ -70,7 +72,9 @@ class ListenerQueueTest extends TestCase
 
     /**
      * @covers                   ::insertMultiple
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Callback inserted into ListenerQueue needs to be callable
      */
     public function testInsertMultipleBadSubInsert()
@@ -110,6 +114,7 @@ class ListenerQueueTest extends TestCase
 
     /**
      * @covers ::insert
+     *
      * @dataProvider provideParameterValues
      */
     public function testInsertWithNonCallback($parameterValue)

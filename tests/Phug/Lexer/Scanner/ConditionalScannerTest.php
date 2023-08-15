@@ -28,6 +28,7 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
      * @covers \Phug\Lexer\Scanner\ControlStatementScanner::scan
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForTernary
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForNamespaceAndTernary
+     *
      * @dataProvider provideExpressions
      */
     public function testExpandedExpressions($expr)
@@ -119,7 +120,9 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
 
     /**
      * @covers                   Phug\Lexer\Scanner\ConditionalScanner::scan
+     *
      * @expectedException        Phug\LexerException
+     *
      * @expectedExceptionMessage The `else`-conditional statement can't have a subject
      */
     public function testElseWithSubject()
