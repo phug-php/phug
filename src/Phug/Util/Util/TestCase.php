@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Phug\CompatibilityUtil\TestCaseTypeBase;
 use ReflectionMethod;
 
+// @codeCoverageIgnoreStart
 if (!class_exists(TestCaseTypeBase::class)) {
     $setUp = @new ReflectionMethod(PHPUnitTestCase::class, 'setUp');
     $testCaseInitialization = true;
@@ -16,6 +17,7 @@ if (!class_exists(TestCaseTypeBase::class)) {
 
     unset($testCaseInitialization);
 }
+// @codeCoverageIgnoreEnd
 
 class TestCase extends TestCaseTypeBase
 {

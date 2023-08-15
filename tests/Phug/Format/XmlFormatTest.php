@@ -678,8 +678,10 @@ class XmlFormatTest extends TestCase
     /**
      * @covers ::yieldAssignmentElement
      * @covers ::formatOrderedAttributeAssignments
+     * @covers ::yieldAssignmentOrderedAttributes
      * @covers ::formatOrderedMarkupAttributes
      * @covers ::formatInnerCodeValue
+     * @covers ::getSortedAttributes
      */
     public function testAttributeAttributePrecedence()
     {
@@ -809,6 +811,7 @@ class XmlFormatTest extends TestCase
     /**
      * @covers ::yieldAssignmentElement
      * @covers ::formatOrderedAttributeAssignments
+     * @covers ::yieldAssignmentOrderedAttributes
      * @covers ::formatOrderedMarkupAttributes
      * @covers ::formatInnerCodeValue
      *
