@@ -55,15 +55,15 @@ class ProfilerModuleTest extends TestCase
         $render = $renderer->render('div');
 
         self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div lexing:', $render);
+        self::assertStringContains('title="div lexing:', $render);
         self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div parsing:', $render);
+        self::assertStringContains('title="div parsing:', $render);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div compiling:', $render);
+        self::assertStringContains('title="div compiling:', $render);
         self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div formatting:', $render);
+        self::assertStringContains('title="div formatting:', $render);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div rendering:', $render);
+        self::assertStringContains('title="div rendering:', $render);
 
         $renderer = new Renderer([
             'enable_profiler' => true,
@@ -118,15 +118,15 @@ class ProfilerModuleTest extends TestCase
         $profiler->recordDisplayEvent(1);
         self::assertCount($count, $profiler->getEvents());
         self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div lexing:', $render);
+        self::assertStringContains('title="div lexing:', $render);
         self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div parsing:', $render);
+        self::assertStringContains('title="div parsing:', $render);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div compiling:', $render);
+        self::assertStringContains('title="div compiling:', $render);
         self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div formatting:', $render);
+        self::assertStringContains('title="div formatting:', $render);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertStringContainsString('title="div rendering:', $render);
+        self::assertStringContains('title="div rendering:', $render);
     }
 
     /**
@@ -217,7 +217,7 @@ class ProfilerModuleTest extends TestCase
             $message = $exception->getMessage();
         }
 
-        self::assertStringContainsString('execution_max_time of 3ms exceeded.', $message);
+        self::assertStringContains('execution_max_time of 3ms exceeded.', $message);
     }
 
     /**
@@ -267,7 +267,7 @@ class ProfilerModuleTest extends TestCase
 
         unset($GLOBALS['LAkjdJHSmlakSJHGdjAJGdjGAHgsjHDAD']);
 
-        self::assertStringContainsString('memory_limit of '.$limit.'B exceeded.', $message);
+        self::assertStringContains('memory_limit of '.$limit.'B exceeded.', $message);
     }
 
     /**
@@ -288,16 +288,16 @@ class ProfilerModuleTest extends TestCase
         ]);
         $render = $renderer->render("a(href='a')\n  | Hello\ndiv");
 
-        self::assertStringContainsString('↩', $render);
-        self::assertStringContainsString('new line', $render);
-        self::assertStringContainsString('→', $render);
-        self::assertStringContainsString('indent', $render);
-        self::assertStringContainsString('←', $render);
-        self::assertStringContainsString('outdent', $render);
-        self::assertStringContainsString('(', $render);
-        self::assertStringContainsString('attributes start', $render);
-        self::assertStringContainsString(')', $render);
-        self::assertStringContainsString('attributes end', $render);
+        self::assertStringContains('↩', $render);
+        self::assertStringContains('new line', $render);
+        self::assertStringContains('→', $render);
+        self::assertStringContains('indent', $render);
+        self::assertStringContains('←', $render);
+        self::assertStringContains('outdent', $render);
+        self::assertStringContains('(', $render);
+        self::assertStringContains('attributes start', $render);
+        self::assertStringContains(')', $render);
+        self::assertStringContains('attributes end', $render);
     }
 
     /**
@@ -342,16 +342,16 @@ class ProfilerModuleTest extends TestCase
         ob_end_clean();
 
         self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertStringContainsString('title="div lexing:', $contents);
+        self::assertStringContains('title="div lexing:', $contents);
         self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertStringContainsString('title="div parsing:', $contents);
+        self::assertStringContains('title="div parsing:', $contents);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertStringContainsString('title="div compiling:', $contents);
+        self::assertStringContains('title="div compiling:', $contents);
         self::assertRegExp('/div formatting\s*<br>\s*[+-]?[\.\d]+[µm]?s/', $contents);
-        self::assertStringContainsString('title="div formatting:', $contents);
+        self::assertStringContains('title="div formatting:', $contents);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertStringContainsString('title="div rendering:', $contents);
-        self::assertStringContainsString('-void-dump-', $contents);
+        self::assertStringContains('title="div rendering:', $contents);
+        self::assertStringContains('-void-dump-', $contents);
     }
 
     /**
@@ -401,7 +401,7 @@ class ProfilerModuleTest extends TestCase
 
         $render = $renderer->render('div');
 
-        self::assertStringContainsString('Phug\\Compiler\\Event\\NodeEvent', $render);
+        self::assertStringContains('Phug\\Compiler\\Event\\NodeEvent', $render);
     }
 
     /**

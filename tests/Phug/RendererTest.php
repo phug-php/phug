@@ -258,8 +258,8 @@ class RendererTest extends AbstractRendererTest
         ]);
         $paths = $renderer->getCompiler()->getOption('paths');
         self::assertCount(2, $paths);
-        self::assertStringContainsString('a', $paths);
-        self::assertStringContainsString('b', $paths);
+        self::assertTrue(in_array('a', $paths, true));
+        self::assertTrue(in_array('b', $paths, true));
     }
 
     /**
@@ -478,12 +478,12 @@ class RendererTest extends AbstractRendererTest
                 $message = $error->getMessage();
             }
 
-            self::assertStringContainsString(
+            self::assertStringContains(
                 'Division by zero',
                 $message
             );
 
-            self::assertStringNotContainsString(
+            self::assertStringNotContains(
                 'trigger_error("Division'.'by'.'zero")',
                 str_replace(' ', '', $message)
             );
@@ -497,12 +497,12 @@ class RendererTest extends AbstractRendererTest
                 $message = $error->getMessage();
             }
 
-            self::assertStringContainsString(
+            self::assertStringContains(
                 'Division by zero on line 1',
                 $message
             );
 
-            self::assertStringContainsString(
+            self::assertStringContains(
                 'trigger_error("Division'.'by'.'zero")',
                 str_replace(' ', '', $message)
             );
@@ -516,12 +516,12 @@ class RendererTest extends AbstractRendererTest
                 $message = $error->getMessage();
             }
 
-            self::assertStringContainsString(
+            self::assertStringContains(
                 'Division by zero on line 1',
                 $message
             );
 
-            self::assertStringContainsString(
+            self::assertStringContains(
                 "\033[43;30m>   1 | div: p\033[43;31m=\033[43;30mtrigger_error(\"Division by zero\")\e[0m\n",
                 $message
             );
@@ -575,18 +575,18 @@ class RendererTest extends AbstractRendererTest
             $message = $error->getMessage();
         }
 
-        self::assertStringContainsString('Division by zero', $message);
-        self::assertStringContainsString('div: p=12/0', $message);
-        self::assertStringContainsString('// line -1', $message);
-        self::assertStringContainsString('// line +1', $message);
-        self::assertStringContainsString('// line -2', $message);
-        self::assertStringContainsString('// line +2', $message);
-        self::assertStringContainsString('// line -3', $message);
-        self::assertStringContainsString('// line +3', $message);
-        self::assertStringNotContainsString('// line -4', $message);
-        self::assertStringNotContainsString('// line +4', $message);
-        self::assertStringNotContainsString('// line -5', $message);
-        self::assertStringNotContainsString('// line +5', $message);
+        self::assertStringContains('Division by zero', $message);
+        self::assertStringContains('div: p=12/0', $message);
+        self::assertStringContains('// line -1', $message);
+        self::assertStringContains('// line +1', $message);
+        self::assertStringContains('// line -2', $message);
+        self::assertStringContains('// line +2', $message);
+        self::assertStringContains('// line -3', $message);
+        self::assertStringContains('// line +3', $message);
+        self::assertStringNotContains('// line -4', $message);
+        self::assertStringNotContains('// line +4', $message);
+        self::assertStringNotContains('// line -5', $message);
+        self::assertStringNotContains('// line +5', $message);
     }
 
     /**
@@ -624,17 +624,17 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile($path);
         $message = str_replace('implode(): Invalid arguments passed', 'array, string given', $message ?: '');
 
-        self::assertStringContainsString(
+        self::assertStringContains(
             'array, string given',
             $message
         );
 
-        self::assertStringNotContainsString(
+        self::assertStringNotContains(
             'on line 3',
             $message
         );
 
-        self::assertStringNotContainsString(
+        self::assertStringNotContains(
             $path,
             $message
         );
@@ -644,17 +644,17 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile($path);
         $message = str_replace('implode(): Invalid arguments passed', 'array, string given', $message ?: '');
 
-        self::assertStringContainsString(
+        self::assertStringContains(
             'array, string given on line 3, offset 2',
             $message
         );
 
-        self::assertStringContainsString(
+        self::assertStringContains(
             $path,
             $message
         );
 
-        self::assertStringContainsString(
+        self::assertStringContains(
             "implode('','')",
             $message
         );
@@ -814,8 +814,8 @@ class RendererTest extends AbstractRendererTest
             /* @var RendererException $lastError */
             self::assertInstanceOf(RendererException::class, $lastError);
             $message = $lastError->getMessage();
-            self::assertStringContainsString('Division by zero on line 1, offset 7', $message);
-            self::assertStringContainsString('<span class="error-line">'.
+            self::assertStringContains('Division by zero on line 1, offset 7', $message);
+            self::assertStringContains('<span class="error-line">'.
                 'div: p=<span class="error-offset">1</span>2/0</span>', $message);
         }
     }
@@ -884,10 +884,10 @@ class RendererTest extends AbstractRendererTest
             $message = $error->getMessage();
         }
 
-        self::assertStringContainsString('ParseError:', $message);
-        self::assertStringContainsString(' on line 12, offset 12', $message);
-        self::assertStringContainsString('title Foo', $message);
-        self::assertStringNotContainsString('Too far to be visible error context', $message);
+        self::assertStringContains('ParseError:', $message);
+        self::assertStringContains(' on line 12, offset 12', $message);
+        self::assertStringContains('title Foo', $message);
+        self::assertStringNotContains('Too far to be visible error context', $message);
     }
 
     public function testHeadIndent()

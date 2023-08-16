@@ -53,6 +53,28 @@ class TestCase extends TestCaseTypeBase
         }
     }
 
+    public static function assertStringContains($needle, $haystack, $message = '')
+    {
+        if (!method_exists(self::class, 'assertStringContainsString')) {
+            self::assertContains($needle, $haystack, $message);
+
+            return;
+        }
+
+        self::assertStringContainsString($needle, $haystack, $message);
+    }
+    
+    public static function assertStringNotContains($needle, $haystack, $message = '')
+    {
+        if (!method_exists(self::class, 'assertStringNotContainsString')) {
+            self::assertNotContains($needle, $haystack, $message);
+
+            return;
+        }
+
+        self::assertStringNotContainsString($needle, $haystack, $message);
+    }
+
     protected function removeFile($file)
     {
         if (is_dir($file)) {

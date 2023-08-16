@@ -62,7 +62,7 @@ class SandBoxTest extends TestCase
         });
 
         self::assertInstanceOf(Exception::class, $sandBox->getThrowable());
-        self::assertStringContainsString('Division by zero', $sandBox->getThrowable()->getMessage());
+        self::assertStringContains('Division by zero', $sandBox->getThrowable()->getMessage());
         self::assertNull($sandBox->getResult());
         self::assertSame('foo', $sandBox->getBuffer());
 
@@ -77,7 +77,7 @@ class SandBoxTest extends TestCase
         });
 
         self::assertInstanceOf(Exception::class, $sandBox->getThrowable());
-        self::assertStringContainsString('Notice', $sandBox->getThrowable()->getMessage());
+        self::assertStringContains('Notice', $sandBox->getThrowable()->getMessage());
 
         $level = error_reporting();
 

@@ -220,8 +220,8 @@ class OptimizerTest extends AbstractPhugTest
             $contents .= file_get_contents($file);
         }
 
-        self::assertStringContainsString('<p>A</p>', $contents);
-        self::assertStringContainsString('<p>B</p>', $contents);
+        self::assertStringContains('<p>A</p>', $contents);
+        self::assertStringContains('<p>B</p>', $contents);
 
         $this->removeFile($cache);
     }
