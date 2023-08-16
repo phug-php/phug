@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Parser;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
 use Phug\Lexer\Token\AttributeToken;
 use Phug\Lexer\Token\NewLineToken;
@@ -15,6 +14,7 @@ use Phug\Parser\State;
 use Phug\Parser\TokenHandler\TagTokenHandler;
 use Phug\ParserException;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Parser\State

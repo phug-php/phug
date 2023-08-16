@@ -53,6 +53,9 @@ class TestCase extends TestCaseTypeBase
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function assertStringContains($needle, $haystack, $message = '')
     {
         if (!method_exists(self::class, 'assertStringContainsString')) {
@@ -63,7 +66,10 @@ class TestCase extends TestCaseTypeBase
 
         self::assertStringContainsString($needle, $haystack, $message);
     }
-    
+
+    /**
+     * @codeCoverageIgnore
+     */
     public static function assertStringNotContains($needle, $haystack, $message = '')
     {
         if (!method_exists(self::class, 'assertStringNotContainsString')) {

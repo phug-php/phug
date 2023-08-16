@@ -3,13 +3,13 @@
 namespace Phug\Test\Util;
 
 use ArrayObject;
-use PHPUnit\Framework\TestCase;
 use Phug\Util\DocumentLocationInterface;
 use Phug\Util\Exception\LocatedException;
 use Phug\Util\OptionInterface;
 use Phug\Util\Partial;
 use Phug\Util\ScopeInterface;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 use stdClass;
 
 //@codingStandardsIgnoreStart

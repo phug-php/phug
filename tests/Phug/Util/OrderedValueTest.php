@@ -2,8 +2,8 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Util\OrderedValue;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Util\OrderedValue

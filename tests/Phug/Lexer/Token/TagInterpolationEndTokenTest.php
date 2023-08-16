@@ -2,9 +2,9 @@
 
 namespace Phug\Test\Lexer\Token;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer\Token\TagInterpolationEndToken;
 use Phug\Lexer\Token\TagInterpolationStartToken;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Lexer\Token\TagInterpolationEndToken

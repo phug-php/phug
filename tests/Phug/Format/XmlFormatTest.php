@@ -3,7 +3,6 @@
 namespace Phug\Test\Format;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AssignmentElement;
 use Phug\Formatter\Element\AttributeElement;
@@ -20,6 +19,7 @@ use Phug\Formatter\Format\XmlFormat;
 use Phug\Parser\Node\TextNode;
 use Phug\Test\Utils\AssertRender;
 use Phug\Util\OrderedValue;
+use Phug\Util\TestCase;
 use SplObjectStorage;
 
 /**

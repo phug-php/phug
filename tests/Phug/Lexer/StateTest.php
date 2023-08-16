@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Lexer;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
 use Phug\Lexer\Scanner\TagScanner;
 use Phug\Lexer\Scanner\TextScanner;
@@ -12,6 +11,7 @@ use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
 use Phug\Reader;
 use Phug\Test\MockScanner;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Lexer\State

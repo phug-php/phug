@@ -2,8 +2,8 @@
 
 namespace Phug\Test\Profiler;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Renderer\Profiler\EventList;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Renderer\Profiler\EventList

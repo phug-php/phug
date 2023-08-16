@@ -2,12 +2,12 @@
 
 namespace Phug\Test\Invoker;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Compiler\Event\CompileEvent;
 use Phug\Compiler\Event\NodeEvent;
 use Phug\Event\ListenerQueue;
 use Phug\Invoker;
 use Phug\Parser\Node\ElementNode;
+use Phug\Util\TestCase;
 use ReflectionException;
 use RuntimeException;
 

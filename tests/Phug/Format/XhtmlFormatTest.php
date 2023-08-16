@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Format;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\DoctypeElement;
 use Phug\Formatter\Element\DocumentElement;
@@ -13,6 +12,7 @@ use Phug\Formatter\Format\OneDotOneFormat;
 use Phug\Formatter\Format\PlistFormat;
 use Phug\Formatter\Format\StrictFormat;
 use Phug\Formatter\Format\TransitionalFormat;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Format\XhtmlFormat

@@ -2,9 +2,9 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Util\OptionInterface;
 use Phug\Util\Partial\MacroableTrait;
+use Phug\Util\TestCase;
 
 //@codingStandardsIgnoreStart
 

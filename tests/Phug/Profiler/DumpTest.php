@@ -3,11 +3,11 @@
 namespace Phug\Test\Profiler;
 
 use JsPhpize\JsPhpizePhug;
-use PHPUnit\Framework\TestCase;
 use Phug\Renderer;
 use Phug\Renderer\Event\HtmlEvent;
 use Phug\Renderer\Event\RenderEvent;
 use Phug\Renderer\Profiler\Dump;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Renderer\Profiler\Dump

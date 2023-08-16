@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Element;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AssignmentElement;
 use Phug\Formatter\Element\AttributeElement;
@@ -12,6 +11,7 @@ use Phug\Formatter\Element\TextElement;
 use Phug\Formatter\Format\HtmlFormat;
 use Phug\Formatter\Format\XmlFormat;
 use Phug\Util\Joiner;
+use Phug\Util\TestCase;
 use SplObjectStorage;
 
 /**

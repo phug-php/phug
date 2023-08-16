@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Format;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AttributeElement;
 use Phug\Formatter\Element\CodeElement;
@@ -17,6 +16,7 @@ use Phug\FormatterException;
 use Phug\Lexer\Token\TagToken;
 use Phug\Parser\Node\ElementNode;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Format\HtmlFormat

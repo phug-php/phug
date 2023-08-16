@@ -3,8 +3,8 @@
 namespace Phug\Test\Util;
 
 //@codingStandardsIgnoreStart
-use PHPUnit\Framework\TestCase;
 use Phug\Util\PhpTokenizer;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Util\PhpTokenizer

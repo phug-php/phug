@@ -2,9 +2,9 @@
 
 namespace Phug\Test\Partial;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Format\XmlFormat;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Partial\AssignmentHelpersTrait

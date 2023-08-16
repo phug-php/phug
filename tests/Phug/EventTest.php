@@ -2,8 +2,8 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Event;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Event

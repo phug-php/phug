@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Element;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AnonymousBlockElement;
 use Phug\Formatter\Element\AssignmentElement;
@@ -17,6 +16,7 @@ use Phug\Formatter\Element\TextElement;
 use Phug\Lexer\Token\MixinCallToken;
 use Phug\Parser\Node\MixinCallNode;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 use SplObjectStorage;
 
 /**

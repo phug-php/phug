@@ -2,12 +2,12 @@
 
 namespace Phug\Test\Parser\TokenHandler;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
 use Phug\Lexer\Token\AttributeToken;
 use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\InterpolationEndTokenHandler;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\InterpolationEndTokenHandler

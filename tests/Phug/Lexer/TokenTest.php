@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Lexer;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
 use Phug\Lexer\Token\AssignmentToken;
 use Phug\Lexer\Token\AttributeEndToken;
@@ -12,6 +11,7 @@ use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
 use Phug\Lexer\TokenInterface;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 
 class TokenTest extends TestCase
 {

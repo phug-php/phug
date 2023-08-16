@@ -2,11 +2,11 @@
 
 namespace Phug\Test\Element;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AttributeElement;
 use Phug\Formatter\Element\KeywordElement;
 use Phug\Formatter\Element\MarkupElement;
+use Phug\Util\TestCase;
 use SplObjectStorage;
 
 /**

@@ -2,8 +2,8 @@
 
 namespace Phug\Test\Element;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter\Element\TextElement;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Element\TextElement

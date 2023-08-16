@@ -2,9 +2,8 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
-
 //@codingStandardsIgnoreStart
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Util\AbstractModule

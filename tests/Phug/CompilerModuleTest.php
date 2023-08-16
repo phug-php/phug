@@ -2,7 +2,6 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Compiler;
 use Phug\Compiler\Event\CompileEvent;
 use Phug\Compiler\Event\ElementEvent;
@@ -13,6 +12,7 @@ use Phug\Formatter\Element\MarkupElement;
 use Phug\Parser\Node\CodeNode;
 use Phug\Parser\Node\ElementNode;
 use Phug\Parser\Node\TextNode;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\AbstractCompilerModule

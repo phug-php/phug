@@ -2,7 +2,7 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
+use Phug\Util\TestCase;
 
 abstract class AbstractDependencyInjectionTest extends TestCase
 {

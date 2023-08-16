@@ -2,13 +2,13 @@
 
 namespace Phug\Test\Element;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\CodeElement;
 use Phug\Formatter\Element\DocumentElement;
 use Phug\Formatter\Element\ExpressionElement;
 use Phug\Formatter\Element\VariableElement;
 use Phug\Formatter\Format\HtmlFormat;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Element\VariableElement

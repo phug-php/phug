@@ -2,10 +2,10 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter\Element\MarkupElement;
 use Phug\Util\AttributesStorage;
 use Phug\Util\OrderedValue;
+use Phug\Util\TestCase;
 use SplObjectStorage;
 
 /**

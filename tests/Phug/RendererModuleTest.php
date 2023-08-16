@@ -2,7 +2,6 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Renderer;
 use Phug\RendererException;
@@ -10,6 +9,7 @@ use Phug\Test\Utils\TestCompilerModule;
 use Phug\Test\Utils\TestFormatterModule;
 use Phug\Test\Utils\TestLexerModule;
 use Phug\Test\Utils\TestParserModule;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\AbstractRendererModule

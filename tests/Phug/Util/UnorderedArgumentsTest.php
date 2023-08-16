@@ -2,7 +2,7 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
+use Phug\Util\TestCase;
 use Phug\Util\UnorderedArguments;
 
 //@codingStandardsIgnoreStart

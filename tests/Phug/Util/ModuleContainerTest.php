@@ -3,8 +3,8 @@
 namespace Phug\Test\Util;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use Phug\Util\ModuleInterface;
+use Phug\Util\TestCase;
 use stdClass;
 
 //@codingStandardsIgnoreStart

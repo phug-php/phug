@@ -3,8 +3,8 @@
 namespace Phug\Test\Util;
 
 use Generator;
-use PHPUnit\Framework\TestCase;
 use Phug\Util\Collection;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Util\Collection

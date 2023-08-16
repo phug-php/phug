@@ -2,13 +2,13 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Renderer;
 use Phug\Renderer\Profiler\ProfilerException;
 use Phug\Renderer\Profiler\ProfilerModule;
 use Phug\RendererException;
 use Phug\Util\Exception\LocatedException;
 use Phug\Util\SourceLocation;
+use Phug\Util\TestCase;
 use ReflectionMethod;
 use ReflectionProperty;
 

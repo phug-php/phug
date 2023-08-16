@@ -2,9 +2,9 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Util\AssociativeStorage;
 use Phug\Util\Partial\NameTrait;
+use Phug\Util\TestCase;
 
 //@codingStandardsIgnoreStart
 class Entity

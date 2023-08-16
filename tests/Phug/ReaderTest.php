@@ -2,8 +2,8 @@
 
 namespace Tale\Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Reader;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Reader

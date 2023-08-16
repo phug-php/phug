@@ -5,8 +5,8 @@ namespace Phug\Test\Util;
 //@codingStandardsIgnoreStart
 use ErrorException;
 use Exception;
-use PHPUnit\Framework\TestCase;
 use Phug\Util\SandBox;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Util\SandBox

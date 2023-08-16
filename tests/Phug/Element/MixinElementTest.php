@@ -2,7 +2,6 @@
 
 namespace Phug\Test\Element;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter;
 use Phug\Formatter\Element\AnonymousBlockElement;
 use Phug\Formatter\Element\AttributeElement;
@@ -11,6 +10,7 @@ use Phug\Formatter\Element\DocumentElement;
 use Phug\Formatter\Element\MarkupElement;
 use Phug\Formatter\Element\MixinElement;
 use Phug\Formatter\Element\TextElement;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Element\MixinElement

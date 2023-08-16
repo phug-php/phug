@@ -2,8 +2,8 @@
 
 namespace Phug\Test\Util;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Formatter\Util\PhpUnwrapString;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Formatter\Util\PhpUnwrapString

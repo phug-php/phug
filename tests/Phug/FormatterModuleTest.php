@@ -2,7 +2,6 @@
 
 namespace Phug\Test;
 
-use PHPUnit\Framework\TestCase;
 use Phug\AbstractFormatterModule;
 use Phug\Formatter;
 use Phug\Formatter\Element\AssignmentElement;
@@ -17,6 +16,7 @@ use Phug\Formatter\Event\StringifyEvent;
 use Phug\Formatter\Format\HtmlFormat;
 use Phug\Formatter\Format\XmlFormat;
 use Phug\FormatterEvent;
+use Phug\Util\TestCase;
 
 //@codingStandardsIgnoreStart
 class DummyTestModule extends AbstractFormatterModule

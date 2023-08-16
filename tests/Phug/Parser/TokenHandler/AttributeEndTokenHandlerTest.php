@@ -2,13 +2,13 @@
 
 namespace Phug\Test\Parser\TokenHandler;
 
-use PHPUnit\Framework\TestCase;
 use Phug\Lexer;
 use Phug\Lexer\Token\AttributeEndToken;
 use Phug\Lexer\Token\AttributeToken;
 use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\AttributeEndTokenHandler;
+use Phug\Util\TestCase;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\AttributeEndTokenHandler
