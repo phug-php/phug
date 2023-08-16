@@ -101,7 +101,7 @@ class ExpansionTokenHandlerTest extends AbstractParserTest
             $message = $exp->getMessage();
         }
 
-        self::assertContains('Expansion needs an element to work on', $message);
-        self::assertContains('Path: my-path', $message);
+        self::assertStringContainsString('Expansion needs an element to work on', $message);
+        self::assertStringContainsString('Path: my-path', $message);
     }
 }

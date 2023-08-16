@@ -55,15 +55,15 @@ class ProfilerModuleTest extends TestCase
         $render = $renderer->render('div');
 
         self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div lexing:', $render);
+        self::assertStringContainsString('title="div lexing:', $render);
         self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div parsing:', $render);
+        self::assertStringContainsString('title="div parsing:', $render);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div compiling:', $render);
+        self::assertStringContainsString('title="div compiling:', $render);
         self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div formatting:', $render);
+        self::assertStringContainsString('title="div formatting:', $render);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div rendering:', $render);
+        self::assertStringContainsString('title="div rendering:', $render);
 
         $renderer = new Renderer([
             'enable_profiler' => true,
@@ -118,15 +118,15 @@ class ProfilerModuleTest extends TestCase
         $profiler->recordDisplayEvent(1);
         self::assertCount($count, $profiler->getEvents());
         self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div lexing:', $render);
+        self::assertStringContainsString('title="div lexing:', $render);
         self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div parsing:', $render);
+        self::assertStringContainsString('title="div parsing:', $render);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div compiling:', $render);
+        self::assertStringContainsString('title="div compiling:', $render);
         self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div formatting:', $render);
+        self::assertStringContainsString('title="div formatting:', $render);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
-        self::assertContains('title="div rendering:', $render);
+        self::assertStringContainsString('title="div rendering:', $render);
     }
 
     /**
@@ -217,7 +217,7 @@ class ProfilerModuleTest extends TestCase
             $message = $exception->getMessage();
         }
 
-        self::assertContains('execution_max_time of 3ms exceeded.', $message);
+        self::assertStringContainsString('execution_max_time of 3ms exceeded.', $message);
     }
 
     /**
@@ -267,7 +267,7 @@ class ProfilerModuleTest extends TestCase
 
         unset($GLOBALS['LAkjdJHSmlakSJHGdjAJGdjGAHgsjHDAD']);
 
-        self::assertContains('memory_limit of '.$limit.'B exceeded.', $message);
+        self::assertStringContainsString('memory_limit of '.$limit.'B exceeded.', $message);
     }
 
     /**
@@ -288,16 +288,16 @@ class ProfilerModuleTest extends TestCase
         ]);
         $render = $renderer->render("a(href='a')\n  | Hello\ndiv");
 
-        self::assertContains('↩', $render);
-        self::assertContains('new line', $render);
-        self::assertContains('→', $render);
-        self::assertContains('indent', $render);
-        self::assertContains('←', $render);
-        self::assertContains('outdent', $render);
-        self::assertContains('(', $render);
-        self::assertContains('attributes start', $render);
-        self::assertContains(')', $render);
-        self::assertContains('attributes end', $render);
+        self::assertStringContainsString('↩', $render);
+        self::assertStringContainsString('new line', $render);
+        self::assertStringContainsString('→', $render);
+        self::assertStringContainsString('indent', $render);
+        self::assertStringContainsString('←', $render);
+        self::assertStringContainsString('outdent', $render);
+        self::assertStringContainsString('(', $render);
+        self::assertStringContainsString('attributes start', $render);
+        self::assertStringContainsString(')', $render);
+        self::assertStringContainsString('attributes end', $render);
     }
 
     /**
@@ -342,16 +342,16 @@ class ProfilerModuleTest extends TestCase
         ob_end_clean();
 
         self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertContains('title="div lexing:', $contents);
+        self::assertStringContainsString('title="div lexing:', $contents);
         self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertContains('title="div parsing:', $contents);
+        self::assertStringContainsString('title="div parsing:', $contents);
         self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertContains('title="div compiling:', $contents);
+        self::assertStringContainsString('title="div compiling:', $contents);
         self::assertRegExp('/div formatting\s*<br>\s*[+-]?[\.\d]+[µm]?s/', $contents);
-        self::assertContains('title="div formatting:', $contents);
+        self::assertStringContainsString('title="div formatting:', $contents);
         self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $contents);
-        self::assertContains('title="div rendering:', $contents);
-        self::assertContains('-void-dump-', $contents);
+        self::assertStringContainsString('title="div rendering:', $contents);
+        self::assertStringContainsString('-void-dump-', $contents);
     }
 
     /**
@@ -401,7 +401,7 @@ class ProfilerModuleTest extends TestCase
 
         $render = $renderer->render('div');
 
-        self::assertContains('Phug\\Compiler\\Event\\NodeEvent', $render);
+        self::assertStringContainsString('Phug\\Compiler\\Event\\NodeEvent', $render);
     }
 
     /**

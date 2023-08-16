@@ -49,7 +49,7 @@ class CompilerModuleTest extends TestCase
             $message = $exception->getMessage();
         }
 
-        self::assertContains('foo-bar.pug', $message);
+        self::assertStringContainsString('foo-bar.pug', $message);
     }
 
     /**

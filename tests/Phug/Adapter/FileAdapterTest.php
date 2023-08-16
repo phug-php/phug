@@ -539,7 +539,7 @@ class FileAdapterTest extends AbstractRendererTest
             'count' => 0,
         ]);
 
-        self::assertContains('on line 5, offset 6', $lastError);
+        self::assertStringContainsString('on line 5, offset 6', $lastError);
     }
 
     /**
@@ -673,7 +673,7 @@ class FileAdapterTest extends AbstractRendererTest
         self::assertSame(2, $errErrors);
         self::assertStringEndsWith('errored', $errErrorDetails[0]['directory']);
         self::assertStringEndsWith('errored.pug', $errErrorDetails[0]['inputFile']);
-        self::assertContains(
+        self::assertStringContainsString(
             'Inconsistent indentation. Expecting either 0 or 4 spaces/tabs.',
             $errErrorDetails[0]['error']->getMessage()
         );
