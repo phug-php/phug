@@ -43,11 +43,11 @@ class EachScannerTest extends AbstractLexerTest
      * @covers ::scan
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForTernary
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForNamespaceAndTernary
+     *
      * @dataProvider provideExpressions
      */
     public function testWithItemOnly($expr)
     {
-
         /** @var EachToken $tok */
         list($tok) = $this->assertTokens("each \$item in $expr", [EachToken::class]);
 
@@ -59,11 +59,11 @@ class EachScannerTest extends AbstractLexerTest
      * @covers ::scan
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForTernary
      * @covers \Phug\Lexer\Scanner\Partial\NamespaceAndTernaryTrait::checkForNamespaceAndTernary
+     *
      * @dataProvider provideExpressions
      */
     public function testWithItemAndKey($expr)
     {
-
         /** @var EachToken $tok */
         list($tok) = $this->assertTokens("each \$someItem, \$someKey in $expr", [EachToken::class]);
 
@@ -74,11 +74,11 @@ class EachScannerTest extends AbstractLexerTest
 
     /**
      * @covers ::scan
+     *
      * @dataProvider provideExpressions
      */
     public function testExpandedWithItemOnly($expr)
     {
-
         /** @var EachToken $tok */
         list($tok) = $this->assertTokens("each \$item in $expr: p Some Text", [
             EachToken::class,
@@ -93,11 +93,11 @@ class EachScannerTest extends AbstractLexerTest
 
     /**
      * @covers ::scan
+     *
      * @dataProvider provideExpressions
      */
     public function testExpandedWithItemAndKey($expr)
     {
-
         /** @var EachToken $tok */
         list($tok) = $this->assertTokens("each \$someItem, \$someKey in $expr: p Some Text", [
             EachToken::class,
@@ -113,7 +113,9 @@ class EachScannerTest extends AbstractLexerTest
 
     /**
      * @dataProvider      provideInvalidSyntaxStyles
+     *
      * @covers            ::scan
+     *
      * @expectedException \Phug\LexerException
      */
     public function testThatItFailsWithInvalidSyntax($syntax)
@@ -124,7 +126,9 @@ class EachScannerTest extends AbstractLexerTest
 
     /**
      * @covers                   ::scan
+     *
      * @expectedException        \Phug\LexerException
+     *
      * @expectedExceptionMessage `each`-statement has no subject to operate on
      */
     public function testEachWithoutSubject()

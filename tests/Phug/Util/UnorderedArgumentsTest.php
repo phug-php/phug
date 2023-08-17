@@ -47,7 +47,9 @@ class UnorderedArgumentsTest extends TestCase
 
     /**
      * @covers                   ::required
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage Arguments miss one of the boolean type
      */
     public function testRequiredException()
@@ -72,7 +74,9 @@ class UnorderedArgumentsTest extends TestCase
     /**
      * @covers                   ::noMoreArguments
      * @covers                   ::noMoreDefinedArguments
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage You pass 2 unexpected arguments
      */
     public function testNoMoreArgumentsException()
@@ -87,7 +91,9 @@ class UnorderedArgumentsTest extends TestCase
     /**
      * @covers                   ::noMoreArguments
      * @covers                   ::noMoreDefinedArguments
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage You pass 2 unexpected arguments
      */
     public function testNoMoreUndefinedArgumentsException()
@@ -103,7 +109,9 @@ class UnorderedArgumentsTest extends TestCase
     /**
      * @covers                   ::noMoreArguments
      * @covers                   ::noMoreDefinedArguments
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage You pass 1 unexpected not null arguments
      */
     public function testNoMoreDefinedArgumentsException()

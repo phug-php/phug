@@ -4,6 +4,7 @@ namespace Phug\Parser\Event;
 
 use Phug\Event;
 use Phug\Parser\NodeInterface;
+use Phug\ParserEvent;
 
 class NodeEvent extends Event
 {
@@ -12,8 +13,8 @@ class NodeEvent extends Event
     /**
      * NodeEvent constructor.
      *
-     * @param $name
-     * @param NodeInterface $node
+     * @param ParserEvent::* $name
+     * @param NodeInterface  $node
      */
     public function __construct($name, NodeInterface $node)
     {

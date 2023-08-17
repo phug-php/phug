@@ -21,6 +21,7 @@ class CompilerModuleTest extends TestCase
 {
     /**
      * @group modules
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\Event\CompileEvent::<public>
      */
@@ -53,6 +54,7 @@ class CompilerModuleTest extends TestCase
 
     /**
      * @group modules
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\Event\OutputEvent::<public>
      */
@@ -174,6 +176,7 @@ class CompilerModuleTest extends TestCase
 
     /**
      * @group modules
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\Event\NodeEvent::<public>
      */
@@ -245,6 +248,7 @@ class CompilerModuleTest extends TestCase
 
     /**
      * @group modules
+     *
      * @covers ::<public>
      * @covers \Phug\Compiler\Event\ElementEvent::<public>
      */

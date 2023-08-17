@@ -33,7 +33,9 @@ class ExpressionTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass expression tokens to this token handler
      */
     public function testHandleTokenTokenException()

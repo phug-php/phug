@@ -8,6 +8,7 @@ use Phug\Formatter\ElementInterface;
 use Phug\Parser\Node\AssignmentNode;
 use Phug\Parser\Node\AttributeNode;
 use Phug\Parser\NodeInterface;
+use Phug\Util\OrderableInterface;
 use SplObjectStorage;
 
 class AssignmentNodeCompiler extends AbstractNodeCompiler
@@ -25,9 +26,16 @@ class AssignmentNodeCompiler extends AbstractNodeCompiler
          */
         $name = $node->getName();
         $attributes = new SplObjectStorage();
+
         foreach ($node->getAttributes() as $attribute) {
             /* @var AttributeNode $attribute */
-            $attributes->attach($this->getCompiler()->compileNode($attribute, $parent));
+            $attributeElement = $this->getCompiler()->compileNode($attribute, $parent);
+
+            if ($attribute instanceof OrderableInterface && $attributeElement instanceof OrderableInterface) {
+                $attributeElement->setOrder($attribute->getOrder());
+            }
+
+            $attributes->attach($attributeElement);
         }
 
         return new AssignmentElement($name, $attributes, null, $node);

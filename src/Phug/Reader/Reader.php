@@ -313,9 +313,9 @@ class Reader
      *
      * Notice that ^ is automatically prepended to the pattern.
      *
-     * @param string $pattern         the regular expression without slashes or modifiers.
-     * @param string $modifiers       the modifiers for the regular expression.
-     * @param string $ignoredSuffixes characters that are scanned, but don't end up in the consume length.
+     * @param string      $pattern         the regular expression without slashes or modifiers.
+     * @param string|null $modifiers       the modifiers for the regular expression.
+     * @param string|null $ignoredSuffixes characters that are scanned, but don't end up in the consume length.
      *
      * @throws ReaderException
      *

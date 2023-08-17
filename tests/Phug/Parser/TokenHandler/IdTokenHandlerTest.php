@@ -37,7 +37,9 @@ class IdTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass id tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -50,7 +52,9 @@ class IdTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage IDs can only be used on elements and mixin calls
      */
     public function testHandleTokenElementException()

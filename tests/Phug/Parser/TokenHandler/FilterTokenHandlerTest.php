@@ -89,7 +89,9 @@ class FilterTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass filter tokens to this token handler
      */
     public function testHandleTokenTokenException()

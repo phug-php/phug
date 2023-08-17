@@ -4,18 +4,20 @@ namespace Phug\Util\Partial;
 
 /**
  * Class ValueTrait.
+ *
+ * @template T of mixed
  */
 trait ValueTrait
 {
     use StaticMemberTrait;
 
     /**
-     * @var mixed
+     * @var T
      */
     private $value = null;
 
     /**
-     * @return mixed
+     * @return T
      */
     public function getValue()
     {
@@ -31,7 +33,7 @@ trait ValueTrait
     }
 
     /**
-     * @param mixed $value
+     * @param T $value
      *
      * @return $this
      */

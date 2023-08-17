@@ -2,7 +2,9 @@
 
 namespace Phug\Formatter\Format;
 
+use Closure;
 use Generator;
+use InvalidArgumentException;
 use Phug\Formatter;
 use Phug\Formatter\AbstractFormat;
 use Phug\Formatter\AssignmentContainerInterface;
@@ -20,6 +22,7 @@ use Phug\Formatter\Partial\AssignmentHelpersTrait;
 use Phug\FormatterException;
 use Phug\Util\AttributesInterface;
 use Phug\Util\Joiner;
+use Phug\Util\OrderedValue;
 use SplObjectStorage;
 
 class XmlFormat extends AbstractFormat
@@ -268,17 +271,66 @@ class XmlFormat extends AbstractFormat
 
         /* @var MarkupElement $markup */
         $markup = $element->getContainer();
+        $attributeOrder = $this->hasOption('attribute_precedence')
+            ? $this->getOption('attribute_precedence')
+            : 'assignment';
 
-        $arguments = $markup instanceof AssignmentContainerInterface
-            ? $this->formatAttributeAssignments($markup)
-            : [];
+        switch ($attributeOrder) {
+            case 'assignment':
+            case 'assignments':
+                $arguments = array_merge(
+                    $markup instanceof AttributesInterface
+                        ? $this->formatMarkupAttributes($markup)
+                        : [],
+                    $markup instanceof AssignmentContainerInterface
+                        ? $this->formatAttributeAssignments($markup)
+                        : []
+                );
+                break;
 
-        $arguments = array_merge(
-            $markup instanceof AttributesInterface
-                ? $this->formatMarkupAttributes($markup)
-                : [],
-            $arguments
-        );
+            case 'attribute':
+            case 'attributes':
+                $arguments = array_merge(
+                    $markup instanceof AssignmentContainerInterface
+                        ? $this->formatAttributeAssignments($markup)
+                        : [],
+                    $markup instanceof AttributesInterface
+                        ? $this->formatMarkupAttributes($markup)
+                        : []
+                );
+                break;
+
+            case 'left':
+                $arguments = $this->getSortedAttributes($markup, static function (OrderedValue $a, OrderedValue $b) {
+                    return $b->getOrder() - $a->getOrder();
+                });
+                break;
+
+            case 'right':
+                $arguments = $this->getSortedAttributes($markup, static function (OrderedValue $a, OrderedValue $b) {
+                    return $a->getOrder() - $b->getOrder();
+                });
+                break;
+
+            default:
+                if (!is_callable($attributeOrder)) {
+                    throw new InvalidArgumentException(
+                        'Option attribute_precedence must be '.
+                        '"assignment" (default), "attribute", "left", "right" or a callable.'
+                    );
+                }
+
+                $arguments = array_map(static function ($argument) {
+                    return $argument instanceof OrderedValue ? $argument->getValue() : $argument;
+                }, $attributeOrder(
+                    $markup instanceof AssignmentContainerInterface
+                        ? $this->formatOrderedAttributeAssignments($markup)
+                        : [],
+                    $markup instanceof AttributesInterface
+                        ? $this->formatOrderedMarkupAttributes($markup)
+                        : []
+                ));
+        }
 
         foreach ($markup->getAssignments() as $assignment) {
             /* @var AssignmentElement $assignment */
@@ -303,13 +355,7 @@ class XmlFormat extends AbstractFormat
         $arguments = [];
 
         foreach ($this->yieldAssignmentAttributes($markup) as $attribute) {
-            $checked = method_exists($attribute, 'isChecked') && $attribute->isChecked();
-
-            while (method_exists($attribute, 'getValue')) {
-                $attribute = $attribute->getValue();
-            }
-
-            $arguments[] = $this->formatCode($attribute, $checked);
+            $arguments[] = $this->formatInnerCodeValue($attribute);
         }
 
         return $arguments;
@@ -318,7 +364,39 @@ class XmlFormat extends AbstractFormat
     /**
      * @param AssignmentContainerInterface $markup
      *
-     * @return Generator|AbstractValueElement[]
+     * @return list<OrderedValue<string>>
+     */
+    protected function formatOrderedAttributeAssignments(AssignmentContainerInterface $markup)
+    {
+        $arguments = [];
+
+        foreach ($this->yieldAssignmentOrderedAttributes($markup) as $attribute => $order) {
+            $arguments[] = new OrderedValue($this->formatInnerCodeValue($attribute), $order);
+        }
+
+        return $arguments;
+    }
+
+    /**
+     * @param AbstractValueElement|mixed $value
+     *
+     * @return string
+     */
+    protected function formatInnerCodeValue($value)
+    {
+        $checked = method_exists($value, 'isChecked') && $value->isChecked();
+
+        while (method_exists($value, 'getValue')) {
+            $value = $value->getValue();
+        }
+
+        return $this->formatCode($value, $checked);
+    }
+
+    /**
+     * @param AssignmentContainerInterface $markup
+     *
+     * @return Generator<AbstractValueElement>
      */
     protected function yieldAssignmentAttributes(AssignmentContainerInterface $markup)
     {
@@ -334,9 +412,27 @@ class XmlFormat extends AbstractFormat
     }
 
     /**
+     * @param AssignmentContainerInterface $markup
+     *
+     * @return Generator<AbstractValueElement, int|null>
+     */
+    protected function yieldAssignmentOrderedAttributes(AssignmentContainerInterface $markup)
+    {
+        foreach ($markup->getAssignmentsByName('attributes') as $attributesAssignment) {
+            /* @var AssignmentElement $attributesAssignment */
+            foreach ($attributesAssignment->getAttributes() as $attribute) {
+                /* @var AbstractValueElement $attribute */
+                yield $attribute => $attributesAssignment->getOrder();
+            }
+
+            $markup->removedAssignment($attributesAssignment);
+        }
+    }
+
+    /**
      * @param AttributesInterface $markup
      *
-     * @return array<string>
+     * @return list<string>
      */
     protected function formatMarkupAttributes(AttributesInterface $markup)
     {
@@ -346,6 +442,26 @@ class XmlFormat extends AbstractFormat
         foreach ($attributes as $attribute) {
             /* @var AttributeElement $attribute */
             $arguments[] = $this->formatAttributeAsArrayItem($attribute);
+        }
+
+        $attributes->removeAll($attributes);
+
+        return $arguments;
+    }
+
+    /**
+     * @param AttributesInterface $markup
+     *
+     * @return list<OrderedValue<string>>
+     */
+    protected function formatOrderedMarkupAttributes(AttributesInterface $markup)
+    {
+        $arguments = [];
+        $attributes = $markup->getAttributes();
+
+        foreach ($attributes as $attribute) {
+            /* @var AttributeElement $attribute */
+            $arguments[] = new OrderedValue($this->formatAttributeAsArrayItem($attribute), $attribute->getOrder());
         }
 
         $attributes->removeAll($attributes);
@@ -440,5 +556,28 @@ class XmlFormat extends AbstractFormat
         return !$element->isAutoClosed() && $this->isBlockTag($element)
             ? $this->getIndent().$tag.$this->getNewLine()
             : $tag;
+    }
+
+    /**
+     * @param AssignmentContainerInterface|AttributesInterface|mixed $markup
+     * @param Closure(OrderedValue, OrderedValue): int               $sorter
+     *
+     * @return list<string>
+     */
+    private function getSortedAttributes($markup, Closure $sorter)
+    {
+        $arguments = array_merge(
+            $markup instanceof AssignmentContainerInterface
+                ? $this->formatOrderedAttributeAssignments($markup)
+                : [],
+            $markup instanceof AttributesInterface
+                ? $this->formatOrderedMarkupAttributes($markup)
+                : []
+        );
+        usort($arguments, $sorter);
+
+        return array_map(static function (OrderedValue $value) {
+            return $value->getValue();
+        }, $arguments);
     }
 }

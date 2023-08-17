@@ -26,6 +26,7 @@ class VariableNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testExpressionException()
@@ -39,6 +40,7 @@ class VariableNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()

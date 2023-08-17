@@ -142,7 +142,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   ::handleToken
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Failed to parse: Unexpected token
      * @expectedExceptionMessage `Phug\Lexer\Token\TagToken`,
      * @expectedExceptionMessage no token handler registered
@@ -387,7 +389,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   ::createNode
+     *
      * @expectedException        \InvalidArgumentException
+     *
      * @expectedExceptionMessage ErrorException is not a valid token class
      */
     public function testCreateNodeException()
@@ -447,7 +451,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   ::leave
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Failed to outdent: No parent to outdent to.
      * @expectedExceptionMessage Seems the parser moved out too many levels.
      */
@@ -495,7 +501,9 @@ class StateTest extends TestCase
 
     /**
      * @covers                   ::throwException
+     *
      * @expectedException        \Phug\ParserException
+     *
      * @expectedExceptionMessage Failed to parse: Unexpected token
      * @expectedExceptionMessage `Phug\Lexer\Token\TagToken`,
      * @expectedExceptionMessage no token handler registered

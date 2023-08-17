@@ -38,10 +38,15 @@ class AssignmentNodeCompilerTest extends AbstractCompilerTest
             '<a href="/"></a>',
             'a&attributes(["href" => "/"])(href="#")'
         );
+        $this->assertRender(
+            '<a href="/" id="biz"></a>',
+            'a(href="#")&attributes(["href" => "/"])&attributes(["id" => "biz"])#boom(id="bam")'
+        );
     }
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()

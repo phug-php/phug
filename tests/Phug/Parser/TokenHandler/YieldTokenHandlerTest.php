@@ -27,7 +27,9 @@ class YieldTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass yield tokens to this token handler
      */
     public function testHandleTokenTokenException()

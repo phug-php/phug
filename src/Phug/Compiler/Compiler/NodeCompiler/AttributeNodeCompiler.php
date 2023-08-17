@@ -71,6 +71,7 @@ class AttributeNodeCompiler extends AbstractNodeCompiler
         $name = $this->compileName($node);
         $value = $this->compileValue($node);
         $attribute = new AttributeElement($name, $value, $node);
+        $attribute->setOrder($node->getOrder());
         $attribute->setIsVariadic($node->isVariadic());
 
         return $attribute;

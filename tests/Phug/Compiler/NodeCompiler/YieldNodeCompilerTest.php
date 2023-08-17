@@ -14,6 +14,7 @@ class YieldNodeCompilerTest extends AbstractCompilerTest
 {
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()

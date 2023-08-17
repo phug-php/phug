@@ -8,6 +8,7 @@ use Phug\Lexer\Token\AttributeStartToken;
 use Phug\Lexer\Token\AttributeToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Parser;
+use Phug\Parser\Node\AssignmentNode;
 use Phug\Parser\Node\AttributeNode;
 use Phug\Parser\Node\ElementNode;
 use Phug\Parser\State;
@@ -47,7 +48,9 @@ class AttributeTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass attribute tokens to this token handler
      */
     public function testHandleTokenTokenException()
@@ -56,6 +59,33 @@ class AttributeTokenHandlerTest extends AbstractParserTest
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new AttributeTokenHandler();
         $handler->handleToken(new TagToken(), $state);
+    }
+
+    /**
+     * @covers ::<public>
+     */
+    public function testHandleTokenKeepOrder()
+    {
+        $lexer = new Lexer();
+        $state = new State(new Parser(), $lexer->lex('(b="b")(a="a" c="c")'));
+        $handler = new AttributeTokenHandler();
+        $assignmentNode = new AssignmentNode();
+        $assignmentNode->setOrder(5);
+        $state->setCurrentNode($assignmentNode);
+        $token = new AttributeToken();
+        $token->setName('b');
+        $token->setValue('b');
+        $handler->handleToken(new AttributeToken(), $state);
+
+        /** @var AssignmentNode $currentNode */
+        $currentNode = $state->getCurrentNode();
+
+        self::assertSame($currentNode, $assignmentNode);
+
+        $attribute = iterator_to_array($currentNode->getAttributes())[0];
+
+        self::assertInstanceOf(AttributeNode::class, $attribute);
+        self::assertSame(5, $attribute->getOrder());
     }
 
     /**

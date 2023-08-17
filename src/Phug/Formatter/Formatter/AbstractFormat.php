@@ -233,7 +233,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
     /**
      * @param string|ElementInterface $element
      * @param bool                    $noDebug
-     * @param $element
+     * @param                         $element
      *
      * @return string
      */
@@ -460,13 +460,16 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             return 'null';
         }
 
-        if ($value instanceof ExpressionElement &&
-            in_array(($code = strtolower($value->getValue())), ['true', 'false', 'null', 'undefined'])
-        ) {
-            return $code;
+        if ($value instanceof ExpressionElement) {
+            $code = strtolower($value->getValue());
+
+            if (in_array($code, ['true', 'false', 'null', 'undefined'])) {
+                return $code;
+            }
         }
 
         $code = $this->formatAssignmentValue($value);
+
         if ($value instanceof ExpressionElement && $value->isEscaped()) {
             return $this->exportHelper('array_escape', [$formattedName, $code]);
         }

@@ -43,7 +43,9 @@ class KeywordTokenHandlerTest extends AbstractParserTest
 
     /**
      * @covers                   ::<public>
+     *
      * @expectedException        \RuntimeException
+     *
      * @expectedExceptionMessage You can only pass keyword tokens to this token handler
      */
     public function testHandleTokenTokenException()

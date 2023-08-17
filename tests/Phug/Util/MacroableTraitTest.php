@@ -130,7 +130,9 @@ class MacroableTraitTest extends TestCase
 
     /**
      * @covers                   \Phug\Util\Partial\MacroableTrait::__call
+     *
      * @expectedException        \BadMethodCallException
+     *
      * @expectedExceptionMessage Method fooBar does not exist.
      */
     public function testMacroCallBadMethod()
@@ -141,7 +143,9 @@ class MacroableTraitTest extends TestCase
 
     /**
      * @covers                   \Phug\Util\Partial\MacroableTrait::__callStatic
+     *
      * @expectedException        \BadMethodCallException
+     *
      * @expectedExceptionMessage Method fooBar does not exist.
      */
     public function testMacroCallStaticBadMethod()

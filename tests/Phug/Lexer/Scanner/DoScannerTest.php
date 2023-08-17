@@ -21,7 +21,6 @@ class DoScannerTest extends AbstractLexerTest
      */
     public function testSingleLine()
     {
-
         /* @var DoToken $tok */
         $this->assertTokens("do\n", [DoToken::class, NewLineToken::class]);
     }
@@ -36,7 +35,6 @@ class DoScannerTest extends AbstractLexerTest
      */
     public function testExpanded()
     {
-
         /* @var DoToken $tok */
         $this->assertTokens('do: p something', [
             DoToken::class,

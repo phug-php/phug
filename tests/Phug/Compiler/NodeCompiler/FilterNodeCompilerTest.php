@@ -97,6 +97,7 @@ class FilterNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testWrongFilterException()
@@ -164,6 +165,7 @@ class FilterNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::compileText
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testFilterChildrenException()
@@ -192,6 +194,7 @@ class FilterNodeCompilerTest extends AbstractCompilerTest
 
     /**
      * @covers            ::<public>
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testException()
