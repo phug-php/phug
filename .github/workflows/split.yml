@@ -31,6 +31,7 @@ jobs:
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
+        composer config version 1.9.0
         composer require phug/split --no-update --no-interaction
         composer update --prefer-dist --prefer-stable --no-progress --no-interaction
 
