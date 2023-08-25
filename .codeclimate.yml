@@ -12,6 +12,9 @@ checks:
   identical-code:
     config:
       threshold: 86
+plugins:
+  duplication:
+    enabled: true
     exclude_patterns:
       - "src/Phug/Phug/Phug/Optimizer.php"
 exclude_patterns:
