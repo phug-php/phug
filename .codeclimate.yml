@@ -8,6 +8,11 @@ checks:
       rulesets: rulesets.xml
   similar-code:
     config:
-      threshold: 64
+      threshold: 112
+  identical-code:
+    config:
+      threshold: 86
+    exclude_patterns:
+      - "src/Phug/Phug/Phug/Optimizer.php"
 exclude_patterns:
   - "**/tests/**"

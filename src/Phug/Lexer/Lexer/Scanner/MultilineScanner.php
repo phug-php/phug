@@ -7,19 +7,21 @@
 namespace Phug\Lexer\Scanner;
 
 use Phug\Lexer\Analyzer\LineAnalyzer;
+use Phug\Lexer\Scanner\Partial\TrailingOutdentHandlerTrait;
 use Phug\Lexer\ScannerInterface;
 use Phug\Lexer\State;
 use Phug\Lexer\Token\IndentToken;
 use Phug\Lexer\Token\InterpolationEndToken;
 use Phug\Lexer\Token\InterpolationStartToken;
 use Phug\Lexer\Token\NewLineToken;
-use Phug\Lexer\Token\OutdentToken;
 use Phug\Lexer\Token\TagInterpolationEndToken;
 use Phug\Lexer\Token\TagInterpolationStartToken;
 use Phug\Lexer\Token\TextToken;
 
 class MultilineScanner implements ScannerInterface
 {
+    use TrailingOutdentHandlerTrait;
+
     protected function unEscapedToken(State $state, $buffer)
     {
         /** @var TextToken $token */
@@ -83,8 +85,6 @@ class MultilineScanner implements ScannerInterface
 
     private function yieldLines(State $state, array $lines, LineAnalyzer $analyzer)
     {
-        $reader = $state->getReader();
-
         yield $state->createToken(IndentToken::class);
 
         $maxIndent = $analyzer->getMaxIndent();
@@ -101,14 +101,8 @@ class MultilineScanner implements ScannerInterface
             yield $token;
         }
 
-        if ($reader->hasLength()) {
-            yield $state->createToken(NewLineToken::class);
-
-            $state->setLevel($analyzer->getNewLevel())->indent($analyzer->getLevel() + 1);
-
-            while ($state->nextOutdent() !== false) {
-                yield $state->createToken(OutdentToken::class);
-            }
+        foreach ($this->yieldTrailingOutdent($analyzer, $state) as $token) {
+            yield $token;
         }
     }
 

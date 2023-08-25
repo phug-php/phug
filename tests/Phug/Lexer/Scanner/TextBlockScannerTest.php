@@ -37,6 +37,7 @@ class TextBlockScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Scanner\InterpolationScanner
      * @covers \Phug\Lexer\Scanner\InterpolationScanner::scanInterpolation
      * @covers \Phug\Lexer\Scanner\InterpolationScanner::scan
+     * @covers \Phug\Lexer\Scanner\Partial\TrailingOutdentHandlerTrait::yieldTrailingOutdent
      */
     public function testScan()
     {
