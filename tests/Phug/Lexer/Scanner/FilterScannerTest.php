@@ -27,6 +27,7 @@ class FilterScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
+     * @covers \Phug\Lexer\Scanner\Partial\TrailingOutdentHandlerTrait::yieldTrailingOutdent
      */
     public function testFilter()
     {
@@ -109,6 +110,7 @@ class FilterScannerTest extends AbstractLexerTest
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::recordLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLine
      * @covers \Phug\Lexer\Analyzer\LineAnalyzer::getLineChunks
+     * @covers \Phug\Lexer\Scanner\Partial\TrailingOutdentHandlerTrait::yieldTrailingOutdent
      */
     public function testStylusFilter()
     {
