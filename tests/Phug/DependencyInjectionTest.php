@@ -447,7 +447,7 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
 
         $dependency = $requirement->getDependency();
         self::assertInstanceOf('Phug\\DependencyInjection\\Dependency', $dependency);
-        self::assertSame(array(), $dependency->getDependencies());
+        self::assertSame([], $dependency->getDependencies());
         self::assertSame('clock', $dependency->getName());
         self::assertSame($createClock, $dependency->getValue());
 
