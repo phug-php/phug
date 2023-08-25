@@ -465,14 +465,14 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
         $expiration = $dependencies->call('expiration');
         $after = new DateTimeImmutable('now + 42 days');
 
-        self::assertLessThan($after, $expiration);
-        self::assertGreaterThan($before, $expiration);
+        self::assertLessThanOrEqual($after, $expiration);
+        self::assertGreaterThanOrEqual($before, $expiration);
 
         $before = new DateTimeImmutable('now + 22 days');
         $expiration = $dependencies->call('expiration', 20);
         $after = new DateTimeImmutable('now + 22 days');
 
-        self::assertLessThan($after, $expiration);
-        self::assertGreaterThan($before, $expiration);
+        self::assertLessThanOrEqual($after, $expiration);
+        self::assertGreaterThanOrEqual($before, $expiration);
     }
 }
