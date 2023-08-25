@@ -2,8 +2,11 @@
 
 namespace Phug\Test;
 
+use DateTimeImmutable;
 use Phug\DependencyException;
 use Phug\DependencyInjection;
+use Phug\Test\Utils\Clock;
+use Phug\Test\Utils\ClockInterface;
 use Phug\Util\UnorderedArguments;
 
 class DependencyInjectionTest extends AbstractDependencyInjectionTest
@@ -382,5 +385,94 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
         ]));
 
         self::assertSame("+foo=\n+--bar=42", $result);
+    }
+
+    /**
+     * @covers ::__construct
+     * @covers ::register
+     * @covers ::provider
+     * @covers ::getProvider
+     * @covers ::has
+     * @covers ::get
+     * @covers ::set
+     * @covers ::setRequired
+     * @covers ::isRequired
+     * @covers ::setAsRequired
+     * @covers ::call
+     * @covers \Phug\DependencyInjection\Requirement::__construct
+     * @covers \Phug\DependencyInjection\Requirement::isRequired
+     * @covers \Phug\DependencyInjection\Requirement::setRequired
+     * @covers \Phug\DependencyInjection\Requirement::getDependency
+     * @covers \Phug\DependencyInjection\Requirement::setDependency
+     * @covers \Phug\DependencyInjection\Requirement::setDependency
+     * @covers \Phug\DependencyInjection\Dependency::__construct
+     * @covers \Phug\DependencyInjection\Dependency::setDependencies
+     * @covers \Phug\DependencyInjection\Dependency::getDependencies
+     */
+    public function testLongScenario()
+    {
+        $dependencies = new DependencyInjection();
+
+        $dependencies->register('limit', 42);
+
+        self::assertTrue($dependencies->has('limit'));
+        self::assertFalse($dependencies->has('clock'));
+
+        $message = null;
+
+        try {
+            $dependencies->getProvider('clock');
+        } catch (DependencyException $exception) {
+            $message = $exception->getMessage();
+        }
+
+        self::assertSame('clock dependency not found.', $message);
+
+        $createClock = static function () {
+            return new Clock();
+        };
+
+        $dependencies->provider('clock', $createClock);
+
+        $requirement = $dependencies->getProvider('clock');
+
+        self::assertInstanceOf('Phug\\DependencyInjection\\Requirement', $requirement);
+        self::assertFalse($requirement->isRequired());
+        self::assertFalse($dependencies->isRequired('clock'));
+
+        $requirement->setRequired(true);
+
+        self::assertTrue($requirement->isRequired());
+        self::assertTrue($dependencies->isRequired('clock'));
+
+        $dependency = $requirement->getDependency();
+        self::assertInstanceOf('Phug\\DependencyInjection\\Dependency', $dependency);
+        self::assertSame(array(), $dependency->getDependencies());
+        self::assertSame('clock', $dependency->getName());
+        self::assertSame($createClock, $dependency->getValue());
+
+        self::assertSame(42, $dependencies->get('limit'));
+
+        $dependencies->provider('expiration', ['clock', 'limit', static function (ClockInterface $clock, $limit) {
+            return static function ($margin = 0) use ($clock, $limit) {
+                $delta = $limit - $margin;
+
+                return $clock->now()->modify("$delta days");
+            };
+        }]);
+
+        $before = new DateTimeImmutable('now + 42 days');
+        $expiration = $dependencies->call('expiration');
+        $after = new DateTimeImmutable('now + 42 days');
+
+        self::assertLessThan($after, $expiration);
+        self::assertGreaterThan($before, $expiration);
+
+        $before = new DateTimeImmutable('now + 22 days');
+        $expiration = $dependencies->call('expiration', 20);
+        $after = new DateTimeImmutable('now + 22 days');
+
+        self::assertLessThan($after, $expiration);
+        self::assertGreaterThan($before, $expiration);
     }
 }
