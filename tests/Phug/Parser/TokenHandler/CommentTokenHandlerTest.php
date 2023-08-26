@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class CommentTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleCommentToken
      */
     public function testHandleToken()
     {
@@ -39,11 +39,11 @@ class CommentTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleCommentToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass comment tokens to this token handler
+     * @expectedExceptionMessage You can only pass comment tokens to CommentTokenHandler
      */
     public function testHandleTokenTokenException()
     {

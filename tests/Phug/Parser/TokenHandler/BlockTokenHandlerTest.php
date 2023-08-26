@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class BlockTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleBlockToken
      */
     public function testHandleToken()
     {
@@ -26,11 +26,11 @@ class BlockTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleBlockToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass block tokens to this token handler
+     * @expectedExceptionMessage You can only pass block tokens to BlockTokenHandler
      */
     public function testHandleTokenTokenException()
     {

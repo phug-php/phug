@@ -15,6 +15,8 @@ class NodeTest extends AbstractParserTest
 {
     /**
      * @covers ::<public>
+     * @covers \Phug\Parser\TokenHandler\AbstractTokenHandler::onlyOnElement
+     * @covers \Phug\Parser\TokenHandler\AbstractTokenHandler::createElementNodeIfMissing
      */
     public function testGettersAndSetters()
     {

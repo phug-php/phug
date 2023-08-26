@@ -16,7 +16,7 @@ use Phug\Util\TestCase;
 class AttributeEndTokenHandlerTest extends TestCase
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleAttributeEndToken
      */
     public function testHandleToken()
     {
@@ -29,11 +29,11 @@ class AttributeEndTokenHandlerTest extends TestCase
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleAttributeEndToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass attribute end tokens to this token handler
+     * @expectedExceptionMessage You can only pass attribute-end tokens to AttributeEndTokenHandler
      */
     public function testHandleTokenTokenException()
     {

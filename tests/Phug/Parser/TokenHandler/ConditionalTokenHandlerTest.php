@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class ConditionalTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleConditionalToken
      */
     public function testHandleToken()
     {
@@ -27,11 +27,11 @@ class ConditionalTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleConditionalToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass conditional tokens to this token handler
+     * @expectedExceptionMessage You can only pass conditional tokens to ConditionalTokenHandler
      */
     public function testHandleTokenTokenException()
     {

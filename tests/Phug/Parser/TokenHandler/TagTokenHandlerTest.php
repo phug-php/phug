@@ -17,8 +17,9 @@ use Phug\Test\AbstractParserTest;
 class TagTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
-     * @covers \Phug\Parser\Node\ElementNode::<public>
+     * @covers ::handleTagToken
+     * @covers \Phug\Parser\Node\ElementNode::isAutoClosed
+     * @covers \Phug\Parser\Node\ElementNode::autoClose
      */
     public function testHandleToken()
     {
@@ -49,11 +50,11 @@ class TagTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleTagToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass tag tokens to this token handler
+     * @expectedExceptionMessage You can only pass tag tokens to TagTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -64,11 +65,11 @@ class TagTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleTagToken
      *
      * @expectedException        \Phug\ParserException
      *
-     * @expectedExceptionMessage Failed to parse: Tags can only be used on elements
+     * @expectedExceptionMessage Failed to parse: Tags can only happen on elements
      */
     public function testHandleTokenElementTagsException()
     {
@@ -86,7 +87,7 @@ class TagTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleTagToken
      *
      * @expectedException        \Phug\ParserException
      *

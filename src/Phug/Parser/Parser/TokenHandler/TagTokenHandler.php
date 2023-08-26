@@ -3,32 +3,17 @@
 namespace Phug\Parser\TokenHandler;
 
 use Phug\Lexer\Token\TagToken;
-use Phug\Lexer\TokenInterface;
 use Phug\Parser\Node\ElementNode;
 use Phug\Parser\State;
-use Phug\Parser\TokenHandlerInterface;
 
-class TagTokenHandler implements TokenHandlerInterface
+class TagTokenHandler extends AbstractTokenHandler
 {
-    public function handleToken(TokenInterface $token, State $state)
+    const TOKEN_TYPE = TagToken::class;
+
+    public function handleTagToken(TagToken $token, State $state)
     {
-        if (!($token instanceof TagToken)) {
-            throw new \RuntimeException(
-                'You can only pass tag tokens to this token handler'
-            );
-        }
-
-        if (!$state->getCurrentNode()) {
-            $state->setCurrentNode($state->createNode(ElementNode::class, $token));
-        }
-
-        if (!$state->currentNodeIs([ElementNode::class])) {
-            $state->throwException(
-                'Tags can only be used on elements',
-                0,
-                $token
-            );
-        }
+        $this->createElementNodeIfMissing($token, $state);
+        $this->assertCurrentNodeIs($token, $state, [ElementNode::class]);
 
         /** @var ElementNode $current */
         $current = $state->getCurrentNode();

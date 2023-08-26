@@ -15,9 +15,9 @@ use Phug\Test\AbstractParserTest;
 class TagInterpolationStartTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleTagInterpolationStartToken
      * @covers \Phug\Parser\State::getInterpolationStack
-     * @covers \Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler::<public>
+     * @covers \Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler::handleTagInterpolationEndToken
      */
     public function testHandleToken()
     {
@@ -71,12 +71,12 @@ class TagInterpolationStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleTagInterpolationStartToken
      * @covers \Phug\Parser\State::getInterpolationNode
      * @covers \Phug\Parser\State::popInterpolationNode
      * @covers \Phug\Parser\State::pushInterpolationNode
-     * @covers \Phug\Parser\TokenHandler\ExpansionTokenHandler::<public>
-     * @covers \Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler::<public>
+     * @covers \Phug\Parser\TokenHandler\ExpansionTokenHandler::handleExpansionToken
+     * @covers \Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler::handleTagInterpolationEndToken
      */
     public function testExpansionWithInterpolations()
     {
@@ -126,11 +126,11 @@ class TagInterpolationStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleTagInterpolationStartToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass tag interpolation start tokens to this token handler
+     * @expectedExceptionMessage You can only pass tag-interpolation-start tokens to TagInterpolationStartTokenHandler
      */
     public function testHandleTokenTokenException()
     {

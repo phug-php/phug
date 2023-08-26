@@ -3,24 +3,19 @@
 namespace Phug\Parser\TokenHandler;
 
 use Phug\Lexer\Token\TagInterpolationStartToken;
-use Phug\Lexer\TokenInterface;
 use Phug\Parser\Node\CodeNode;
 use Phug\Parser\Node\ExpressionNode;
 use Phug\Parser\Node\TextNode;
 use Phug\Parser\State;
-use Phug\Parser\TokenHandlerInterface;
 
-class TagInterpolationStartTokenHandler implements TokenHandlerInterface
+class TagInterpolationStartTokenHandler extends AbstractTokenHandler
 {
-    public function handleToken(TokenInterface $token, State $state)
-    {
-        if (!($token instanceof TagInterpolationStartToken)) {
-            throw new \RuntimeException(
-                'You can only pass tag interpolation start tokens to this token handler'
-            );
-        }
+    const TOKEN_TYPE = TagInterpolationStartToken::class;
 
+    public function handleTagInterpolationStartToken(TagInterpolationStartToken $token, State $state)
+    {
         $node = $state->getCurrentNode();
+
         if ($state->currentNodeIs([
             TextNode::class,
             CodeNode::class,
@@ -28,9 +23,11 @@ class TagInterpolationStartTokenHandler implements TokenHandlerInterface
         ])) {
             $node = $node->getParent();
         }
+
         if ($node) {
             $state->pushInterpolationNode($node);
         }
+
         $state->getInterpolationStack()->attach($token->getEnd(), (object) [
             'currentNode' => $node,
             'parentNode'  => $state->getParentNode(),

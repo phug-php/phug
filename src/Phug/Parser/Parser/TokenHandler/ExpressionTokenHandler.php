@@ -3,21 +3,15 @@
 namespace Phug\Parser\TokenHandler;
 
 use Phug\Lexer\Token\ExpressionToken;
-use Phug\Lexer\TokenInterface;
 use Phug\Parser\Node\ExpressionNode;
 use Phug\Parser\State;
-use Phug\Parser\TokenHandlerInterface;
 
-class ExpressionTokenHandler implements TokenHandlerInterface
+class ExpressionTokenHandler extends AbstractTokenHandler
 {
-    public function handleToken(TokenInterface $token, State $state)
-    {
-        if (!($token instanceof ExpressionToken)) {
-            throw new \RuntimeException(
-                'You can only pass expression tokens to this token handler'
-            );
-        }
+    const TOKEN_TYPE = ExpressionToken::class;
 
+    public function handleExpressionToken(ExpressionToken $token, State $state)
+    {
         /** @var ExpressionNode $node */
         $node = $state->createNode(ExpressionNode::class, $token);
         $node->setIsEscaped($token->isEscaped());

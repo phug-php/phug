@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class WhileTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleWhileToken
      */
     public function testHandleToken()
     {
@@ -44,11 +44,11 @@ class WhileTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleWhileToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass while tokens to this token handler
+     * @expectedExceptionMessage You can only pass while tokens to WhileTokenHandler
      */
     public function testHandleTokenTokenException()
     {

@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class ImportTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleImportToken
      * @covers ::isEmptyDocument
      */
     public function testHandleToken()
@@ -37,11 +37,11 @@ class ImportTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleImportToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass import tokens to this token handler
+     * @expectedExceptionMessage You can only pass import tokens to ImportTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -52,7 +52,7 @@ class ImportTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleImportToken
      * @covers                   ::isEmptyDocument
      *
      * @expectedException        \Phug\ParserException
@@ -65,7 +65,7 @@ class ImportTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleImportToken
      * @covers                   ::isEmptyDocument
      *
      * @expectedException        \Phug\ParserException
@@ -78,7 +78,7 @@ class ImportTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleImportToken
      * @covers                   ::isEmptyDocument
      *
      * @expectedException        \Phug\ParserException

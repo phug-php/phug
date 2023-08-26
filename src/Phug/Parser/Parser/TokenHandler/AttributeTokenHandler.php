@@ -3,29 +3,21 @@
 namespace Phug\Parser\TokenHandler;
 
 use Phug\Lexer\Token\AttributeToken;
-use Phug\Lexer\TokenInterface;
 use Phug\Parser\Node\AssignmentNode;
 use Phug\Parser\Node\AttributeNode;
 use Phug\Parser\Node\ElementNode;
 use Phug\Parser\Node\MixinCallNode;
 use Phug\Parser\State;
-use Phug\Parser\TokenHandlerInterface;
 use Phug\Util\AttributesOrderInterface;
 use Phug\Util\OrderableInterface;
 
-class AttributeTokenHandler implements TokenHandlerInterface
+class AttributeTokenHandler extends AbstractTokenHandler
 {
-    public function handleToken(TokenInterface $token, State $state)
-    {
-        if (!($token instanceof AttributeToken)) {
-            throw new \RuntimeException(
-                'You can only pass attribute tokens to this token handler'
-            );
-        }
+    const TOKEN_TYPE = AttributeToken::class;
 
-        if (!$state->getCurrentNode()) {
-            $state->setCurrentNode($state->createNode(ElementNode::class, $token));
-        }
+    public function handleAttributeToken(AttributeToken $token, State $state)
+    {
+        $this->createElementNodeIfMissing($token, $state);
 
         /** @var AttributeNode $node */
         $node = $state->createNode(AttributeNode::class, $token);
@@ -40,12 +32,13 @@ class AttributeTokenHandler implements TokenHandlerInterface
         // Mixin calls and assignments take the first
         // expression set as the name as the value
         if (($value === '' || $value === null) &&
-            $state->currentNodeIs([MixinCallNode::class, AssignmentNode::class])
+            (
+                $state->currentNodeIs([AssignmentNode::class]) ||
+                ($state->currentNodeIs([MixinCallNode::class]) && !$state->getCurrentNode()->areArgumentsCompleted())
+            )
         ) {
-            if (!$state->currentNodeIs([MixinCallNode::class]) || !$state->getCurrentNode()->areArgumentsCompleted()) {
-                $node->setValue($name);
-                $node->setName(null);
-            }
+            $node->setValue($name);
+            $node->setName(null);
         }
 
         /** @var ElementNode|MixinCallNode|AssignmentNode $current */

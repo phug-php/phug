@@ -15,7 +15,8 @@ use Phug\Test\AbstractParserTest;
 class IdTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleIdToken
+     * @covers \Phug\Parser\TokenHandler\Partial\StaticAttributeTrait::attachStaticAttribute
      */
     public function testHandleToken()
     {
@@ -36,11 +37,11 @@ class IdTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleIdToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass id tokens to this token handler
+     * @expectedExceptionMessage You can only pass id tokens to IdTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -51,11 +52,11 @@ class IdTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleIdToken
      *
      * @expectedException        \Phug\ParserException
      *
-     * @expectedExceptionMessage IDs can only be used on elements and mixin calls
+     * @expectedExceptionMessage Ids can only happen on elements and mixin-calls
      */
     public function testHandleTokenElementException()
     {

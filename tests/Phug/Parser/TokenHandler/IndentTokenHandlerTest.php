@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class IndentTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleIndentToken
      */
     public function testHandleSingleLine()
     {
@@ -28,11 +28,11 @@ class IndentTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleIndentToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass indent tokens to this token handler
+     * @expectedExceptionMessage You can only pass indent tokens to IndentTokenHandler
      */
     public function testHandleTokenTokenException()
     {

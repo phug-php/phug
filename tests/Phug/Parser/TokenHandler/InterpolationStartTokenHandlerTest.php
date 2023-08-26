@@ -17,8 +17,9 @@ use Phug\Test\AbstractParserTest;
 class InterpolationStartTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
-     * @covers \Phug\Parser\TokenHandler\InterpolationEndTokenHandler::<public>
+     * @covers ::handleInterpolationStartToken
+     * @covers ::handleExpressionTokens
+     * @covers \Phug\Parser\TokenHandler\InterpolationEndTokenHandler::handleInterpolationEndToken
      */
     public function testHandleToken()
     {
@@ -89,8 +90,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
-     * @covers \Phug\Parser\TokenHandler\InterpolationEndTokenHandler::<public>
+     * @covers ::handleInterpolationStartToken
+     * @covers ::handleExpressionTokens
+     * @covers \Phug\Parser\TokenHandler\InterpolationEndTokenHandler::handleInterpolationEndToken
      */
     public function testInterpolationInNestedBlock()
     {
@@ -126,11 +128,12 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleInterpolationStartToken
+     * @covers                   ::handleExpressionTokens
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass interpolation start tokens to this token handler
+     * @expectedExceptionMessage You can only pass interpolation-start tokens to InterpolationStartTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -208,7 +211,8 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleInterpolationStartToken
+     * @covers                   ::handleExpressionTokens
      *
      * @expectedException        \Phug\ParserException
      *

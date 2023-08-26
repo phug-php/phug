@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class ForTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleForToken
      */
     public function testHandleToken()
     {
@@ -28,11 +28,11 @@ class ForTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleForToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass for tokens to this token handler
+     * @expectedExceptionMessage You can only pass for tokens to ForTokenHandler
      */
     public function testHandleTokenTokenException()
     {

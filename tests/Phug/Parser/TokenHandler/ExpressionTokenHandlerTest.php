@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class ExpressionTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleExpressionToken
      */
     public function testHandleToken()
     {
@@ -32,11 +32,11 @@ class ExpressionTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleExpressionToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass expression tokens to this token handler
+     * @expectedExceptionMessage You can only pass expression tokens to ExpressionTokenHandler
      */
     public function testHandleTokenTokenException()
     {

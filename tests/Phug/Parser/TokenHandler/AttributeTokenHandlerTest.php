@@ -23,7 +23,7 @@ use Phug\Test\AbstractParserTest;
 class AttributeTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleAttributeToken
      */
     public function testNoCurrentNode()
     {
@@ -47,11 +47,11 @@ class AttributeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleAttributeToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass attribute tokens to this token handler
+     * @expectedExceptionMessage You can only pass attribute tokens to AttributeTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -62,7 +62,7 @@ class AttributeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleAttributeToken
      */
     public function testHandleTokenKeepOrder()
     {
@@ -89,9 +89,9 @@ class AttributeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers \Phug\Parser\TokenHandler\AttributeEndTokenHandler::<public>
-     * @covers \Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
-     * @covers ::<public>
+     * @covers \Phug\Parser\TokenHandler\AttributeEndTokenHandler::handleAttributeEndToken
+     * @covers \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
+     * @covers ::handleAttributeToken
      */
     public function testHandleTokenFull()
     {
@@ -118,9 +118,9 @@ class AttributeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers \Phug\Parser\TokenHandler\AttributeEndTokenHandler::<public>
-     * @covers \Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
-     * @covers ::<public>
+     * @covers \Phug\Parser\TokenHandler\AttributeEndTokenHandler::handleAttributeEndToken
+     * @covers \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
+     * @covers ::handleAttributeToken
      */
     public function testAttributePhpConcat()
     {

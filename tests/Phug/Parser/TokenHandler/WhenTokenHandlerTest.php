@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class WhenTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleWhenToken
      */
     public function testHandleToken()
     {
@@ -49,11 +49,11 @@ class WhenTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleWhenToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass when tokens to this token handler
+     * @expectedExceptionMessage You can only pass when tokens to WhenTokenHandler
      */
     public function testHandleTokenTokenException()
     {

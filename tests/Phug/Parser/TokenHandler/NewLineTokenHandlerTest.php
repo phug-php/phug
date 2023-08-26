@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class NewLineTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleNewLineToken
      */
     public function testHandleSingleLine()
     {
@@ -30,11 +30,11 @@ class NewLineTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleNewLineToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass newline tokens to this token handler
+     * @expectedExceptionMessage You can only pass new-line tokens to NewLineTokenHandler
      */
     public function testHandleTokenTokenException()
     {

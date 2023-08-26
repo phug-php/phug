@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class YieldTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleYieldToken
      */
     public function testHandleToken()
     {
@@ -26,11 +26,11 @@ class YieldTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleWhileToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass yield tokens to this token handler
+     * @expectedExceptionMessage You can only pass yield tokens to YieldTokenHandler
      */
     public function testHandleTokenTokenException()
     {

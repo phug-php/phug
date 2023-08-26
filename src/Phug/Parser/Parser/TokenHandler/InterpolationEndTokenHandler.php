@@ -3,20 +3,14 @@
 namespace Phug\Parser\TokenHandler;
 
 use Phug\Lexer\Token\InterpolationEndToken;
-use Phug\Lexer\TokenInterface;
 use Phug\Parser\State;
-use Phug\Parser\TokenHandlerInterface;
 
-class InterpolationEndTokenHandler implements TokenHandlerInterface
+class InterpolationEndTokenHandler extends AbstractTokenHandler
 {
-    public function handleToken(TokenInterface $token, State $state)
-    {
-        if (!($token instanceof InterpolationEndToken)) {
-            throw new \RuntimeException(
-                'You can only pass interpolation end tokens to this token handler'
-            );
-        }
+    const TOKEN_TYPE = InterpolationEndToken::class;
 
+    public function handleInterpolationEndToken(InterpolationEndToken $token, State $state)
+    {
         $node = $state->getCurrentNode();
         $nodes = $state->getInterpolationStack()->offsetGet($token);
         $state->setCurrentNode($nodes->currentNode);
