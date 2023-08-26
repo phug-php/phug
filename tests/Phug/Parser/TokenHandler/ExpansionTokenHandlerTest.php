@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class ExpansionTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleExpansionToken
      */
     public function testHandleToken()
     {
@@ -73,11 +73,11 @@ class ExpansionTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleExpansionToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass expansion tokens to this token handler
+     * @expectedExceptionMessage You can only pass expansion tokens to ExpansionTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -88,7 +88,7 @@ class ExpansionTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleExpansionToken
      * @covers \Phug\Parser\State::throwException
      */
     public function testHandleTokenElementException()

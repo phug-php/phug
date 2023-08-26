@@ -17,7 +17,7 @@ use Phug\Test\AbstractParserTest;
 class AutoCloseTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleAutoCloseToken
      */
     public function testHandleToken()
     {
@@ -88,11 +88,11 @@ class AutoCloseTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleAutoCloseToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass auto-close tokens to this token handler
+     * @expectedExceptionMessage You can only pass auto-close tokens to AutoCloseTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -103,11 +103,11 @@ class AutoCloseTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleAutoCloseToken
      *
      * @expectedException        \Phug\ParserException
      *
-     * @expectedExceptionMessage Auto-close operators can only be used on elements
+     * @expectedExceptionMessage Auto-closes can only happen on elements
      */
     public function testHandleClassOnWrongNode()
     {

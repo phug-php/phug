@@ -5,6 +5,8 @@ namespace Phug\Test;
 use DateTimeImmutable;
 use Phug\DependencyException;
 use Phug\DependencyInjection;
+use Phug\DependencyInjection\Dependency;
+use Phug\DependencyInjection\Requirement;
 use Phug\Test\Utils\Clock;
 use Phug\Test\Utils\ClockInterface;
 use Phug\Util\UnorderedArguments;
@@ -436,7 +438,7 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
 
         $requirement = $dependencies->getProvider('clock');
 
-        self::assertInstanceOf('Phug\\DependencyInjection\\Requirement', $requirement);
+        self::assertInstanceOf(Requirement::class, $requirement);
         self::assertFalse($requirement->isRequired());
         self::assertFalse($dependencies->isRequired('clock'));
 
@@ -446,7 +448,7 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
         self::assertTrue($dependencies->isRequired('clock'));
 
         $dependency = $requirement->getDependency();
-        self::assertInstanceOf('Phug\\DependencyInjection\\Dependency', $dependency);
+        self::assertInstanceOf(Dependency::class, $dependency);
         self::assertSame([], $dependency->getDependencies());
         self::assertSame('clock', $dependency->getName());
         self::assertSame($createClock, $dependency->getValue());

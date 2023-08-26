@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class VariableTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleVariableToken
      */
     public function testHandleToken()
     {
@@ -27,11 +27,11 @@ class VariableTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleVariableToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass variable tokens to this token handler
+     * @expectedExceptionMessage You can only pass variable tokens to VariableTokenHandler
      */
     public function testHandleTokenTokenException()
     {

@@ -18,8 +18,8 @@ use Phug\Test\AbstractParserTest;
 class FilterTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
-     * @covers \Phug\Parser\TokenHandler\ImportTokenHandler::<public>
+     * @covers ::handleFilterToken
+     * @covers \Phug\Parser\TokenHandler\ImportTokenHandler::handleImportToken
      */
     public function testHandleToken()
     {
@@ -88,11 +88,11 @@ class FilterTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleFilterToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass filter tokens to this token handler
+     * @expectedExceptionMessage You can only pass filter tokens to FilterTokenHandler
      */
     public function testHandleTokenTokenException()
     {

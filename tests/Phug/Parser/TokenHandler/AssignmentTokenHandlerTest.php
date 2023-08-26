@@ -22,7 +22,7 @@ use Phug\Util\TestCase;
 class AssignmentTokenHandlerTest extends TestCase
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleAssignmentToken
      */
     public function testHandleToken()
     {
@@ -47,7 +47,7 @@ class AssignmentTokenHandlerTest extends TestCase
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleAssignmentToken
      */
     public function testHandleTokenWithNothingNext()
     {
@@ -72,11 +72,12 @@ class AssignmentTokenHandlerTest extends TestCase
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleAssignmentToken
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::handleToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass Assignment tokens to this token handler
+     * @expectedExceptionMessage You can only pass assignment tokens to AssignmentTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -87,11 +88,11 @@ class AssignmentTokenHandlerTest extends TestCase
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleAssignmentToken
      *
      * @expectedException        \Phug\ParserException
      *
-     * @expectedExceptionMessage Failed to parse: Assignments can only happen on elements and mixinCalls
+     * @expectedExceptionMessage Failed to parse: Assignments can only happen on elements and mixin-calls
      */
     public function testHandleTokenElementTagsException()
     {

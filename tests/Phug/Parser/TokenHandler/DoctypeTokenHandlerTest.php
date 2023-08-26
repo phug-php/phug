@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class DoctypeTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleDoctypeToken
      */
     public function testHandleToken()
     {
@@ -26,11 +26,11 @@ class DoctypeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleDoctypeToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass doctype tokens to this token handler
+     * @expectedExceptionMessage You can only pass doctype tokens to DoctypeTokenHandler
      */
     public function testHandleTokenTokenException()
     {

@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class KeywordTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleKeywordToken
      */
     public function testHandleToken()
     {
@@ -42,11 +42,11 @@ class KeywordTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleKeywordToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass keyword tokens to this token handler
+     * @expectedExceptionMessage You can only pass keyword tokens to KeywordTokenHandler
      */
     public function testHandleTokenTokenException()
     {

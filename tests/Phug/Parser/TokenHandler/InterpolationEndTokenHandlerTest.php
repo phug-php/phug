@@ -15,11 +15,11 @@ use Phug\Util\TestCase;
 class InterpolationEndTokenHandlerTest extends TestCase
 {
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleInterpolationEndToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass interpolation end tokens to this token handler
+     * @expectedExceptionMessage You can only pass interpolation-end tokens to InterpolationEndTokenHandler
      */
     public function testHandleTokenTokenException()
     {

@@ -18,7 +18,8 @@ use Phug\Test\AbstractParserTest;
 class ClassTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleClassToken
+     * @covers \Phug\Parser\TokenHandler\Partial\StaticAttributeTrait::attachStaticAttribute
      */
     public function testHandleToken()
     {
@@ -29,7 +30,7 @@ class ClassTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleClassToken
      */
     public function testClassNamePassedToAttribute()
     {
@@ -49,11 +50,11 @@ class ClassTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleClassToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass class tokens to this token handler
+     * @expectedExceptionMessage You can only pass class tokens to ClassTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -64,11 +65,18 @@ class ClassTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleClassToken
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::handleToken
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::onlyOnElement
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::createElementNodeIfMissing
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::assertCurrentNodeIs
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::getClassLastPart
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::getTypeName
+     * @covers                   \Phug\Parser\TokenHandler\AbstractTokenHandler::getPluralTypeName
      *
      * @expectedException        \Phug\ParserException
      *
-     * @expectedExceptionMessage Classes can only be used on elements and mixin calls
+     * @expectedExceptionMessage Classes can only happen on elements and mixin-calls
      */
     public function testHandleClassOnWrongNode()
     {

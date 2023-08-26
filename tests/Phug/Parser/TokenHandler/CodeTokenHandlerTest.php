@@ -16,7 +16,7 @@ use Phug\Test\AbstractParserTest;
 class CodeTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleCodeToken
      */
     public function testHandleSingleLine()
     {
@@ -68,7 +68,7 @@ class CodeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleCodeToken
      */
     public function testHandleBlock()
     {
@@ -82,7 +82,7 @@ class CodeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleCodeToken
      */
     public function testHandleCodeValue()
     {
@@ -97,11 +97,11 @@ class CodeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleCodeToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass code tokens to this token handler
+     * @expectedExceptionMessage You can only pass code tokens to CodeTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -112,7 +112,7 @@ class CodeTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleCodeToken
      * @covers                   \Phug\Parser\State::throwException
      *
      * @expectedException        \Phug\ParserException

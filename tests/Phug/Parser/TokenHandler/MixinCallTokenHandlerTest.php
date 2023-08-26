@@ -15,8 +15,9 @@ use Phug\Test\AbstractParserTest;
 class MixinCallTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers \Phug\Parser\Node\MixinCallNode::<public>
-     * @covers ::<public>
+     * @covers \Phug\Parser\Node\MixinCallNode::areArgumentsCompleted
+     * @covers \Phug\Parser\Node\MixinCallNode::markArgumentsAsComplete
+     * @covers ::handleMixinCallToken
      */
     public function testHandleSingleLine()
     {
@@ -38,11 +39,11 @@ class MixinCallTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleMixinCallToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass mixin call tokens to this token handler
+     * @expectedExceptionMessage You can only pass mixin-call tokens to MixinCallTokenHandler
      */
     public function testHandleTokenTokenException()
     {

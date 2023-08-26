@@ -8,10 +8,30 @@ checks:
       rulesets: rulesets.xml
   similar-code:
     config:
-      threshold: 112
+      threshold: 106
   identical-code:
     config:
-      threshold: 86
+      threshold: 80
+  file-lines:
+    enabled: true
+    config:
+      threshold: 400
+  method-count:
+    enabled: true
+    config:
+      threshold: 30
+  argument-count:
+    enabled: true
+    config:
+      threshold: 6
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 6
+  method-complexity:
+    enabled: true
+    config:
+      threshold: 7
 plugins:
   duplication:
     enabled: true

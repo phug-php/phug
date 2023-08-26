@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class TextTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleTextToken
      */
     public function testHandleToken()
     {
@@ -34,7 +34,7 @@ class TextTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers ::<public>
+     * @covers ::handleTextToken
      */
     public function testHandleMarkup()
     {
@@ -59,11 +59,11 @@ class TextTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleTextToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass text tokens to this token handler
+     * @expectedExceptionMessage You can only pass text tokens to TextTokenHandler
      */
     public function testHandleTokenTokenException()
     {

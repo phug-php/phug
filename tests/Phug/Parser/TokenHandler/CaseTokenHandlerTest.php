@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class CaseTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleCaseToken
      */
     public function testHandleToken()
     {
@@ -26,11 +26,11 @@ class CaseTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleCaseToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass case tokens to this token handler
+     * @expectedExceptionMessage You can only pass case tokens to CaseTokenHandler
      */
     public function testHandleTokenTokenException()
     {

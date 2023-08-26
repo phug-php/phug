@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class OutdentTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleOutdentToken
      */
     public function testHandleSingleLine()
     {
@@ -30,11 +30,11 @@ class OutdentTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleOutdentToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass outdent tokens to this token handler
+     * @expectedExceptionMessage You can only pass outdent tokens to OutdentTokenHandler
      */
     public function testHandleTokenTokenException()
     {

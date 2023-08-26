@@ -21,9 +21,9 @@ use Phug\Test\AbstractParserTest;
 class AttributeStartTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers Phug\Parser\TokenHandler\AttributeEndTokenHandler::<public>
-     * @covers Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
-     * @covers ::<public>
+     * @covers \Phug\Parser\TokenHandler\AttributeEndTokenHandler::handleAttributeEndToken
+     * @covers \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
+     * @covers ::handleAttributeToken
      */
     public function testHandleTokenEmpty()
     {
@@ -41,9 +41,9 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers Phug\Parser\TokenHandler\AttributeEndTokenHandler::<public>
-     * @covers Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
-     * @covers ::<public>
+     * @covers \Phug\Parser\TokenHandler\AttributeEndTokenHandler::handleAttributeEndToken
+     * @covers \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
+     * @covers ::handleAttributeToken
      */
     public function testHandleTokenFull()
     {
@@ -62,12 +62,12 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
-     * @covers                   Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
+     * @covers                   ::handleAttributeToken
+     * @covers                   \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass attribute start tokens to this token handler
+     * @expectedExceptionMessage You can only pass attribute-start tokens to AttributeStartTokenHandler
      */
     public function testHandleTokenTokenException()
     {
@@ -78,14 +78,12 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
-     * @covers                   \Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
+     * @covers                   ::handleAttributeToken
+     * @covers                   \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
      *
      * @expectedException        \Phug\ParserException
      *
-     * @expectedExceptionMessage Failed to parse: Attributes can only be placed on
-     * @expectedExceptionMessage element, assignment, import, variable,
-     * @expectedExceptionMessage mixin and mixinCall
+     * @expectedExceptionMessage Failed to parse: Attribute-starts can only happen on elements, assignments, imports, variables, mixins, mixin-calls and filters
      */
     public function testHandleTokenElementTagsException()
     {
@@ -103,8 +101,8 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
-     * @covers                   \Phug\Parser\TokenHandler\AttributeStartTokenHandler::<public>
+     * @covers                   ::handleAttributeToken
+     * @covers                   \Phug\Parser\TokenHandler\AttributeStartTokenHandler::handleAttributeStartToken
      *
      * @expectedException        \Phug\ParserException
      *

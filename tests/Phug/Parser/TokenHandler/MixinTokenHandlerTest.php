@@ -15,7 +15,7 @@ use Phug\Test\AbstractParserTest;
 class MixinTokenHandlerTest extends AbstractParserTest
 {
     /**
-     * @covers ::<public>
+     * @covers ::handleMixinToken
      */
     public function testHandleSingleLine()
     {
@@ -28,11 +28,11 @@ class MixinTokenHandlerTest extends AbstractParserTest
     }
 
     /**
-     * @covers                   ::<public>
+     * @covers                   ::handleMixinToken
      *
      * @expectedException        \RuntimeException
      *
-     * @expectedExceptionMessage You can only pass mixin tokens to this token handler
+     * @expectedExceptionMessage You can only pass mixin tokens to MixinTokenHandler
      */
     public function testHandleTokenTokenException()
     {
