@@ -80,13 +80,13 @@ class ExtensionTest extends AbstractPhugTest
      */
     public function testAddModuleAsExtension()
     {
-        $compilerHas1 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
+        $compilerHas1 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'), true);
         $has1 = Phug::hasExtension(CompilerModule::class);
         Phug::addExtension(CompilerModule::class);
-        $compilerHas2 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
+        $compilerHas2 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'), true);
         $has2 = Phug::hasExtension(CompilerModule::class);
         Phug::removeExtension(CompilerModule::class);
-        $compilerHas3 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'));
+        $compilerHas3 = in_array(CompilerModule::class, Phug::getRenderer()->getCompiler()->getOption('modules'), true);
         $has3 = Phug::hasExtension(CompilerModule::class);
 
         self::assertFalse($has1);

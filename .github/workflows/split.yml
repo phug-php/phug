@@ -24,13 +24,16 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: split-${{ hashFiles('**/composer.lock') }}
+        key: split-v2-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          split-
+          split-v2-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer require phug/split --no-interaction
+      run: |
+        test -f composer.json && mv composer.json composer.json.save -f
+        composer require phug/split --no-interaction
+        test -f composer.json.save && mv composer.json.save composer.json -f
 
     - name: Split monorepository
       run: vendor/bin/split update --git-credentials=$REPOSITORY_CREDENTIALS
