@@ -91,7 +91,7 @@ trait OptionTrait
 
     private function mergeOptionValue($name, $current, $addedValue, $functionName)
     {
-        if ($functionName === $this->recursiveReplaceFunction && in_array($name, $this->nonDeepOptions)) {
+        if ($functionName === $this->recursiveReplaceFunction && in_array($name, $this->nonDeepOptions, true)) {
             $functionName = $this->replaceFunction;
         }
 

@@ -8,6 +8,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          enforceTimeLimit="true"
+         defaultTimeLimit="1"
          verbose="true">
     <testsuites>
         <testsuite name="Phug">
