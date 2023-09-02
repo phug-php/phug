@@ -24,7 +24,7 @@ trait HandleVariable
     {
         $afterOpen = false;
         for ($i = $index - 1; $i >= 0; $i--) {
-            if (in_array($tokens[$i], [')', '}'])) {
+            if (in_array($tokens[$i], [')', '}'], true)) {
                 break;
             }
             if ($tokens[$i] === '(') {
@@ -34,7 +34,7 @@ trait HandleVariable
             if ($afterOpen && is_array($tokens[$i]) && in_array($tokens[$i][0], [
                 T_FUNCTION,
                 T_USE,
-            ])) {
+            ], true)) {
                 return true;
             }
         }
@@ -102,13 +102,13 @@ trait HandleVariable
                     T_COMMENT,
                     T_DOC_COMMENT,
                     T_WHITESPACE,
-                ])) {
+                ], true)) {
                     continue;
                 }
                 break;
             }
 
-            if (in_array($tokenId, $exclusions)) {
+            if (in_array($tokenId, $exclusions, true)) {
                 return true;
             }
         }

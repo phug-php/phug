@@ -487,7 +487,9 @@ class XmlFormat extends AbstractFormat
             $names = [];
             foreach ($element->getAttributes() as $attribute) {
                 $name = $attribute->getName();
-                if (($name instanceof ExpressionElement && !$name->hasStaticValue()) || in_array($name, $names)) {
+                if (($name instanceof ExpressionElement && !$name->hasStaticValue()) ||
+                    in_array($name, $names, true)
+                ) {
                     return true;
                 }
 
