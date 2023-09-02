@@ -595,7 +595,7 @@ class NodeTest extends TestCase
         $nameIn = function ($node, $names) {
             $pieces = preg_split('`[/\\\\]`', get_class($node));
 
-            return in_array(end($pieces), $names);
+            return in_array(end($pieces), $names, true);
         };
 
         self::assertSame([$a, $b, $c], $a->findArray(function ($node) use ($nameIn) {

@@ -11,12 +11,16 @@ class CasesTest extends AbstractRendererTest
 {
     public function caseProvider()
     {
-        return array_map(function ($file) {
+        $files = array_map(function ($file) {
             $file = realpath($file);
             $pugFile = substr($file, 0, -5).'.pug';
 
             return [$file, $pugFile, basename($pugFile).' should render '.basename($file)];
         }, glob(__DIR__.'/../cases/*.html'));
+
+        return array_combine(array_map(function ($file) {
+            return pathinfo($file[0], PATHINFO_FILENAME);
+        }, $files), $files);
     }
 
     /**
