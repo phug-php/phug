@@ -82,7 +82,7 @@ class CodeElement extends AbstractValueElement implements TransformableInterface
                 T_TRAIT,
                 T_TRY,
                 T_WHILE,
-            ]);
+            ], true);
     }
 
     public function hasBlockContent()

@@ -19,7 +19,7 @@ abstract class AbstractMarkupElement extends AbstractAssignmentContainerElement 
     public function belongsTo(array $tagList)
     {
         if (is_string($this->getName())) {
-            return in_array(strtolower($this->getName()), $tagList);
+            return in_array(strtolower($this->getName()), $tagList, true);
         }
 
         return false;
