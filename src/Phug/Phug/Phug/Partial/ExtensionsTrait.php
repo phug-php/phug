@@ -54,7 +54,7 @@ trait ExtensionsTrait
      */
     public static function hasExtension($extensionClassName)
     {
-        return in_array(static::normalizeExtensionClassName($extensionClassName), static::getExtensionIds());
+        return in_array(static::normalizeExtensionClassName($extensionClassName), static::getExtensionIds(), true);
     }
 
     /**

@@ -63,7 +63,7 @@ trait RendererOptionsTrait
     {
         /* @var ModuleContainerInterface $this */
 
-        if (in_array($className, class_implements($moduleClassName)) &&
+        if (in_array($className, class_implements($moduleClassName), true) &&
             !$container->hasModule($moduleClassName)
         ) {
             $container->addModule($moduleClassName);

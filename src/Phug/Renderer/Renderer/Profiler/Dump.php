@@ -102,7 +102,7 @@ class Dump
             'string',
             'resource',
             'NULL',
-        ])) {
+        ], true)) {
             return var_export($object, true);
         }
 

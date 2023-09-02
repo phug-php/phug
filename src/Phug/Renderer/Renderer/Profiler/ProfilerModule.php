@@ -85,7 +85,7 @@ class ProfilerModule extends AbstractModule
 
         $this->eventDump = $this->getContainer()->getOption('profiler.dump_event');
 
-        if (in_array($this->eventDump, ['var_dump', 'print_r'])) {
+        if (in_array($this->eventDump, ['var_dump', 'print_r'], true)) {
             $function = $this->eventDump;
             $this->eventDump = function ($value) use ($function) {
                 return $this->getFunctionDump($value, $function);

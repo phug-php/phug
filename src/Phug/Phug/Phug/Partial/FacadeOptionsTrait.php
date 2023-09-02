@@ -36,7 +36,7 @@ trait FacadeOptionsTrait
             'setOptionsRecursive',
             'setOptionsDefaults',
             'unsetOption',
-        ]);
+        ], true);
     }
 
     protected static function getFacadeOptions()
