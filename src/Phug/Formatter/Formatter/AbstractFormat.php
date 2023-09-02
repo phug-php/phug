@@ -248,7 +248,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             if (is_a($element, $className)) {
                 $elementCode = $handler($element);
                 $debugCode = $debug ? $this->getDebugInfo($element) : '';
-                $glue = mb_strlen($debugCode) && in_array(mb_substr($elementCode, 0, 1), ["\n", "\r"], true)
+                $glue = mb_strlen($debugCode) && in_array(mb_substr($elementCode, 0, 1), ["\n", "\r"])
                     ? "\n"
                     : '';
 
@@ -463,7 +463,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         if ($value instanceof ExpressionElement) {
             $code = strtolower($value->getValue());
 
-            if (in_array($code, ['true', 'false', 'null', 'undefined'], true)) {
+            if (in_array($code, ['true', 'false', 'null', 'undefined'])) {
                 return $code;
             }
         }
@@ -770,7 +770,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             '        }',
             '    }',
             '    foreach ($__pug_mixin_vars as $__pug_key => &$__pug_value) {',
-            '        if (!in_array($__pug_key, $__pug_names, true)) {',
+            '        if (!in_array($__pug_key, $__pug_names)) {',
             '            $$__pug_key = &$__pug_value;',
             '        }',
             '    }',
@@ -869,7 +869,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
             '$__pug_mixin_vars = [];',
             'foreach (array_keys(get_defined_vars()) as $__local_pug_key) {',
             '    if (mb_substr($__local_pug_key, 0, 6) === \'__pug_\' || '.
-                'in_array($__local_pug_key, [\'attributes\', \'block\', \''.$variablesVariable.'\'], true)) {',
+                'in_array($__local_pug_key, [\'attributes\', \'block\', \''.$variablesVariable.'\'])) {',
             '        continue;',
             '    }',
             '    $'.$variablesVariable.'[$__local_pug_key] = &$$__local_pug_key;',

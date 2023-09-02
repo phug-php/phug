@@ -170,12 +170,12 @@ class XmlFormat extends AbstractFormat
         if ($nonEmptyAttribute && (
             !$value ||
             ($value instanceof TextElement && ((string) $value->getValue()) === '') ||
-            (is_string($value) && in_array(trim($value), ['', '""', "''"], true))
+            (is_string($value) && in_array(trim($value), ['', '""', "''"]))
         )) {
             return '';
         }
         if ($value instanceof ExpressionElement) {
-            if ($nonEmptyAttribute && in_array(trim($value->getValue()), ['', '""', "''"], true)) {
+            if ($nonEmptyAttribute && in_array(trim($value->getValue()), ['', '""', "''"])) {
                 return '';
             }
             if (strtolower($value->getValue()) === 'true') {
@@ -204,7 +204,7 @@ class XmlFormat extends AbstractFormat
                     $formattedValue
                 );
             }
-            if (in_array(strtolower($value->getValue()), ['false', 'null', 'undefined'], true)) {
+            if (in_array(strtolower($value->getValue()), ['false', 'null', 'undefined'])) {
                 return '';
             }
         }
