@@ -27,7 +27,7 @@ class ImportNodeCompiler extends AbstractNodeCompiler
         $extensions = $compiler->getOption('extensions');
 
         if ($extension === '') {
-            return in_array('', $extensions);
+            return in_array('', $extensions, true);
         }
 
         if (!$compiler->getOption('allow_composite_extensions')) {
@@ -135,7 +135,7 @@ class ImportNodeCompiler extends AbstractNodeCompiler
                 'input',
                 'meta',
                 'hr',
-            ])) {
+            ], true)) {
                 $yield = $yield->getParent();
             }
             if ($compiler->getImportNode()) {
