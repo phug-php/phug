@@ -42,7 +42,7 @@ trait IndentStyleTrait
      */
     public function setIndentStyle($indentStyle)
     {
-        if (!in_array($indentStyle, [null, Lexer::INDENT_TAB, Lexer::INDENT_SPACE])) {
+        if (!in_array($indentStyle, [null, Lexer::INDENT_TAB, Lexer::INDENT_SPACE], true)) {
             throw new \InvalidArgumentException(
                 'indentStyle needs to be null or one of the INDENT_* constants of the lexer'
             );
