@@ -51,7 +51,7 @@ class BlockElement extends AbstractElement
      */
     public function addCompiler(CompilerInterface $compiler)
     {
-        if (!in_array($compiler, $this->compilers)) {
+        if (!in_array($compiler, $this->compilers, true)) {
             $blocks = &$compiler->getBlocksByName($this->name);
             $blocks[] = $this;
             $this->compilers[] = $compiler;
