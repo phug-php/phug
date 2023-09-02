@@ -94,7 +94,7 @@ class Cli
             return false;
         }
 
-        if (!in_array($method, iterator_to_array($this->getAvailableMethods($customMethods)))) {
+        if (!in_array($method, iterator_to_array($this->getAvailableMethods($customMethods)), true)) {
             echo "The method $action is not available as CLI command in the $facade facade.\n";
             $this->listAvailableMethods($customMethods);
 
@@ -166,7 +166,7 @@ class Cli
     {
         $callable = [$facade, $method];
         $arguments = array_map(function ($argument) {
-            return in_array(substr((string) $argument, 0, 1), ['[', '{'])
+            return in_array(substr((string) $argument, 0, 1), ['[', '{'], true)
                 ? json_decode($argument, true)
                 : $argument;
         }, $arguments);

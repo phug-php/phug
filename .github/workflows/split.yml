@@ -24,9 +24,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: split-v2-${{ hashFiles('**/composer.lock') }}
+        key: split-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          split-v2-
+          split-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'

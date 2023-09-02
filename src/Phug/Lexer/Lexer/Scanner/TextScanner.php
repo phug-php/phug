@@ -19,7 +19,7 @@ class TextScanner implements ScannerInterface
 
     private function isTextStartToTrim(State $state, $text)
     {
-        return in_array(mb_substr((string) $text, 0, 1), [' ', "\t"]) && !$state->isAfterInterpolation();
+        return in_array(mb_substr((string) $text, 0, 1), [' ', "\t"], true) && !$state->isAfterInterpolation();
     }
 
     private function leftTrimValueIfNotAfterInterpolation(State $state, TextToken $token)
