@@ -106,7 +106,7 @@ class CodeElement extends AbstractValueElement implements TransformableInterface
                 $this->isCodeBlockOpening() &&
                 !$this->hasBlockContent()
             )
-        ) && !in_array(end($tokens), [';', '{']);
+        ) && !in_array(end($tokens), [';', '{'], true);
     }
 
     /**
