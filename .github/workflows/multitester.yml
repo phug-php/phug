@@ -31,9 +31,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: vendor
-          key: ${{ runner.os }}-php-multi-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-multi-v2-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-multi-${{ matrix.php }}-
+            ${{ runner.os }}-php-multi-v2-${{ matrix.php }}-
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
