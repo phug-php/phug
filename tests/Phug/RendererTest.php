@@ -16,6 +16,7 @@ use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Renderer\AdapterInterface;
 use Phug\RendererException;
 use Phug\Test\Utils\BooleanAble;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Throwable;
 
 /**
@@ -364,6 +365,9 @@ class RendererTest extends AbstractRendererTest
         self::assertSame('bar', $pug->render('=$session["bar"]["foo"]'));
     }
 
+    /**
+     * @coversNothing
+     */
     public function testInterpolations()
     {
         $actual = str_replace(
@@ -890,6 +894,9 @@ class RendererTest extends AbstractRendererTest
         self::assertStringNotContains('Too far to be visible error context', $message);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testHeadIndent()
     {
         $renderer = new Renderer([
@@ -918,6 +925,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @group issues
      * https://github.com/pug-php/pug/issues/186
      */
@@ -1041,6 +1050,9 @@ class RendererTest extends AbstractRendererTest
         error_reporting($level);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testWhiteSpace()
     {
         $renderer = new Renderer([
@@ -1059,6 +1071,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @group twig
      */
     public function testTwigOutput()
@@ -1099,6 +1113,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @expectedException        Exception
      *
      * @expectedExceptionMessage p= $undefined()
@@ -1111,6 +1127,8 @@ class RendererTest extends AbstractRendererTest
             return;
         }
 
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $renderer = new Renderer([
             'exit_on_error' => false,
             'color_support' => false,
@@ -1121,6 +1139,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @expectedException        Exception
      *
      * @expectedExceptionMessage div= $undefined()
@@ -1133,6 +1153,8 @@ class RendererTest extends AbstractRendererTest
             return;
         }
 
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $renderer = new Renderer([
             'exit_on_error' => false,
             'color_support' => false,
@@ -1142,6 +1164,9 @@ class RendererTest extends AbstractRendererTest
         $renderer->renderFile(__DIR__.'/../call-undefined/call-undefined-in-block.pug');
     }
 
+    /**
+     * @coversNothing
+     */
     public function testAttributesTransmission()
     {
         $code = implode("\n", [
@@ -1162,6 +1187,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @throws RendererException
      */
     public function testMixinNestedScope()
@@ -1245,6 +1272,9 @@ class RendererTest extends AbstractRendererTest
         self::assertSame('<body><h1>Phug</h1><div>test</div></body>', $html);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testConsecutiveRenders()
     {
         $renderer = new Renderer([
@@ -1261,6 +1291,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @throws RendererException
      */
     public function testConsecutiveStringRenders()
@@ -1279,6 +1311,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @throws RendererException
      */
     public function testCacheDirectoryPreserveDependencies()
@@ -1314,6 +1348,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @throws RendererException
      */
     public function testIssetCompatibility()
@@ -1387,6 +1423,8 @@ class RendererTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @throws RendererException
      */
     public function testBooleanCastAbleObject()
@@ -1417,6 +1455,9 @@ class RendererTest extends AbstractRendererTest
         self::assertSame('<p>if true</p><p>unless false</p><p>while</p><p>while</p>', trim($pug->render($code, $data)));
     }
 
+    /**
+     * @coversNothing
+     */
     public function testTernaryRendering()
     {
         include_once __DIR__.'/Utils/BooleanAble.php';

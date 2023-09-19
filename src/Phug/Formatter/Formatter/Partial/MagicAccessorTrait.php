@@ -6,13 +6,7 @@ trait MagicAccessorTrait
 {
     private function getMethod($prefix, $name)
     {
-        switch ($name) {
-            case 'nodes':
-                $name = 'children';
-                break;
-        }
-
-        return $prefix.ucfirst($name);
+        return $prefix.ucfirst($name === 'nodes' ? 'children' : $name);
     }
 
     public function __get($name)

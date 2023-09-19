@@ -29,6 +29,8 @@ abstract class AbstractControlStatementScannerTest extends AbstractLexerTest
     }
 
     /**
+     * @coversNothing
+     *
      * @dataProvider provideExpressions
      */
     public function testCommonStatementExpressions($expr)

@@ -237,6 +237,8 @@ class MixinCallNodeCompilerTest extends AbstractCompilerTest
     }
 
     /**
+     * @coversNothing
+     *
      * @group mixins
      */
     public function testMissingMixin()

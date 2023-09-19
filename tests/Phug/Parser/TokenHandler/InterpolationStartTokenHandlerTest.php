@@ -156,6 +156,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         }
     }
 
+    /**
+     * @coversNothing
+     */
     public function testConsecutiveInterpolations()
     {
         $this->assertNodes('| #{$a}#{$b}', [
@@ -166,6 +169,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         ]);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testInterpolationsSeparatedWithStatement()
     {
         $this->assertNodes("| #{\$a}\nif true\n  | #{\$b}\n| c", [
@@ -179,6 +185,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         ]);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testInterpolationsWithOneTagPerLine()
     {
         $code = implode("\n", [

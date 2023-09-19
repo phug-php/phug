@@ -7,6 +7,7 @@ use Phug\Lexer\Token\ExpansionToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
 use Phug\Test\AbstractLexerTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Lexer\Scanner\EachScanner
@@ -120,6 +121,8 @@ class EachScannerTest extends AbstractLexerTest
      */
     public function testThatItFailsWithInvalidSyntax($syntax)
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         foreach ($this->lexer->lex($syntax) as $token) {
         }
     }
@@ -133,6 +136,8 @@ class EachScannerTest extends AbstractLexerTest
      */
     public function testEachWithoutSubject()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         foreach ($this->lexer->lex("each \$i in \n  p") as $token) {
         }
     }

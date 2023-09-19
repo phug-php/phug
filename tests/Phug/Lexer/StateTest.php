@@ -11,6 +11,7 @@ use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
 use Phug\Reader;
 use Phug\Test\MockScanner;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 
 /**
@@ -29,6 +30,8 @@ class StateTest extends TestCase
      */
     public function testBadReaderClass()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         new State(new Lexer(), 'p Hello', [
             'reader_class_name' => 'NotAValidClassName',
         ]);
@@ -80,6 +83,8 @@ class StateTest extends TestCase
      */
     public function testSetIndentStyleException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $state = new State(new Lexer(), 'p Hello', []);
         $state->setIndentStyle(42);
     }
@@ -131,6 +136,8 @@ class StateTest extends TestCase
      */
     public function testSetIndentWidthException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $state = new State(new Lexer(), 'p Hello', []);
         $state->setIndentWidth(-1);
     }
@@ -161,6 +168,8 @@ class StateTest extends TestCase
      */
     public function testCreateTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $state = new State(new Lexer(), 'p Hello', [
             'path' => 'foo',
         ]);
@@ -176,6 +185,8 @@ class StateTest extends TestCase
      */
     public function testReaderExceptionWithPath()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $state = new State(new Lexer(), 'foobar foobar foobar', [
             'path' => 'path.pug',
         ]);
@@ -222,6 +233,8 @@ class StateTest extends TestCase
      */
     public function testFilterScanersException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $state = new State(new Lexer(), 'p Hello', []);
         $scanners = [
             'tag' => stdClass::class,
@@ -243,6 +256,8 @@ class StateTest extends TestCase
      */
     public function testScanException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         include_once __DIR__.'/../MockScanner.php';
 
         $mock = new MockScanner();
@@ -266,6 +281,8 @@ class StateTest extends TestCase
      */
     public function testLoopScanException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $state = new State(new Lexer(), 'p Hello', []);
         foreach ($state->loopScan([], true) as $token) {
         }

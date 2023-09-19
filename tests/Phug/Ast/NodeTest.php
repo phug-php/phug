@@ -4,6 +4,7 @@ namespace Phug\Test\Ast;
 
 use Phug\Ast\Node;
 use Phug\Ast\NodeInterface;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 
 //@codingStandardsIgnoreStart
@@ -287,6 +288,8 @@ class NodeTest extends TestCase
      */
     public function testGetChildAtWithInvalidOffset()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $a = new A();
         $a->getChildAt(3);
     }
@@ -315,6 +318,8 @@ class NodeTest extends TestCase
      */
     public function testRemoveChildAtWithInvalidOffset()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $a = new A();
         $a->removeChildAt(3);
     }
@@ -456,6 +461,8 @@ class NodeTest extends TestCase
      */
     public function testInsertBeforeWithBadSibling()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $a = new A();
         $a->insertBefore(new C(), new B());
     }
@@ -492,6 +499,8 @@ class NodeTest extends TestCase
      */
     public function testInsertAfterWithBadSibling()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $a = new A();
         $a->insertAfter(new C(), new B());
     }
@@ -575,6 +584,8 @@ class NodeTest extends TestCase
      */
     public function testOffsetSetInvalidArgument()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $a = new A();
         $a[0] = 'foo';
     }

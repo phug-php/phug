@@ -7,6 +7,7 @@ use Phug\Phug;
 use Phug\PhugException;
 use Phug\Renderer;
 use Phug\Test\Extension\VerbatimExtension;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Phug
@@ -265,6 +266,8 @@ class PhugTest extends AbstractPhugTest
      */
     public function testWrongFilter()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         Phug::setFilter('foo', 'not-a-filter');
     }
 
@@ -306,6 +309,8 @@ class PhugTest extends AbstractPhugTest
      */
     public function testWrongExtension()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         Phug::addExtension('not-an-extension');
     }
 

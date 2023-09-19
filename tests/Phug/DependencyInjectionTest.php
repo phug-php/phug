@@ -303,6 +303,9 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
         self::assertSame(2, $serviceCallCount);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testAlias()
     {
         $injector = new DependencyInjection();

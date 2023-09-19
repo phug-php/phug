@@ -46,6 +46,9 @@ class ClassScannerTest extends AbstractLexerTest
         self::assertSame('d-class', $d->getName());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testCommonNamingPatterns()
     {
         /** @var ClassToken $tok */

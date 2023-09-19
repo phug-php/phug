@@ -14,6 +14,7 @@ use Phug\Parser\State;
 use Phug\Parser\TokenHandler\AttributeEndTokenHandler;
 use Phug\Parser\TokenHandler\AttributeStartTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\AttributeTokenHandler
@@ -71,6 +72,8 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new AttributeStartTokenHandler();
@@ -87,6 +90,8 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenElementTagsException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('('), [
             'token_handlers' => [
@@ -110,6 +115,8 @@ class AttributeStartTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenListNotClosedException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''), [
             'token_handlers' => [

@@ -9,6 +9,7 @@ use Phug\Lexer\Event\EndLexEvent;
 use Phug\Lexer\Event\LexEvent;
 use Phug\Lexer\Event\TokenEvent;
 use Phug\LexerEvent;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 //@codingStandardsIgnoreStart
 class TestModule extends AbstractLexerModule
@@ -251,6 +252,8 @@ class LexerModuleTest extends AbstractLexerTest
      */
     public function testTokenGeneratorBadInput()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new TokenEvent(new Lexer\Token\TextToken()))->setTokenGenerator(8);
     }
 }

@@ -18,6 +18,7 @@ use Phug\Formatter\Format\BasicFormat;
 use Phug\Formatter\Format\XmlFormat;
 use Phug\Parser\Node\TextNode;
 use Phug\Test\Utils\AssertRender;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\OrderedValue;
 use Phug\Util\TestCase;
 use SplObjectStorage;
@@ -821,6 +822,8 @@ class XmlFormatTest extends TestCase
      */
     public function testAttributeAttributePrecedenceFailure()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->prepareTest();
 
         $this->render(

@@ -5,6 +5,7 @@ namespace Phug\Test;
 use Phug\Lexer;
 use Phug\Parser;
 use Phug\Parser\Node\DocumentNode;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser
@@ -29,6 +30,8 @@ class ParserTest extends AbstractParserTest
      */
     public function testWrongLexerClassNameOption()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         new Parser([
             'lexer_class_name' => \ErrorException::class,
         ]);
@@ -43,6 +46,8 @@ class ParserTest extends AbstractParserTest
      */
     public function testWrongTokenHandler()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->parser->setTokenHandler('error', \ErrorException::class);
     }
 
@@ -56,6 +61,8 @@ class ParserTest extends AbstractParserTest
      */
     public function testWrongStateClassNameOption()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $parser = new Parser([
             'parser_state_class_name' => \ErrorException::class,
         ]);

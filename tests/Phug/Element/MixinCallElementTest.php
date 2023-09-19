@@ -134,6 +134,9 @@ class MixinCallElementTest extends TestCase
         self::assertSame('<div bar="bar" foo="Foo">Hello</div>', $html);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testMixinBlockVariable()
     {
         $document = new DocumentElement();
@@ -510,6 +513,9 @@ class MixinCallElementTest extends TestCase
         self::assertSame('<p>1</p><p>2</p><p>2</p>', $html);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testMissingMixin()
     {
         $document = new DocumentElement();

@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4']
+        php: ['8.2']
         setup: ['stable']
 
     name: PHP
@@ -25,17 +25,19 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
+        ini-values: memory_limit=-1, zend.enable_gc=0, xdebug.mode=coverage
         tools: composer:v2
         extensions: pcntl
+        coverage: xdebug
 
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
       with:
         path: vendor
-        key: ${{ runner.os }}-${{ matrix.setup }}-v2-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-${{ matrix.setup }}-coverage-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-${{ matrix.setup }}-v2-php-${{ matrix.php }}-
+          ${{ runner.os }}-${{ matrix.setup }}-coverage-${{ matrix.php }}-
 
     - name: Code Climate Test Reporter Preparation
       run: |
@@ -49,8 +51,8 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
         composer config version 1.9.0
-        ${{ matrix.php >= 8 && 'composer require --no-update phpunit/phpunit:^8.5.14 --no-interaction;' || '' }}
-        composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress ${{ matrix.php >= 8.1 && '--ignore-platform-req=php' || '' }}
+        composer require --no-update phpunit/phpunit:^9.6.12 phpunit/php-code-coverage:^9.2.28 --dev --no-interaction
+        composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress --no-interaction
 
     - name: Run test suite
       run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml

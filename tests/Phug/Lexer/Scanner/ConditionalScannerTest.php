@@ -7,6 +7,7 @@ use Phug\Lexer\Token\ExpansionToken;
 use Phug\Lexer\Token\NewLineToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 class ConditionalScannerTest extends AbstractControlStatementScannerTest
 {
@@ -36,6 +37,9 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
         parent::testExpandedExpressions($expr);
     }
 
+    /**
+     * @coversNothing
+     */
     public function provideIfElseExpressions()
     {
         $exprs = $this->provideExpressions();
@@ -58,6 +62,9 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
         return $data;
     }
 
+    /**
+     * @coversNothing
+     */
     public function testElseStatement()
     {
         /** @var ConditionalToken $tok */
@@ -67,6 +74,9 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
         self::assertNull($tok->getSubject());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testExpandedElseStatement()
     {
         /** @var ConditionalToken $tok */
@@ -82,14 +92,20 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
     }
 
     /**
+     * @coversNothing
+     *
      * @expectedException \Phug\LexerException
      */
     public function testThatElseStatementFailsWithSubject()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         iterator_to_array($this->lexer->lex('else $someVar'));
     }
 
     /**
+     * @coversNothing
+     *
      * @dataProvider provideIfElseExpressions
      */
     public function testElseIfCommonStatementExpressions($expr, $stmt)
@@ -102,6 +118,8 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
     }
 
     /**
+     * @coversNothing
+     *
      * @dataProvider provideIfElseExpressions
      */
     public function testElseIfExpandedExpressions($expr, $stmt)
@@ -127,6 +145,8 @@ class ConditionalScannerTest extends AbstractControlStatementScannerTest
      */
     public function testElseWithSubject()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         foreach ($this->lexer->lex('else 42') as $token) {
         }
     }

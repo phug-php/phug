@@ -34,6 +34,9 @@ class WhenScannerTest extends AbstractControlStatementScannerTest
         parent::testExpandedExpressions($expr);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testDefault()
     {
         /** @var WhenToken $tok */

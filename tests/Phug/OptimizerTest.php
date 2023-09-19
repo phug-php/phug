@@ -9,6 +9,7 @@ use Phug\RendererException;
 use Phug\Test\Utils\Context;
 use Phug\Test\Utils\CustomFacade;
 use Phug\Test\Utils\CustomRenderer;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Optimizer
@@ -95,6 +96,8 @@ class OptimizerTest extends AbstractPhugTest
      */
     public function testCacheDirectoryWithWrongOptions()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         Phug::cacheDirectory('foo', 'bar', 'biz');
     }
 

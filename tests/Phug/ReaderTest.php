@@ -3,6 +3,7 @@
 namespace Tale\Phug\Test;
 
 use Phug\Reader;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 
 /**
@@ -203,6 +204,8 @@ class ReaderTest extends TestCase
      */
     public function testPeekThrowsExceptionOnInvalidArguments()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader('a'))->peek(0);
     }
 
@@ -242,6 +245,8 @@ class ReaderTest extends TestCase
      */
     public function testMatchFailsOnPregError()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader('foobar foobar foobar'))->match('(?:\D+|<\d+>)*[!?]');
     }
 
@@ -255,6 +260,8 @@ class ReaderTest extends TestCase
      */
     public function testPathInErrors()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $reader = new Reader('foobar foobar foobar');
         $reader->setPath('path.pug');
         $reader->match('(?:\D+|<\d+>)*[!?]');
@@ -284,6 +291,8 @@ class ReaderTest extends TestCase
      */
     public function testGetMatchCantOperateOnMissingMatchCall()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader('a'))->getMatch('test');
     }
 
@@ -307,6 +316,8 @@ class ReaderTest extends TestCase
      */
     public function testGetMatchDataCantOperateOnMissingMatchCall()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader('a'))->getMatchData();
     }
 
@@ -347,6 +358,8 @@ class ReaderTest extends TestCase
      */
     public function testConsumeThrowsExceptionOnInvalidConsumeLength()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader('a'))->consume();
     }
 
@@ -373,6 +386,8 @@ class ReaderTest extends TestCase
      */
     public function testReadWhileExpectsValidCallback()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader('a'))->readWhile('test');
     }
 
@@ -674,6 +689,8 @@ class ReaderTest extends TestCase
      */
     public function testReadStringFailsOnNotCorrectlyClosedStrings($string)
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader($string))->readString();
     }
 
@@ -708,6 +725,8 @@ class ReaderTest extends TestCase
      */
     public function testReadExpressionFailsOnNotCorrectlyClosedBrackets($string)
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         (new Reader($string))->readExpression([',']);
     }
 
@@ -734,6 +753,9 @@ class ReaderTest extends TestCase
         $this->assertEquals('No error occured', $method->invokeArgs($reader, [1337]));
     }
 
+    /**
+     * @coversNothing
+     */
     public function testReadmeFirstLexingExample()
     {
         //Some C-style example code
@@ -830,6 +852,9 @@ class ReaderTest extends TestCase
         ], $tokens);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testReadmeSecondLexingExample()
     {
         $jade = 'a(href=getUri(\'/abc\', true), title=(title ? title : \'Sorry, no title.\'))';

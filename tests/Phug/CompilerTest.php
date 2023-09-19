@@ -12,6 +12,7 @@ use Phug\Formatter\Element\MarkupElement;
 use Phug\Formatter\Element\TextElement;
 use Phug\Parser;
 use Phug\Parser\Node\ElementNode;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Test\Utils\MutedExceptionCompiler;
 use Phug\Test\Utils\SuffixLocator;
 use Phug\Test\Utils\UnknownNode;
@@ -167,6 +168,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testParserClassException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Passed parser class '.
             'Phug\Parser\Node\ElementNode '.
@@ -186,6 +189,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testFormatterClassException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Passed formatter class '.
             'Phug\Parser\Node\ElementNode '.
@@ -205,6 +210,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testLocatorClassException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Passed locator class Phug\Parser\Node\ElementNode is not a valid Phug\Compiler\LocatorInterface'
         );
@@ -221,6 +228,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testSetNodeCompilerException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Passed node compiler needs to implement '.
             'Phug\Compiler\NodeCompilerInterface. Phug\Parser\Node\ElementNode given.'
@@ -237,6 +246,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testCompileNodeException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'No compiler found able to compile '.
             'Phug\Test\TestNode'
@@ -256,6 +267,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testAbsolutePathWithoutPaths()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Either the "basedir" or "paths" option is required'.
             ' to use includes and extends with "absolute" paths'
@@ -296,6 +309,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testResolveNotFoundException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $compiler = new Compiler(['paths' => [__DIR__.'/../templates/example-structure/views']]);
         $compiler->resolve('not-existent');
     }
@@ -423,6 +438,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testThrowException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $compiler = new Compiler();
         $compiler->throwException('Test Exception');
     }
@@ -436,6 +453,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testThrowExceptionFileName()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $compiler = new Compiler([
             'filename' => 'foobar.pug',
         ]);
@@ -458,6 +477,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testAssertFailure()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $compiler = new Compiler();
         $compiler->assert(false, 'Test Exception');
     }
@@ -471,6 +492,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testInitializeFormatterException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $compiler = new Compiler([
             'debug' => false,
         ]);
@@ -616,6 +639,8 @@ class CompilerTest extends AbstractCompilerTest
      */
     public function testUnknownNodeThrowException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         include_once __DIR__.'/Utils/UnknownNode.php';
 
         $compiler = new Compiler();

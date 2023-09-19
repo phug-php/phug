@@ -9,6 +9,7 @@ use Phug\Renderer;
 use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Test\AbstractRendererTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Renderer\Adapter\FileAdapter
@@ -603,6 +604,8 @@ class FileAdapterTest extends AbstractRendererTest
      */
     public function testReadOnlyDirectory()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $renderer = new Renderer([
             'exit_on_error' => false,
             'cache_dir'     => static::getReadOnlyDirectory(),
@@ -755,6 +758,8 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * Test cacheDirectory method dependencies.
      */
     public function testCacheDirectoryPreserveCompilerDependencies()

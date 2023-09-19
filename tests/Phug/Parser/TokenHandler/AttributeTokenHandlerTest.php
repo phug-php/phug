@@ -16,6 +16,7 @@ use Phug\Parser\TokenHandler\AttributeEndTokenHandler;
 use Phug\Parser\TokenHandler\AttributeStartTokenHandler;
 use Phug\Parser\TokenHandler\AttributeTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\AttributeTokenHandler
@@ -55,6 +56,8 @@ class AttributeTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new AttributeTokenHandler();
