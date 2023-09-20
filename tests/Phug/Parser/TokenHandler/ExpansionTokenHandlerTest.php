@@ -8,6 +8,7 @@ use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\ExpansionTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\ExpansionTokenHandler
@@ -81,6 +82,8 @@ class ExpansionTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
         $handler = new ExpansionTokenHandler();

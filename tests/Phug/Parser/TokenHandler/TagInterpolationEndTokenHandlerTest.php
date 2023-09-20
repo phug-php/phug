@@ -7,6 +7,7 @@ use Phug\Lexer\Token\AttributeToken;
 use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\TagInterpolationEndTokenHandler;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 
 /**
@@ -23,6 +24,8 @@ class TagInterpolationEndTokenHandlerTest extends TestCase
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new TagInterpolationEndTokenHandler();

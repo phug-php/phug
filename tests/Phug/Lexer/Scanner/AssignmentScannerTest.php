@@ -25,6 +25,9 @@ class AssignmentScannerTest extends AbstractLexerTest
         self::assertSame('test', $tok->getName());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testScanWithAttributes()
     {
         /** @var AssignmentToken $tok */
@@ -42,6 +45,8 @@ class AssignmentScannerTest extends AbstractLexerTest
 
     /**
      * @see https://github.com/phug-php/phug/issues/22
+     *
+     * @coversNothing
      */
     public function testObjectInTernary()
     {

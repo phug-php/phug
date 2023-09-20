@@ -1067,7 +1067,7 @@ class RendererTest extends AbstractRendererTest
             '| me!',
         ])));
 
-        self::assertRegExp('/^Don\'t\s+<button id="self-destruct">touch<\/button>\s+me!$/', $html);
+        self::assertMatchesRegularExpression('/^Don\'t\s+<button id="self-destruct">touch<\/button>\s+me!$/', $html);
     }
 
     /**

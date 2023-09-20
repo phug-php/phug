@@ -9,6 +9,7 @@ use Phug\Parser\Node\CodeNode;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\CodeTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\CodeTokenHandler
@@ -105,6 +106,8 @@ class CodeTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div- do_something()'));
         $handler = new CodeTokenHandler();
@@ -121,6 +124,8 @@ class CodeTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenUnexpectedBlock()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->parser->parse('div-');
     }
 }

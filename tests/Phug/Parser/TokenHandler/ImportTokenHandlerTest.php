@@ -8,6 +8,7 @@ use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\ImportTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\ImportTokenHandler
@@ -45,6 +46,8 @@ class ImportTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
         $handler = new ImportTokenHandler();
@@ -61,6 +64,8 @@ class ImportTokenHandlerTest extends AbstractParserTest
      */
     public function testDivTagBeforeExtends()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->parser->parse("div\nextends foo");
     }
 
@@ -74,6 +79,8 @@ class ImportTokenHandlerTest extends AbstractParserTest
      */
     public function testVisibleCommentBeforeExtends()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->parser->parse("// visible comment\nextends foo");
     }
 
@@ -87,6 +94,8 @@ class ImportTokenHandlerTest extends AbstractParserTest
      */
     public function testMultipleThingsBeforeExtends()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->parser->parse("//- visible comment\nmixin bar()\n  p bar\n.class\nextends foo");
     }
 }

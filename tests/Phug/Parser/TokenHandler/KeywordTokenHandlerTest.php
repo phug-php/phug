@@ -8,6 +8,7 @@ use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\KeywordTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\KeywordTokenHandler
@@ -50,6 +51,8 @@ class KeywordTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new KeywordTokenHandler();

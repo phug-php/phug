@@ -360,7 +360,7 @@ class MixinCallElementTest extends TestCase
         eval('?>'.$php);
         ob_get_clean();
 
-        self::assertRegExp('/echo\s1;\s+\}/', $php);
+        self::assertMatchesRegularExpression('/echo\s1;\s+\}/', $php);
     }
 
     /**

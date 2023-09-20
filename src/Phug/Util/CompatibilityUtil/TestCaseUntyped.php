@@ -30,5 +30,38 @@ class TestCaseTypeBase extends PHPUnitTestCase
     {
         $this->finishTest();
     }
+
+    public static function assertMatchesRegularExpression($pattern, $string, $message = '')
+    {
+        if (!method_exists(parent::class, 'assertMatchesRegularExpression')) {
+            self::assertRegExp($pattern, $string, $message);
+
+            return;
+        }
+
+        parent::assertMatchesRegularExpression($pattern, $string, $message);
+    }
+
+    public static function assertFileDoesNotExist($filename, $message = '')
+    {
+        if (!method_exists(parent::class, 'assertFileDoesNotExist')) {
+            self::assertFileNotExists($filename, $message);
+
+            return;
+        }
+
+        parent::assertFileDoesNotExist($filename, $message);
+    }
+
+    public static function assertIsArray($actual, $message = '')
+    {
+        if (!method_exists(parent::class, 'assertIsArray')) {
+            self::assertSame('array', gettype($actual));
+
+            return;
+        }
+
+        parent::assertIsArray($actual, $message);
+    }
 }
 // @codeCoverageIgnoreEnd

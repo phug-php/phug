@@ -583,6 +583,8 @@ class FileAdapterTest extends AbstractRendererTest
      */
     public function testMissingDirectory()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $renderer = new Renderer([
             'exit_on_error' => false,
             'cache_dir'     => '///cannot/be/created',

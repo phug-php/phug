@@ -37,5 +37,7 @@ plugins:
     enabled: true
     exclude_patterns:
       - "src/Phug/Phug/Phug/Optimizer.php"
+      - "src/Phug/Util/CompatibilityUtil/TestCaseTyped.php"
+      - "src/Phug/Util/CompatibilityUtil/TestCaseUntyped.php"
 exclude_patterns:
   - "**/tests/**"

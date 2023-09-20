@@ -8,6 +8,7 @@ use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\IdTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\IdTokenHandler
@@ -45,6 +46,8 @@ class IdTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
         $handler = new IdTokenHandler();
@@ -60,6 +63,8 @@ class IdTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenElementException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->parser->parse('mixin foo#id');
     }
 }

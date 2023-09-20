@@ -174,7 +174,7 @@ class OptimizerTest extends AbstractPhugTest
         $cachePath = null;
 
         self::assertFalse($optimizer->isExpired('file2', $cachePath));
-        self::assertFileNotExists($cachePath);
+        self::assertFileDoesNotExist($cachePath);
 
         rename(__DIR__.'/file2.pug', __DIR__.'/../views/dir2/file2.pug');
         $options['up_to_date_check'] = true;

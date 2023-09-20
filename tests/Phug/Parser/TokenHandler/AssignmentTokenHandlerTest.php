@@ -14,6 +14,7 @@ use Phug\Parser\TokenHandler\AssignmentTokenHandler;
 use Phug\Parser\TokenHandler\AttributeEndTokenHandler;
 use Phug\Parser\TokenHandler\AttributeStartTokenHandler;
 use Phug\Parser\TokenHandler\AttributeTokenHandler;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 
 /**
@@ -81,6 +82,8 @@ class AssignmentTokenHandlerTest extends TestCase
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new AssignmentTokenHandler();
@@ -96,6 +99,8 @@ class AssignmentTokenHandlerTest extends TestCase
      */
     public function testHandleTokenElementTagsException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'), [
             'token_handlers' => [

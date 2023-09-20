@@ -8,6 +8,7 @@ use Phug\Parser;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\ConditionalTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\ConditionalTokenHandler
@@ -35,6 +36,8 @@ class ConditionalTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
         $handler = new ConditionalTokenHandler();

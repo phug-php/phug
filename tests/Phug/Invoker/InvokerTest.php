@@ -7,6 +7,7 @@ use Phug\Compiler\Event\NodeEvent;
 use Phug\Event\ListenerQueue;
 use Phug\Invoker;
 use Phug\Parser\Node\ElementNode;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 use ReflectionException;
 use RuntimeException;
@@ -30,6 +31,8 @@ class InvokerTest extends TestCase
      */
     public function testConstruct()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         new Invoker([
             function ($event) {
             },
@@ -48,6 +51,8 @@ class InvokerTest extends TestCase
      */
     public function testAdd()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $invoker = new Invoker([]);
 
         $invoker->add([

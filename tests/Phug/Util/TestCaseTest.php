@@ -25,7 +25,7 @@ class TestCaseTest extends TestCase
         clearstatcache();
 
         self::assertFileExists($foo);
-        self::assertFileNotExists($bar);
+        self::assertFileDoesNotExist($bar);
 
         unlink($foo);
     }
