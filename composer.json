@@ -27,18 +27,19 @@
         "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0 || ^6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.14",
-        "phpunit/php-code-coverage": "^2.2 || ^4.0 || ^5.2 || ^6.0 || ^7.0",
-        "squizlabs/php_codesniffer": "~3.4.2",
+        "cebe/markdown": "^1.1",
         "js-phpize/js-phpize-phug": "^1.2 || ^2.2.1",
-        "pug-php/pug": "^2.7.3 || ^3.4.1",
-        "pug-php/pug-filter-coffee-script": "^1.3.1",
+        "kylekatarnls/multi-tester": "^2.5.2",
         "nodejs-php-fallback/coffeescript": "^1.0.1",
         "nodejs-php-fallback/less": "^1.0.5",
-        "nodejs-php-fallback/uglify": "^1.0.4",
         "nodejs-php-fallback/stylus": "^1.0.4",
-        "cebe/markdown": "^1.1",
-        "kylekatarnls/multi-tester": "^2.5.2"
+        "nodejs-php-fallback/uglify": "^1.0.4",
+        "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.34 || ^9.6.13",
+        "phpunit/php-code-coverage": "^2.2.4 || ^4.0.8 || ^5.3.2 || ^6.1.4 || ^7.0.15 || ^9.2.28",
+        "phpunit/php-invoker": "^3.1.1",
+        "pug-php/pug": "^2.7.3 || ^3.4.1",
+        "pug-php/pug-filter-coffee-script": "^1.3.1",
+        "squizlabs/php_codesniffer": "~3.4.2"
     },
     "replace": {
         "phug/ast": "self.version",
