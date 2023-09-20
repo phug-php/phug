@@ -55,7 +55,7 @@ jobs:
         composer update --prefer-dist ${{ matrix.setup != 'next' && format('--prefer-{0}', matrix.setup) || '' }} --no-progress --no-interaction
 
     - name: Run test suite
-      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml --default-time-limit=3
 
     - name: Code Climate Test Reporter
       if: ${{ env.CC_TEST_REPORTER_ID != '' }}
