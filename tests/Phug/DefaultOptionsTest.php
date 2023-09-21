@@ -239,6 +239,9 @@ class DefaultOptionsTest extends AbstractPhugTest
         }
     }
 
+    /**
+     * @coversNothing
+     */
     public function testRendererOptions()
     {
         self::assertOptions([
@@ -307,6 +310,9 @@ class DefaultOptionsTest extends AbstractPhugTest
         ], new FileAdapter(Phug::getRenderer(), []));
     }
 
+    /**
+     * @coversNothing
+     */
     public function testCompilerOptions()
     {
         self::assertOptions([
@@ -357,6 +363,9 @@ class DefaultOptionsTest extends AbstractPhugTest
         ], Phug::getRenderer()->getCompiler());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testFormatterOptions()
     {
         self::assertOptions([
@@ -442,6 +451,9 @@ class DefaultOptionsTest extends AbstractPhugTest
         ], Phug::getRenderer()->getCompiler()->getFormatter()->getFormatInstance());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testParserOptions()
     {
         self::assertOptions([
@@ -496,6 +508,9 @@ class DefaultOptionsTest extends AbstractPhugTest
         ], Phug::getRenderer()->getCompiler()->getParser());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testLexerOptions()
     {
         self::assertOptions([

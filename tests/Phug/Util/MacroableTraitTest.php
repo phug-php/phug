@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Util;
 
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\OptionInterface;
 use Phug\Util\Partial\MacroableTrait;
 use Phug\Util\TestCase;
@@ -137,6 +138,8 @@ class MacroableTraitTest extends TestCase
      */
     public function testMacroCallBadMethod()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $inst = new MacroableTestClass();
         $inst->fooBar();
     }
@@ -150,6 +153,8 @@ class MacroableTraitTest extends TestCase
      */
     public function testMacroCallStaticBadMethod()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         MacroableOptionTestClass::fooBar();
     }
 }

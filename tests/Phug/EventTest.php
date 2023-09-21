@@ -56,7 +56,7 @@ class EventTest extends TestCase
     public function testGetSetParams()
     {
         $event = new Event('test.event');
-        self::assertInternalType('array', $event->getParams());
+        self::assertIsArray($event->getParams());
         self::assertCount(0, $event->getParams(), 'params are empty when not passed');
 
         $params = ['test_key' => 'test value'];

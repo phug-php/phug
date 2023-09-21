@@ -11,10 +11,13 @@ use Phug\Test\Utils\Clock;
 use Phug\Test\Utils\ClockInterface;
 use Phug\Util\UnorderedArguments;
 
+/**
+ * @coversDefaultClass \Phug\DependencyInjection
+ */
 class DependencyInjectionTest extends AbstractDependencyInjectionTest
 {
     /**
-     * @covers \Phug\DependencyInjection::<public>
+     * @covers ::<public>
      * @covers \Phug\DependencyInjection\Dependency::<public>
      * @covers \Phug\DependencyInjection\Requirement::<public>
      */
@@ -303,6 +306,9 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
         self::assertSame(2, $serviceCallCount);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testAlias()
     {
         $injector = new DependencyInjection();
@@ -390,14 +396,12 @@ class DependencyInjectionTest extends AbstractDependencyInjectionTest
     }
 
     /**
-     * @covers ::__construct
      * @covers ::register
      * @covers ::provider
      * @covers ::getProvider
      * @covers ::has
      * @covers ::get
      * @covers ::set
-     * @covers ::setRequired
      * @covers ::isRequired
      * @covers ::setAsRequired
      * @covers ::call

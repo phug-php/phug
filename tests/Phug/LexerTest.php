@@ -15,6 +15,7 @@ use Phug\Lexer\Token\NewLineToken;
 use Phug\Lexer\Token\OutdentToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Lexer
@@ -46,6 +47,8 @@ class LexerTest extends AbstractLexerTest
      */
     public function testGetStateException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Failed to get state: No lexing process active. '.
             'Use the `lex()`-method'
@@ -154,6 +157,8 @@ class LexerTest extends AbstractLexerTest
      */
     public function testFilterScanner()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Scanner NotAValidClassName is not a valid '.
             'Phug\\Lexer\\ScannerInterface '.
@@ -172,6 +177,8 @@ class LexerTest extends AbstractLexerTest
      */
     public function testBadStateClassName()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'lexer_state_class_name needs to be a valid '.
             'Phug\\Lexer\\State sub class'

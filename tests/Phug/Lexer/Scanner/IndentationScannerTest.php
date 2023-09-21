@@ -11,6 +11,7 @@ use Phug\Lexer\Token\NewLineToken;
 use Phug\Lexer\Token\OutdentToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Test\AbstractLexerTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 class IndentationScannerTest extends AbstractLexerTest
 {
@@ -171,6 +172,8 @@ class IndentationScannerTest extends AbstractLexerTest
      */
     public function testInconsistentIndent()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Inconsistent indentation. '.
             'Expecting either 2 or 6 spaces/tabs.'
@@ -192,6 +195,8 @@ class IndentationScannerTest extends AbstractLexerTest
      */
     public function testNotAllowedMixedIndent()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $this->expectMessageToBeThrown(
             'Invalid indentation, '.
             'you can use tabs or spaces but not both'

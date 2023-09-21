@@ -300,7 +300,7 @@ class FormatterTest extends TestCase
         $exp = new ExpressionElement('foreach ($tabs as $key => $tab)');
         $code = $formatter->format($exp);
 
-        self::assertRegExp('/as\s\$key\s=>\s\$tab/', $code);
+        self::assertMatchesRegularExpression('/as\s\$key\s=>\s\$tab/', $code);
     }
 
     /**

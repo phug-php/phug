@@ -3,6 +3,7 @@
 namespace Phug\Test\Event;
 
 use Phug\Event;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 
 /**
@@ -64,6 +65,8 @@ class ListenerQueueTest extends TestCase
      */
     public function testInsertMultipleBadType()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $queue = new Event\ListenerQueue();
 
         $queue->insertMultiple(function () {
@@ -79,6 +82,8 @@ class ListenerQueueTest extends TestCase
      */
     public function testInsertMultipleBadSubInsert()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $queue = new Event\ListenerQueue();
 
         $queue->insert([new \DateTime(), 'doesNotExist'], 10);

@@ -1,7 +1,10 @@
 pug-php/pug:
-  install:
-    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
-    - composer install --no-interaction
+  source:
+    success_only: true
+    url: https://github.com/pug-php/pug.git
+    reference: master
+  install: github
+  script: github
 
 pug/bemto:
   autoload:
@@ -39,10 +42,12 @@ ci-pug/ci-pug:
     - composer install --no-interaction
 
 bkwld/laravel-pug:
-  install:
-    - composer config --no-plugins allow-plugins.pug/installer true
-    - composer config --no-plugins allow-plugins.nodejs-php-fallback/nodejs-php-fallback true
-    - composer install --no-interaction
+  source:
+    success_only: true
+    url: https://github.com/BKWLD/laravel-pug.git
+    reference: master
+  install: github
+  script: github
 
 pug/yii2:
   install:

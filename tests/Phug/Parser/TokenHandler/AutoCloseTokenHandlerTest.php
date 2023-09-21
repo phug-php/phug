@@ -10,6 +10,7 @@ use Phug\Parser\Node\TextNode;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\AutoCloseTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\AutoCloseTokenHandler
@@ -96,6 +97,8 @@ class AutoCloseTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div/'));
         $handler = new AutoCloseTokenHandler();
@@ -111,6 +114,8 @@ class AutoCloseTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleClassOnWrongNode()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('| foo'));
         $state->setCurrentNode(new TextNode());

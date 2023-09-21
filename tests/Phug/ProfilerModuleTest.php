@@ -54,15 +54,15 @@ class ProfilerModuleTest extends TestCase
         ]);
         $render = $renderer->render('div');
 
-        self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div lexing:', $render);
-        self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div parsing:', $render);
-        self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div compiling:', $render);
-        self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div formatting:', $render);
-        self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div rendering:', $render);
 
         $renderer = new Renderer([
@@ -76,9 +76,9 @@ class ProfilerModuleTest extends TestCase
         ]);
         $render = $renderer->render("mixin foo\n  p&attributes(\$attributes)\n    | Hello\n+foo(a='b')");
 
-        self::assertRegExp('/\+foo\s+parsing\s*<br>\s*[\.\d]+µs/', $render);
-        self::assertRegExp('/text\s+parsing\s*<br>\s*[\.\d]+µs/', $render);
-        self::assertRegExp('/mixin\s+foo\s+parsing\s*<br>\s*[\.\d]+µs/', $render);
+        self::assertMatchesRegularExpression('/\+foo\s+parsing\s*<br>\s*[\.\d]+µs/', $render);
+        self::assertMatchesRegularExpression('/text\s+parsing\s*<br>\s*[\.\d]+µs/', $render);
+        self::assertMatchesRegularExpression('/mixin\s+foo\s+parsing\s*<br>\s*[\.\d]+µs/', $render);
 
         $renderer->reInitOptions([
             'debug' => false,
@@ -117,15 +117,15 @@ class ProfilerModuleTest extends TestCase
         $count = count($profiler->getEvents());
         $profiler->recordDisplayEvent(1);
         self::assertCount($count, $profiler->getEvents());
-        self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div lexing:', $render);
-        self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div parsing:', $render);
-        self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div compiling:', $render);
-        self::assertRegExp('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div formatting\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div formatting:', $render);
-        self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
+        self::assertMatchesRegularExpression('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $render);
         self::assertStringContains('title="div rendering:', $render);
     }
 
@@ -341,15 +341,15 @@ class ProfilerModuleTest extends TestCase
         $contents = ob_get_contents();
         ob_end_clean();
 
-        self::assertRegExp('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
+        self::assertMatchesRegularExpression('/div lexing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
         self::assertStringContains('title="div lexing:', $contents);
-        self::assertRegExp('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
+        self::assertMatchesRegularExpression('/div parsing\s*<br>\s*[\.\d]+[µm]?s/', $contents);
         self::assertStringContains('title="div parsing:', $contents);
-        self::assertRegExp('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $contents);
+        self::assertMatchesRegularExpression('/div compiling\s*<br>\s*[\.\d]+[µm]?s/', $contents);
         self::assertStringContains('title="div compiling:', $contents);
-        self::assertRegExp('/div formatting\s*<br>\s*[+-]?[\.\d]+[µm]?s/', $contents);
+        self::assertMatchesRegularExpression('/div formatting\s*<br>\s*[+-]?[\.\d]+[µm]?s/', $contents);
         self::assertStringContains('title="div formatting:', $contents);
-        self::assertRegExp('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $contents);
+        self::assertMatchesRegularExpression('/div rendering\s*<br>\s*[\.\d]+[µm]?s/', $contents);
         self::assertStringContains('title="div rendering:', $contents);
         self::assertStringContains('-void-dump-', $contents);
     }
@@ -430,7 +430,14 @@ class ProfilerModuleTest extends TestCase
      */
     public function testEventVarDump()
     {
-        if (!function_exists('xdebug_is_enabled') || !xdebug_is_enabled()) {
+        $xdebugMode = getenv('XDEBUG_MODE') ?: ini_get('xdebug.mode');
+        $xdebugModes = array_map('trim', explode(',', implode(',', (array) $xdebugMode)));
+        $xdebugSupported = (
+            (function_exists('xdebug_is_enabled') && xdebug_is_enabled()) ||
+            in_array('develop', $xdebugModes, true)
+        );
+
+        if (!$xdebugSupported) {
             self::markTestSkipped('var_dump test needs XDebug to be enabled.');
 
             return;
@@ -457,7 +464,7 @@ class ProfilerModuleTest extends TestCase
 
         $render = $renderer->render('div');
 
-        self::assertRegExp('/class\\s+Phug\\\\Parser\\\\Node\\\\DocumentNode#\\d+\\s+\\(\\d+\\)\\s+\\{/', $render);
+        self::assertMatchesRegularExpression('/class\\s+Phug\\\\Parser\\\\Node\\\\DocumentNode#\\d+\\s+\\(\\d+\\)\\s+\\{/', $render);
     }
 
     /**
@@ -481,7 +488,10 @@ class ProfilerModuleTest extends TestCase
         $eventDumpProperty->setAccessible(true);
         $eventDump = $eventDumpProperty->getValue($profiler);
 
-        $this->assertRegExp('/(.*ProfilerModule\.php:\d+:\n)?string\(2\) "OK"/', trim($eventDump('OK')));
+        self::assertMatchesRegularExpression(
+            '/(.*ProfilerModule\.php:\d+:\n)?string\(2\) "OK"/',
+            trim($eventDump('OK'))
+        );
     }
 
     /**
@@ -516,7 +526,7 @@ class ProfilerModuleTest extends TestCase
         $renderer = new Renderer();
         $error = $getErrorAsHtml->invoke($renderer, (object) [], [], []);
 
-        self::assertRegExp('/<pre>Call to undefined method .+::getFile\(\)[\s\S]+<\/pre>/', $error);
+        self::assertMatchesRegularExpression('/<pre>Call to undefined method .+::getFile\(\)[\s\S]+<\/pre>/', $error);
     }
 
     /**

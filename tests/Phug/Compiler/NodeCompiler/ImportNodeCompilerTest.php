@@ -312,6 +312,8 @@ class ImportNodeCompilerTest extends AbstractCompilerTest
     }
 
     /**
+     * @coversNothing
+     *
      * @expectedException \Phug\CompilerException
      */
     public function testFileNotFoundException()

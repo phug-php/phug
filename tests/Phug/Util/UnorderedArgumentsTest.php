@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Util;
 
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 use Phug\Util\UnorderedArguments;
 
@@ -54,6 +55,8 @@ class UnorderedArgumentsTest extends TestCase
      */
     public function testRequiredException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $argument = new UnorderedArguments(['test']);
         $arguments = new UnorderedArguments(['foo', 42, $argument, []]);
 
@@ -81,6 +84,8 @@ class UnorderedArgumentsTest extends TestCase
      */
     public function testNoMoreArgumentsException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $arguments = new UnorderedArguments(['foo', 'bar', 'biz', 42]);
 
         $arguments->optional('string');
@@ -98,6 +103,8 @@ class UnorderedArgumentsTest extends TestCase
      */
     public function testNoMoreUndefinedArgumentsException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $arguments = new UnorderedArguments(['foo', null, 'biz', null]);
 
         $arguments->optional('string');
@@ -116,6 +123,8 @@ class UnorderedArgumentsTest extends TestCase
      */
     public function testNoMoreDefinedArgumentsException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $arguments = new UnorderedArguments(['foo', 'biz', 1, null]);
 
         $arguments->optional('string');

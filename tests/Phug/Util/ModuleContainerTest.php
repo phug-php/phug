@@ -3,6 +3,7 @@
 namespace Phug\Test\Util;
 
 use InvalidArgumentException;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\ModuleInterface;
 use Phug\Util\TestCase;
 use stdClass;
@@ -107,6 +108,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testInvalidModuleClassName()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -124,6 +127,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testDoubleRegistration()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -142,6 +147,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testInstanceDoubleRegistration()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -161,6 +168,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testInstanceDivergentRegistrations()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container1 = new MockModuleContainer();
@@ -179,6 +188,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testRemovalOfNonExistentModule()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -197,6 +208,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testRemovalOfNonExistentModuleInstance()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainer();
@@ -215,6 +228,8 @@ class ModuleContainerTest extends TestCase
      */
     public function testNonInterfacedContainer()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         require_once __DIR__.'/MockModuleContainer.php';
 
         $container = new MockModuleContainerWithoutInterface();

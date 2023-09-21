@@ -15,6 +15,7 @@ use Phug\Formatter\Format\HtmlFormat;
 use Phug\FormatterException;
 use Phug\Lexer\Token\TagToken;
 use Phug\Parser\Node\ElementNode;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\SourceLocation;
 use Phug\Util\TestCase;
 
@@ -216,6 +217,8 @@ class HtmlFormatTest extends TestCase
      */
     public function testChildrenInSelfClosingTag()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $input = new MarkupElement('input');
         $input->appendChild(new MarkupElement('i'));
         $htmlFormat = new HtmlFormat(new Formatter());
@@ -246,6 +249,8 @@ class HtmlFormatTest extends TestCase
      */
     public function testTextInSelfClosingTag()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $input = new MarkupElement('input');
         $input->appendChild(new TextElement('foo'));
         $htmlFormat = new HtmlFormat(new Formatter());

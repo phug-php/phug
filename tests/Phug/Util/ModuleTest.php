@@ -25,7 +25,7 @@ class ModuleTest extends TestCase
         $module = new FirstTestModule($container);
 
         self::assertSame($container, $module->getContainer());
-        self::assertInternalType('array', $module->getEventListeners());
+        self::assertIsArray($module->getEventListeners());
 
         self::assertFalse($module->eventsAttached);
 

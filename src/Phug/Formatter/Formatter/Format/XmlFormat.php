@@ -167,6 +167,7 @@ class XmlFormat extends AbstractFormat
         $value = $element->getValue();
         $name = $element->getName();
         $nonEmptyAttribute = ($name === 'class' || $name === 'id');
+
         if ($nonEmptyAttribute && (
             !$value ||
             ($value instanceof TextElement && ((string) $value->getValue()) === '') ||
@@ -174,12 +175,15 @@ class XmlFormat extends AbstractFormat
         )) {
             return '';
         }
+
         if ($value instanceof ExpressionElement) {
             if ($nonEmptyAttribute && in_array(trim($value->getValue()), ['', '""', "''"], true)) {
                 return '';
             }
+
             if (strtolower($value->getValue()) === 'true') {
                 $formattedValue = null;
+
                 if ($name instanceof ExpressionElement) {
                     $bufferVariable = $this->pattern('buffer_variable');
                     $name = $this->pattern(
@@ -193,6 +197,7 @@ class XmlFormat extends AbstractFormat
                     $value = new ExpressionElement($bufferVariable);
                     $formattedValue = $this->format($value);
                 }
+
                 $formattedName = $this->format($name);
                 $formattedValue = $formattedValue || $formattedValue === '0'
                     ? $formattedValue
@@ -204,6 +209,7 @@ class XmlFormat extends AbstractFormat
                     $formattedValue
                 );
             }
+
             if (in_array(strtolower($value->getValue()), ['false', 'null', 'undefined'], true)) {
                 return '';
             }

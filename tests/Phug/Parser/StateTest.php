@@ -13,6 +13,7 @@ use Phug\Parser\Node\ElementNode;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\TagTokenHandler;
 use Phug\ParserException;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\SourceLocation;
 use Phug\Util\TestCase;
 
@@ -151,6 +152,8 @@ class StateTest extends TestCase
      */
     public function testHandleTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
 
@@ -216,7 +219,6 @@ class StateTest extends TestCase
     {
         $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex('div'));
 
         foreach ($state->lookUp([TagToken::class]) as $token) {
@@ -228,7 +230,6 @@ class StateTest extends TestCase
 
         $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex('div'));
 
         foreach ($state->lookUp([AttributeToken::class]) as $token) {
@@ -266,9 +267,7 @@ class StateTest extends TestCase
      */
     public function testExpect()
     {
-        $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex("\ndiv\n+p"));
         $types = [TagToken::class, NewLineToken::class];
 
@@ -282,9 +281,7 @@ class StateTest extends TestCase
      */
     public function testIs()
     {
-        $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex(''));
         $types = [DocumentNode::class, ElementNode::class];
         $element = new ElementNode();
@@ -299,9 +296,7 @@ class StateTest extends TestCase
      */
     public function testCurrentNodeIs()
     {
-        $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex(''));
         $types = [DocumentNode::class, ElementNode::class];
         $element = new ElementNode();
@@ -321,9 +316,7 @@ class StateTest extends TestCase
      */
     public function testAppend()
     {
-        $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex(''));
         $a = new ElementNode();
         $b = new ElementNode();
@@ -347,9 +340,7 @@ class StateTest extends TestCase
      */
     public function testLastNodeIs()
     {
-        $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex(''));
         $types = [DocumentNode::class, ElementNode::class];
         $element = new ElementNode();
@@ -369,9 +360,7 @@ class StateTest extends TestCase
      */
     public function testParentNodeIs()
     {
-        $tokens = [];
         $lexer = new Lexer();
-        $handler = new TagTokenHandler();
         $state = new State(new Parser(), $lexer->lex(''));
         $types = [DocumentNode::class, ElementNode::class];
         $element = new ElementNode();
@@ -396,7 +385,8 @@ class StateTest extends TestCase
      */
     public function testCreateNodeException()
     {
-        $tokens = [];
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
 
@@ -408,7 +398,6 @@ class StateTest extends TestCase
      */
     public function testEnter()
     {
-        $tokens = [];
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
 
@@ -430,7 +419,6 @@ class StateTest extends TestCase
      */
     public function testLeave()
     {
-        $tokens = [];
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
 
@@ -459,7 +447,8 @@ class StateTest extends TestCase
      */
     public function testLeaveException()
     {
-        $tokens = [];
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
 
@@ -472,7 +461,6 @@ class StateTest extends TestCase
      */
     public function testStore()
     {
-        $tokens = [];
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
         $element = new ElementNode();
@@ -513,10 +501,11 @@ class StateTest extends TestCase
      */
     public function testThrowException()
     {
-        $tokens = [];
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex(''));
-        $token = new TagToken(new SourceLocation(null, 0, 0), 12, 5);
+        $token = new TagToken(new SourceLocation(null, 12, 5), 9, 7);
         $state->handleToken($token);
     }
 }

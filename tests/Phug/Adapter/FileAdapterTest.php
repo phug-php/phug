@@ -9,6 +9,7 @@ use Phug\Renderer;
 use Phug\Renderer\Adapter\FileAdapter;
 use Phug\Renderer\Adapter\StreamAdapter;
 use Phug\Test\AbstractRendererTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Renderer\Adapter\FileAdapter
@@ -54,6 +55,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRawCachePath
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
+     * @covers ::readCacheDirectoryFromOptions
      * @covers ::getCacheDirectory
      * @covers ::getRegistryPath
      * @covers \Phug\Renderer\Partial\RegistryTrait::findCachePathInRegistryFile
@@ -172,11 +174,70 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
+     * @covers ::readCacheDirectoryFromOptions
+     * @covers ::getCacheDirectory
+     *
+     * @expectedException        \RuntimeException
+     *
+     * @expectedExceptionMessage You need to set "cache_dir" option to a writable location in order to use cache feature.
+     */
+    public function testNullCacheDir()
+    {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
+        $renderer = new Renderer([
+            'cache_dir'          => null,
+            'adapter_class_name' => FileAdapter::class,
+        ]);
+
+        /** @var FileAdapter $adapter */
+        $adapter = $renderer->getAdapter();
+
+        self::assertInstanceOf(FileAdapter::class, $adapter);
+
+        $adapter->cache('foo', 'bar', function () {
+            return 'abc';
+        });
+    }
+
+    /**
+     * @covers ::readCacheDirectoryFromOptions
+     * @covers ::getCacheDirectory
+     *
+     * @expectedException        \RuntimeException
+     *
+     * @expectedExceptionMessage You need to set "cache_dir" option to a writable location in order to use cache feature.
+     */
+    public function testUnsetCacheDir()
+    {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
+        $renderer = new Renderer([
+            'adapter_class_name' => FileAdapter::class,
+        ]);
+        /** @var FileAdapter $adapter */
+        $adapter = $renderer->getAdapter();
+
+        foreach ([$renderer, $adapter] as $handler) {
+            if ($handler->hasOption('cache_dir')) {
+                $handler->unsetOption('cache_dir');
+            }
+        }
+
+        self::assertInstanceOf(FileAdapter::class, $adapter);
+
+        $adapter->cache('foo', 'bar', function () {
+            return 'abc';
+        });
+    }
+
+    /**
      * @covers ::<public>
      * @covers ::getCachePath
      * @covers ::getRawCachePath
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
+     * @covers ::readCacheDirectoryFromOptions
      * @covers ::getCacheDirectory
      * @covers \Phug\Renderer\AbstractAdapter::<public>
      * @covers \Phug\Renderer\Partial\AdapterTrait::getAdapter
@@ -418,6 +479,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers ::getRawCachePath
      * @covers ::isCacheUpToDate
      * @covers ::checkPathExpiration
+     * @covers ::readCacheDirectoryFromOptions
      * @covers ::getCacheDirectory
      * @covers \Phug\Renderer\AbstractAdapter::<public>
      * @covers \Phug\Renderer\Partial\FileSystemTrait::fileMatchExtensions
@@ -573,6 +635,7 @@ class FileAdapterTest extends AbstractRendererTest
      * @covers                \Phug\Renderer\Partial\CacheTrait::getCacheAdapter
      * @covers                \Phug\Renderer\Partial\CacheTrait::cacheDirectory
      * @covers                \Phug\Renderer\Adapter\FileAdapter::cacheDirectory
+     * @covers                \Phug\Renderer\Adapter\FileAdapter::readCacheDirectoryFromOptions
      * @covers                \Phug\Renderer\Adapter\FileAdapter::getCacheDirectory
      * @covers                \Phug\Renderer\Partial\Debug\DebuggerTrait::getDebuggedException
      *
@@ -582,6 +645,8 @@ class FileAdapterTest extends AbstractRendererTest
      */
     public function testMissingDirectory()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $renderer = new Renderer([
             'exit_on_error' => false,
             'cache_dir'     => '///cannot/be/created',
@@ -603,6 +668,8 @@ class FileAdapterTest extends AbstractRendererTest
      */
     public function testReadOnlyDirectory()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $renderer = new Renderer([
             'exit_on_error' => false,
             'cache_dir'     => static::getReadOnlyDirectory(),
@@ -755,6 +822,8 @@ class FileAdapterTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * Test cacheDirectory method dependencies.
      */
     public function testCacheDirectoryPreserveCompilerDependencies()

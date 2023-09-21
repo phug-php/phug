@@ -46,6 +46,8 @@ class CasesTest extends AbstractRendererTest
     }
 
     /**
+     * @coversNothing
+     *
      * @group update
      */
     public function testIfCasesAreUpToDate()

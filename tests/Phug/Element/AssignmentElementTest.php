@@ -10,6 +10,7 @@ use Phug\Formatter\Element\MarkupElement;
 use Phug\Formatter\Element\TextElement;
 use Phug\Formatter\Format\HtmlFormat;
 use Phug\Formatter\Format\XmlFormat;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\Joiner;
 use Phug\Util\TestCase;
 use SplObjectStorage;
@@ -169,6 +170,8 @@ class AssignmentElementTest extends TestCase
      */
     public function testFormatAssignmentElementException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $img = new MarkupElement('img');
         $data = new SplObjectStorage();
         $data->attach(new ExpressionElement('[1]'));

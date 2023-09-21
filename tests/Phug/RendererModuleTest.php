@@ -16,6 +16,9 @@ use Phug\Util\TestCase;
  */
 class RendererModuleTest extends TestCase
 {
+    /**
+     * @coversNothing
+     */
     public function testModule()
     {
         include_once __DIR__.'/Utils/TestRendererModule.php';
@@ -158,6 +161,9 @@ class RendererModuleTest extends TestCase
         self::assertSame([TestLexerModule::class], $renderer->getOption('lexer_modules'));
     }
 
+    /**
+     * @coversNothing
+     */
     public function testMissingMixin()
     {
         $renderer = new Renderer([

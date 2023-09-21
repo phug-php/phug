@@ -17,6 +17,7 @@ use Phug\Lexer\Token\NewLineToken;
 use Phug\Lexer\Token\TagToken;
 use Phug\Lexer\Token\TextToken;
 use Phug\Test\AbstractLexerTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 class AttributeScannerTest extends AbstractLexerTest
 {
@@ -202,6 +203,8 @@ class AttributeScannerTest extends AbstractLexerTest
      */
     public function testFailsOnUnclosedBracket()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         iterator_to_array($this->lexer->lex('(a=b'));
     }
 
@@ -461,6 +464,9 @@ class AttributeScannerTest extends AbstractLexerTest
         ]);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testDoubleTernary()
     {
         list(, , , $href, $target, $rel) = $this->assertTokens(implode("\n", [
@@ -520,6 +526,9 @@ class AttributeScannerTest extends AbstractLexerTest
         $this->assertSame('row.nofollow ? \'nofollow\' : null', $rel->getValue());
     }
 
+    /**
+     * @coversNothing
+     */
     public function testTernaryWithCondition()
     {
         list(, , , $href, $target, $rel) = $this->assertTokens(implode("\n", [

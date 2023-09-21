@@ -10,6 +10,7 @@ use Phug\Parser\Node\ExpressionNode;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\InterpolationStartTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\InterpolationStartTokenHandler
@@ -137,6 +138,8 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new InterpolationStartTokenHandler();
@@ -156,6 +159,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         }
     }
 
+    /**
+     * @coversNothing
+     */
     public function testConsecutiveInterpolations()
     {
         $this->assertNodes('| #{$a}#{$b}', [
@@ -166,6 +172,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         ]);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testInterpolationsSeparatedWithStatement()
     {
         $this->assertNodes("| #{\$a}\nif true\n  | #{\$b}\n| c", [
@@ -179,6 +188,9 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
         ]);
     }
 
+    /**
+     * @coversNothing
+     */
     public function testInterpolationsWithOneTagPerLine()
     {
         $code = implode("\n", [
@@ -220,6 +232,8 @@ class InterpolationStartTokenHandlerTest extends AbstractParserTest
      */
     public function testBadEndingException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $tokens = $this->getBadEndingExceptionTokens();
         $state = new State(new Parser(), $tokens);
         $handler = new InterpolationStartTokenHandler();

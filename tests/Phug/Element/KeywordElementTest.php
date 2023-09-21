@@ -6,6 +6,7 @@ use Phug\Formatter;
 use Phug\Formatter\Element\AttributeElement;
 use Phug\Formatter\Element\KeywordElement;
 use Phug\Formatter\Element\MarkupElement;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\TestCase;
 use SplObjectStorage;
 
@@ -119,6 +120,8 @@ class KeywordElementTest extends TestCase
      */
     public function testBadReturn()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $keyword = new KeywordElement('foo', 'bar');
         $attributes = new SplObjectStorage();
         $source = new AttributeElement('src', '/foo/bar.png');

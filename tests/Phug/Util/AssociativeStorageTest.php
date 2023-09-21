@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Util;
 
+use Phug\Test\Utils\ExceptionAnnotationReader;
 use Phug\Util\AssociativeStorage;
 use Phug\Util\Partial\NameTrait;
 use Phug\Util\TestCase;
@@ -28,6 +29,8 @@ class AssociativeStorageTest extends TestCase
      */
     public function testStrictMode()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $storage = new AssociativeStorage();
         $a = new Entity();
         $a->setName('foo');
@@ -48,6 +51,8 @@ class AssociativeStorageTest extends TestCase
      */
     public function testWrongMode()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         new AssociativeStorage('foo', 99);
     }
 

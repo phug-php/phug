@@ -224,7 +224,7 @@ class CliTest extends TestCase
         ob_end_clean();
 
         self::assertFileExists($expected);
-        self::assertFileNotExists("$expected/junk");
+        self::assertFileDoesNotExist("$expected/junk");
 
         $registryFile = "$expected/registry.php";
 
@@ -259,7 +259,7 @@ class CliTest extends TestCase
 
         $this->removeFile($expected);
 
-        self::assertRegExp('/Inconsistent indentation./', $text);
+        self::assertMatchesRegularExpression('/Inconsistent indentation./', $text);
     }
 
     /**
@@ -328,7 +328,7 @@ class CliTest extends TestCase
         ob_end_clean();
 
         self::assertFileExists($expected);
-        self::assertFileNotExists("$expected/junk");
+        self::assertFileDoesNotExist("$expected/junk");
 
         $registryFile = "$expected/registry.php";
 

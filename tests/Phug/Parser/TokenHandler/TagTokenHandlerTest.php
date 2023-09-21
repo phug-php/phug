@@ -10,6 +10,7 @@ use Phug\Parser\Node\DocumentNode;
 use Phug\Parser\State;
 use Phug\Parser\TokenHandler\TagTokenHandler;
 use Phug\Test\AbstractParserTest;
+use Phug\Test\Utils\ExceptionAnnotationReader;
 
 /**
  * @coversDefaultClass \Phug\Parser\TokenHandler\TagTokenHandler
@@ -58,6 +59,8 @@ class TagTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTokenException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'));
         $handler = new TagTokenHandler();
@@ -73,6 +76,8 @@ class TagTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenElementTagsException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'), [
             'token_handlers' => [
@@ -95,6 +100,8 @@ class TagTokenHandlerTest extends AbstractParserTest
      */
     public function testHandleTokenTagNameException()
     {
+        ExceptionAnnotationReader::read($this, __METHOD__);
+
         $lexer = new Lexer();
         $state = new State(new Parser(), $lexer->lex('div'), [
             'token_handlers' => [
