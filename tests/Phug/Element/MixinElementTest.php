@@ -7,6 +7,7 @@ use Phug\Formatter\Element\AnonymousBlockElement;
 use Phug\Formatter\Element\AttributeElement;
 use Phug\Formatter\Element\CodeElement;
 use Phug\Formatter\Element\DocumentElement;
+use Phug\Formatter\Element\ExpressionElement;
 use Phug\Formatter\Element\MarkupElement;
 use Phug\Formatter\Element\MixinElement;
 use Phug\Formatter\Element\TextElement;
@@ -125,6 +126,38 @@ class MixinElementTest extends TestCase
         ob_end_clean();
 
         self::assertSame('<div>block</div>', $html);
+    }
+
+    /**
+     * @covers \Phug\Formatter\AbstractFormat::formatMixinElement
+     */
+    public function testFormatMixinWithDynamicName()
+    {
+        $mixin = new MixinElement();
+        $name = new ExpressionElement();
+        $name->setValue('$var');
+        $mixin->setName($name);
+        $div = new MarkupElement('p');
+        $div->appendChild(new AnonymousBlockElement());
+        $mixin->appendChild($div);
+
+        $formatter = new Formatter();
+
+        $php = $formatter->format($mixin);
+        $formatter->requireAllMixins();
+        $php = $formatter->formatDependencies().$php;
+        $call = '<?php $__pug_mixins["foo"]('.
+            'true, [], [], [], '.
+            'function () { echo "foo"; }'.
+            '); ?>';
+
+        ob_start();
+        $var = 'foo';
+        eval('?>'.$php.$call);
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        self::assertSame('<p>foo</p>', $html);
     }
 
     /**

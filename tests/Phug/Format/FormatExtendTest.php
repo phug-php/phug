@@ -23,6 +23,18 @@ class FormatExtendTest extends TestCase
         $formatter = new Formatter();
         $format = new FakeXmlFormat($formatter);
 
+        $attribute = new AttributeElement(
+            'required',
+            new ExpressionElement('true')
+        );
+
+        ob_start();
+        eval('?>'.$format->callFormatAttributeElement($attribute));
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        self::assertSame(' required="required"', $actual);
+
         ob_start();
         eval('?>'.$format->callFormatAttributeElement(
             new AttributeElement(new ExpressionElement('"foo" . "bar"'), 'abc')

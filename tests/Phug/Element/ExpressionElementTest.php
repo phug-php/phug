@@ -2,6 +2,7 @@
 
 namespace Phug\Test\Element;
 
+use Phug\Ast\Node;
 use Phug\Formatter;
 use Phug\Formatter\Element\AttributeElement;
 use Phug\Formatter\Element\ExpressionElement;
@@ -104,5 +105,16 @@ class ExpressionElementTest extends TestCase
             '<p foo="foo">true</p>',
             $actual
         );
+    }
+
+    /**
+     * @covers \Phug\Formatter\AbstractElement::dump
+     */
+    public function testDump()
+    {
+        $expression = new ExpressionElement('$foo');
+        $expression->appendChild(new Node());
+
+        self::assertSame("Expression\n  ".Node::class, $expression->dump());
     }
 }
