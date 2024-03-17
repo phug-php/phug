@@ -33,6 +33,7 @@ class SandBox
             return false;
         });
         ob_start();
+
         // @codeCoverageIgnoreStart
         try {
             $this->result = $action();
