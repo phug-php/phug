@@ -229,6 +229,7 @@ trait DebuggerTrait
             }
 
             $stat = @fstat(STDOUT);
+
             // Check if formatted mode is S_IFCHR
             return $stat ? 0020000 === ($stat['mode'] & 0170000) : false;
         }
