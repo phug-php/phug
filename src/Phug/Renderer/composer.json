@@ -27,7 +27,7 @@
         "phug/formatter": "^1.8.1",
         "phug/compiler": "^1.2",
         "phug/util": "^1.5",
-        "symfony/var-dumper": "^3.4 || ^4.0"
+        "symfony/var-dumper": "^3.4 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
     },
     "autoload": {
         "psr-4": {
