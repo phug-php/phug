@@ -21,9 +21,9 @@ abstract class AbstractValueElement extends AbstractElement
      */
     public function __construct(
         $value = null,
-        ParserNode $originNode = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?ParserNode $originNode = null,
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         parent::__construct($originNode, $parent, $children);
 

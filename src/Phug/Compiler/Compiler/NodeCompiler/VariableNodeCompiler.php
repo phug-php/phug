@@ -10,7 +10,7 @@ use Phug\Parser\NodeInterface;
 
 class VariableNodeCompiler extends AbstractNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $compiler = $this->getCompiler();
         $compiler->assert(

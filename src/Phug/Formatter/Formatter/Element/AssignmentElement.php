@@ -31,11 +31,11 @@ class AssignmentElement extends AbstractElement implements AttributesInterface, 
      */
     public function __construct(
         $name,
-        SplObjectStorage $attributes = null,
-        AssignmentContainerInterface $container = null,
-        ParserNode $originNode = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?SplObjectStorage $attributes = null,
+        ?AssignmentContainerInterface $container = null,
+        ?ParserNode $originNode = null,
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         parent::__construct($originNode, $parent, $children);
 

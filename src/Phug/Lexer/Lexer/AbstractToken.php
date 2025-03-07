@@ -13,7 +13,7 @@ abstract class AbstractToken implements TokenInterface, HandleTokenInterface
     private $indentation;
     private $handled = false;
 
-    public function __construct(SourceLocationInterface $sourceLocation = null, $level = null, $indentation = null)
+    public function __construct(?SourceLocationInterface $sourceLocation = null, $level = null, $indentation = null)
     {
         $this->sourceLocation = $sourceLocation;
         $this->level = $level ?: 0;

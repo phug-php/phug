@@ -618,7 +618,7 @@ class Reader
      *
      * @return bool whether it could be or not.
      */
-    public function peekAlphaIdentifier(array $allowedChars = null)
+    public function peekAlphaIdentifier(?array $allowedChars = null)
     {
         $allowedChars = $allowedChars ?: ['_'];
 
@@ -632,7 +632,7 @@ class Reader
      *
      * @return bool whether it could be or not.
      */
-    public function peekIdentifier(array $allowedChars = null)
+    public function peekIdentifier(?array $allowedChars = null)
     {
         return $this->peekAlphaIdentifier($allowedChars) || $this->peekDigit();
     }
@@ -757,7 +757,7 @@ class Reader
      *
      * @return string|null the resulting string or null if none encountered.
      */
-    public function readString(array $escapeSequences = null, $raw = false)
+    public function readString(?array $escapeSequences = null, $raw = false)
     {
         if (!$this->peekQuote()) {
             return;
@@ -820,7 +820,7 @@ class Reader
      *
      * @return string|null the resulting expression or null, if none encountered.
      */
-    public function readExpression(array $breaks = null, array $brackets = null)
+    public function readExpression(?array $breaks = null, ?array $brackets = null)
     {
         if (!$this->hasLength()) {
             return;

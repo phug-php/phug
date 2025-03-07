@@ -14,7 +14,7 @@ use Phug\Parser\NodeInterface as ParserNodeInterface;
 
 class MixinCallNodeCompiler extends AbstractNodeCompiler
 {
-    public function compileNode(ParserNodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(ParserNodeInterface $node, ?ElementInterface $parent = null)
     {
         $compiler = $this->getCompiler();
         $compiler->assert(

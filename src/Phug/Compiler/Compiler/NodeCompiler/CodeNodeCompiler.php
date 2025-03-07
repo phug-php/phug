@@ -12,7 +12,7 @@ use Phug\Parser\NodeInterface;
 
 class CodeNodeCompiler extends AbstractNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof CodeNode,
@@ -42,7 +42,7 @@ class CodeNodeCompiler extends AbstractNodeCompiler
         return $code;
     }
 
-    private function getCodeElement(CodeNode $node, array $texts, array $children, ElementInterface $parent = null)
+    private function getCodeElement(CodeNode $node, array $texts, array $children, ?ElementInterface $parent = null)
     {
         if (count($texts) === count($children)) {
             return new CodeElement($this->getTextChildren($node), $node);

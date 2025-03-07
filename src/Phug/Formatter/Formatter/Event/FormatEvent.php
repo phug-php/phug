@@ -37,7 +37,7 @@ class FormatEvent extends Event
     /**
      * @param ElementInterface $element
      */
-    public function setElement(ElementInterface $element = null)
+    public function setElement(?ElementInterface $element = null)
     {
         $this->element = $element;
     }

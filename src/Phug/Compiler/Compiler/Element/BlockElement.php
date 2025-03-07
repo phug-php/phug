@@ -22,9 +22,9 @@ class BlockElement extends AbstractElement
     public function __construct(
         CompilerInterface $compiler,
         $name = '',
-        ParserNode $originNode = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?ParserNode $originNode = null,
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         $blocks = &$compiler->getBlocksByName($name);
         $blocks[] = $this;

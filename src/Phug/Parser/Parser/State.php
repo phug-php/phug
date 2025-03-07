@@ -101,7 +101,7 @@ class State implements OptionInterface, EventManagerInterface
      */
     private $interpolationNodes;
 
-    public function __construct(Parser $parser, \Iterator $tokens, array $options = null)
+    public function __construct(Parser $parser, \Iterator $tokens, ?array $options = null)
     {
         $this->parser = $parser;
         $this->level = 0;
@@ -329,7 +329,7 @@ class State implements OptionInterface, EventManagerInterface
      *
      * @return $this
      */
-    public function handleToken(TokenInterface $token = null)
+    public function handleToken(?TokenInterface $token = null)
     {
         $token = $token ?: $this->getToken();
         $className = get_class($token);
@@ -534,7 +534,7 @@ class State implements OptionInterface, EventManagerInterface
      *
      * @return Node The newly created node
      */
-    public function createNode($className, TokenInterface $token = null)
+    public function createNode($className, ?TokenInterface $token = null)
     {
         if (!is_subclass_of($className, Node::class)) {
             throw new \InvalidArgumentException(
@@ -630,7 +630,7 @@ class State implements OptionInterface, EventManagerInterface
      *
      * @throws ParserException
      */
-    public function throwException($message, $code = 0, TokenInterface $relatedToken = null, $previous = null)
+    public function throwException($message, $code = 0, ?TokenInterface $relatedToken = null, $previous = null)
     {
         $lexer = $this->parser->getLexer();
         //This will basically check for a source location for this Node. The process is like:

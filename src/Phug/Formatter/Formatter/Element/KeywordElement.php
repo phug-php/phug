@@ -27,9 +27,9 @@ class KeywordElement extends AbstractElement
     public function __construct(
         $name,
         $value,
-        ParserNode $originNode = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?ParserNode $originNode = null,
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         parent::__construct($originNode, $parent, $children);
 

@@ -92,7 +92,7 @@ interface CompilerInterface extends ModuleContainerInterface
      * @param BlockElement $block
      * @param array        $children
      */
-    public function replaceBlock(BlockElement $block, array $children = null);
+    public function replaceBlock(BlockElement $block, ?array $children = null);
 
     /**
      * @throws CompilerException
@@ -133,7 +133,7 @@ interface CompilerInterface extends ModuleContainerInterface
      *
      * @return null|ElementInterface
      */
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null);
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null);
 
     /**
      * @param string $input

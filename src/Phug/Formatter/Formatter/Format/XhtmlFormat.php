@@ -13,7 +13,7 @@ abstract class XhtmlFormat extends XmlFormat
     const DOCTYPE_LANGUAGE = 'html';
     const SELF_CLOSING_TAG = '<%s />';
 
-    public function __construct(Formatter $formatter = null)
+    public function __construct(?Formatter $formatter = null)
     {
         $this->setOptionsRecursive([
             'white_space_sensitive_tags' => [

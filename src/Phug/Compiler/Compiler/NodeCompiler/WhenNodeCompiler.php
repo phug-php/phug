@@ -10,7 +10,7 @@ use Phug\Parser\NodeInterface;
 
 class WhenNodeCompiler extends AbstractNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof WhenNode,
