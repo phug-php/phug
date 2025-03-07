@@ -1266,10 +1266,6 @@ class FormatterTest extends TestCase
      */
     public function testDebugElseError()
     {
-        if (version_compare(PHP_VERSION, '7.0.0-dev', '<')) {
-            self::markTestSkipped('Need PHP 7 to handle ParseError as Throwable');
-        }
-
         $formatter = new Formatter([
             'debug' => true,
         ]);

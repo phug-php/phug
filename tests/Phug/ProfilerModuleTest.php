@@ -160,12 +160,6 @@ class ProfilerModuleTest extends TestCase
      */
     public function testMemoryLimitOptions()
     {
-        if (version_compare(PHP_VERSION, '7.0.0-dev', '<')) {
-            self::markTestSkipped('Skipped due to Travis bug with PHP 5 only.');
-
-            return;
-        }
-
         $renderer = new Renderer([
             'enable_profiler' => false,
             'memory_limit'    => 2000000,
@@ -517,10 +511,6 @@ class ProfilerModuleTest extends TestCase
      */
     public function testGetErrorAsHtml()
     {
-        if (version_compare(PHP_VERSION, '7.0.0-dev', '<')) {
-            self::markTestSkipped('Need PHP 7 to handle ParseError as Throwable');
-        }
-
         $getErrorAsHtml = new ReflectionMethod(Renderer::class, 'getErrorAsHtml');
         $getErrorAsHtml->setAccessible(true);
         $renderer = new Renderer();
