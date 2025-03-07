@@ -13,7 +13,7 @@ use SplObjectStorage;
 
 class AssignmentNodeCompiler extends AbstractNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof AssignmentNode,

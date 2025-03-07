@@ -53,7 +53,7 @@ class IndentationScanner implements ScannerInterface
         return $indentChar;
     }
 
-    public function getIndentLevel(State $state, $maxLevel = INF, callable $getIndentChar = null)
+    public function getIndentLevel(State $state, $maxLevel = INF, ?callable $getIndentChar = null)
     {
         if ($maxLevel <= 0) {
             return 0;

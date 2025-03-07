@@ -32,10 +32,10 @@ class MarkupElement extends AbstractMarkupElement implements AttributesInterface
     public function __construct(
         $name,
         $autoClosed = false,
-        SplObjectStorage $attributes = null,
-        ParserNode $originNode = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?SplObjectStorage $attributes = null,
+        ?ParserNode $originNode = null,
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         parent::__construct($originNode, $parent, $children);
 

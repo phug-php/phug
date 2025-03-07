@@ -15,7 +15,7 @@ trait PluginEnablerTrait
      *
      * @throws PhugException
      */
-    public static function enable(Renderer $renderer = null)
+    public static function enable(?Renderer $renderer = null)
     {
         if ($renderer) {
             static::activateOnRenderer($renderer);

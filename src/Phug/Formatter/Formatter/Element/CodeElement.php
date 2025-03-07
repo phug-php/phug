@@ -34,9 +34,9 @@ class CodeElement extends AbstractValueElement implements TransformableInterface
      */
     public function __construct(
         $value = null,
-        ParserNode $originNode = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?ParserNode $originNode = null,
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         parent::__construct($value, $originNode, $parent, $children);
 

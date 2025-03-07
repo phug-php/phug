@@ -12,7 +12,7 @@ use Phug\Parser\NodeInterface;
 
 class BlockNodeCompiler extends AbstractNodeCompiler
 {
-    protected function compileAnonymousBlock(BlockNode $node, ElementInterface $parent = null)
+    protected function compileAnonymousBlock(BlockNode $node, ?ElementInterface $parent = null)
     {
         $mixin = $node;
         while ($mixin->hasParent() && !($mixin instanceof MixinNode)) {
@@ -38,7 +38,7 @@ class BlockNodeCompiler extends AbstractNodeCompiler
         return false;
     }
 
-    protected function compileNamedBlock($name, BlockNode $node, ElementInterface $parent = null)
+    protected function compileNamedBlock($name, BlockNode $node, ?ElementInterface $parent = null)
     {
         $compiler = $this->getCompiler();
         $layout = $compiler->getLayout();
@@ -63,7 +63,7 @@ class BlockNodeCompiler extends AbstractNodeCompiler
         );
     }
 
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof BlockNode,

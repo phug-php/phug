@@ -9,7 +9,7 @@ use Phug\Util\TransformableInterface;
 
 class ConditionalNodeCompiler extends AbstractStatementNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $compiler = $this->getCompiler();
 

@@ -76,7 +76,7 @@ class EachNodeCompiler extends AbstractStatementNodeCompiler
         return $loop;
     }
 
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof EachNode,

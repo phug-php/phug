@@ -6,7 +6,7 @@ use Phug\Util\SourceLocationInterface;
 
 interface TokenInterface
 {
-    public function __construct(SourceLocationInterface $sourceLocation = null, $level = null, $indentation = null);
+    public function __construct(?SourceLocationInterface $sourceLocation = null, $level = null, $indentation = null);
 
     /**
      * @return SourceLocationInterface|null

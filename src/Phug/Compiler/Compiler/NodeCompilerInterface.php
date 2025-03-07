@@ -16,7 +16,7 @@ interface NodeCompilerInterface
      *
      * @return array
      */
-    public function getCompiledNodeList($nodeList, ElementInterface $parent = null);
+    public function getCompiledNodeList($nodeList, ?ElementInterface $parent = null);
 
     /**
      * @param NodeInterface    $node
@@ -24,7 +24,7 @@ interface NodeCompilerInterface
      *
      * @return array
      */
-    public function getCompiledChildren(NodeInterface $node, ElementInterface $parent = null);
+    public function getCompiledChildren(NodeInterface $node, ?ElementInterface $parent = null);
 
     /**
      * @param NodeInterface         $node
@@ -32,7 +32,7 @@ interface NodeCompilerInterface
      *
      * @return mixed
      */
-    public function compileNodeChildren(NodeInterface $node, ElementInterface $element = null);
+    public function compileNodeChildren(NodeInterface $node, ?ElementInterface $element = null);
 
     /**
      * @param ParserNodeInterface $node
@@ -40,7 +40,7 @@ interface NodeCompilerInterface
      *
      * @return null|BlockElement|ElementInterface
      */
-    public function compileNode(ParserNodeInterface $node, ElementInterface $parent = null);
+    public function compileNode(ParserNodeInterface $node, ?ElementInterface $parent = null);
 
     /**
      * @return CompilerInterface

@@ -57,7 +57,7 @@ class AttributeNodeCompiler extends AbstractNodeCompiler
         return $value;
     }
 
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof AttributeNode,

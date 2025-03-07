@@ -41,7 +41,7 @@ abstract class AbstractNodeCompiler implements NodeCompilerInterface
      *
      * @return ElementInterface[]
      */
-    public function getCompiledNodeList($nodeList, ElementInterface $element = null)
+    public function getCompiledNodeList($nodeList, ?ElementInterface $element = null)
     {
         return array_values(array_filter(array_map(
             function (NodeInterface $childNode) use ($element) {
@@ -59,7 +59,7 @@ abstract class AbstractNodeCompiler implements NodeCompilerInterface
      *
      * @return ElementInterface[]
      */
-    public function getCompiledChildren(NodeInterface $node, ElementInterface $element = null)
+    public function getCompiledChildren(NodeInterface $node, ?ElementInterface $element = null)
     {
         return $this->getCompiledNodeList($node->getChildren(), $element);
     }
@@ -71,7 +71,7 @@ abstract class AbstractNodeCompiler implements NodeCompilerInterface
      * @param NodeInterface         $node
      * @param ElementInterface|null $element
      */
-    public function compileNodeChildren(NodeInterface $node, ElementInterface $element = null)
+    public function compileNodeChildren(NodeInterface $node, ?ElementInterface $element = null)
     {
         $children = array_filter($node->getChildren());
         array_walk($children, function (NodeInterface $childNode) use ($element) {
@@ -109,7 +109,7 @@ abstract class AbstractNodeCompiler implements NodeCompilerInterface
         }, $children));
     }
 
-    private function compileParserNode(NodeInterface $node, ElementInterface $element = null)
+    private function compileParserNode(NodeInterface $node, ?ElementInterface $element = null)
     {
         return $node instanceof ParserNodeInterface
             ? $this->getCompiler()->compileNode($node, $element)

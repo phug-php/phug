@@ -20,7 +20,7 @@ abstract class AbstractElement extends Node implements ElementInterface
      * @param NodeInterface|null $parent
      * @param array|null         $children
      */
-    public function __construct(ParserNode $originNode = null, NodeInterface $parent = null, array $children = null)
+    public function __construct(?ParserNode $originNode = null, ?NodeInterface $parent = null, ?array $children = null)
     {
         $this->originNode = $originNode;
 

@@ -34,11 +34,11 @@ class Node extends AstNode implements NodeInterface
      * @param TokenInterface               $token          the token that created the node
      */
     public function __construct(
-        TokenInterface $token = null,
-        SourceLocationInterface $sourceLocation = null,
+        ?TokenInterface $token = null,
+        ?SourceLocationInterface $sourceLocation = null,
         $level = null,
-        NodeInterface $parent = null,
-        array $children = null
+        ?NodeInterface $parent = null,
+        ?array $children = null
     ) {
         parent::__construct($parent, $children);
 
@@ -77,7 +77,7 @@ class Node extends AstNode implements NodeInterface
      *
      * @return $this
      */
-    public function setOuterNode(NodeInterface $node = null)
+    public function setOuterNode(?NodeInterface $node = null)
     {
         $this->outerNode = $node;
 

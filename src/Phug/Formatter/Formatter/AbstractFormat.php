@@ -77,7 +77,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
      */
     private $debugCommentPattern = null;
 
-    public function __construct(Formatter $formatter = null)
+    public function __construct(?Formatter $formatter = null)
     {
         $patterns = [
             'class_attribute'        => static::CLASS_ATTRIBUTE,
@@ -1003,7 +1003,7 @@ abstract class AbstractFormat implements FormatInterface, OptionInterface
         return $this->formatElementChildren($document, 0);
     }
 
-    protected function throwException($message, ElementInterface $element = null)
+    protected function throwException($message, ?ElementInterface $element = null)
     {
         $location = ($node = $element->getOriginNode()) && ($loc = $node->getSourceLocation())
             ? clone $loc

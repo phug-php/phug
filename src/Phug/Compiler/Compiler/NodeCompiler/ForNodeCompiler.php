@@ -8,7 +8,7 @@ use Phug\Parser\NodeInterface;
 
 class ForNodeCompiler extends EachNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof ForNode,

@@ -499,7 +499,7 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
      *
      * @return ElementInterface
      */
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $nodeEvent = new NodeEvent($node);
         $this->trigger($nodeEvent);
@@ -537,7 +537,7 @@ class Compiler implements ModuleContainerInterface, CompilerInterface, WithUpper
      * @param BlockElement $block
      * @param array        $children
      */
-    public function replaceBlock(BlockElement $block, array $children = null)
+    public function replaceBlock(BlockElement $block, ?array $children = null)
     {
         if ($parent = $block->getParent()) {
             foreach (array_reverse($children ?: $block->getChildren()) as $child) {
