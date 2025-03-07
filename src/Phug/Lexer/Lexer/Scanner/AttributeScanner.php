@@ -103,7 +103,7 @@ class AttributeScanner implements ScannerInterface
         $this->isTruncatedValue($expression);
     }
 
-    private function getAttributeValue(Reader $reader, array $chars = null)
+    private function getAttributeValue(Reader $reader, ?array $chars = null)
     {
         $chars = $chars ?: [
             ' ', "\t", "\n", ',', ')', '//',

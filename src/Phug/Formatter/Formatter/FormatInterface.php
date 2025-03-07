@@ -11,7 +11,7 @@ interface FormatInterface
 {
     const DEFAULT_VARIABLES_VARIABLE_NAME = 'pug_vars';
 
-    public function __construct(Formatter $formatter = null);
+    public function __construct(?Formatter $formatter = null);
 
     public function format($element);
 

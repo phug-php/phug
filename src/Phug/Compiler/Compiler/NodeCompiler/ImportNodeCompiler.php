@@ -51,7 +51,7 @@ class ImportNodeCompiler extends AbstractNodeCompiler
      *
      * @return null|ElementInterface
      */
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $compiler = $this->getCompiler();
         $compiler->assert(

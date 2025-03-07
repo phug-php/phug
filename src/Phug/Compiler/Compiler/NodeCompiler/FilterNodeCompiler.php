@@ -40,7 +40,7 @@ class FilterNodeCompiler extends AbstractNodeCompiler
         }, $children));
     }
 
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $compiler = $this->getCompiler();
         $compiler->assert(

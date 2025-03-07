@@ -23,7 +23,7 @@ class SandBox
      */
     private $throwable;
 
-    public function __construct(callable $action, callable $errorInterceptor = null)
+    public function __construct(callable $action, ?callable $errorInterceptor = null)
     {
         set_error_handler($errorInterceptor ?: function ($number, $message, $file, $line) {
             if (error_reporting() & $number) {

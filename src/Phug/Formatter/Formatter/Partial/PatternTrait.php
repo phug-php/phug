@@ -98,7 +98,7 @@ trait PatternTrait
      *
      * @return string
      */
-    public function exportHelper($name, array $arguments = null)
+    public function exportHelper($name, ?array $arguments = null)
     {
         $this->requireHelper($name);
 

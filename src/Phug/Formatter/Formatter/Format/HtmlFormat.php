@@ -11,7 +11,7 @@ class HtmlFormat extends XhtmlFormat
     const EXPLICIT_CLOSING_TAG = '<%s/>';
     const BOOLEAN_ATTRIBUTE_PATTERN = ' %s';
 
-    public function __construct(Formatter $formatter = null)
+    public function __construct(?Formatter $formatter = null)
     {
         parent::__construct($formatter);
 

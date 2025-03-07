@@ -8,7 +8,7 @@ use Phug\Parser\NodeInterface;
 
 class CaseNodeCompiler extends AbstractStatementNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof CaseNode,

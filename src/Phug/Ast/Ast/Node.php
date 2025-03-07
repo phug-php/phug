@@ -31,7 +31,7 @@ class Node implements NodeInterface
      * @param NodeInterface $parent
      * @param array         $children
      */
-    public function __construct(NodeInterface $parent = null, array $children = null)
+    public function __construct(?NodeInterface $parent = null, ?array $children = null)
     {
         $this->parent = null;
         $this->children = [];
@@ -77,7 +77,7 @@ class Node implements NodeInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(NodeInterface $parent = null)
+    public function setParent(?NodeInterface $parent = null)
     {
         if ($this->parent === $parent) {
             return $this;

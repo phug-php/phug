@@ -11,7 +11,7 @@ class TasksGroup
     protected $success = 0;
     protected $errorDetails = [];
 
-    public function __construct(Renderer $renderer = null)
+    public function __construct(?Renderer $renderer = null)
     {
         if ($renderer) {
             $this->renderer = $renderer;

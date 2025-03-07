@@ -9,7 +9,7 @@ use Phug\Parser\NodeInterface;
 
 class AssignmentListNodeCompiler extends AbstractNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $this->getCompiler()->assert(
             $node instanceof AssignmentListNode,

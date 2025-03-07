@@ -37,7 +37,7 @@ class XmlFormat extends AbstractFormat
     const BOOLEAN_ATTRIBUTE_PATTERN = ' %s="%s"';
     const BUFFER_VARIABLE = '$__value';
 
-    public function __construct(Formatter $formatter = null)
+    public function __construct(?Formatter $formatter = null)
     {
         parent::__construct($formatter);
 

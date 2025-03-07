@@ -17,7 +17,7 @@ class ParserException extends LocatedException
         SourceLocation $location,
         $message = '',
         $code = 0,
-        TokenInterface $relatedToken = null,
+        ?TokenInterface $relatedToken = null,
         $previous = null
     ) {
         parent::__construct($location, $message, $code, $previous);
