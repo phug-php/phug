@@ -14,9 +14,9 @@ Please don't disclose security bugs publicly until they have been
 handled by us.
 
 For any other bug or issue, you should first have a look at our
-fancy interactive documentation:
-(phug-lang.com)[https://phug-lang.com/] and in particular
-(the frequently asked questions section)[https://phug-lang.com/#frequently-asked-questions].
+ documentation:
+[phug-lang.com](https://phug-lang.com/) and in particular
+[the frequently asked questions section](https://phug-lang.com/#frequently-asked-questions).
 
 If the solution of your problem is not in the documentation, please
 click this link and follow the template if applicable:
