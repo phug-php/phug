@@ -2,8 +2,8 @@
 
 ## Code of Conduct
 
-We worked hard to provide this pug port. And we get any profit
-of it. That's why we ask you to be polite and respectful. For
+We worked hard to provide this pug port to you for free.
+That's why we ask you to be polite and respectful. For
 example, when you report an issue, please use human-friendly
 sentences ("Hello", "Please", "Thanks", etc.)
 
