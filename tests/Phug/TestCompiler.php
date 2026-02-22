@@ -8,7 +8,7 @@ use Phug\Parser\NodeInterface;
 
 class TestCompiler extends Compiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         return 'foo';
     }

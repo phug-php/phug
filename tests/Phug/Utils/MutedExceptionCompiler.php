@@ -15,7 +15,7 @@ class MutedExceptionCompiler extends Compiler
         // removed
     }
 
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         return $this->forcedReturn ?: parent::compileNode($node, $parent);
     }
