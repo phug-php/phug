@@ -17,7 +17,7 @@ abstract class AbstractParserTest extends TestCase
         $this->parser = new Parser();
     }
 
-    protected function assertNodes($expression, $expected, Parser $parser = null)
+    protected function assertNodes($expression, $expected, ?Parser $parser = null)
     {
         if (is_array($expected)) {
             $expected = implode("\n", $expected);
