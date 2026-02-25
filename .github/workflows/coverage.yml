@@ -39,14 +39,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-${{ matrix.setup }}-coverage-${{ matrix.php }}-
 
-    - name: Code Climate Test Reporter Preparation
-      run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
@@ -57,15 +49,15 @@ jobs:
     - name: Run test suite
       run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml --default-time-limit=3
 
-    - name: Code Climate Test Reporter
-      if: ${{ env.CC_TEST_REPORTER_ID != '' }}
-      run: |
-        cp coverage.xml clover.xml
-        bash <(curl -s https://codecov.io/bash)
-        ./cc-test-reporter after-build --coverage-input-type clover --exit-code 0
-        composer config version 1.9.0
-      #  composer require codacy/coverage
-      #  vendor/bin/codacycoverage clover coverage.xml
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      #  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+    - name: Coverage - Qltysh
+      uses: qltysh/qlty-action/coverage@v2
+      if: matrix.coverage
+      with:
+        token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+        files: clover.xml
+
+    - name: Coverage - Codecov
+      if: matrix.coverage
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
