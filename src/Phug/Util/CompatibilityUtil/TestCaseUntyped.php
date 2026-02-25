@@ -21,17 +21,17 @@ class TestCaseTypeBase extends PHPUnitTestCase
         // Override
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->prepareTest();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->finishTest();
     }
 
-    public static function assertMatchesRegularExpression($pattern, $string, $message = '')
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = ''): void
     {
         if (!method_exists(parent::class, 'assertMatchesRegularExpression')) {
             self::assertRegExp($pattern, $string, $message);
@@ -42,7 +42,7 @@ class TestCaseTypeBase extends PHPUnitTestCase
         parent::assertMatchesRegularExpression($pattern, $string, $message);
     }
 
-    public static function assertFileDoesNotExist($filename, $message = '')
+    public static function assertFileDoesNotExist(string $filename, string $message = ''): void
     {
         if (!method_exists(parent::class, 'assertFileDoesNotExist')) {
             self::assertFileNotExists($filename, $message);
@@ -53,7 +53,7 @@ class TestCaseTypeBase extends PHPUnitTestCase
         parent::assertFileDoesNotExist($filename, $message);
     }
 
-    public static function assertIsArray($actual, $message = '')
+    public static function assertIsArray($actual, string $message = ''): void
     {
         if (!method_exists(parent::class, 'assertIsArray')) {
             self::assertSame('array', gettype($actual));
