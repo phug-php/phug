@@ -482,6 +482,7 @@ class RendererTest extends AbstractRendererTest
                 $message = $error->getMessage();
             }
 
+            self::assertIsString($message);
             self::assertStringContains(
                 'Division by zero',
                 $message
@@ -579,6 +580,7 @@ class RendererTest extends AbstractRendererTest
             $message = $error->getMessage();
         }
 
+        self::assertIsString($message);
         self::assertStringContains('Division by zero', $message);
         self::assertStringContains('div: p=12/0', $message);
         self::assertStringContains('// line -1', $message);

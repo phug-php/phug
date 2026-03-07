@@ -8,7 +8,7 @@ use Phug\Formatter\Format\XhtmlFormat;
 
 class TwigFormat extends XhtmlFormat
 {
-    public function __construct(Formatter $formatter = null)
+    public function __construct(?Formatter $formatter = null)
     {
         parent::__construct($formatter);
 

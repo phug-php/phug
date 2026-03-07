@@ -9,7 +9,7 @@ use Phug\Parser\NodeInterface;
 
 class TestBlockNodeCompiler extends BlockNodeCompiler
 {
-    public function compileNode(NodeInterface $node, ElementInterface $parent = null)
+    public function compileNode(NodeInterface $node, ?ElementInterface $parent = null)
     {
         $blocks = &$this->getCompiler()->getBlocksByName('foo');
         $blocks[] = 'bar';

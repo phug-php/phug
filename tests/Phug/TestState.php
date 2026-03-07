@@ -9,7 +9,7 @@ class TestState extends State
 {
     private static $lastOptions;
 
-    public function __construct(Parser $parser, \Generator $tokens, array $options = null)
+    public function __construct(Parser $parser, \Generator $tokens, ?array $options = null)
     {
         parent::__construct($parser, $tokens, $options);
 

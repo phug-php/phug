@@ -1354,8 +1354,6 @@ class FormatterTest extends TestCase
 
         try {
             include $file;
-        } catch (\Exception $exception) {
-            $error = $exception;
         } catch (\Throwable $exception) {
             $error = $exception;
         }
@@ -1363,6 +1361,8 @@ class FormatterTest extends TestCase
 
         unlink($file);
         clearstatcache();
+
+        self::assertInstanceOf(\Throwable::class, $error);
 
         /** @var LocatedException $error */
         $error = $formatter->getDebugError($error, $php);
