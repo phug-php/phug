@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: |
-          composer require kylekatarnls/multi-tester:^2.5.2 --dev --no-update --no-interaction
+          composer require kylekatarnls/multi-tester:^2.6.0 --dev --no-update --no-interaction
           composer update --prefer-dist --prefer-${{ matrix.setup }} --no-progress --no-interaction
 
       - name: Run test suites
