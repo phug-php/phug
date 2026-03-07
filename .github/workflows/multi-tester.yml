@@ -43,3 +43,5 @@ jobs:
 
       - name: Run test suites
         run: vendor/bin/multi-tester --verbose
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
