@@ -19,23 +19,23 @@ jobs:
         php-version: 8.2
         tools: composer:v2
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v4
-      with:
-        path: vendor
-        key: split-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          split-
+#    - name: Cache Composer packages
+#      id: composer-cache
+#      uses: actions/cache@v4
+#      with:
+#        path: vendor
+#        key: split-${{ hashFiles('**/composer.lock') }}
+#        restore-keys: |
+#          split-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
         test -f composer.json && mv composer.json composer.json.save -f
-        composer require phug/split --no-interaction
+        composer require "phug/split:dev-feature/packagist-v2" --no-interaction
         test -f composer.json.save && mv composer.json.save composer.json -f
 
     - name: Split monorepository
-      run: vendor/bin/split update --api=https://repo.packagist.org/p2/%s.json --git-credentials=$REPOSITORY_CREDENTIALS
+      run: vendor/bin/split update --git-credentials=$SPLIT_REPOSITORY_CREDENTIALS
       env:
-        REPOSITORY_CREDENTIALS: ${{ secrets.REPOSITORY_CREDENTIALS }}
+        SPLIT_REPOSITORY_CREDENTIALS: ${{ secrets.SPLIT_REPOSITORY_CREDENTIALS }}

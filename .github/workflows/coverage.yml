@@ -51,13 +51,11 @@ jobs:
 
     - name: Coverage - Qltysh
       uses: qltysh/qlty-action/coverage@v2
-      if: matrix.coverage
       with:
         token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
         files: clover.xml
 
     - name: Coverage - Codecov
-      if: matrix.coverage
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
