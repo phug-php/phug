@@ -19,14 +19,14 @@ jobs:
         php-version: 8.2
         tools: composer:v2
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v4
-      with:
-        path: vendor
-        key: split-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          split-
+#    - name: Cache Composer packages
+#      id: composer-cache
+#      uses: actions/cache@v4
+#      with:
+#        path: vendor
+#        key: split-${{ hashFiles('**/composer.lock') }}
+#        restore-keys: |
+#          split-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
