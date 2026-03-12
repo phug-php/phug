@@ -32,7 +32,7 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: |
         test -f composer.json && mv composer.json composer.json.save -f
-        composer require "phug/split:^1.5" --no-interaction
+        composer require "phug/split:dev-feature/packagist-v2" --no-interaction
         test -f composer.json.save && mv composer.json.save composer.json -f
 
     - name: Split monorepository
