@@ -36,6 +36,6 @@ jobs:
         test -f composer.json.save && mv composer.json.save composer.json -f
 
     - name: Split monorepository
-      run: vendor/bin/split update --git-credentials=$REPOSITORY_CREDENTIALS
+      run: vendor/bin/split update --git-credentials=$SPLIT_REPOSITORY_CREDENTIALS
       env:
-        REPOSITORY_CREDENTIALS: ${{ secrets.REPOSITORY_CREDENTIALS }}
+        SPLIT_REPOSITORY_CREDENTIALS: ${{ secrets.SPLIT_REPOSITORY_CREDENTIALS }}
