@@ -6,13 +6,11 @@ pug-php/pug:
   install: github
   script: github
 
-#pug/bemto:
-#  autoload:
-#    - cp -r vendor/phug/phug vendor/phug/compiler
-#    - cp -r vendor/phug/phug vendor/phug/formatter
-#    - composer self-update 1.10.17
-#    - composer dump-autoload --optimize --no-interaction --quiet
-#    - composer self-update --2
+pug/bemto:
+  autoload:
+    - cp -r vendor/phug/phug vendor/phug/compiler
+    - cp -r vendor/phug/phug vendor/phug/formatter
+    - composer dump-autoload --optimize --no-interaction --quiet
 
 pug-php/pug-assets:
   install:
