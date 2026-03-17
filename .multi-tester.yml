@@ -18,8 +18,8 @@ pug-php/pug-assets:
 pug-php/pug-minify:
   allow-plugins: nodejs-php-fallback/nodejs-php-fallback
 
-#pug/slim:
-#  allow-plugins: nodejs-php-fallback/nodejs-php-fallback
+pug/slim:
+  allow-plugins: nodejs-php-fallback/nodejs-php-fallback
 
 pug/twig: default
 
